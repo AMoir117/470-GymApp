@@ -9,3 +9,5 @@
 # Links
 
 * G Drive: https://drive.google.com/drive/u/1/search?q=parent:120TVYiX77iZ9f-Gxws-So0fuccFgMkQt
+
+* API: https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
