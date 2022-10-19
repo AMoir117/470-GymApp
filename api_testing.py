@@ -8,7 +8,7 @@ BY_ID = f"https://exercisedb.p.rapidapi.com/exercises/exercise/{ID}"
 ALL = "https://exercisedb.p.rapidapi.com/exercises"
 
 headers = {
-	"X-RapidAPI-Key": "3aa113629bmsh1b733a1c6dd9819p1d5016jsnc35df9fa0d8c",
+	"X-RapidAPI-Key": "YOUR_API_KEY",
 	"X-RapidAPI-Host": "exercisedb.p.rapidapi.com"
 }
 
