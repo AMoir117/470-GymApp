@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-const API_KEY = //insert api key here
+const API_KEY = process.env.API_KEY;
 const listExercisesURL = "https://exercisedb.p.rapidapi.com/exercises";
 const listTargetMuscle = "https://exercisedb.p.rapidapi.com/exercises/targetList";
 const listEquipment = "https://exercisedb.p.rapidapi.com/exercises/equipmentList";
