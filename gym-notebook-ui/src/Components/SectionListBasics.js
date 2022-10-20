@@ -28,7 +28,7 @@ const SectionListBasics = () => {
 			<SectionList
 				sections={[
 					{
-						title: "Muscle",
+						title: "Target Muscle",
 						data: [
 							"Abdominals",
 							"Abductors",
@@ -44,24 +44,11 @@ const SectionListBasics = () => {
 							"Neck",
 							"Quadriceps",
 							"Traps",
-							"Triceps",
 						],
 					},
 					{
-						title: "Difficulty",
-						data: ["Beginner", "Intermediate", "Expert"],
-					},
-					{
-						title: "Type",
-						data: [
-							"Cardio",
-							"Olympic weightlifting",
-							"plyometrics",
-							"Powerlifting",
-							"Strength",
-							"Stretching",
-							"Strongman",
-						],
+						title: "Equipments",
+						data: ["Assisted", "Band", "Barbell", "Body weight", "Bosu ball"],
 					},
 				]}
 				renderSectionHeader={({section}) => (
