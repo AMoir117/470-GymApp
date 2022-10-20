@@ -23,13 +23,13 @@ const styles = StyleSheet.create({
 	},
 });
 
+//const API_KEY = process.env.API_KEY;
 const API_KEY = process.env.API_KEY;
 const listExercisesURL = "https://exercisedb.p.rapidapi.com/exercises";
 const listTargetMuscle = "https://exercisedb.p.rapidapi.com/exercises/targetList";
 const listEquipment = "https://exercisedb.p.rapidapi.com/exercises/equipmentList";
 
-const testURL =
-	"https://exercisedb.p.rapidapi.com/exercises?rapidapi-key=97e3f105e3msh0cdc4a25bc58929p109281jsn1e0296a83699";
+const testURL = `https://exercisedb.p.rapidapi.com/exercises?rapidapi-key=${API_KEY}`;
 
 function Data() {
 	const [exercise, setExercise] = useState([]);
