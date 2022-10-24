@@ -23,34 +23,44 @@ const styles = StyleSheet.create({
 	},
 });
 
-//const API_KEY = process.env.API_KEY;
 const API_KEY = process.env.API_KEY;
-const listExercisesURL = "https://exercisedb.p.rapidapi.com/exercises";
-const listTargetMuscle = "https://exercisedb.p.rapidapi.com/exercises/targetList";
-const listEquipment = "https://exercisedb.p.rapidapi.com/exercises/equipmentList";
-
-const testURL = `https://exercisedb.p.rapidapi.com/exercises?rapidapi-key=${API_KEY}`;
+const listExercisesURL = `https://exercisedb.p.rapidapi.com/exercises?rapidapi-key=${API_KEY}`;
+const listTargetMuscleURL = `https://exercisedb.p.rapidapi.com/exercises/targetList?rapidapi-key=${API_KEY}`;
+const listEquipmentURL = `https://exercisedb.p.rapidapi.com/exercises/equipmentList?rapidapi-key=${API_KEY}`;
 
 function Data() {
-	const [exercise, setExercise] = useState([]);
+	const [exercises, setExercises] = useState([]);
+	const [targetMuscles, setTargetMuscles] = useState([]);
+	const [equipments, setEquipments] = useState([]);
 
 	useEffect(() => {
+		const getAllExercises = async () => {
+			const response = await axios.get(listExercisesURL);
+			setExercises(response.data);
+		};
+
+		const getTargetMuscles = async () => {
+			const response = await axios.get(listTargetMuscleURL);
+			setTargetMuscles(response.data);
+		};
+
+		const getAllEquipments = async () => {
+			const response = await axios.get(listEquipmentURL);
+			setEquipments(response.data);
+		};
+
 		getAllExercises();
+		getTargetMuscles();
+		getAllEquipments();
 	}, []);
 
-	const getAllExercises = async () => {
-		const response = await axios.get(testURL);
-		setExercise(response.data);
-	};
-
-	//console.log("test:", exercise[0].name);
 	return (
 		<View style={styles.container}>
 			<SectionList
 				sections={[
 					{
 						title: "Target Muscle",
-						data: exercise.map((workout) => <Text>{workout.name}</Text>),
+						data: exercises.map((obj) => <Text>{obj.gifUrl}</Text>),
 					},
 				]}
 				renderSectionHeader={({section}) => (
