@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		color: "#000000",
 		textAlign: "center",
-		textAlignVertical: "center",
 	},
 });
 const Login = () => {
@@ -50,13 +49,17 @@ const Login = () => {
 
 	useEffect(() => {}, []);
 
-	const login = () => {};
-
-	const getUsername = (text) => {
-		setUsername(text);
+	const forgetPassword = () => {
+		console.log("forget password clicked");
+		//todo::send email to user to reset password
 	};
-	const getPassword = (text) => {
-		setPassword(text);
+	const login = () => {
+		console.log("login clicked");
+		//todo::check if user input is in our database
+	};
+	const signup = () => {
+		console.log("signup clicked");
+		//todo::send user to signup page
 	};
 
 	return (
@@ -70,16 +73,17 @@ const Login = () => {
 				style={styles.textInputStyle}
 				placeholder={"Username"}
 				value={username}
-				onChange={(text) => getUsername(text)}
+				onChangeText={setUsername}
 			/>
 			<TextInput
 				style={styles.textInputStyle}
+				secureTextEntry={true}
 				placeholder={"Password"}
 				value={password}
-				onChange={(text) => getPassword(text)}
+				onChangeText={setPassword}
 			/>
 			<View style={styles.textForgetPassword}>
-				<Pressable color={"#026df7"} onPress={login}>
+				<Pressable color={"#026df7"} onPress={forgetPassword}>
 					<Text style={styles.textForgetPassword}>FORGOT PASSWORD?</Text>
 				</Pressable>
 			</View>
@@ -87,7 +91,7 @@ const Login = () => {
 				<Pressable style={styles.buttonStyle} onPress={login}>
 					<Text style={styles.buttonText}>Login</Text>
 				</Pressable>
-				<Pressable style={styles.buttonStyle} onPress={login}>
+				<Pressable style={styles.buttonStyle} onPress={signup}>
 					<Text style={styles.buttonText}>Signup</Text>
 				</Pressable>
 			</View>
