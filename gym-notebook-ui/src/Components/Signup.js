@@ -18,6 +18,17 @@ const styles = StyleSheet.create({
 		borderColor: "#000000",
 		backgroundColor: "#FFFFFF",
 	},
+	bioInputStyle: {
+		height: 100,
+		width: 250,
+		borderWidth: 1,
+		paddingLeft: 10,
+		marginTop: 30,
+		alignSelf: "center",
+		borderColor: "#000000",
+		backgroundColor: "#FFFFFF",
+		textAlignVertical: "top",
+	},
 	textForgetPassword: {
 		fontSize: 10,
 		color: "#0073ff",
@@ -43,24 +54,14 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 });
-const Login = (props) => {
+const Signup = (props) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [bio, setBio] = useState("");
 
 	useEffect(() => {}, []);
-
-	const forgetPassword = () => {
-		console.log("forget password clicked");
-		//todo::send email to user to reset password
-	};
-	const login = () => {
-		console.log("login clicked");
-		//todo::check if user input is in our database
-	};
-	const signup = () => {
-		console.log("signup clicked");
-		//todo::send user to signup page
-	};
 
 	return (
 		<SafeAreaView style={{flex: 1}}>
@@ -77,26 +78,39 @@ const Login = (props) => {
 			/>
 			<TextInput
 				style={styles.textInputStyle}
+				placeholder={"First Name"}
+				value={firstName}
+				onChangeText={setFirstName}
+			/>
+			<TextInput
+				style={styles.textInputStyle}
+				placeholder={"Last Name"}
+				value={lastName}
+				onChangeText={setLastName}
+			/>
+			<TextInput
+				style={styles.bioInputStyle}
+				placeholder={"Bio"}
+				value={bio}
+				multiline={true}
+				onChangeText={setBio}
+			/>
+			<TextInput
+				style={styles.textInputStyle}
 				secureTextEntry={true}
 				placeholder={"Password"}
 				value={password}
 				onChangeText={setPassword}
 			/>
-			<View style={styles.textForgetPassword}>
-				<Pressable color={"#026df7"} onPress={forgetPassword}>
-					<Text style={styles.textForgetPassword}>FORGOT PASSWORD?</Text>
-				</Pressable>
-			</View>
-			<View style={styles.buttonContainer}>
-				<Pressable style={styles.buttonStyle} onPress={login}>
-					<Text style={styles.buttonText}>Login</Text>
-				</Pressable>
-				<Pressable style={styles.buttonStyle} onPress={signup}>
-					<Text style={styles.buttonText}>Signup</Text>
-				</Pressable>
-			</View>
+			<TextInput
+				style={styles.textInputStyle}
+				secureTextEntry={true}
+				placeholder={"Re-input Password"}
+				value={password}
+				onChangeText={setPassword}
+			/>
 		</SafeAreaView>
 	);
 };
 
-export default Login;
+export default Signup;
