@@ -8,22 +8,20 @@ import Data from "./src/API_interface/API_interface";
 import SearchBar from "./src/Components/SearchBar";
 import Login from "./src/Components/Login";
 import Signup from "./src/Components/Signup";
+import FrontPage from "./src/Components/FrontPage";
 
 const App = () => {
 	const Stack = createNativeStackNavigator();
 
 	return (
 		<NavigationContainer>
-			<Stack.Navigator
-				initialRouteName="Login"
-				screenOptions={{headerStyle: {backgroundColor: "#ff0000"}}}
-			>
+			<Stack.Navigator screenOptions={{headerStyle: {backgroundColor: "#ff0000"}}}>
 				<Stack.Screen name="Login" component={Login} options={{title: ""}} />
 				<Stack.Screen name="Signup" component={Signup} options={{title: "My Profile"}} />
 				<Stack.Screen
 					name="Front Page"
 					component={FrontPage}
-					options={{title: "Front Page"}}
+					options={{title: "Gym Notebook"}}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>

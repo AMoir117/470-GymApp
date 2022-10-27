@@ -54,6 +54,7 @@ const Login = ({navigation}) => {
 		//todo::send email to user to reset password
 	};
 	const login = () => {
+		navigation.navigate("Front Page");
 		console.log("login clicked");
 		//todo::check if user input is in our database
 	};

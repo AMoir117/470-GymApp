@@ -182,6 +182,7 @@ const Signup = ({navigation, back}) => {
 					mode="contained"
 					buttonColor="red"
 					onPress={saveProfile}
+					//todo::determine if signing up or looking at own profile
 				/>
 			</ScrollView>
 		</SafeAreaView>
