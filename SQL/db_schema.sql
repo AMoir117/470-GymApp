@@ -1,7 +1,6 @@
 DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Exercise;
-DROP TABLE IF EXISTS FriendsList;
-DROP TABLE IF EXISTS WeeklySchedule;
+DROP TABLE IF EXISTS Friend;
 DROP TABLE IF EXISTS Posts;
 DROP TABLE IF EXISTS DailyRoutine;
 
@@ -18,12 +17,13 @@ CREATE TABLE User
 );
 
 
-CREATE TABLE Posts
+CREATE TABLE Post
 (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   mode ENUM('private', 'friends', 'public') NOT NULL,
   title LONGTEXT,
   stamp TIMESTAMP,
+  upvotes INT,
   user INT NOT NULL,
   exerciseID CHAR(4) NOT NULL,
   FOREIGN KEY (exerciseID) REFERENCES Excercise(id),
@@ -62,9 +62,12 @@ CREATE TABLE Exercise
   equipment VARCHAR(100)
 );
 
-CREATE TABLE FriendsList
+
+CREATE TABLE Friend
 (
-  id INT,
-  FOREIGN KEY (id) REFERENCES User(id),
-  friendIDs VARCHAR(MAXINT)
-);
+  ID1 INT NOT NULL REFERENCES User(id),
+  ID2 INT NOT NULL REFERENCES User(id),
+  CONSTRAINT OneWayRelationship CHECK (ID1 < ID2),
+  CONSTRAINT ID1_ID2 PRIMARY KEY (ID1, ID2),
+  CONSTRAINT ID2_ID1 UNIQUE (ID2, ID1)
+)
