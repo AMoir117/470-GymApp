@@ -73,7 +73,7 @@ const MainSchedule = ({navigation, back}) => {
 
 	const renderItem = ({item}) => (
 		<DataTable.Row>
-			<DataTable.Cell>{item.name}</DataTable.Cell>
+			<DataTable.Cell style={{flex: 4}}>{item.name}</DataTable.Cell>
 			<DataTable.Cell numeric>{item.sets}</DataTable.Cell>
 			<DataTable.Cell numeric>{item.reps}</DataTable.Cell>
 			<DataTable.Cell numeric>{item.weight}</DataTable.Cell>
@@ -89,7 +89,7 @@ const MainSchedule = ({navigation, back}) => {
 			/>
 			<DataTable>
 				<DataTable.Header>
-					<DataTable.Title>Exercise</DataTable.Title>
+					<DataTable.Title style={{flex: 4}}>Exercise</DataTable.Title>
 					<DataTable.Title numeric>Sets</DataTable.Title>
 					<DataTable.Title numeric>Reps</DataTable.Title>
 					<DataTable.Title numeric>Weight</DataTable.Title>
