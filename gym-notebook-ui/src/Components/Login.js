@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 });
-const Login = (props) => {
+const Login = ({navigation}) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -58,6 +58,7 @@ const Login = (props) => {
 		//todo::check if user input is in our database
 	};
 	const signup = () => {
+		navigation.navigate("Signup");
 		console.log("signup clicked");
 		//todo::send user to signup page
 	};

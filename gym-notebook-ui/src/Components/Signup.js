@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 		margin: 15,
 	},
 });
-const Signup = (props) => {
+const Signup = ({navigation, back}) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [firstName, setFirstName] = useState("");
@@ -78,23 +78,33 @@ const Signup = (props) => {
 	const [email, setEmail] = useState("");
 	const [bio, setBio] = useState("");
 
+	const [alertVisible, setAlertVisible] = useState(false);
+
 	useEffect(() => {}, []);
+
+	const saveProfile = () => {
+		navigation.navigate("Login");
+		console.log("profile saved");
+		//todo::save information for new user
+	};
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<ScrollView
 				style={{flex: 1, maxHeight: "100%"}}
-				stickyHeaderIndices={[0]}
+				//stickyHeaderIndices={[0]}
 				showsVerticalScrollIndicator={false}
 				alwaysBounceVertical={false}
 			>
-				<View>
+				{/* <View>
 					<Appbar.Header alignSelf="center">
-						<Appbar.BackAction
-							onPress={() => {
-								/*todo::upload Image to avatar */
-							}}
-						/>
+						{back ? (
+							<Appbar.BackAction
+								onPress={() => {
+									navigation.goBack;
+								}}
+							/>
+						) : null}
 						<Appbar.Content title="MY PROFILE" mode="center-align" alignSelf="center" />
 					</Appbar.Header>
 
@@ -102,12 +112,14 @@ const Signup = (props) => {
 						style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
 						horizontalInset="3"
 					/>
+				</View> */}
+				<View>
+					<Avatar.Image
+						style={styles.avatarStyle}
+						size={150}
+						source={require("../../assets/pexels-anush-gorak-1431283.jpg")}
+					/>
 				</View>
-				<Avatar.Image
-					style={styles.avatarStyle}
-					size={150}
-					source={require("../../assets/pexels-anush-gorak-1431283.jpg")}
-				/>
 				<View>
 					<Pressable color={"#026df7"} onPress={() => {}}>
 						<Text style={styles.textUploadImage}>Upload Image</Text>
@@ -169,8 +181,8 @@ const Signup = (props) => {
 					icon="content-save"
 					mode="contained"
 					buttonColor="red"
-					onPress={() => console.log("profile saved")}
-				></Button>
+					onPress={saveProfile}
+				/>
 			</ScrollView>
 		</SafeAreaView>
 	);
