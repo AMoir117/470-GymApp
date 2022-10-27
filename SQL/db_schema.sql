@@ -2,6 +2,10 @@ DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Exercise;
 DROP TABLE IF EXISTS FriendsList;
 DROP TABLE IF EXISTS WeeklySchedule;
+DROP TABLE IF EXISTS Posts;
+DROP TABLE IF EXISTS DailyRoutine;
+
+
 
 CREATE TABLE User
 (
@@ -10,46 +14,41 @@ CREATE TABLE User
   firstName VARCHAR(20),
   lastName VARCHAR(20),
   DoB DATE,
+  imagePath VARCHAR(100)
 );
 
 
-CREATE TABLE WeeklySchedule
+CREATE TABLE Posts
 (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   mode ENUM('private', 'friends', 'public') NOT NULL,
-
-  mondayRoutineID INT,
-  FOREIGN KEY (mondayRoutineID) REFERENCES DailyRoutine(id)
+  title LONGTEXT,
+  stamp TIMESTAMP,
+  user INT NOT NULL,
+  exerciseID CHAR(4) NOT NULL,
+  FOREIGN KEY (exerciseID) REFERENCES Excercise(id),
           ON UPDATE CASCADE
           ON DELETE CASCADE,
 
-  tuesdayRoutineID INT,
-  FOREIGN KEY (tuesdayRoutineID) REFERENCES DailyRoutine(id)
+  FOREIGN KEY (user) REFERENCES User(id)
           ON UPDATE CASCADE
           ON DELETE CASCADE,
-
-  wednesdayRoutineID INT,
-  FOREIGN KEY (wednesdayRoutineID) REFERENCES DailyRoutine(id)
-          ON UPDATE CASCADE
-          ON DELETE CASCADE,
-
-  thursdayRoutineID INT,
-  FOREIGN KEY (thursdayRoutineID) REFERENCES DailyRoutine(id)
-          ON UPDATE CASCADE
-          ON DELETE CASCADE,
-
-  fridayRoutineID INT,
-  FOREIGN KEY (fridayRoutineID) REFERENCES DailyRoutine(id)
-          ON UPDATE CASCADE
-          ON DELETE CASCADE,
-);
+)
 
 
 CREATE TABLE DailyRoutine
 (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   exerciseID CHAR(4),
-  FOREIGN KEY (exerciseID) REFERENCES Exercise(id)
+  user INT NOT NULL,
+  sets INT,
+  reps INT,
+  weight INT,
+  dayOfWeek ENUM('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT') NOT NULL,
+  FOREIGN KEY(exerciseID) REFERENCES Exercise(id)
+  FOREIGN KEY (user) REFERENCES User(id)
+          ON UPDATE CASCADE
+          ON DELETE CASCADE,
 );
 
 
@@ -63,10 +62,9 @@ CREATE TABLE Exercise
   equipment VARCHAR(100)
 );
 
-
 CREATE TABLE FriendsList
 (
   id INT,
-  PRIMARY KEY (id) REFERENCES User(id),
+  FOREIGN KEY (id) REFERENCES User(id),
   friendIDs VARCHAR(MAXINT)
 );
