@@ -1,23 +1,25 @@
 import * as React from "react";
 import {BottomNavigation, Text} from "react-native-paper";
 import Signup from "./Signup";
+import MainSchedule from "./front-page/MainSchedule";
+import FriendsList from "./front-page/FriendsList";
 
-const FriendsRoute = () => <Text>Friends</Text>;
+const FriendsRoute = () => <FriendsList />;
 
 const LobbyRoute = () => <Text>Lobby</Text>;
 
-const MainRoute = () => <Text>Main</Text>;
+const MainRoute = () => <MainSchedule />;
 
 const MyProfileRoute = () => <Signup />;
 
 const SchedulesRoute = () => <Text>Schedules</Text>;
 
 const FrontPage = () => {
-	const [index, setIndex] = React.useState(0);
+	const [index, setIndex] = React.useState(2);
 	const [routes] = React.useState([
 		{key: "friends", title: "Friends", focusedIcon: "heart", unfocusedIcon: "heart-outline"},
 		{key: "lobby", title: "Lobby", focusedIcon: "album"},
-		{key: "main", title: "Main", focusedIcon: "star"},
+		{key: "main", title: "Main", focusedIcon: "star", unfocusedIcon: "star-outline"},
 		{key: "myProfile", title: "MyProfile", focusedIcon: "history"},
 		{
 			key: "schedules",
@@ -28,9 +30,9 @@ const FrontPage = () => {
 	]);
 
 	const renderScene = BottomNavigation.SceneMap({
+		main: MainRoute,
 		friends: FriendsRoute,
 		lobby: LobbyRoute,
-		main: MainRoute,
 		myProfile: MyProfileRoute,
 		schedules: SchedulesRoute,
 	});

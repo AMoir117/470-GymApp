@@ -9,78 +9,100 @@ import {
 	Pressable,
 	SafeAreaView,
 } from "react-native";
-import {Divider, Appbar, Button, Avatar} from "react-native-paper";
+import {Divider, Appbar, Button, Avatar, DataTable} from "react-native-paper";
 import axios from "axios";
 
 const styles = StyleSheet.create({
-	areaView: {
-		height: 1200,
-	},
-	textTitle: {
-		fontSize: 30,
+	dayText: {
+		fontSize: 40,
 		alignSelf: "center",
 	},
-	textInputStyle: {
-		height: 40,
-		width: 250,
-		borderWidth: 1,
-		paddingLeft: 10,
-		marginTop: 30,
-		alignSelf: "center",
-		borderColor: "#000000",
-		backgroundColor: "#FFFFFF",
-	},
-	bioInputStyle: {
-		height: 100,
-		width: 250,
-		borderWidth: 1,
-		paddingLeft: 10,
-		marginTop: 30,
-		alignSelf: "center",
-		borderColor: "#000000",
-		backgroundColor: "#FFFFFF",
-		textAlignVertical: "top",
-	},
-	textUploadImage: {
-		fontSize: 15,
-		color: "#0073ff",
-		alignSelf: "center",
-	},
-	buttonSave: {
-		height: 40,
-		width: 100,
-		marginTop: 20,
-		alignSelf: "center",
-	},
-	buttonStyle: {
-		height: 30,
-		width: 70,
-		margin: 2,
-		marginTop: 10,
-		borderColor: "#949494",
-		backgroundColor: "#949494",
-	},
-	buttonText: {
-		fontSize: 20,
-		color: "#000000",
-		textAlign: "center",
-	},
-	avatarStyle: {
-		alignSelf: "center",
-		margin: 15,
-	},
+	flatList: {},
 });
+
+const data = [
+	{
+		id: "001",
+		name: "Pull-ups",
+		sets: 4,
+		reps: 12,
+		weight: 50,
+	},
+	{
+		id: "002",
+		name: "Barbell Deadlift",
+		sets: 3,
+		reps: 8,
+		weight: 225,
+	},
+	{
+		id: "003",
+		name: "Bend-over Row",
+		sets: 4,
+		reps: 10,
+		weight: 75,
+	},
+	{
+		id: "004",
+		name: "Skullcrushers",
+		sets: 3,
+		reps: 10,
+		weight: 55,
+	},
+	{
+		id: "005",
+		name: "Barbell Squats",
+		sets: 4,
+		reps: 8,
+		weight: 315,
+	},
+	{
+		id: "006",
+		name: "Bench Press",
+		sets: 3,
+		reps: 8,
+		weight: 225,
+	},
+];
+
 const MainSchedule = ({navigation, back}) => {
+	const [currentDay, setCurrentDay] = useState("Friday");
+	const [workouts, setWorkouts] = useState(data);
+
 	useEffect(() => {}, []);
+
+	const renderItem = ({item}) => (
+		<DataTable.Row>
+			<DataTable.Cell>{item.name}</DataTable.Cell>
+			<DataTable.Cell numeric>{item.sets}</DataTable.Cell>
+			<DataTable.Cell numeric>{item.reps}</DataTable.Cell>
+			<DataTable.Cell numeric>{item.weight}</DataTable.Cell>
+		</DataTable.Row>
+	);
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ScrollView
-				style={{flex: 1, maxHeight: "100%"}}
-				//stickyHeaderIndices={[0]}
-				showsVerticalScrollIndicator={false}
-				alwaysBounceVertical={false}
-			></ScrollView>
+			<Text style={styles.dayText}>{currentDay}</Text>
+			<Divider
+				style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
+				horizontalInset="3"
+			/>
+			<DataTable>
+				<DataTable.Header>
+					<DataTable.Title>Exercise</DataTable.Title>
+					<DataTable.Title numeric>Sets</DataTable.Title>
+					<DataTable.Title numeric>Reps</DataTable.Title>
+					<DataTable.Title numeric>Weight</DataTable.Title>
+				</DataTable.Header>
+
+				<FlatList
+					showsVerticalScrollIndicator={false}
+					alwaysBounceVertical={true}
+					data={workouts}
+					renderItem={renderItem}
+					keyExtractor={(item) => item.id}
+				/>
+			</DataTable>
 		</SafeAreaView>
 	);
 };
