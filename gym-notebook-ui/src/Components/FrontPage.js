@@ -1,31 +1,45 @@
 import * as React from "react";
 import {BottomNavigation, Text} from "react-native-paper";
-import Signup from "./Signup";
+import Profile from "./front-page/Profile";
 import MainSchedule from "./front-page/MainSchedule";
 import FriendsList from "./front-page/FriendsList";
 
-const FriendsRoute = () => <FriendsList />;
+const FriendsRoute = () => {
+	console.log("Friends clicked");
+	return <FriendsList />;
+};
 
-const LobbyRoute = () => <Text>Lobby</Text>;
+const LobbyRoute = () => {
+	console.log("Lobby clicked");
+	return <Text>Lobby</Text>;
+};
 
-const MainRoute = () => <MainSchedule />;
+const MainRoute = () => {
+	console.log("Main clicked");
+	return <MainSchedule />;
+};
 
-const MyProfileRoute = () => <Signup />;
-
-const SchedulesRoute = () => <Text>Schedules</Text>;
+const MyProfileRoute = () => {
+	console.log("MyProfile clicked");
+	return <Profile />;
+};
+const SchedulesRoute = () => {
+	console.log("Schedules clicked");
+	return <Text>Schedules</Text>;
+};
 
 const FrontPage = () => {
 	const [index, setIndex] = React.useState(2);
 	const [routes] = React.useState([
 		{key: "friends", title: "Friends", focusedIcon: "heart", unfocusedIcon: "heart-outline"},
-		{key: "lobby", title: "Lobby", focusedIcon: "album"},
+		{key: "lobby", title: "Lobby", focusedIcon: "forum", unfocusedIcon: "forum-outline"},
 		{key: "main", title: "Main", focusedIcon: "star", unfocusedIcon: "star-outline"},
-		{key: "myProfile", title: "MyProfile", focusedIcon: "history"},
+		{key: "myProfile", title: "MyProfile", focusedIcon: "face-man-profile"},
 		{
 			key: "schedules",
 			title: "Schedules",
-			focusedIcon: "bell",
-			unfocusedIcon: "bell-outline",
+			focusedIcon: "notebook-edit",
+			unfocusedIcon: "notebook-edit-outline",
 		},
 	]);
 

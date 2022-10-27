@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 		margin: 15,
 	},
 });
-const Signup = ({navigation, back}) => {
+const Profile = ({navigation, back}) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [firstName, setFirstName] = useState("");
@@ -80,12 +80,18 @@ const Signup = ({navigation, back}) => {
 
 	const [alertVisible, setAlertVisible] = useState(false);
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		setUsername("NotAnAthlete");
+		setFirstName("John");
+		setLastName("Smith");
+		setEmail("not_an_athlete@gmail.com");
+		setBio("I am not an athlete, I just move heavy objects from point A to point B.");
+	}, []);
 
-	const saveProfile = () => {
+	const editProfile = () => {
 		navigation.navigate("Login");
 		console.log("profile saved");
-		//todo::save information for new user
+		//todo::edit information for user
 	};
 
 	return (
@@ -96,28 +102,11 @@ const Signup = ({navigation, back}) => {
 				showsVerticalScrollIndicator={false}
 				alwaysBounceVertical={false}
 			>
-				{/* <View>
-					<Appbar.Header alignSelf="center">
-						{back ? (
-							<Appbar.BackAction
-								onPress={() => {
-									navigation.goBack;
-								}}
-							/>
-						) : null}
-						<Appbar.Content title="MY PROFILE" mode="center-align" alignSelf="center" />
-					</Appbar.Header>
-
-					<Divider
-						style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
-						horizontalInset="3"
-					/>
-				</View> */}
 				<View>
 					<Avatar.Image
 						style={styles.avatarStyle}
 						size={150}
-						//source={require("../../assets/pexels-anush-gorak-1431283.jpg")}
+						source={require("../../../assets/arnold.jpg")}
 					/>
 				</View>
 				<View>
@@ -160,33 +149,16 @@ const Signup = ({navigation, back}) => {
 					multiline={true}
 					onChangeText={setBio}
 				/>
-				<TextInput
-					style={styles.textInputStyle}
-					secureTextEntry={true}
-					placeholder={"Password"}
-					value={password}
-					textContentType={"emailAddress"}
-					onChangeText={setPassword}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					secureTextEntry={true}
-					placeholder={"Re-input Password"}
-					value={password}
-					textContentType={"emailAddress"}
-					onChangeText={setPassword}
-				/>
 				<Button
 					style={styles.buttonSave}
-					icon="content-save"
+					icon="pencil"
 					mode="contained"
 					buttonColor="red"
-					onPress={saveProfile}
-					//todo::determine if signing up or looking at own profile
+					onPress={editProfile}
 				/>
 			</ScrollView>
 		</SafeAreaView>
 	);
 };
 
-export default Signup;
+export default Profile;
