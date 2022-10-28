@@ -9,64 +9,31 @@ import {
 	Pressable,
 	SafeAreaView,
 } from "react-native";
-import {DataTable, Avatar} from "react-native-paper";
+import {DataTable, Avatar, Surface} from "react-native-paper";
 
 const styles = StyleSheet.create({
-	areaView: {
-		height: 1200,
-	},
-	textTitle: {
-		fontSize: 30,
+	surfaceStyle: {
+		height: 140,
+		width: 140,
+		borderRadius: 20,
+		flex: 1,
 		alignSelf: "center",
 	},
-	textInputStyle: {
-		height: 40,
-		width: 250,
-		borderWidth: 1,
-		paddingLeft: 10,
-		marginTop: 30,
-		alignSelf: "center",
-		borderColor: "#000000",
-		backgroundColor: "#FFFFFF",
-	},
-	bioInputStyle: {
-		height: 100,
-		width: 250,
-		borderWidth: 1,
-		paddingLeft: 10,
-		marginTop: 30,
-		alignSelf: "center",
-		borderColor: "#000000",
-		backgroundColor: "#FFFFFF",
-		textAlignVertical: "top",
-	},
-	textUploadImage: {
-		fontSize: 15,
-		color: "#0073ff",
+	addButton: {
+		width: 140,
+		height: 140,
+		borderRadius: 20,
 		alignSelf: "center",
 	},
-	buttonSave: {
-		height: 40,
-		width: 100,
-		marginTop: 20,
+	userNameStyle: {
+		height: 20,
+		margin: 5,
 		alignSelf: "center",
-	},
-	buttonStyle: {
-		height: 30,
-		width: 70,
-		margin: 2,
-		marginTop: 10,
-		borderColor: "#949494",
-		backgroundColor: "#949494",
-	},
-	buttonText: {
-		fontSize: 20,
-		color: "#000000",
-		textAlign: "center",
 	},
 	avatarStyle: {
 		alignSelf: "center",
-		margin: 15,
+		margin: 5,
+		backgroundColor: "#ffffff",
 	},
 });
 
@@ -79,26 +46,44 @@ const friends = [
 	{
 		userID: "02",
 		imgUrl: require("../../../assets/anush.jpg"),
-		userName: "Anush_Gorak",
+		userName: "theMosster",
+	},
+	{
+		userID: "03",
+		imgUrl: require("../../../assets/ronnie-coleman.png"),
+		userName: "LightW8",
 	},
 ];
 
 const renderProfile = ({item}) => {
-	console.log(item.imgUrl);
 	//fixme::how to require image dynamically
-	return <Avatar.Image style={styles.avatarStyle} size={150} source={item.imgUrl} />;
+	return (
+		<Surface style={styles.surfaceStyle} elevation={1}>
+			<Avatar.Image style={styles.avatarStyle} size={100} source={item.imgUrl} />
+			<Text style={styles.userNameStyle}>{item.userName}</Text>
+		</Surface>
+	);
 };
 
 const FriendsList = () => {
 	return (
-		<SafeAreaView>
+		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<FlatList
+				numColumns={2}
 				showsVerticalScrollIndicator={false}
 				alwaysBounceVertical={true}
 				data={friends}
 				renderItem={renderProfile}
-				//keyExtractor={(item) => item}
+				keyExtractor={(item) => item.userID}
 			/>
+			<Surface style={styles.addButton} elevation={1}>
+				<Avatar.Image
+					style={styles.avatarStyle}
+					size={100}
+					source={require("../../../assets/add.png")}
+				/>
+				<Text style={styles.userNameStyle}>Add Friend</Text>
+			</Surface>
 		</SafeAreaView>
 	);
 };
