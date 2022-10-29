@@ -13,7 +13,7 @@ import {DataTable, Avatar, Surface} from "react-native-paper";
 
 const styles = StyleSheet.create({
 	surfaceStyle: {
-		height: 60,
+		height: 80,
 		width: 350,
 		borderRadius: 20,
 		flex: 1,
@@ -24,26 +24,35 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 	},
 	addButton: {
-		width: 140,
-		height: 140,
+		width: 90,
+		height: 90,
 		borderRadius: 20,
+		backgroundColor: "#ff0000",
 		alignSelf: "center",
+	},
+	addTextStyle: {
+		height: 20,
+		margin: 1,
+		alignSelf: "center",
+		color: "#ffffff",
 	},
 	userNameStyle: {
 		height: 20,
-		margin: 5,
+		margin: 1,
 		alignSelf: "center",
 	},
 	postTitleStyle: {
 		height: 20,
-		margin: 5,
+		margin: 10,
 		alignSelf: "center",
 	},
 	upVoteStyle: {
 		height: 20,
 		margin: 5,
-		textAlign: "end",
+		flex: 1,
 		alignSelf: "center",
+		textAlign: "right",
+		color: "#93c47d",
 	},
 	avatarStyle: {
 		alignSelf: "center",
@@ -57,7 +66,7 @@ const posts = [
 		postID: "01",
 		imgUrl: require("../../../assets/arnold.jpg"),
 		userName: "Arnie47",
-		postTitle: "How to build you back in 6 months",
+		postTitle: "How to build your back in 6 months",
 		upVotes: 93,
 	},
 	{
@@ -73,10 +82,7 @@ const renderPosts = ({item}) => {
 	//fixme::how to require image dynamically
 	return (
 		<Surface style={styles.surfaceStyle} numColumns={3} elevation={1}>
-			<View>
-				<Avatar.Image style={styles.avatarStyle} size={50} source={item.imgUrl} />
-				<Text style={styles.userNameStyle}>{item.userName}</Text>
-			</View>
+			<Avatar.Image style={styles.avatarStyle} size={50} source={item.imgUrl} />
 			<Text style={styles.postTitleStyle}>{item.postTitle}</Text>
 			<Text style={styles.upVoteStyle}>{item.upVotes}</Text>
 		</Surface>
@@ -98,10 +104,10 @@ const FriendsList = () => {
 			<Surface style={styles.addButton} elevation={1}>
 				<Avatar.Image
 					style={styles.avatarStyle}
-					size={100}
+					size={50}
 					source={require("../../../assets/add.png")}
 				/>
-				<Text style={styles.userNameStyle}>New Post</Text>
+				<Text style={styles.addTextStyle}>Post</Text>
 			</Surface>
 		</SafeAreaView>
 	);

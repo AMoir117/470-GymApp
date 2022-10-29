@@ -4,6 +4,7 @@ import Profile from "./front-page/Profile";
 import MainSchedule from "./front-page/MainSchedule";
 import FriendsList from "./front-page/FriendsList";
 import Lobby from "./front-page/Lobby";
+import Schedules from "./front-page/Schedules";
 
 const FriendsRoute = () => {
 	console.log("Friends clicked");
@@ -26,7 +27,7 @@ const MyProfileRoute = () => {
 };
 const SchedulesRoute = () => {
 	console.log("Schedules clicked");
-	return <Text>Schedules</Text>;
+	return <Schedules />;
 };
 
 const FrontPage = () => {

@@ -16,22 +16,28 @@ const styles = StyleSheet.create({
 		height: 140,
 		width: 140,
 		borderRadius: 20,
-		flex: 1,
 		alignSelf: "center",
 	},
 	flatListContainer: {
 		alignSelf: "center",
 	},
 	addButton: {
-		width: 140,
-		height: 140,
+		width: 90,
+		height: 90,
 		borderRadius: 20,
+		backgroundColor: "#ff0000",
 		alignSelf: "center",
 	},
 	userNameStyle: {
 		height: 20,
 		margin: 5,
 		alignSelf: "center",
+	},
+	addTextStyle: {
+		height: 20,
+		margin: 1,
+		alignSelf: "center",
+		color: "#ffffff",
 	},
 	avatarStyle: {
 		alignSelf: "center",
@@ -83,10 +89,10 @@ const FriendsList = () => {
 			<Surface style={styles.addButton} elevation={1}>
 				<Avatar.Image
 					style={styles.avatarStyle}
-					size={100}
+					size={50}
 					source={require("../../../assets/add.png")}
 				/>
-				<Text style={styles.userNameStyle}>Add Friend</Text>
+				<Text style={styles.addTextStyle}>Add</Text>
 			</Surface>
 		</SafeAreaView>
 	);
