@@ -3,6 +3,7 @@ import {BottomNavigation, Text} from "react-native-paper";
 import Profile from "./front-page/Profile";
 import MainSchedule from "./front-page/MainSchedule";
 import FriendsList from "./front-page/FriendsList";
+import Lobby from "./front-page/Lobby";
 
 const FriendsRoute = () => {
 	console.log("Friends clicked");
@@ -11,7 +12,7 @@ const FriendsRoute = () => {
 
 const LobbyRoute = () => {
 	console.log("Lobby clicked");
-	return <Text>Lobby</Text>;
+	return <Lobby />;
 };
 
 const MainRoute = () => {
