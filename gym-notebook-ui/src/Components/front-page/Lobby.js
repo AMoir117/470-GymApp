@@ -13,9 +13,11 @@ import {DataTable, Avatar, Surface} from "react-native-paper";
 
 const styles = StyleSheet.create({
 	surfaceStyle: {
-		height: 140,
-		width: 140,
+		height: 80,
+		width: 350,
 		borderRadius: 20,
+		flex: 1,
+		flexDirection: "row",
 		alignSelf: "center",
 	},
 	flatListContainer: {
@@ -28,16 +30,29 @@ const styles = StyleSheet.create({
 		backgroundColor: "#ff0000",
 		alignSelf: "center",
 	},
-	userNameStyle: {
-		height: 20,
-		margin: 5,
-		alignSelf: "center",
-	},
 	addTextStyle: {
 		height: 20,
 		margin: 1,
 		alignSelf: "center",
 		color: "#ffffff",
+	},
+	userNameStyle: {
+		height: 20,
+		margin: 1,
+		alignSelf: "center",
+	},
+	postTitleStyle: {
+		height: 20,
+		margin: 10,
+		alignSelf: "center",
+	},
+	upVoteStyle: {
+		height: 20,
+		margin: 5,
+		flex: 1,
+		alignSelf: "center",
+		textAlign: "right",
+		color: "#93c47d",
 	},
 	avatarStyle: {
 		alignSelf: "center",
@@ -46,30 +61,30 @@ const styles = StyleSheet.create({
 	},
 });
 
-const friends = [
+const posts = [
 	{
-		userID: "01",
+		postID: "01",
 		imgUrl: require("../../../assets/arnold.jpg"),
 		userName: "Arnie47",
+		postTitle: "How to build your back in 6 months",
+		upVotes: 93,
 	},
 	{
-		userID: "02",
-		imgUrl: require("../../../assets/anush.jpg"),
-		userName: "theMosster",
-	},
-	{
-		userID: "03",
+		postID: "02",
 		imgUrl: require("../../../assets/ronnie-coleman.png"),
 		userName: "LightW8",
+		postTitle: "light weight to heavy weight!!!",
+		upVotes: 68,
 	},
 ];
 
-const renderProfile = ({item}) => {
+const renderPosts = ({item}) => {
 	//fixme::how to require image dynamically
 	return (
-		<Surface style={styles.surfaceStyle} elevation={1}>
-			<Avatar.Image style={styles.avatarStyle} size={100} source={item.imgUrl} />
-			<Text style={styles.userNameStyle}>{item.userName}</Text>
+		<Surface style={styles.surfaceStyle} numColumns={3} elevation={1}>
+			<Avatar.Image style={styles.avatarStyle} size={50} source={item.imgUrl} />
+			<Text style={styles.postTitleStyle}>{item.postTitle}</Text>
+			<Text style={styles.upVoteStyle}>{item.upVotes}</Text>
 		</Surface>
 	);
 };
@@ -79,12 +94,12 @@ const FriendsList = () => {
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<FlatList
 				style={styles.flatListContainer}
-				numColumns={2}
+				numColumns={1}
 				showsVerticalScrollIndicator={false}
 				alwaysBounceVertical={true}
-				data={friends}
-				renderItem={renderProfile}
-				keyExtractor={(item) => item.userID}
+				data={posts}
+				renderItem={renderPosts}
+				keyExtractor={(item) => item.postID}
 			/>
 			<Surface style={styles.addButton} elevation={1}>
 				<Avatar.Image
@@ -92,7 +107,7 @@ const FriendsList = () => {
 					size={50}
 					source={require("../../../assets/add.png")}
 				/>
-				<Text style={styles.addTextStyle}>Add</Text>
+				<Text style={styles.addTextStyle}>Post</Text>
 			</Surface>
 		</SafeAreaView>
 	);

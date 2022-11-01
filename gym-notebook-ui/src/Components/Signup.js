@@ -5,11 +5,21 @@ import {
 	StyleSheet,
 	View,
 	FlatList,
-	TextInput,
 	Pressable,
+	TextInput,
 	SafeAreaView,
+	Platform,
 } from "react-native";
-import {Divider, Appbar, Button, Avatar} from "react-native-paper";
+import {
+	Divider,
+	TextInput as TextInputDoB,
+	Appbar,
+	Button,
+	Avatar,
+	Dialog,
+} from "react-native-paper";
+import WheelPickerExpo from "react-native-wheel-picker-expo";
+import InsertDate from "./InsertDate";
 import axios from "axios";
 
 const styles = StyleSheet.create({
@@ -70,6 +80,14 @@ const styles = StyleSheet.create({
 		margin: 15,
 	},
 });
+
+const options = {
+	weekday: "long",
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+};
+
 const Signup = ({navigation, back}) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -78,7 +96,9 @@ const Signup = ({navigation, back}) => {
 	const [email, setEmail] = useState("");
 	const [bio, setBio] = useState("");
 
-	const [alertVisible, setAlertVisible] = useState(false);
+	const [show, setShow] = useState(false);
+
+	const [date, setDate] = useState(new Date());
 
 	useEffect(() => {}, []);
 
@@ -86,6 +106,9 @@ const Signup = ({navigation, back}) => {
 		navigation.navigate("Login");
 		console.log("profile saved");
 		//todo::save information for new user
+		console.log(`${date.getDate()}, ${date.getDay()}, ${date.getFullYear()}`);
+		console.log(date.toLocaleDateString(undefined, options));
+		console.log(Platform.OS);
 	};
 
 	return (
@@ -153,6 +176,21 @@ const Signup = ({navigation, back}) => {
 					textContentType={"emailAddress"}
 					onChangeText={setEmail}
 				/>
+				<TextInputDoB
+					style={styles.textInputStyle}
+					placeholder={"Date of Birth"}
+					value={date.toLocaleDateString(undefined, options)}
+					disabled={true}
+				/>
+
+				<InsertDate show={show} setShow={setShow} date={date} setDate={setDate} />
+				{/* <WheelPickerExpo
+					height={300}
+					width={150}
+					initialSelectedIndex={3}
+					items={CITIES.map((name) => ({label: name, value: ""}))}
+					onChange={() => {}}
+				/> */}
 				<TextInput
 					style={styles.bioInputStyle}
 					placeholder={"Bio"}
@@ -180,7 +218,7 @@ const Signup = ({navigation, back}) => {
 					style={styles.buttonSave}
 					icon="content-save"
 					mode="contained"
-					buttonColor="red"
+					buttonColor="#ff0000"
 					onPress={saveProfile}
 					//todo::determine if signing up or looking at own profile
 				/>
