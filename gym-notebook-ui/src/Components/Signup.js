@@ -20,6 +20,7 @@ import {
 } from "react-native-paper";
 import WheelPickerExpo from "react-native-wheel-picker-expo";
 import InsertDate from "./InsertDate";
+import ImagePick from "./ImagePicker";
 import axios from "axios";
 
 const styles = StyleSheet.create({
@@ -96,6 +97,8 @@ const Signup = ({navigation, back}) => {
 	const [email, setEmail] = useState("");
 	const [bio, setBio] = useState("");
 
+	const [image, setImage] = useState(null);
+
 	const [show, setShow] = useState(false);
 
 	const [date, setDate] = useState(new Date());
@@ -136,7 +139,7 @@ const Signup = ({navigation, back}) => {
 						horizontalInset="3"
 					/>
 				</View> */}
-				<View>
+				{/* <View>
 					<Avatar.Image
 						style={styles.avatarStyle}
 						size={150}
@@ -147,7 +150,8 @@ const Signup = ({navigation, back}) => {
 					<Pressable color={"#026df7"} onPress={() => {}}>
 						<Text style={styles.textUploadImage}>Upload Image</Text>
 					</Pressable>
-				</View>
+				</View> */}
+				<ImagePick image={image} setImage={setImage} />
 				<TextInput
 					style={styles.textInputStyle}
 					placeholder={"Username"}
