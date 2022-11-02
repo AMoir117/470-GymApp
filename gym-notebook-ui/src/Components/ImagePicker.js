@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Button, Image, View, StyleSheet} from "react-native";
+import {Button, Image, View, StyleSheet, Pressable, Text} from "react-native";
 import {Avatar} from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 
@@ -29,7 +29,7 @@ const ImagePick = (props) => {
 			quality: 1,
 		});
 
-		console.log(result);
+		console.log(result.uri);
 
 		if (!result.cancelled) {
 			setImage(result.uri);
@@ -37,12 +37,12 @@ const ImagePick = (props) => {
 	};
 
 	return (
-		<View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-			<View>
-				<Avatar.Image style={styles.avatarStyle} size={150} source={{uri: image}} />
-			</View>
+		<View>
+			<Avatar.Image style={styles.avatarStyle} size={150} source={{uri: image}} />
 
-			<Button title="Upload Image" onPress={pickImage} />
+			<Pressable color={"#026df7"} onPress={pickImage}>
+				<Text style={styles.textUploadImage}>Upload Image</Text>
+			</Pressable>
 		</View>
 	);
 };

@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
 });
 
 const options = {
-	weekday: "long",
 	year: "numeric",
 	month: "long",
 	day: "numeric",
