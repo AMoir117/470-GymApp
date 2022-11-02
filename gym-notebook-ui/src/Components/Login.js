@@ -1,5 +1,13 @@
 import React, {useState, useEffect} from "react";
-import {SafeAreaView, Text, StyleSheet, View, FlatList, TextInput, Pressable} from "react-native";
+import {
+	SafeAreaView,
+	Text,
+	StyleSheet,
+	View,
+	FlatList,
+	TextInput,
+	TouchableOpacity,
+} from "react-native";
 import {Divider} from "react-native-paper";
 import axios from "axios";
 
@@ -85,17 +93,17 @@ const Login = ({navigation}) => {
 				onChangeText={setPassword}
 			/>
 			<View style={styles.textForgetPassword}>
-				<Pressable color={"#026df7"} onPress={forgetPassword}>
+				<TouchableOpacity color={"#026df7"} onPress={forgetPassword}>
 					<Text style={styles.textForgetPassword}>FORGOT PASSWORD?</Text>
-				</Pressable>
+				</TouchableOpacity>
 			</View>
 			<View style={styles.buttonContainer}>
-				<Pressable style={styles.buttonStyle} onPress={login}>
+				<TouchableOpacity style={styles.buttonStyle} onPress={login}>
 					<Text style={styles.buttonText}>Login</Text>
-				</Pressable>
-				<Pressable style={styles.buttonStyle} onPress={signup}>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.buttonStyle} onPress={signup}>
 					<Text style={styles.buttonText}>Signup</Text>
-				</Pressable>
+				</TouchableOpacity>
 			</View>
 		</SafeAreaView>
 	);

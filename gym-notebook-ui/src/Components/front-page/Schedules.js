@@ -23,35 +23,43 @@ const styles = StyleSheet.create({
 		fontStyle: "italic",
 	},
 	daysOfWeek: {
-		width: "100%",
 		flexDirection: "row",
 	},
 	dayButton: {
-		width: 57,
+		flexGrow: 1,
+		margin: 7,
+		marginTop: 10,
 		//fixme::width of window for each day button
 	},
 });
 
 const daysOfWeek = [
 	{
-		dayName: "M",
+		dayID: "1",
+		dayName: "Mon",
 	},
 	{
-		dayName: "T",
+		dayID: "2",
+		dayName: "Tue",
 	},
 	{
-		dayName: "W",
+		dayID: "3",
+		dayName: "Wed",
 	},
 	{
-		dayName: "Th",
+		dayID: "4",
+		dayName: "Thu",
 	},
 	{
-		dayName: "F",
+		dayID: "5",
+		dayName: "Fri",
 	},
 	{
+		dayID: "6",
 		dayName: "Sat",
 	},
 	{
+		dayID: "7",
 		dayName: "Sun",
 	},
 ];
@@ -115,7 +123,7 @@ const Schedules = ({navigation, back}) => {
 
 	const renderItem = ({item}) => (
 		<DataTable.Row>
-			<DataTable.Cell style={{flex: 6}}>{item.name}</DataTable.Cell>
+			<DataTable.Cell style={{flex: 5}}>{item.name}</DataTable.Cell>
 			<DataTable.Cell numeric>{item.sets}</DataTable.Cell>
 			<DataTable.Cell numeric>{item.reps}</DataTable.Cell>
 			<DataTable.Cell numeric>{item.weight}</DataTable.Cell>
@@ -123,6 +131,7 @@ const Schedules = ({navigation, back}) => {
 	);
 
 	const clickDay = (dayName) => {
+		//fixme::click a day and query the schedule for that day
 		console.log(dayName);
 	};
 
@@ -132,11 +141,12 @@ const Schedules = ({navigation, back}) => {
 				{daysOfWeek.map((day) => {
 					return (
 						<Button
-							contentStyle={styles.dayButton}
+							style={styles.dayButton}
 							compact={true}
-							mode="outlined"
+							mode="elevated"
 							textColor="#000000"
 							onPress={() => clickDay(day.dayName)}
+							key={day.dayID}
 						>
 							{day.dayName}
 						</Button>
@@ -154,7 +164,7 @@ const Schedules = ({navigation, back}) => {
 			/>
 			<DataTable>
 				<DataTable.Header>
-					<DataTable.Title style={{flex: 6}}>Exercise</DataTable.Title>
+					<DataTable.Title style={{flex: 5}}>Exercise</DataTable.Title>
 					<DataTable.Title numeric>Sets</DataTable.Title>
 					<DataTable.Title numeric>Reps</DataTable.Title>
 					<DataTable.Title numeric>Weight</DataTable.Title>

@@ -8,8 +8,10 @@ import {
 	TextInput,
 	Pressable,
 	SafeAreaView,
+	TouchableOpacity,
 } from "react-native";
-import {DataTable, Avatar, Surface} from "react-native-paper";
+import {DataTable, Avatar, Surface, Portal} from "react-native-paper";
+import ProfileViewer from "./ProfileViewer";
 
 const styles = StyleSheet.create({
 	surfaceStyle: {
@@ -64,11 +66,23 @@ const friends = [
 	},
 ];
 
+const clickUserProfile = (item) => {
+	console.log(item);
+	return (
+		<Portal>
+			<ProfileViewer userName={item.userName} userID={item.userID} imgUrl={item.imgUrl} />
+		</Portal>
+	);
+	//fixme:: make it so when clicked routes to a view of friends profile
+};
+
 const renderProfile = ({item}) => {
 	//fixme::how to require image dynamically
 	return (
 		<Surface style={styles.surfaceStyle} elevation={1}>
-			<Avatar.Image style={styles.avatarStyle} size={100} source={item.imgUrl} />
+			<TouchableOpacity onPress={() => clickUserProfile(item)}>
+				<Avatar.Image style={styles.avatarStyle} size={100} source={item.imgUrl} />
+			</TouchableOpacity>
 			<Text style={styles.userNameStyle}>{item.userName}</Text>
 		</Surface>
 	);
