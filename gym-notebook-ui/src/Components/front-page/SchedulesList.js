@@ -10,6 +10,7 @@ import {
 	SafeAreaView,
 } from "react-native";
 import {DataTable, Avatar, Surface} from "react-native-paper";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
 const styles = StyleSheet.create({
 	surfaceStyle: {
