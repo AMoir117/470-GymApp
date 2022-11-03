@@ -10,13 +10,14 @@ import {
 	SafeAreaView,
 } from "react-native";
 import {DataTable, Avatar, Surface} from "react-native-paper";
-import Swipeable from "react-native-gesture-handler/Swipeable";
+
+import SwipingRow from "../SwipingRow";
+import GmailStyleSwipeableRow from "../AndroidSwipe";
 
 const styles = StyleSheet.create({
 	surfaceStyle: {
 		height: 80,
 		width: 350,
-		borderRadius: 20,
 		flex: 1,
 		flexDirection: "row",
 		alignSelf: "center",
@@ -73,13 +74,15 @@ const mySchedules = [
 
 const renderSchedules = ({item}) => {
 	return (
-		<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
-			<View style={{flex: 1}}>
-				<Text style={styles.postTitleStyle}>{item.title}</Text>
-				<Text style={styles.postTitleStyle}>Created: {item.dateCreated}</Text>
-			</View>
-			<Text style={styles.upVoteStyle}>{item.upVotes}</Text>
-		</Surface>
+		<SwipingRow>
+			<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
+				<View style={{flex: 1}}>
+					<Text style={styles.postTitleStyle}>{item.title}</Text>
+					<Text style={styles.postTitleStyle}>Created: {item.dateCreated}</Text>
+				</View>
+				<Text style={styles.upVoteStyle}>{item.upVotes}</Text>
+			</Surface>
+		</SwipingRow>
 	);
 };
 
