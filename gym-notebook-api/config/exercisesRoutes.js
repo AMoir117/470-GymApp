@@ -44,7 +44,7 @@ const exercisesRouter = require('koa-router')({
     prefix: '/exercises'
 });
 
-exercisesRouter.use(VerifyJWT);
+//exercisesRouter.use(VerifyJWT);
 exercisesRouter.get('/all-exercises', ExercisesController.allExercises, err => console.log(`allExercises ran into an error: ${err}`));
 //exercisesRouter.get('/:routeID/', Authorize('admin'), ExercisesController.exerciseWithExerciseID);
 
