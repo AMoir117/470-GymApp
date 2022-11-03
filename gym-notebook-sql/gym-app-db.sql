@@ -1,15 +1,17 @@
+use gymappdb;
+
 DROP TABLE IF EXISTS Friend;
 DROP TABLE IF EXISTS DailyRoutine;
 DROP TABLE IF EXISTS WeeklySchedule;
 DROP TABLE IF EXISTS Exercise;
 DROP TABLE IF EXISTS Users;
 
-
 CREATE TABLE Users
 (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(15) NOT NULL UNIQUE,
+  username VARCHAR(25) NOT NULL UNIQUE,
   userPassword VARCHAR(32),
+  email VARCHAR(50) NOT NULL UNIQUE,
   firstName VARCHAR(20),
   lastName VARCHAR(20),
   DoB DATE,
@@ -56,7 +58,6 @@ CREATE TABLE DailyRoutine
           ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-
 CREATE TABLE Friend
 (
   ID1 INT NOT NULL REFERENCES Users(id),
@@ -66,12 +67,22 @@ CREATE TABLE Friend
   CONSTRAINT ID2_ID1 UNIQUE (ID2, ID1)
 );
 
-
-INSERT INTO Users (username, userPassword, firstName, lastName, DoB) VALUES ('arnolds17', 'arnold47!', 'Arnold', 'S', '1947-07-03');
-
-INSERT INTO Users (username, userPassword, firstName, lastName, DoB) VALUES ('cfranco41', 'franco41!c', 'Franco', 'Columbu', '1941-08-07');
+INSERT INTO Users (username, userPassword, firstName, lastName, DoB, email) VALUES ('arnolds17', 'arnold47!', 'Arnold', 'Tran', '1947-07-03', 'tran.arnie@gmail.com');
+INSERT INTO Users (username, userPassword, firstName, lastName, DoB, email) VALUES ('cfranco41', 'franco41!c', 'Franco', 'Columbu', '1941-08-07', 'columbu_columbu@yahoo.com');
+INSERT INTO Users (username, userPassword, firstName, lastName, DoB, email) VALUES ('nakedspirits', 'universitario', 'Ron', 'Aguilar', '1959-07-28', 'nakedspirits59@gmail.com');
+INSERT INTO Users (username, userPassword, firstName, lastName, DoB, email) VALUES ('IdaKiller', 'ilovemum', 'Ida', 'Keller', '1988-03-19', 'idakiller123@yahoo.com');
+INSERT INTO Users (username, userPassword, firstName, lastName, DoB, email) VALUES ('AlluringHolmes', 'love5683', 'Bonnie', 'Holmes', '1977-12-18', 'bonnie.holmes.777@gmail.com');
+INSERT INTO Users (username, userPassword, firstName, lastName, DoB, email) VALUES ('WagnerDarling245', 'queteimporta', 'Rodolfo', 'Wagner', '2005-02-04', 'wagnerdarling245@gmail.com');
+INSERT INTO Users (username, userPassword, firstName, lastName, DoB, email) VALUES ('IronManKb126', 'pa55w0rd', 'Kurt', 'Ball', '1965-01-26', 'IronManKB126@gmail.com');
+INSERT INTO Users (username, userPassword, firstName, lastName, DoB, email) VALUES ('Pirate-AdmiralWalrus', 'celtic67', 'Francis', 'Hopkins', '1963-03-26', 'ProfessorHopkins@mit.edu');
+INSERT INTO Users (username, userPassword, firstName, lastName, DoB, email) VALUES ('SilverBadger90', 'classof2010', 'Lorenzo', 'Ferguson', '1979-04-19', 'lorenzoF2010@yahoo.com');
+INSERT INTO Users (username, userPassword, firstName, lastName, DoB, email) VALUES ('Grizzly5612', 'rangers123', 'Doyle', 'West', '1968-02-27', 'GrizzlyWest@gmail.com');
+INSERT INTO Users (username, userPassword, firstName, lastName, DoB, email) VALUES ('TheRealFrostParks', 'babygurl12', 'Christina', 'Parks', '2004-04-15', 'TheRe4lFr0stP4rks@gmail.com');
 
 INSERT INTO Friend (ID1, ID2) VALUES (1, 2);
+
+INSERT INTO WeeklySchedule (accessStatus, title, stamp, upvotes, Users) VALUES ('public', 'Path to Mr. Olympia', CURRENT_TIMESTAMP(), 0, 1);
+
 INSERT INTO Exercise (bodyPart, equipment, gifUrl, id, workoutName, targetMuscle) VALUES ('waist', 'body weight', 'http://d205bpvrqc9yn1.cloudfront.net/0001.gif', '0001', '3/4 sit-up', 'abs'); 
 INSERT INTO Exercise (bodyPart, equipment, gifUrl, id, workoutName, targetMuscle) VALUES ('waist', 'body weight', 'http://d205bpvrqc9yn1.cloudfront.net/0002.gif', '0002', '45° side bend', 'abs');
 INSERT INTO Exercise (bodyPart, equipment, gifUrl, id, workoutName, targetMuscle) VALUES ('waist', 'body weight', 'http://d205bpvrqc9yn1.cloudfront.net/0003.gif', '0003', 'air bike', 'abs');
@@ -1399,7 +1410,3 @@ INSERT INTO Exercise (bodyPart, equipment, gifUrl, id, workoutName, targetMuscle
 INSERT INTO Exercise (bodyPart, equipment, gifUrl, id, workoutName, targetMuscle) VALUES ('upper legs', 'body weight', 'http://d205bpvrqc9yn1.cloudfront.net/1604.gif', '1604', 'world greatest stretch', 'hamstrings');
 INSERT INTO Exercise (bodyPart, equipment, gifUrl, id, workoutName, targetMuscle) VALUES ('lower arms', 'body weight', 'http://d205bpvrqc9yn1.cloudfront.net/1428.gif', '1428', 'wrist circles', 'forearms');
 INSERT INTO Exercise (bodyPart, equipment, gifUrl, id, workoutName, targetMuscle) VALUES ('lower arms', 'weighted', 'http://d205bpvrqc9yn1.cloudfront.net/0859.gif', '0859', 'wrist rollerer', 'forearms');
-
-
-
-INSERT INTO WeeklySchedule (accessStatus, title, stamp, upvotes, Users) VALUES ('public', 'Path to Mr. Olympia', CURRENT_TIMESTAMP(), 0, 1);
