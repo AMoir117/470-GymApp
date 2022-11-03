@@ -1,0 +1,16 @@
+gym-notebook-ui/node_modules/
+gym-notebook-ui/.expo/
+gym-notebook-ui/dist/
+gym-notebook-ui/npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+gym-notebook-ui/web-build/
+gym-notebook-ui/.env
+gym-notebook-api/.env
+
+# macOS
+.DS_Store

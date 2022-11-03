@@ -12,6 +12,7 @@ var connection = mysql.createConnection({
 });
 */
 
+
 var connection = mysql.createConnection({
 //    debug: true,
 
@@ -19,7 +20,7 @@ var connection = mysql.createConnection({
     port: 3306,
     user: 'root',
     password: 'root',
-    database: 'gym_app'
+    database: 'gymappdb'
 });
 
 module.exports = connection;

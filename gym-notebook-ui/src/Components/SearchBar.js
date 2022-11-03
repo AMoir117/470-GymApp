@@ -24,11 +24,12 @@ const SearchBar = () => {
 	const [masterDataSource, setMasterDataSource] = useState([]);
 
 	const API_KEY = process.env.API_KEY;
-	const listExercisesURL = `https://exercisedb.p.rapidapi.com/exercises?rapidapi-key=${API_KEY}`;
+	const listExercisesURL = `exercises/all-exercises`;
 
 	useEffect(() => {
 		const getAllExercises = async () => {
 			const response = await axios.get(listExercisesURL);
+			console.log(response);
 			setFilteredDataSource(response.data);
 			setMasterDataSource(response.data);
 		};
@@ -59,7 +60,7 @@ const SearchBar = () => {
 		return (
 			// Flat List Item
 			<Text style={styles.itemStyle} onPress={() => getItem(item)}>
-				{item.name.toUpperCase()}
+				{item.workoutName.toUpperCase()}
 			</Text>
 		);
 	};
