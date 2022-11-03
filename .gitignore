@@ -1,4 +1,6 @@
 gym-notebook-ui/node_modules/
+gym-notebook-api/node_modules/
+gym-notebook-api/database/mySQLconnect.js
 gym-notebook-ui/.expo/
 gym-notebook-ui/dist/
 gym-notebook-ui/npm-debug.*
@@ -9,7 +11,6 @@ gym-notebook-ui/npm-debug.*
 *.mobileprovision
 *.orig.*
 gym-notebook-ui/web-build/
-gym-notebook-ui/.env
 gym-notebook-api/.env
 
 # macOS
