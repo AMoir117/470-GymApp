@@ -7,11 +7,15 @@ import {
 	FlatList,
 	TextInput,
 	TouchableOpacity,
+	ImageBackground,
 } from "react-native";
 import {Divider} from "react-native-paper";
 import axios from "axios";
 
 const styles = StyleSheet.create({
+	backgroundImage: {
+		flex: 1,
+	},
 	textTitle: {
 		fontSize: 30,
 		alignSelf: "center",
@@ -74,37 +78,43 @@ const Login = ({navigation}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1}}>
-			<Text style={styles.textTitle}>GYM NOTEBOOK</Text>
-			<Divider
-				style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
-				horizontalInset="3"
-			/>
-			<TextInput
-				style={styles.textInputStyle}
-				placeholder={"Username"}
-				value={username}
-				onChangeText={setUsername}
-			/>
-			<TextInput
-				style={styles.textInputStyle}
-				secureTextEntry={true}
-				placeholder={"Password"}
-				value={password}
-				onChangeText={setPassword}
-			/>
-			<View style={styles.textForgetPassword}>
-				<TouchableOpacity color={"#026df7"} onPress={forgetPassword}>
-					<Text style={styles.textForgetPassword}>FORGOT PASSWORD?</Text>
-				</TouchableOpacity>
-			</View>
-			<View style={styles.buttonContainer}>
-				<TouchableOpacity style={styles.buttonStyle} onPress={login}>
-					<Text style={styles.buttonText}>Login</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.buttonStyle} onPress={signup}>
-					<Text style={styles.buttonText}>Signup</Text>
-				</TouchableOpacity>
-			</View>
+			<ImageBackground
+				source={require("../../assets/background-3.png")}
+				resizeMode="cover"
+				style={styles.backgroundImage}
+			>
+				<Text style={styles.textTitle}>GYM NOTEBOOK</Text>
+				<Divider
+					style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
+					horizontalInset="3"
+				/>
+				<TextInput
+					style={styles.textInputStyle}
+					placeholder={"Username"}
+					value={username}
+					onChangeText={setUsername}
+				/>
+				<TextInput
+					style={styles.textInputStyle}
+					secureTextEntry={true}
+					placeholder={"Password"}
+					value={password}
+					onChangeText={setPassword}
+				/>
+				<View style={styles.textForgetPassword}>
+					<TouchableOpacity color={"#026df7"} onPress={forgetPassword}>
+						<Text style={styles.textForgetPassword}>FORGOT PASSWORD?</Text>
+					</TouchableOpacity>
+				</View>
+				<View style={styles.buttonContainer}>
+					<TouchableOpacity style={styles.buttonStyle} onPress={login}>
+						<Text style={styles.buttonText}>Login</Text>
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.buttonStyle} onPress={signup}>
+						<Text style={styles.buttonText}>Signup</Text>
+					</TouchableOpacity>
+				</View>
+			</ImageBackground>
 		</SafeAreaView>
 	);
 };
