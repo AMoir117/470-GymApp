@@ -9,7 +9,7 @@ import {
 	Pressable,
 	SafeAreaView,
 } from "react-native";
-import {Divider, Appbar, Button, Avatar} from "react-native-paper";
+import {Divider, Appbar, Button, Avatar, Portal} from "react-native-paper";
 import axios from "axios";
 
 const styles = StyleSheet.create({
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 		margin: 15,
 	},
 });
-const Profile = ({navigation, back}) => {
+const ProfileViewer = (props) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [firstName, setFirstName] = useState("");
@@ -79,6 +79,10 @@ const Profile = ({navigation, back}) => {
 	const [bio, setBio] = useState("");
 
 	const [alertVisible, setAlertVisible] = useState(false);
+
+	const {userID, imgUrl, userName} = props;
+
+	console.log(userID);
 
 	useEffect(() => {
 		setUsername("NotAnAthlete");
@@ -160,4 +164,4 @@ const Profile = ({navigation, back}) => {
 	);
 };
 
-export default Profile;
+export default ProfileViewer;

@@ -1,15 +1,26 @@
 import React, {useState, useEffect} from "react";
 import {
 	ScrollView,
-	Text,
 	StyleSheet,
 	View,
 	FlatList,
 	TextInput,
 	Pressable,
 	SafeAreaView,
+	TouchableOpacity,
+	Image,
 } from "react-native";
-import {Divider, Appbar, Button, Avatar, DataTable} from "react-native-paper";
+import {
+	Divider,
+	Appbar,
+	Button,
+	Avatar,
+	DataTable,
+	Provider,
+	Modal,
+	Portal,
+	Text,
+} from "react-native-paper";
 import axios from "axios";
 
 const styles = StyleSheet.create({
@@ -22,7 +33,11 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 		fontStyle: "italic",
 	},
-	flatList: {},
+	gifModal: {
+		width: 300,
+		height: 300,
+		alignSelf: "center",
+	},
 });
 
 const data = [
@@ -80,12 +95,42 @@ const MainSchedule = ({navigation, back}) => {
 	const [currentDay, setCurrentDay] = useState("Friday");
 	const [scheduleName, setScheduleName] = useState("Path to Mr. Olympia");
 	const [workouts, setWorkouts] = useState(data);
+	const [gifShow, setGifShow] = useState(false);
+	const [modalUri, setModalUri] = useState("");
 
 	useEffect(() => {}, []);
 
+	const showModal = (item) => {
+		console.log(item.gifUrl);
+		setGifShow(true);
+		setModalUri(item.gifUrl);
+	};
+	const hideModal = () => setGifShow(false);
+
+	const ShowGif = (props) => {
+		return (
+			<Provider>
+				<Portal>
+					<Modal
+						visible={gifShow}
+						onDismiss={hideModal}
+						contentContainerStyle={styles.gifModal}
+					>
+						<Image style={{width: 300, height: 300}} source={{uri: modalUri}} />
+					</Modal>
+				</Portal>
+			</Provider>
+		);
+	};
+
 	const renderItem = ({item}) => (
+		//fixme::create new design to show each workout to make room for long workout names
 		<DataTable.Row>
-			<DataTable.Cell style={{flex: 6}}>{item.name}</DataTable.Cell>
+			<DataTable.Cell style={{flex: 5}}>
+				<TouchableOpacity onPress={() => showModal(item)}>
+					<Text variant="bodySmall">{item.name}</Text>
+				</TouchableOpacity>
+			</DataTable.Cell>
 			<DataTable.Cell numeric>{item.sets}</DataTable.Cell>
 			<DataTable.Cell numeric>{item.reps}</DataTable.Cell>
 			<DataTable.Cell numeric>{item.weight}</DataTable.Cell>
@@ -103,7 +148,7 @@ const MainSchedule = ({navigation, back}) => {
 			/>
 			<DataTable>
 				<DataTable.Header>
-					<DataTable.Title style={{flex: 6}}>Exercise</DataTable.Title>
+					<DataTable.Title style={{flex: 5}}>Exercise</DataTable.Title>
 					<DataTable.Title numeric>Sets</DataTable.Title>
 					<DataTable.Title numeric>Reps</DataTable.Title>
 					<DataTable.Title numeric>Weight</DataTable.Title>
@@ -117,6 +162,7 @@ const MainSchedule = ({navigation, back}) => {
 					keyExtractor={(item) => item.id}
 				/>
 			</DataTable>
+			<ShowGif />
 		</SafeAreaView>
 	);
 };

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {StyleSheet, Platform} from "react-native";
+import {StyleSheet, Platform, View} from "react-native";
 import {TextInput as TextInputDoB, Button} from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -10,16 +10,21 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 		alignSelf: "center",
 	},
-	IOSdatePicker: {
+	buttonSaveDatePicker: {
 		alignSelf: "center",
-		width: 70,
+		height: 50,
+		width: 130,
+		marginTop: 30,
+	},
+	IOSdatePickerButton: {
+		width: 80,
 		height: 40,
-		margin: 20,
 		backgroundColor: "#ff0000",
 	},
 });
 
 const InsertDate = (props) => {
+	console.log(Platform.OS);
 	const {show, setShow, date, setDate} = props;
 
 	const onChange = (event, selectedDate) => {
@@ -28,7 +33,7 @@ const InsertDate = (props) => {
 		setDate(currentDate);
 	};
 
-	if (Platform.OS === "android") {
+	if (Platform.OS === "android" || Platform.OS === "web") {
 		if (show)
 			return (
 				<>
@@ -42,7 +47,7 @@ const InsertDate = (props) => {
 					<DateTimePicker
 						testID="dateTimePicker"
 						value={date}
-						display="calender"
+						display="default"
 						mode="date"
 						onChange={onChange}
 						positiveButtonLabel="set"
@@ -66,18 +71,20 @@ const InsertDate = (props) => {
 		}
 	} else if (!show) {
 		return (
-			<DateTimePicker
-				testID="dateTimePicker"
-				value={date}
-				display="compact"
-				mode="date"
-				onChange={onChange}
-				maximumDate={new Date(Date.now())}
-				minimumDate={new Date(1920, 0, 1)}
-				textColor="white"
-				themeVariant="dark"
-				style={styles.IOSdatePicker}
-			/>
+			//fixme::change style of datepicker on IOS
+			<Button style={styles.buttonSaveDatePicker} mode="contained" buttonColor="#ff0000">
+				<DateTimePicker
+					testID="dateTimePicker"
+					value={date}
+					display="default"
+					mode="date"
+					onChange={onChange}
+					maximumDate={new Date(Date.now())}
+					minimumDate={new Date(1920, 0, 1)}
+					themeVariant="dark"
+					style={styles.IOSdatePickerButton}
+				/>
+			</Button>
 		);
 	}
 };

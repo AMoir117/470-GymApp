@@ -10,21 +10,29 @@ import Login from "./src/Components/Login";
 import Signup from "./src/Components/Signup";
 import FrontPage from "./src/Components/FrontPage";
 
+import {GestureHandlerRootView} from "react-native-gesture-handler";
+
 const App = () => {
 	const Stack = createNativeStackNavigator();
 
 	return (
-		<NavigationContainer>
-			<Stack.Navigator screenOptions={{headerStyle: {backgroundColor: "#ff0000"}}}>
-				<Stack.Screen name="Login" component={Login} options={{title: ""}} />
-				<Stack.Screen name="Signup" component={Signup} options={{title: "My Profile"}} />
-				<Stack.Screen
-					name="Front Page"
-					component={FrontPage}
-					options={{title: "Gym Notebook"}}
-				/>
-			</Stack.Navigator>
-		</NavigationContainer>
+		<GestureHandlerRootView style={{flex: 1}}>
+			<NavigationContainer>
+				<Stack.Navigator screenOptions={{headerStyle: {backgroundColor: "#ff0000"}}}>
+					<Stack.Screen name="Login" component={Login} options={{title: ""}} />
+					<Stack.Screen
+						name="Signup"
+						component={Signup}
+						options={{title: "My Profile"}}
+					/>
+					<Stack.Screen
+						name="Front Page"
+						component={FrontPage}
+						options={{title: "Gym Notebook"}}
+					/>
+				</Stack.Navigator>
+			</NavigationContainer>
+		</GestureHandlerRootView>
 	);
 };
 
