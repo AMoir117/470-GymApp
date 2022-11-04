@@ -11,6 +11,7 @@ import SearchBar from "./src/Components/SearchBar";
 import Login from "./src/Components/Login";
 import Signup from "./src/Components/Signup";
 import FrontPage from "./src/Components/FrontPage";
+import Profile from "./src/Components/front-page/Profile";
 
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import GlobalStyles from "./src/Components/GlobalStyles";
@@ -26,11 +27,30 @@ const App = () => {
 			<Provider>
 				<NavigationContainer>
 					<Stack.Navigator initialRouteName="Login">
-						<Stack.Screen name="Login" component={Login} options={{title: ""}} />
-						<Stack.Screen name="Signup" component={Signup} options={{title: ""}} />
+						<Stack.Screen
+							name="Login"
+							component={Login}
+							options={{
+								title: "",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+							}}
+						/>
+						<Stack.Screen
+							name="Signup"
+							component={Signup}
+							options={{
+								title: "",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+							}}
+						/>
 						<Stack.Screen
 							name="Front Page"
 							component={FrontPage}
+							options={{header: (props) => <CustomNavigationBar {...props} />}}
+						/>
+						<Stack.Screen
+							name="Profile"
+							component={Profile}
 							options={{header: (props) => <CustomNavigationBar {...props} />}}
 						/>
 					</Stack.Navigator>
