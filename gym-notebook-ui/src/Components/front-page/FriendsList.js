@@ -98,9 +98,6 @@ const renderProfile = ({item}) => {
 };
 
 const FriendsList = ({navigation}) => {
-	console.log(navigation);
-	//navigation.navigate("Login");
-
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<ImageBackground style={styles.backgroundImage}>
