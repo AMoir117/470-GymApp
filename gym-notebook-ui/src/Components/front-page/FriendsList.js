@@ -14,6 +14,7 @@ import {
 import {DataTable, Avatar, Surface, Portal} from "react-native-paper";
 import GlobalStyles from "../GlobalStyles";
 import ProfileViewer from "./ProfileViewer";
+import {useNavigation} from "@react-navigation/native";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -85,19 +86,24 @@ const clickUserProfile = (item) => {
 	//fixme:: make it so when clicked routes to a view of friends profile
 };
 
-const renderProfile = ({item}) => {
-	//fixme::how to require image dynamically
-	return (
-		<Surface style={styles.surfaceStyle} elevation={1}>
-			<TouchableOpacity onPress={() => clickUserProfile(item)}>
-				<Avatar.Image style={styles.avatarStyle} size={100} source={item.imgUrl} />
-			</TouchableOpacity>
-			<Text style={styles.userNameStyle}>{item.userName}</Text>
-		</Surface>
-	);
-};
+const FriendsList = () => {
+	const navigation = useNavigation();
 
-const FriendsList = ({navigation}) => {
+	const RenderProfile = ({item}) => {
+		//fixme::how to require image dynamically
+		return (
+			<Surface style={styles.surfaceStyle} elevation={1}>
+				<TouchableOpacity
+					onPress={() => {
+						navigation.navigate("Signup");
+					}}
+				>
+					<Avatar.Image style={styles.avatarStyle} size={100} source={item.imgUrl} />
+				</TouchableOpacity>
+				<Text style={styles.userNameStyle}>{item.userName}</Text>
+			</Surface>
+		);
+	};
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<ImageBackground style={styles.backgroundImage}>
@@ -107,7 +113,7 @@ const FriendsList = ({navigation}) => {
 					showsVerticalScrollIndicator={false}
 					alwaysBounceVertical={true}
 					data={friends}
-					renderItem={renderProfile}
+					renderItem={RenderProfile}
 					keyExtractor={(item) => item.userID}
 				/>
 				<Surface style={styles.addButton} elevation={1}>
