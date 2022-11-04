@@ -21,21 +21,14 @@ const App = () => {
 				<Stack.Navigator
 					initialRouteName="Login"
 					screenOptions={{
-						headerStyle: {backgroundColor: "#222222"},
-						headerTintColor: "#fff",
+						headerStyle: {backgroundColor: "#cbbeb5"},
+						headerTintColor: "#ff6666",
+						//headerTitleAlign: "center",
 					}}
 				>
 					<Stack.Screen name="Login" component={Login} options={{title: ""}} />
-					<Stack.Screen
-						name="Signup"
-						component={Signup}
-						options={{title: "My Profile"}}
-					/>
-					<Stack.Screen
-						name="Front Page"
-						component={FrontPage}
-						options={{title: "Gym Notebook"}}
-					/>
+					<Stack.Screen name="Signup" component={Signup} options={{title: ""}} />
+					<Stack.Screen name="Front Page" component={FrontPage} options={{title: ""}} />
 				</Stack.Navigator>
 			</NavigationContainer>
 		</GestureHandlerRootView>

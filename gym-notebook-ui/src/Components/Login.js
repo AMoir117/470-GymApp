@@ -12,11 +12,12 @@ import {
 import {Divider} from "react-native-paper";
 import axios from "axios";
 import SvgImage from "./SvgImage";
+import GlobalStyles from "./GlobalStyles";
 
 const styles = StyleSheet.create({
-	backgroundImage: {
+	backgroundColor: {
 		flex: 1,
-		backgroundColor: "#000000",
+		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	textTitle: {
 		fontSize: 30,
@@ -81,7 +82,7 @@ const Login = ({navigation}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1}}>
-			<ImageBackground style={styles.backgroundImage}>
+			<ImageBackground style={styles.backgroundColor}>
 				<SvgImage
 					style={{
 						position: "absolute",
@@ -93,7 +94,7 @@ const Login = ({navigation}) => {
 				/>
 				<Text style={styles.textTitle}>GYM NOTEBOOK</Text>
 				<Divider
-					style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
+					style={{borderColor: "#ff6666", borderWidth: 3, borderRadius: 5}}
 					horizontalInset="3"
 				/>
 				<TextInput
