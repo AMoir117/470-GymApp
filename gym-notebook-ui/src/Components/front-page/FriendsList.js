@@ -9,11 +9,16 @@ import {
 	Pressable,
 	SafeAreaView,
 	TouchableOpacity,
+	ImageBackground,
 } from "react-native";
 import {DataTable, Avatar, Surface, Portal} from "react-native-paper";
 import ProfileViewer from "./ProfileViewer";
 
 const styles = StyleSheet.create({
+	backgroundImage: {
+		flex: 1,
+		backgroundColor: "#000000",
+	},
 	surfaceStyle: {
 		height: 140,
 		width: 140,
@@ -91,23 +96,25 @@ const renderProfile = ({item}) => {
 const FriendsList = () => {
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<FlatList
-				style={styles.flatListContainer}
-				numColumns={2}
-				showsVerticalScrollIndicator={false}
-				alwaysBounceVertical={true}
-				data={friends}
-				renderItem={renderProfile}
-				keyExtractor={(item) => item.userID}
-			/>
-			<Surface style={styles.addButton} elevation={1}>
-				<Avatar.Image
-					style={styles.avatarStyle}
-					size={50}
-					source={require("../../../assets/add.png")}
+			<ImageBackground style={styles.backgroundImage}>
+				<FlatList
+					style={styles.flatListContainer}
+					numColumns={2}
+					showsVerticalScrollIndicator={false}
+					alwaysBounceVertical={true}
+					data={friends}
+					renderItem={renderProfile}
+					keyExtractor={(item) => item.userID}
 				/>
-				<Text style={styles.addTextStyle}>Add</Text>
-			</Surface>
+				<Surface style={styles.addButton} elevation={1}>
+					<Avatar.Image
+						style={styles.avatarStyle}
+						size={50}
+						source={require("../../../assets/add.png")}
+					/>
+					<Text style={styles.addTextStyle}>Add</Text>
+				</Surface>
+			</ImageBackground>
 		</SafeAreaView>
 	);
 };

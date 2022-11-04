@@ -9,6 +9,7 @@ import {
 	SafeAreaView,
 	TouchableOpacity,
 	Image,
+	ImageBackground,
 } from "react-native";
 import {
 	Divider,
@@ -24,14 +25,23 @@ import {
 import axios from "axios";
 
 const styles = StyleSheet.create({
+	backgroundImage: {
+		flex: 1,
+		backgroundColor: "#000000",
+	},
 	dayText: {
 		fontSize: 40,
 		alignSelf: "center",
+		color: "#ffffff",
 	},
 	scheduleNameText: {
 		fontSize: 20,
 		alignSelf: "center",
 		fontStyle: "italic",
+		color: "#ffffff",
+	},
+	workoutCellStyles: {
+		color: "#ffffff",
 	},
 	gifModal: {
 		width: 300,
@@ -128,41 +138,51 @@ const MainSchedule = ({navigation, back}) => {
 		<DataTable.Row>
 			<DataTable.Cell style={{flex: 5}}>
 				<TouchableOpacity onPress={() => showModal(item)}>
-					<Text variant="bodySmall">{item.name}</Text>
+					<Text style={styles.workoutCellStyles} variant="bodySmall">
+						{item.name}
+					</Text>
 				</TouchableOpacity>
 			</DataTable.Cell>
-			<DataTable.Cell numeric>{item.sets}</DataTable.Cell>
-			<DataTable.Cell numeric>{item.reps}</DataTable.Cell>
-			<DataTable.Cell numeric>{item.weight}</DataTable.Cell>
+			<DataTable.Cell numeric>
+				<Text style={styles.workoutCellStyles}>{item.sets}</Text>
+			</DataTable.Cell>
+			<DataTable.Cell numeric>
+				<Text style={styles.workoutCellStyles}>{item.reps}</Text>
+			</DataTable.Cell>
+			<DataTable.Cell numeric>
+				<Text style={styles.workoutCellStyles}>{item.weight}</Text>
+			</DataTable.Cell>
 		</DataTable.Row>
 	);
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<Text style={styles.dayText}>{currentDay}</Text>
-			<Text style={styles.scheduleNameText}>{scheduleName}</Text>
+			<ImageBackground style={styles.backgroundImage}>
+				<Text style={styles.dayText}>{currentDay}</Text>
+				<Text style={styles.scheduleNameText}>{scheduleName}</Text>
 
-			<Divider
-				style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
-				horizontalInset="3"
-			/>
-			<DataTable>
-				<DataTable.Header>
-					<DataTable.Title style={{flex: 5}}>Exercise</DataTable.Title>
-					<DataTable.Title numeric>Sets</DataTable.Title>
-					<DataTable.Title numeric>Reps</DataTable.Title>
-					<DataTable.Title numeric>Weight</DataTable.Title>
-				</DataTable.Header>
-
-				<FlatList
-					showsVerticalScrollIndicator={false}
-					alwaysBounceVertical={true}
-					data={workouts}
-					renderItem={renderItem}
-					keyExtractor={(item) => item.id}
+				<Divider
+					style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
+					horizontalInset="3"
 				/>
-			</DataTable>
-			<ShowGif />
+				<DataTable>
+					<DataTable.Header>
+						<DataTable.Title style={{flex: 5}}>Exercise</DataTable.Title>
+						<DataTable.Title numeric>Sets</DataTable.Title>
+						<DataTable.Title numeric>Reps</DataTable.Title>
+						<DataTable.Title numeric>Weight</DataTable.Title>
+					</DataTable.Header>
+
+					<FlatList
+						showsVerticalScrollIndicator={false}
+						alwaysBounceVertical={true}
+						data={workouts}
+						renderItem={renderItem}
+						keyExtractor={(item) => item.id}
+					/>
+				</DataTable>
+				<ShowGif />
+			</ImageBackground>
 		</SafeAreaView>
 	);
 };

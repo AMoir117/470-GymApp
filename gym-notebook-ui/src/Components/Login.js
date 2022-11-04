@@ -15,10 +15,12 @@ import axios from "axios";
 const styles = StyleSheet.create({
 	backgroundImage: {
 		flex: 1,
+		backgroundColor: "#000000",
 	},
 	textTitle: {
 		fontSize: 30,
 		alignSelf: "center",
+		color: "#ffffff",
 	},
 	textInputStyle: {
 		height: 40,
@@ -79,8 +81,7 @@ const Login = ({navigation}) => {
 	return (
 		<SafeAreaView style={{flex: 1}}>
 			<ImageBackground
-				source={require("../../assets/background-3.png")}
-				resizeMode="cover"
+				source={require("../../assets/background-test.png")}
 				style={styles.backgroundImage}
 			>
 				<Text style={styles.textTitle}>GYM NOTEBOOK</Text>

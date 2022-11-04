@@ -8,11 +8,16 @@ import {
 	TextInput,
 	Pressable,
 	SafeAreaView,
+	ImageBackground,
 } from "react-native";
 import {Divider, Appbar, Button, Avatar, DataTable} from "react-native-paper";
 import axios from "axios";
 
 const styles = StyleSheet.create({
+	backgroundImage: {
+		flex: 1,
+		backgroundColor: "#000000",
+	},
 	dayText: {
 		fontSize: 40,
 		alignSelf: "center",
@@ -137,47 +142,49 @@ const Schedules = ({navigation, back}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<View style={styles.daysOfWeek}>
-				{daysOfWeek.map((day) => {
-					return (
-						<Button
-							style={styles.dayButton}
-							compact={true}
-							mode="elevated"
-							textColor="#000000"
-							onPress={() => clickDay(day.dayName)}
-							key={day.dayID}
-						>
-							{day.dayName}
-						</Button>
-					);
-				})}
-			</View>
+			<ImageBackground style={styles.backgroundImage}>
+				<View style={styles.daysOfWeek}>
+					{daysOfWeek.map((day) => {
+						return (
+							<Button
+								style={styles.dayButton}
+								compact={true}
+								mode="elevated"
+								textColor="#000000"
+								onPress={() => clickDay(day.dayName)}
+								key={day.dayID}
+							>
+								{day.dayName}
+							</Button>
+						);
+					})}
+				</View>
 
-			<Text style={styles.dayText}>{currentDay}</Text>
+				<Text style={styles.dayText}>{currentDay}</Text>
 
-			<Text style={styles.scheduleNameText}>{scheduleName}</Text>
+				<Text style={styles.scheduleNameText}>{scheduleName}</Text>
 
-			<Divider
-				style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
-				horizontalInset="3"
-			/>
-			<DataTable>
-				<DataTable.Header>
-					<DataTable.Title style={{flex: 5}}>Exercise</DataTable.Title>
-					<DataTable.Title numeric>Sets</DataTable.Title>
-					<DataTable.Title numeric>Reps</DataTable.Title>
-					<DataTable.Title numeric>Weight</DataTable.Title>
-				</DataTable.Header>
-
-				<FlatList
-					showsVerticalScrollIndicator={false}
-					alwaysBounceVertical={true}
-					data={schedules}
-					renderItem={renderItem}
-					keyExtractor={(item) => item.id}
+				<Divider
+					style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
+					horizontalInset="3"
 				/>
-			</DataTable>
+				<DataTable>
+					<DataTable.Header>
+						<DataTable.Title style={{flex: 5}}>Exercise</DataTable.Title>
+						<DataTable.Title numeric>Sets</DataTable.Title>
+						<DataTable.Title numeric>Reps</DataTable.Title>
+						<DataTable.Title numeric>Weight</DataTable.Title>
+					</DataTable.Header>
+
+					<FlatList
+						showsVerticalScrollIndicator={false}
+						alwaysBounceVertical={true}
+						data={schedules}
+						renderItem={renderItem}
+						keyExtractor={(item) => item.id}
+					/>
+				</DataTable>
+			</ImageBackground>
 		</SafeAreaView>
 	);
 };

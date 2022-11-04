@@ -8,10 +8,15 @@ import {
 	TextInput,
 	Pressable,
 	SafeAreaView,
+	ImageBackground,
 } from "react-native";
 import {DataTable, Avatar, Surface} from "react-native-paper";
 
 const styles = StyleSheet.create({
+	backgroundImage: {
+		flex: 1,
+		backgroundColor: "#000000",
+	},
 	surfaceStyle: {
 		height: 80,
 		width: 350,
@@ -92,23 +97,25 @@ const renderPosts = ({item}) => {
 const FriendsList = () => {
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<FlatList
-				style={styles.flatListContainer}
-				numColumns={1}
-				showsVerticalScrollIndicator={false}
-				alwaysBounceVertical={true}
-				data={posts}
-				renderItem={renderPosts}
-				keyExtractor={(item) => item.postID}
-			/>
-			<Surface style={styles.addButton} elevation={1}>
-				<Avatar.Image
-					style={styles.avatarStyle}
-					size={50}
-					source={require("../../../assets/add.png")}
+			<ImageBackground style={styles.backgroundImage}>
+				<FlatList
+					style={styles.flatListContainer}
+					numColumns={1}
+					showsVerticalScrollIndicator={false}
+					alwaysBounceVertical={true}
+					data={posts}
+					renderItem={renderPosts}
+					keyExtractor={(item) => item.postID}
 				/>
-				<Text style={styles.addTextStyle}>Post</Text>
-			</Surface>
+				<Surface style={styles.addButton} elevation={1}>
+					<Avatar.Image
+						style={styles.avatarStyle}
+						size={50}
+						source={require("../../../assets/add.png")}
+					/>
+					<Text style={styles.addTextStyle}>Post</Text>
+				</Surface>
+			</ImageBackground>
 		</SafeAreaView>
 	);
 };
