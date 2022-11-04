@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from "react";
+import {React, useEffect, useState, goBack} from "react";
 import {SectionList, StyleSheet, Text, View} from "react-native";
 import {Drawer} from "react-native-paper";
 import SectionListBasics from "./src/Components/SectionListBasics";
@@ -37,7 +37,7 @@ const App = () => {
 						component={FrontPage}
 						options={{
 							title: "",
-							headerLeft: () => {
+							headerRight: () => {
 								return (
 									<Drawer.CollapsedItem
 										icon="menu"

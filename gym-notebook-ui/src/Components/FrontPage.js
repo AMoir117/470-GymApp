@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {BottomNavigation, Text} from "react-native-paper";
+import {BottomNavigation} from "react-native-paper";
 import Profile from "./front-page/Profile";
 import MainSchedule from "./front-page/MainSchedule";
 import FriendsList from "./front-page/FriendsList";
@@ -8,7 +8,7 @@ import SchedulesList from "./front-page/SchedulesList";
 
 const FriendsRoute = ({navigation}) => {
 	console.log("Friends clicked");
-	return <FriendsList />;
+	return <FriendsList navigation={navigation} />;
 };
 
 const LobbyRoute = () => {

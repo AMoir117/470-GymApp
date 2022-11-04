@@ -18,11 +18,12 @@ import ImagePick from "./ImagePicker";
 import axios from "axios";
 
 import SvgImage from "./SvgImage";
+import GlobalStyles from "./GlobalStyles";
 
 const styles = StyleSheet.create({
-	backgroundImage: {
+	backgroundColor: {
 		flex: 1,
-		backgroundColor: "#000000",
+		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	areaView: {
 		height: 1200,
@@ -111,7 +112,7 @@ const Signup = ({navigation, back}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ImageBackground style={styles.backgroundImage}>
+			<ImageBackground style={styles.backgroundColor}>
 				<SvgImage
 					style={{
 						position: "absolute",
