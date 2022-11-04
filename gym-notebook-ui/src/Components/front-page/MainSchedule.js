@@ -23,25 +23,26 @@ import {
 	Text,
 } from "react-native-paper";
 import axios from "axios";
+import GlobalStyles from "../GlobalStyles";
 
 const styles = StyleSheet.create({
-	backgroundImage: {
+	backgroundColor: {
 		flex: 1,
-		backgroundColor: "#000000",
+		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	dayText: {
 		fontSize: 40,
 		alignSelf: "center",
-		color: "#ffffff",
+		color: GlobalStyles.hexColor.brown,
 	},
 	scheduleNameText: {
 		fontSize: 20,
 		alignSelf: "center",
 		fontStyle: "italic",
-		color: "#ffffff",
+		color: GlobalStyles.hexColor.brown,
 	},
 	workoutCellStyles: {
-		color: "#ffffff",
+		color: GlobalStyles.hexColor.brown,
 	},
 	gifModal: {
 		width: 300,
@@ -157,20 +158,32 @@ const MainSchedule = ({navigation, back}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ImageBackground style={styles.backgroundImage}>
+			<ImageBackground style={styles.backgroundColor}>
 				<Text style={styles.dayText}>{currentDay}</Text>
 				<Text style={styles.scheduleNameText}>{scheduleName}</Text>
 
 				<Divider
-					style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
+					style={{
+						borderColor: GlobalStyles.hexColor.red,
+						borderWidth: 1,
+						borderRadius: 5,
+					}}
 					horizontalInset="3"
 				/>
 				<DataTable>
 					<DataTable.Header>
-						<DataTable.Title style={{flex: 5}}>Exercise</DataTable.Title>
-						<DataTable.Title numeric>Sets</DataTable.Title>
-						<DataTable.Title numeric>Reps</DataTable.Title>
-						<DataTable.Title numeric>Weight</DataTable.Title>
+						<DataTable.Title style={{flex: 5}}>
+							<Text style={styles.workoutCellStyles}>Exercise</Text>
+						</DataTable.Title>
+						<DataTable.Title numeric>
+							<Text style={styles.workoutCellStyles}>Sets</Text>
+						</DataTable.Title>
+						<DataTable.Title numeric>
+							<Text style={styles.workoutCellStyles}>Reps</Text>
+						</DataTable.Title>
+						<DataTable.Title numeric>
+							<Text style={styles.workoutCellStyles}>Weight</Text>
+						</DataTable.Title>
 					</DataTable.Header>
 
 					<FlatList

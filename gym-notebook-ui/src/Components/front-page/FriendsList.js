@@ -12,27 +12,31 @@ import {
 	ImageBackground,
 } from "react-native";
 import {DataTable, Avatar, Surface, Portal} from "react-native-paper";
+import GlobalStyles from "../GlobalStyles";
 import ProfileViewer from "./ProfileViewer";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
 		flex: 1,
-		backgroundColor: "#000000",
+		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	surfaceStyle: {
 		height: 140,
 		width: 140,
 		borderRadius: 20,
+		margin: 20,
 		alignSelf: "center",
+		backgroundColor: GlobalStyles.hexColor.brown,
 	},
 	flatListContainer: {
 		alignSelf: "center",
 	},
 	addButton: {
-		width: 90,
-		height: 90,
+		width: 40,
+		height: 40,
 		borderRadius: 20,
-		backgroundColor: "#ff0000",
+		margin: 5,
+		backgroundColor: GlobalStyles.hexColor.red,
 		alignSelf: "center",
 	},
 	userNameStyle: {
@@ -49,7 +53,7 @@ const styles = StyleSheet.create({
 	avatarStyle: {
 		alignSelf: "center",
 		margin: 5,
-		backgroundColor: "#ffffff",
+		backgroundColor: GlobalStyles.hexColor.white,
 	},
 });
 
@@ -109,10 +113,9 @@ const FriendsList = () => {
 				<Surface style={styles.addButton} elevation={1}>
 					<Avatar.Image
 						style={styles.avatarStyle}
-						size={50}
+						size={30}
 						source={require("../../../assets/add.png")}
 					/>
-					<Text style={styles.addTextStyle}>Add</Text>
 				</Surface>
 			</ImageBackground>
 		</SafeAreaView>

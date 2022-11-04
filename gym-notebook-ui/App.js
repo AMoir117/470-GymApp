@@ -11,6 +11,7 @@ import Signup from "./src/Components/Signup";
 import FrontPage from "./src/Components/FrontPage";
 
 import {GestureHandlerRootView} from "react-native-gesture-handler";
+import GlobalStyles from "./src/Components/GlobalStyles";
 
 const App = () => {
 	const Stack = createNativeStackNavigator();
@@ -21,9 +22,10 @@ const App = () => {
 				<Stack.Navigator
 					initialRouteName="Login"
 					screenOptions={{
-						headerStyle: {backgroundColor: "#cbbeb5"},
-						headerTintColor: "#ff6666",
-						//headerTitleAlign: "center",
+						headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+						headerTintColor: GlobalStyles.hexColor.black,
+						headerTitleAlign: "center",
+						headerTitleStyle: {fontSize: 40},
 					}}
 				>
 					<Stack.Screen name="Login" component={Login} options={{title: ""}} />

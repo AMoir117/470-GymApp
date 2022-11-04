@@ -14,11 +14,12 @@ import {DataTable, Avatar, Surface} from "react-native-paper";
 
 import SwipingRow from "../SwipingRow";
 import GmailStyleSwipeableRow from "../AndroidSwipe";
+import GlobalStyles from "../GlobalStyles";
 
 const styles = StyleSheet.create({
-	backgroundImage: {
+	backgroundColor: {
 		flex: 1,
-		backgroundColor: "#000000",
+		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	surfaceStyle: {
 		height: 80,
@@ -92,7 +93,7 @@ const renderSchedules = ({item}) => {
 const SchedulesList = () => {
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ImageBackground style={styles.backgroundImage}>
+			<ImageBackground style={styles.backgroundColor}>
 				<FlatList
 					style={styles.flatListContainer}
 					numColumns={1}

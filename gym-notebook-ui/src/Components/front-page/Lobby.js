@@ -11,17 +11,19 @@ import {
 	ImageBackground,
 } from "react-native";
 import {DataTable, Avatar, Surface} from "react-native-paper";
+import GlobalStyles from "../GlobalStyles";
 
 const styles = StyleSheet.create({
-	backgroundImage: {
+	backgroundColor: {
 		flex: 1,
-		backgroundColor: "#000000",
+		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	surfaceStyle: {
 		height: 80,
 		width: 350,
 		borderRadius: 20,
 		flex: 1,
+		marginTop: 20,
 		flexDirection: "row",
 		alignSelf: "center",
 	},
@@ -97,7 +99,7 @@ const renderPosts = ({item}) => {
 const FriendsList = () => {
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ImageBackground style={styles.backgroundImage}>
+			<ImageBackground style={styles.backgroundColor}>
 				<FlatList
 					style={styles.flatListContainer}
 					numColumns={1}
