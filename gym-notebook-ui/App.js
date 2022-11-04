@@ -18,7 +18,13 @@ const App = () => {
 	return (
 		<GestureHandlerRootView style={{flex: 1}}>
 			<NavigationContainer>
-				<Stack.Navigator screenOptions={{headerStyle: {backgroundColor: "#ff0000"}}}>
+				<Stack.Navigator
+					initialRouteName="Login"
+					screenOptions={{
+						headerStyle: {backgroundColor: "#222222"},
+						headerTintColor: "#fff",
+					}}
+				>
 					<Stack.Screen name="Login" component={Login} options={{title: ""}} />
 					<Stack.Screen
 						name="Signup"

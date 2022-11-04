@@ -9,6 +9,7 @@ import {
 	TextInput,
 	SafeAreaView,
 	Platform,
+	ImageBackground,
 } from "react-native";
 import {
 	Divider,
@@ -24,6 +25,10 @@ import ImagePick from "./ImagePicker";
 import axios from "axios";
 
 const styles = StyleSheet.create({
+	backgroundImage: {
+		flex: 1,
+		backgroundColor: "#000000",
+	},
 	areaView: {
 		height: 1200,
 	},
@@ -115,13 +120,14 @@ const Signup = ({navigation, back}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ScrollView
-				style={{flex: 1, maxHeight: "100%"}}
-				//stickyHeaderIndices={[0]}
-				showsVerticalScrollIndicator={false}
-				alwaysBounceVertical={false}
-			>
-				{/* <View>
+			<ImageBackground style={styles.backgroundImage}>
+				<ScrollView
+					style={{flex: 1, maxHeight: "100%"}}
+					//stickyHeaderIndices={[0]}
+					showsVerticalScrollIndicator={false}
+					alwaysBounceVertical={false}
+				>
+					{/* <View>
 					<Appbar.Header alignSelf="center">
 						{back ? (
 							<Appbar.BackAction
@@ -138,7 +144,7 @@ const Signup = ({navigation, back}) => {
 						horizontalInset="3"
 					/>
 				</View> */}
-				{/* <View>
+					{/* <View>
 					<Avatar.Image
 						style={styles.avatarStyle}
 						size={150}
@@ -150,82 +156,83 @@ const Signup = ({navigation, back}) => {
 						<Text style={styles.textUploadImage}>Upload Image</Text>
 					</Pressable>
 				</View> */}
-				<ImagePick image={image} setImage={setImage} />
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Username"}
-					value={username}
-					textContentType={"username"}
-					onChangeText={setUsername}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"First Name"}
-					value={firstName}
-					textContentType={"givenName"}
-					onChangeText={setFirstName}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Last Name"}
-					value={lastName}
-					textContentType={"lastName"}
-					onChangeText={setLastName}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Email"}
-					value={email}
-					textContentType={"emailAddress"}
-					onChangeText={setEmail}
-				/>
-				<TextInputDoB
-					style={styles.textInputStyle}
-					placeholder={"Date of Birth"}
-					value={date.toLocaleDateString(undefined, options)}
-					disabled={true}
-				/>
+					<ImagePick image={image} setImage={setImage} />
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"Username"}
+						value={username}
+						textContentType={"username"}
+						onChangeText={setUsername}
+					/>
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"First Name"}
+						value={firstName}
+						textContentType={"givenName"}
+						onChangeText={setFirstName}
+					/>
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"Last Name"}
+						value={lastName}
+						textContentType={"lastName"}
+						onChangeText={setLastName}
+					/>
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"Email"}
+						value={email}
+						textContentType={"emailAddress"}
+						onChangeText={setEmail}
+					/>
+					<TextInputDoB
+						style={styles.textInputStyle}
+						placeholder={"Date of Birth"}
+						value={date.toLocaleDateString(undefined, options)}
+						disabled={true}
+					/>
 
-				<InsertDate show={show} setShow={setShow} date={date} setDate={setDate} />
-				{/* <WheelPickerExpo
+					<InsertDate show={show} setShow={setShow} date={date} setDate={setDate} />
+					{/* <WheelPickerExpo
 					height={300}
 					width={150}
 					initialSelectedIndex={3}
 					items={CITIES.map((name) => ({label: name, value: ""}))}
 					onChange={() => {}}
 				/> */}
-				<TextInput
-					style={styles.bioInputStyle}
-					placeholder={"Bio"}
-					value={bio}
-					multiline={true}
-					onChangeText={setBio}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					secureTextEntry={true}
-					placeholder={"Password"}
-					value={password}
-					textContentType={"emailAddress"}
-					onChangeText={setPassword}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					secureTextEntry={true}
-					placeholder={"Re-input Password"}
-					value={password}
-					textContentType={"emailAddress"}
-					onChangeText={setPassword}
-				/>
-				<Button
-					style={styles.buttonSave}
-					icon="content-save"
-					mode="contained"
-					buttonColor="#ff0000"
-					onPress={saveProfile}
-					//todo::determine if signing up or looking at own profile
-				/>
-			</ScrollView>
+					<TextInput
+						style={styles.bioInputStyle}
+						placeholder={"Bio"}
+						value={bio}
+						multiline={true}
+						onChangeText={setBio}
+					/>
+					<TextInput
+						style={styles.textInputStyle}
+						secureTextEntry={true}
+						placeholder={"Password"}
+						value={password}
+						textContentType={"emailAddress"}
+						onChangeText={setPassword}
+					/>
+					<TextInput
+						style={styles.textInputStyle}
+						secureTextEntry={true}
+						placeholder={"Re-input Password"}
+						value={password}
+						textContentType={"emailAddress"}
+						onChangeText={setPassword}
+					/>
+					<Button
+						style={styles.buttonSave}
+						icon="content-save"
+						mode="contained"
+						buttonColor="#ff0000"
+						onPress={saveProfile}
+						//todo::determine if signing up or looking at own profile
+					/>
+				</ScrollView>
+			</ImageBackground>
 		</SafeAreaView>
 	);
 };

@@ -8,6 +8,7 @@ import {
 	TextInput,
 	Pressable,
 	SafeAreaView,
+	ImageBackground,
 } from "react-native";
 import {DataTable, Avatar, Surface} from "react-native-paper";
 
@@ -15,15 +16,17 @@ import SwipingRow from "../SwipingRow";
 import GmailStyleSwipeableRow from "../AndroidSwipe";
 
 const styles = StyleSheet.create({
+	backgroundImage: {
+		flex: 1,
+		backgroundColor: "#000000",
+	},
 	surfaceStyle: {
 		height: 80,
-		width: 350,
 		flex: 1,
 		flexDirection: "row",
-		alignSelf: "center",
 	},
 	flatListContainer: {
-		alignSelf: "center",
+		flex: 1,
 	},
 	addButton: {
 		width: 90,
@@ -89,23 +92,25 @@ const renderSchedules = ({item}) => {
 const SchedulesList = () => {
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<FlatList
-				style={styles.flatListContainer}
-				numColumns={1}
-				showsVerticalScrollIndicator={false}
-				alwaysBounceVertical={true}
-				data={mySchedules}
-				renderItem={renderSchedules}
-				keyExtractor={(item) => item.scheduleID}
-			/>
-			<Surface style={styles.addButton} elevation={1}>
-				<Avatar.Image
-					style={styles.avatarStyle}
-					size={50}
-					source={require("../../../assets/add.png")}
+			<ImageBackground style={styles.backgroundImage}>
+				<FlatList
+					style={styles.flatListContainer}
+					numColumns={1}
+					showsVerticalScrollIndicator={false}
+					alwaysBounceVertical={true}
+					data={mySchedules}
+					renderItem={renderSchedules}
+					keyExtractor={(item) => item.scheduleID}
 				/>
-				<Text style={styles.addTextStyle}>Post</Text>
-			</Surface>
+				<Surface style={styles.addButton} elevation={1}>
+					<Avatar.Image
+						style={styles.avatarStyle}
+						size={50}
+						source={require("../../../assets/add.png")}
+					/>
+					<Text style={styles.addTextStyle}>Post</Text>
+				</Surface>
+			</ImageBackground>
 		</SafeAreaView>
 	);
 };
