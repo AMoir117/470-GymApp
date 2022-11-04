@@ -6,27 +6,22 @@ import FriendsList from "./front-page/FriendsList";
 import Lobby from "./front-page/Lobby";
 import SchedulesList from "./front-page/SchedulesList";
 
-const FriendsRoute = ({navigation}) => {
-	console.log("Friends clicked");
-	return <FriendsList navigation={navigation} />;
+const FriendsRoute = () => {
+	return <FriendsList />;
 };
 
 const LobbyRoute = () => {
-	console.log("Lobby clicked");
 	return <Lobby />;
 };
 
 const MainRoute = () => {
-	console.log("Main clicked");
 	return <MainSchedule />;
 };
 
 const MyProfileRoute = () => {
-	console.log("MyProfile clicked");
 	return <Profile />;
 };
 const SchedulesRoute = () => {
-	console.log("Schedules clicked");
 	return <SchedulesList />;
 };
 
@@ -46,6 +41,7 @@ const FrontPage = ({navigation}) => {
 	]);
 
 	useEffect(() => {
+		console.log(routes[index].title);
 		navigation.setOptions({title: routes[index].title});
 	}, [index, navigation]);
 
