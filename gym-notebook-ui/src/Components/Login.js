@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import {Divider} from "react-native-paper";
 import axios from "axios";
+import SvgImage from "./SvgImage";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -80,10 +81,16 @@ const Login = ({navigation}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1}}>
-			<ImageBackground
-				source={require("../../assets/background-test.png")}
-				style={styles.backgroundImage}
-			>
+			<ImageBackground style={styles.backgroundImage}>
+				<SvgImage
+					style={{
+						position: "absolute",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+					}}
+				/>
 				<Text style={styles.textTitle}>GYM NOTEBOOK</Text>
 				<Divider
 					style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
