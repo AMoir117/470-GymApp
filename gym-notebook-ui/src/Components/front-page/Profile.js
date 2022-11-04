@@ -12,11 +12,12 @@ import {
 } from "react-native";
 import {Divider, Appbar, Button, Avatar} from "react-native-paper";
 import axios from "axios";
+import GlobalStyles from "../GlobalStyles";
 
 const styles = StyleSheet.create({
-	backgroundImage: {
+	backgroundColor: {
 		flex: 1,
-		backgroundColor: "#000000",
+		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	areaView: {
 		height: 1200,
@@ -100,7 +101,7 @@ const Profile = ({navigation, back}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ImageBackground style={styles.backgroundImage}>
+			<ImageBackground style={styles.backgroundColor}>
 				<ScrollView
 					style={{flex: 1, maxHeight: "100%"}}
 					//stickyHeaderIndices={[0]}

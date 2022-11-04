@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useState, useEffect} from "react";
 import {BottomNavigation, Text} from "react-native-paper";
 import Profile from "./front-page/Profile";
 import MainSchedule from "./front-page/MainSchedule";
@@ -6,7 +6,7 @@ import FriendsList from "./front-page/FriendsList";
 import Lobby from "./front-page/Lobby";
 import SchedulesList from "./front-page/SchedulesList";
 
-const FriendsRoute = () => {
+const FriendsRoute = ({navigation}) => {
 	console.log("Friends clicked");
 	return <FriendsList />;
 };
@@ -30,13 +30,13 @@ const SchedulesRoute = () => {
 	return <SchedulesList />;
 };
 
-const FrontPage = () => {
-	const [index, setIndex] = React.useState(2);
-	const [routes] = React.useState([
+const FrontPage = ({navigation}) => {
+	const [index, setIndex] = useState(2);
+	const [routes] = useState([
 		{key: "friends", title: "Friends", focusedIcon: "heart", unfocusedIcon: "heart-outline"},
 		{key: "lobby", title: "Lobby", focusedIcon: "forum", unfocusedIcon: "forum-outline"},
 		{key: "main", title: "Main", focusedIcon: "star", unfocusedIcon: "star-outline"},
-		{key: "myProfile", title: "MyProfile", focusedIcon: "face-man-profile"},
+		{key: "myProfile", title: "Profile", focusedIcon: "face-man-profile"},
 		{
 			key: "schedules",
 			title: "Schedules",
@@ -44,6 +44,10 @@ const FrontPage = () => {
 			unfocusedIcon: "notebook-edit-outline",
 		},
 	]);
+
+	useEffect(() => {
+		navigation.setOptions({title: routes[index].title});
+	}, [index, navigation]);
 
 	const renderScene = BottomNavigation.SceneMap({
 		main: MainRoute,
