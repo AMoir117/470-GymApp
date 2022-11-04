@@ -11,18 +11,13 @@ import {
 	Platform,
 	ImageBackground,
 } from "react-native";
-import {
-	Divider,
-	TextInput as TextInputDoB,
-	Appbar,
-	Button,
-	Avatar,
-	Dialog,
-} from "react-native-paper";
+import {Divider, Appbar, Button, Avatar, Dialog} from "react-native-paper";
 import WheelPickerExpo from "react-native-wheel-picker-expo";
 import InsertDate from "./InsertDate";
 import ImagePick from "./ImagePicker";
 import axios from "axios";
+
+import SvgImage from "./SvgImage";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -38,20 +33,16 @@ const styles = StyleSheet.create({
 	},
 	textInputStyle: {
 		height: 40,
-		width: 250,
-		borderWidth: 1,
+		width: 300,
 		paddingLeft: 10,
-		marginTop: 30,
 		alignSelf: "center",
 		borderColor: "#000000",
-		backgroundColor: "#FFFFFF",
+		backgroundColor: "#ffffff",
 	},
 	bioInputStyle: {
 		height: 100,
-		width: 250,
-		borderWidth: 1,
+		width: 300,
 		paddingLeft: 10,
-		marginTop: 30,
 		alignSelf: "center",
 		borderColor: "#000000",
 		backgroundColor: "#FFFFFF",
@@ -121,6 +112,15 @@ const Signup = ({navigation, back}) => {
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<ImageBackground style={styles.backgroundImage}>
+				<SvgImage
+					style={{
+						position: "absolute",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+					}}
+				/>
 				<ScrollView
 					style={{flex: 1, maxHeight: "100%"}}
 					//stickyHeaderIndices={[0]}
@@ -185,11 +185,11 @@ const Signup = ({navigation, back}) => {
 						textContentType={"emailAddress"}
 						onChangeText={setEmail}
 					/>
-					<TextInputDoB
+					<TextInput
 						style={styles.textInputStyle}
 						placeholder={"Date of Birth"}
 						value={date.toLocaleDateString(undefined, options)}
-						disabled={true}
+						editable={false}
 					/>
 
 					<InsertDate show={show} setShow={setShow} date={date} setDate={setDate} />

@@ -11,10 +11,11 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		color: "#0073ff",
 		alignSelf: "center",
+		marginBottom: 15,
 	},
 	avatarStyle: {
 		alignSelf: "center",
-		margin: 15,
+		marginTop: 15,
 	},
 });
 
