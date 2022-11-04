@@ -50,8 +50,7 @@ const styles = StyleSheet.create({
 		width: 70,
 		margin: 2,
 		marginTop: 10,
-		borderColor: "#949494",
-		backgroundColor: "#949494",
+		backgroundColor: GlobalStyles.hexColor.brown,
 	},
 	buttonText: {
 		fontSize: 20,

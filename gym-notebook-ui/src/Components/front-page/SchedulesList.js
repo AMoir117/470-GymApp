@@ -30,10 +30,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	addButton: {
-		width: 90,
-		height: 90,
+		width: 40,
+		height: 40,
 		borderRadius: 20,
-		backgroundColor: "#ff0000",
+		margin: 5,
+		backgroundColor: GlobalStyles.hexColor.red,
 		alignSelf: "center",
 	},
 	addTextStyle: {
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
 	avatarStyle: {
 		alignSelf: "center",
 		margin: 5,
-		backgroundColor: "#ffffff",
+		backgroundColor: GlobalStyles.hexColor.white,
 	},
 });
 
@@ -106,7 +107,7 @@ const SchedulesList = () => {
 				<Surface style={styles.addButton} elevation={1}>
 					<Avatar.Image
 						style={styles.avatarStyle}
-						size={50}
+						size={30}
 						source={require("../../../assets/add.png")}
 					/>
 					<Text style={styles.addTextStyle}>Post</Text>
