@@ -1,5 +1,6 @@
 import {React, useEffect, useState} from "react";
 import {SectionList, StyleSheet, Text, View} from "react-native";
+import {Drawer} from "react-native-paper";
 import SectionListBasics from "./src/Components/SectionListBasics";
 import {NavigationContainer, StackActions} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
@@ -12,6 +13,7 @@ import FrontPage from "./src/Components/FrontPage";
 
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import GlobalStyles from "./src/Components/GlobalStyles";
+import {ScreenStackHeaderBackButtonImage} from "react-native-screens";
 
 const App = () => {
 	const Stack = createNativeStackNavigator();
@@ -30,7 +32,21 @@ const App = () => {
 				>
 					<Stack.Screen name="Login" component={Login} options={{title: ""}} />
 					<Stack.Screen name="Signup" component={Signup} options={{title: ""}} />
-					<Stack.Screen name="Front Page" component={FrontPage} options={{title: ""}} />
+					<Stack.Screen
+						name="Front Page"
+						component={FrontPage}
+						options={{
+							title: "",
+							headerLeft: () => {
+								return (
+									<Drawer.CollapsedItem
+										icon="menu"
+										onPress={() => console.log("Menu button clicked")}
+									/>
+								);
+							},
+						}}
+					/>
 				</Stack.Navigator>
 			</NavigationContainer>
 		</GestureHandlerRootView>
