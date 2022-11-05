@@ -1,6 +1,7 @@
 import {useState, useEffect} from "react";
-import {StyleSheet} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {Avatar, Button, Card, Title, Paragraph, SegmentedButtons} from "react-native-paper";
+import GlobalStyles from "./GlobalStyles";
 
 const data = [
 	{
@@ -54,6 +55,7 @@ const data = [
 ];
 
 const styles = StyleSheet.create({
+	cardContainer: {backgroundColor: GlobalStyles.hexColor.brown, flex: 1},
 	cardContent: {alignSelf: "center"},
 	cardButton: {justifyContent: "center", alignSelf: "center"},
 });
@@ -62,7 +64,7 @@ const MyComponent = (props) => {
 	const {workout} = props;
 	const [value, setValue] = useState("");
 	return (
-		<Card>
+		<Card style={styles.cardContainer}>
 			<Card.Content>
 				<Paragraph style={styles.cardContent}>{workout.name}</Paragraph>
 			</Card.Content>

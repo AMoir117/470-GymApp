@@ -101,6 +101,54 @@ const data = [
 		reps: 8,
 		weight: 225,
 	},
+	{
+		id: "4567",
+		name: "frankenstein squat",
+		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3194.gif",
+		sets: 4,
+		reps: 12,
+		weight: 50,
+	},
+	{
+		id: "6666",
+		name: "glute bridge march",
+		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3561.gif",
+		sets: 3,
+		reps: 8,
+		weight: 225,
+	},
+	{
+		id: "6654",
+		name: "hanging oblique knee raise",
+		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/1761.gif",
+		sets: 4,
+		reps: 10,
+		weight: 75,
+	},
+	{
+		id: "7986",
+		name: "incline close-grip push-up",
+		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0490.gif",
+		sets: 3,
+		reps: 10,
+		weight: 55,
+	},
+	{
+		id: "3223",
+		name: "inverse leg curl (on pull-up cable machine)",
+		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/2400.gif",
+		sets: 4,
+		reps: 8,
+		weight: 315,
+	},
+	{
+		id: "1348",
+		name: "kettlebell alternating press",
+		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0520.gif",
+		sets: 3,
+		reps: 8,
+		weight: 225,
+	},
 ];
 
 const MainSchedule = ({navigation, back}) => {
@@ -135,68 +183,31 @@ const MainSchedule = ({navigation, back}) => {
 		);
 	};
 
-	const renderItem = ({item}) => (
-		//fixme::create new design to show each workout to make room for long workout names
-		<DataTable.Row>
-			<DataTable.Cell style={{flex: 5}}>
-				<TouchableOpacity onPress={() => showModal(item)}>
-					<Text style={styles.workoutCellStyles} variant="bodySmall">
-						{item.name}
-					</Text>
-				</TouchableOpacity>
-			</DataTable.Cell>
-			<DataTable.Cell numeric>
-				<Text style={styles.workoutCellStyles}>{item.sets}</Text>
-			</DataTable.Cell>
-			<DataTable.Cell numeric>
-				<Text style={styles.workoutCellStyles}>{item.reps}</Text>
-			</DataTable.Cell>
-			<DataTable.Cell numeric>
-				<Text style={styles.workoutCellStyles}>{item.weight}</Text>
-			</DataTable.Cell>
-		</DataTable.Row>
-	);
+	const renderItem = ({item}) => <WorkoutCard workout={item} />;
 
 	return (
-		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
+		<SafeAreaView style={{flex: 1, maxHeight: "200%"}}>
 			<ImageBackground style={styles.backgroundColor}>
 				<Text style={styles.dayText}>{currentDay}</Text>
 				<Text style={styles.scheduleNameText}>{scheduleName}</Text>
-
 				<Divider
 					style={{
 						borderColor: GlobalStyles.hexColor.red,
 						borderWidth: 1,
 						borderRadius: 5,
+						margin: 10,
 					}}
 					horizontalInset="3"
 				/>
-				<DataTable>
-					<DataTable.Header>
-						<DataTable.Title style={{flex: 5}}>
-							<Text style={styles.workoutCellStyles}>Exercise</Text>
-						</DataTable.Title>
-						<DataTable.Title numeric>
-							<Text style={styles.workoutCellStyles}>Sets</Text>
-						</DataTable.Title>
-						<DataTable.Title numeric>
-							<Text style={styles.workoutCellStyles}>Reps</Text>
-						</DataTable.Title>
-						<DataTable.Title numeric>
-							<Text style={styles.workoutCellStyles}>Weight</Text>
-						</DataTable.Title>
-					</DataTable.Header>
 
-					<FlatList
-						showsVerticalScrollIndicator={false}
-						alwaysBounceVertical={true}
-						data={workouts}
-						renderItem={renderItem}
-						keyExtractor={(item) => item.id}
-					/>
-				</DataTable>
+				<FlatList
+					showsVerticalScrollIndicator={false}
+					alwaysBounceVertical={true}
+					data={workouts}
+					renderItem={renderItem}
+					keyExtractor={(item) => item.id}
+				/>
 				<ShowGif />
-				<WorkoutCard />
 			</ImageBackground>
 		</SafeAreaView>
 	);
