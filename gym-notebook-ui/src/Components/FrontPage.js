@@ -18,20 +18,16 @@ const MainRoute = () => {
 	return <MainSchedule />;
 };
 
-const MyProfileRoute = () => {
-	return <Profile />;
-};
 const SchedulesRoute = () => {
 	return <SchedulesList />;
 };
 
 const FrontPage = ({navigation}) => {
-	const [index, setIndex] = useState(2);
+	const [index, setIndex] = useState(0);
 	const [routes] = useState([
+		{key: "main", title: "Main", focusedIcon: "star", unfocusedIcon: "star-outline"},
 		{key: "friends", title: "Friends", focusedIcon: "heart", unfocusedIcon: "heart-outline"},
 		{key: "lobby", title: "Lobby", focusedIcon: "forum", unfocusedIcon: "forum-outline"},
-		{key: "main", title: "Main", focusedIcon: "star", unfocusedIcon: "star-outline"},
-		{key: "myProfile", title: "Profile", focusedIcon: "face-man-profile"},
 		{
 			key: "schedules",
 			title: "Schedules",
@@ -41,7 +37,6 @@ const FrontPage = ({navigation}) => {
 	]);
 
 	useEffect(() => {
-		console.log(routes[index].title);
 		navigation.setOptions({title: routes[index].title});
 	}, [index, navigation]);
 
@@ -49,7 +44,6 @@ const FrontPage = ({navigation}) => {
 		main: MainRoute,
 		friends: FriendsRoute,
 		lobby: LobbyRoute,
-		myProfile: MyProfileRoute,
 		schedules: SchedulesRoute,
 	});
 
