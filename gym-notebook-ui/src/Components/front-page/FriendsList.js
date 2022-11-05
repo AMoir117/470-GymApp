@@ -15,6 +15,7 @@ import {DataTable, Avatar, Surface, Portal} from "react-native-paper";
 import GlobalStyles from "../GlobalStyles";
 import ProfileViewer from "./ProfileViewer";
 import {useNavigation} from "@react-navigation/native";
+import SvgImage2 from "../SvgImage2";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -87,7 +88,18 @@ const clickUserProfile = (item) => {
 };
 
 const FriendsList = () => {
+	//brings navigation from parents
 	const navigation = useNavigation();
+
+	const clickUserProfile = (item) => {
+		console.log(item);
+		return (
+			<Portal>
+				<ProfileViewer userName={item.userName} userID={item.userID} imgUrl={item.imgUrl} />
+			</Portal>
+		);
+		//todo:: make it so when clicked routes to a view of friends profile
+	};
 
 	const RenderProfile = ({item}) => {
 		//fixme::how to require image dynamically
@@ -106,24 +118,31 @@ const FriendsList = () => {
 	};
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ImageBackground style={styles.backgroundImage}>
-				<FlatList
-					style={styles.flatListContainer}
-					numColumns={2}
-					showsVerticalScrollIndicator={false}
-					alwaysBounceVertical={true}
-					data={friends}
-					renderItem={RenderProfile}
-					keyExtractor={(item) => item.userID}
+			<SvgImage2
+				style={{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
+				}}
+			/>
+			<FlatList
+				style={styles.flatListContainer}
+				numColumns={2}
+				showsVerticalScrollIndicator={false}
+				alwaysBounceVertical={true}
+				data={friends}
+				renderItem={RenderProfile}
+				keyExtractor={(item) => item.userID}
+			/>
+			<Surface style={styles.addButton} elevation={1}>
+				<Avatar.Image
+					style={styles.avatarStyle}
+					size={30}
+					source={require("../../../assets/add.png")}
 				/>
-				<Surface style={styles.addButton} elevation={1}>
-					<Avatar.Image
-						style={styles.avatarStyle}
-						size={30}
-						source={require("../../../assets/add.png")}
-					/>
-				</Surface>
-			</ImageBackground>
+			</Surface>
 		</SafeAreaView>
 	);
 };
