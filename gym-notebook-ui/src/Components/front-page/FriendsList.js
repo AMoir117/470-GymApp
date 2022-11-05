@@ -11,7 +11,7 @@ import {
 	TouchableOpacity,
 	ImageBackground,
 } from "react-native";
-import {DataTable, Avatar, Surface, Portal} from "react-native-paper";
+import {DataTable, Avatar, Surface, Portal, IconButton} from "react-native-paper";
 import GlobalStyles from "../GlobalStyles";
 import ProfileViewer from "./ProfileViewer";
 import {useNavigation} from "@react-navigation/native";
@@ -57,6 +57,11 @@ const styles = StyleSheet.create({
 		margin: 5,
 		backgroundColor: GlobalStyles.hexColor.white,
 	},
+	addUserButton: {
+		alignSelf: "center",
+		margin: 0,
+		padding: 0,
+	},
 });
 
 const friends = [
@@ -77,16 +82,6 @@ const friends = [
 	},
 ];
 
-const clickUserProfile = (item) => {
-	console.log(item);
-	return (
-		<Portal>
-			<ProfileViewer userName={item.userName} userID={item.userID} imgUrl={item.imgUrl} />
-		</Portal>
-	);
-	//fixme:: make it so when clicked routes to a view of friends profile
-};
-
 const FriendsList = () => {
 	//brings navigation from parents
 	const navigation = useNavigation();
@@ -97,6 +92,7 @@ const FriendsList = () => {
 			<Portal>
 				<ProfileViewer userName={item.userName} userID={item.userID} imgUrl={item.imgUrl} />
 			</Portal>
+			//fixme:: make it so when clicked routes to a view of friends profile
 		);
 		//todo:: make it so when clicked routes to a view of friends profile
 	};
@@ -107,7 +103,7 @@ const FriendsList = () => {
 			<Surface style={styles.surfaceStyle} elevation={1}>
 				<TouchableOpacity
 					onPress={() => {
-						navigation.navigate("Signup");
+						//todo::navigate to friends profile
 					}}
 				>
 					<Avatar.Image style={styles.avatarStyle} size={100} source={item.imgUrl} />
@@ -136,13 +132,14 @@ const FriendsList = () => {
 				renderItem={RenderProfile}
 				keyExtractor={(item) => item.userID}
 			/>
-			<Surface style={styles.addButton} elevation={1}>
-				<Avatar.Image
-					style={styles.avatarStyle}
-					size={30}
-					source={require("../../../assets/add.png")}
-				/>
-			</Surface>
+			<IconButton
+				icon="plus-circle"
+				iconColor={GlobalStyles.hexColor.red}
+				size={50}
+				compact={true}
+				style={styles.addUserButton}
+				onPress={() => navigation.navigate("Front Page")}
+			/>
 		</SafeAreaView>
 	);
 };

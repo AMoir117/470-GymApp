@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 		height: 80,
 		width: 350,
 		borderRadius: 20,
+		backgroundColor: GlobalStyles.hexColor.brown,
 		flex: 1,
 		marginTop: 20,
 		flexDirection: "row",
@@ -119,14 +120,6 @@ const FriendsList = () => {
 				renderItem={renderPosts}
 				keyExtractor={(item) => item.postID}
 			/>
-			<Surface style={styles.addButton} elevation={1}>
-				<Avatar.Image
-					style={styles.avatarStyle}
-					size={30}
-					source={require("../../../assets/add.png")}
-				/>
-				<Text style={styles.addTextStyle}>Post</Text>
-			</Surface>
 		</SafeAreaView>
 	);
 };

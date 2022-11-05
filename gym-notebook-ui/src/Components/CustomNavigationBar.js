@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
-import {StyleSheet} from "react-native";
-import {Appbar, Divider, Menu} from "react-native-paper";
+import {StyleSheet, View} from "react-native";
+import {Appbar, Button, Divider, Menu, IconButton} from "react-native-paper";
 import GlobalStyles from "./GlobalStyles";
 import {useNavigation} from "@react-navigation/native";
 
@@ -14,6 +14,10 @@ const styles = StyleSheet.create({
 	dividerMenu: {
 		borderWidth: 0.5,
 	},
+	menuDialog: {
+		backgroundColor: "#00000000",
+		borderRadius: 5,
+	},
 	menuItemTop: {
 		color: GlobalStyles.hexColor.brown,
 		backgroundColor: GlobalStyles.hexColor.black,
@@ -21,6 +25,9 @@ const styles = StyleSheet.create({
 	menuItemBot: {
 		color: GlobalStyles.hexColor.black,
 		backgroundColor: GlobalStyles.hexColor.brown,
+	},
+	homeButton: {
+		fontSize: 30,
 	},
 });
 
@@ -34,7 +41,9 @@ const CustomNavigationBar = ({navigation, back}) => {
 			<Menu
 				visible={visible}
 				onDismiss={closeMenu}
-				//statusBarHeight={}
+				style={styles.menuDialog}
+				contentStyle={styles.menuDialog}
+				//statusBarHeight={0}
 				anchor={
 					<Appbar.Action
 						icon="menu"
@@ -54,13 +63,6 @@ const CustomNavigationBar = ({navigation, back}) => {
 				/>
 				<Divider style={styles.dividerMenu} />
 				<Menu.Item
-					title="Option 2"
-					style={styles.menuItemBot}
-					titleStyle={styles.menuItemBot}
-					onPress={() => {}}
-				/>
-				<Divider style={styles.dividerMenu} />
-				<Menu.Item
 					title="Sign out"
 					style={styles.menuItemBot}
 					titleStyle={styles.menuItemBot}
@@ -74,6 +76,13 @@ const CustomNavigationBar = ({navigation, back}) => {
 				titleStyle={styles.appBarTitle}
 				color={GlobalStyles.hexColor.black}
 				title="Gym Notebook"
+			/>
+			<IconButton
+				icon="home"
+				iconColor={GlobalStyles.hexColor.black}
+				labelStyle={styles.homeButton}
+				compact={true}
+				onPress={() => navigation.navigate("Front Page")}
 			/>
 		</Appbar.Header>
 	);

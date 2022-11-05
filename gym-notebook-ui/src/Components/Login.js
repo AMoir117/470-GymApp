@@ -65,17 +65,14 @@ const Login = ({navigation}) => {
 	useEffect(() => {}, []);
 
 	const forgetPassword = () => {
-		console.log("forget password clicked");
 		//todo::send email to user to reset password
 	};
 	const login = () => {
 		navigation.navigate("Front Page");
-		console.log("login clicked");
 		//todo::check if user input is in our database
 	};
 	const signup = () => {
 		navigation.navigate("Signup");
-		console.log("signup clicked");
 		//todo::send user to signup page
 	};
 

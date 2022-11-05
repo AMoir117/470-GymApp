@@ -192,7 +192,6 @@ const Signup = ({navigation, back}) => {
 						value={date.toLocaleDateString(undefined, options)}
 						editable={false}
 					/>
-
 					<InsertDate show={show} setShow={setShow} date={date} setDate={setDate} />
 					{/* <WheelPickerExpo
 					height={300}
@@ -213,15 +212,16 @@ const Signup = ({navigation, back}) => {
 						secureTextEntry={true}
 						placeholder={"Password"}
 						value={password}
-						textContentType={"emailAddress"}
+						textContentType={"password"}
 						onChangeText={setPassword}
 					/>
+					{/*fixme::check if second password is the same as first password*/}
 					<TextInput
 						style={styles.textInputStyle}
 						secureTextEntry={true}
 						placeholder={"Re-input Password"}
 						value={password}
-						textContentType={"emailAddress"}
+						textContentType={"password"}
 						onChangeText={setPassword}
 					/>
 					<Button

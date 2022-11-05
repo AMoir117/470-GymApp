@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
 		height: 80,
 		flex: 1,
 		flexDirection: "row",
+		backgroundColor: GlobalStyles.hexColor.brown,
 	},
 	flatListContainer: {
 		flex: 1,
@@ -113,14 +114,6 @@ const SchedulesList = () => {
 				renderItem={renderSchedules}
 				keyExtractor={(item) => item.scheduleID}
 			/>
-			<Surface style={styles.addButton} elevation={1}>
-				<Avatar.Image
-					style={styles.avatarStyle}
-					size={30}
-					source={require("../../../assets/add.png")}
-				/>
-				<Text style={styles.addTextStyle}>Post</Text>
-			</Surface>
 		</SafeAreaView>
 	);
 };
