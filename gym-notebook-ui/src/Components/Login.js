@@ -81,48 +81,46 @@ const Login = ({navigation}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1}}>
-			<ImageBackground style={styles.backgroundColor}>
-				<SvgImage
-					style={{
-						position: "absolute",
-						top: 0,
-						left: 0,
-						right: 0,
-						bottom: 0,
-					}}
-				/>
-				<Text style={styles.textTitle}>GYM NOTEBOOK</Text>
-				<Divider
-					style={{borderColor: "#ff6666", borderWidth: 3, borderRadius: 5}}
-					horizontalInset="3"
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Username"}
-					value={username}
-					onChangeText={setUsername}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					secureTextEntry={true}
-					placeholder={"Password"}
-					value={password}
-					onChangeText={setPassword}
-				/>
-				<View style={styles.textForgetPassword}>
-					<TouchableOpacity color={"#026df7"} onPress={forgetPassword}>
-						<Text style={styles.textForgetPassword}>FORGOT PASSWORD?</Text>
-					</TouchableOpacity>
-				</View>
-				<View style={styles.buttonContainer}>
-					<TouchableOpacity style={styles.buttonStyle} onPress={login}>
-						<Text style={styles.buttonText}>Login</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.buttonStyle} onPress={signup}>
-						<Text style={styles.buttonText}>Signup</Text>
-					</TouchableOpacity>
-				</View>
-			</ImageBackground>
+			<SvgImage
+				style={{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
+				}}
+			/>
+			<Text style={styles.textTitle}>GYM NOTEBOOK</Text>
+			<Divider
+				style={{borderColor: "#ff6666", borderWidth: 3, borderRadius: 5}}
+				horizontalInset="3"
+			/>
+			<TextInput
+				style={styles.textInputStyle}
+				placeholder={"Username"}
+				value={username}
+				onChangeText={setUsername}
+			/>
+			<TextInput
+				style={styles.textInputStyle}
+				secureTextEntry={true}
+				placeholder={"Password"}
+				value={password}
+				onChangeText={setPassword}
+			/>
+			<View style={styles.textForgetPassword}>
+				<TouchableOpacity color={"#026df7"} onPress={forgetPassword}>
+					<Text style={styles.textForgetPassword}>FORGOT PASSWORD?</Text>
+				</TouchableOpacity>
+			</View>
+			<View style={styles.buttonContainer}>
+				<TouchableOpacity style={styles.buttonStyle} onPress={login}>
+					<Text style={styles.buttonText}>Login</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.buttonStyle} onPress={signup}>
+					<Text style={styles.buttonText}>Signup</Text>
+				</TouchableOpacity>
+			</View>
 		</SafeAreaView>
 	);
 };

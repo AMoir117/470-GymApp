@@ -15,6 +15,7 @@ import {DataTable, Avatar, Surface} from "react-native-paper";
 import SwipingRow from "../SwipingRow";
 import GmailStyleSwipeableRow from "../AndroidSwipe";
 import GlobalStyles from "../GlobalStyles";
+import SvgImage2 from "../SvgImage2";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -94,25 +95,32 @@ const renderSchedules = ({item}) => {
 const SchedulesList = () => {
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ImageBackground style={styles.backgroundColor}>
-				<FlatList
-					style={styles.flatListContainer}
-					numColumns={1}
-					showsVerticalScrollIndicator={false}
-					alwaysBounceVertical={true}
-					data={mySchedules}
-					renderItem={renderSchedules}
-					keyExtractor={(item) => item.scheduleID}
+			<SvgImage2
+				style={{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
+				}}
+			/>
+			<FlatList
+				style={styles.flatListContainer}
+				numColumns={1}
+				showsVerticalScrollIndicator={false}
+				alwaysBounceVertical={true}
+				data={mySchedules}
+				renderItem={renderSchedules}
+				keyExtractor={(item) => item.scheduleID}
+			/>
+			<Surface style={styles.addButton} elevation={1}>
+				<Avatar.Image
+					style={styles.avatarStyle}
+					size={30}
+					source={require("../../../assets/add.png")}
 				/>
-				<Surface style={styles.addButton} elevation={1}>
-					<Avatar.Image
-						style={styles.avatarStyle}
-						size={30}
-						source={require("../../../assets/add.png")}
-					/>
-					<Text style={styles.addTextStyle}>Post</Text>
-				</Surface>
-			</ImageBackground>
+				<Text style={styles.addTextStyle}>Post</Text>
+			</Surface>
 		</SafeAreaView>
 	);
 };
