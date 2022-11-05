@@ -8,11 +8,17 @@ import {
 	TextInput,
 	Pressable,
 	SafeAreaView,
+	ImageBackground,
 } from "react-native";
 import {Divider, Appbar, Button, Avatar} from "react-native-paper";
 import axios from "axios";
+import GlobalStyles from "../GlobalStyles";
 
 const styles = StyleSheet.create({
+	backgroundColor: {
+		flex: 1,
+		backgroundColor: GlobalStyles.hexColor.black,
+	},
 	areaView: {
 		height: 1200,
 	},
@@ -95,67 +101,69 @@ const Profile = ({navigation, back}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ScrollView
-				style={{flex: 1, maxHeight: "100%"}}
-				//stickyHeaderIndices={[0]}
-				showsVerticalScrollIndicator={false}
-				alwaysBounceVertical={false}
-			>
-				<View>
-					<Avatar.Image
-						style={styles.avatarStyle}
-						size={150}
-						source={require("../../../assets/arnold.jpg")}
+			<ImageBackground style={styles.backgroundColor}>
+				<ScrollView
+					style={{flex: 1, maxHeight: "100%"}}
+					//stickyHeaderIndices={[0]}
+					showsVerticalScrollIndicator={false}
+					alwaysBounceVertical={false}
+				>
+					<View>
+						<Avatar.Image
+							style={styles.avatarStyle}
+							size={150}
+							source={require("../../../assets/arnold.jpg")}
+						/>
+					</View>
+					<View>
+						<Pressable color={"#026df7"} onPress={() => {}}>
+							<Text style={styles.textUploadImage}>Upload Image</Text>
+						</Pressable>
+					</View>
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"Username"}
+						value={username}
+						textContentType={"username"}
+						onChangeText={setUsername}
 					/>
-				</View>
-				<View>
-					<Pressable color={"#026df7"} onPress={() => {}}>
-						<Text style={styles.textUploadImage}>Upload Image</Text>
-					</Pressable>
-				</View>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Username"}
-					value={username}
-					textContentType={"username"}
-					onChangeText={setUsername}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"First Name"}
-					value={firstName}
-					textContentType={"givenName"}
-					onChangeText={setFirstName}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Last Name"}
-					value={lastName}
-					textContentType={"lastName"}
-					onChangeText={setLastName}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Email"}
-					value={email}
-					textContentType={"emailAddress"}
-					onChangeText={setEmail}
-				/>
-				<TextInput
-					style={styles.bioInputStyle}
-					placeholder={"Bio"}
-					value={bio}
-					multiline={true}
-					onChangeText={setBio}
-				/>
-				<Button
-					style={styles.buttonSave}
-					icon="pencil"
-					mode="contained"
-					buttonColor="red"
-					onPress={editProfile}
-				/>
-			</ScrollView>
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"First Name"}
+						value={firstName}
+						textContentType={"givenName"}
+						onChangeText={setFirstName}
+					/>
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"Last Name"}
+						value={lastName}
+						textContentType={"lastName"}
+						onChangeText={setLastName}
+					/>
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"Email"}
+						value={email}
+						textContentType={"emailAddress"}
+						onChangeText={setEmail}
+					/>
+					<TextInput
+						style={styles.bioInputStyle}
+						placeholder={"Bio"}
+						value={bio}
+						multiline={true}
+						onChangeText={setBio}
+					/>
+					<Button
+						style={styles.buttonSave}
+						icon="pencil"
+						mode="contained"
+						buttonColor="red"
+						onPress={editProfile}
+					/>
+				</ScrollView>
+			</ImageBackground>
 		</SafeAreaView>
 	);
 };

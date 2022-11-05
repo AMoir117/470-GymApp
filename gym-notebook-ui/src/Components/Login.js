@@ -7,14 +7,22 @@ import {
 	FlatList,
 	TextInput,
 	TouchableOpacity,
+	ImageBackground,
 } from "react-native";
 import {Divider} from "react-native-paper";
 import axios from "axios";
+import SvgImage from "./SvgImage";
+import GlobalStyles from "./GlobalStyles";
 
 const styles = StyleSheet.create({
+	backgroundColor: {
+		flex: 1,
+		backgroundColor: GlobalStyles.hexColor.black,
+	},
 	textTitle: {
 		fontSize: 30,
 		alignSelf: "center",
+		color: "#ffffff",
 	},
 	textInputStyle: {
 		height: 40,
@@ -42,8 +50,7 @@ const styles = StyleSheet.create({
 		width: 70,
 		margin: 2,
 		marginTop: 10,
-		borderColor: "#949494",
-		backgroundColor: "#949494",
+		backgroundColor: GlobalStyles.hexColor.brown,
 	},
 	buttonText: {
 		fontSize: 20,
@@ -58,25 +65,31 @@ const Login = ({navigation}) => {
 	useEffect(() => {}, []);
 
 	const forgetPassword = () => {
-		console.log("forget password clicked");
 		//todo::send email to user to reset password
 	};
 	const login = () => {
 		navigation.navigate("Front Page");
-		console.log("login clicked");
 		//todo::check if user input is in our database
 	};
 	const signup = () => {
 		navigation.navigate("Signup");
-		console.log("signup clicked");
 		//todo::send user to signup page
 	};
 
 	return (
 		<SafeAreaView style={{flex: 1}}>
+			<SvgImage
+				style={{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
+				}}
+			/>
 			<Text style={styles.textTitle}>GYM NOTEBOOK</Text>
 			<Divider
-				style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
+				style={{borderColor: "#ff6666", borderWidth: 3, borderRadius: 5}}
 				horizontalInset="3"
 			/>
 			<TextInput

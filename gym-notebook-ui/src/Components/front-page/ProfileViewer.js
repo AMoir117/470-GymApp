@@ -13,6 +13,10 @@ import {Divider, Appbar, Button, Avatar, Portal} from "react-native-paper";
 import axios from "axios";
 
 const styles = StyleSheet.create({
+	backgroundImage: {
+		flex: 1,
+		backgroundColor: "#000000",
+	},
 	areaView: {
 		height: 1200,
 	},

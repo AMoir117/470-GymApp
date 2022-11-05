@@ -9,25 +9,36 @@ import {
 	Pressable,
 	SafeAreaView,
 	TouchableOpacity,
+	ImageBackground,
 } from "react-native";
-import {DataTable, Avatar, Surface, Portal} from "react-native-paper";
+import {DataTable, Avatar, Surface, Portal, IconButton} from "react-native-paper";
+import GlobalStyles from "../GlobalStyles";
 import ProfileViewer from "./ProfileViewer";
+import {useNavigation} from "@react-navigation/native";
+import SvgImage2 from "../SvgImage2";
 
 const styles = StyleSheet.create({
+	backgroundImage: {
+		flex: 1,
+		backgroundColor: GlobalStyles.hexColor.black,
+	},
 	surfaceStyle: {
 		height: 140,
 		width: 140,
 		borderRadius: 20,
+		margin: 20,
 		alignSelf: "center",
+		backgroundColor: GlobalStyles.hexColor.brown,
 	},
 	flatListContainer: {
 		alignSelf: "center",
 	},
 	addButton: {
-		width: 90,
-		height: 90,
+		width: 40,
+		height: 40,
 		borderRadius: 20,
-		backgroundColor: "#ff0000",
+		margin: 5,
+		backgroundColor: GlobalStyles.hexColor.red,
 		alignSelf: "center",
 	},
 	userNameStyle: {
@@ -44,7 +55,12 @@ const styles = StyleSheet.create({
 	avatarStyle: {
 		alignSelf: "center",
 		margin: 5,
-		backgroundColor: "#ffffff",
+		backgroundColor: GlobalStyles.hexColor.white,
+	},
+	addUserButton: {
+		alignSelf: "center",
+		margin: 0,
+		padding: 0,
 	},
 });
 
@@ -66,48 +82,64 @@ const friends = [
 	},
 ];
 
-const clickUserProfile = (item) => {
-	console.log(item);
-	return (
-		<Portal>
-			<ProfileViewer userName={item.userName} userID={item.userID} imgUrl={item.imgUrl} />
-		</Portal>
-	);
-	//fixme:: make it so when clicked routes to a view of friends profile
-};
-
-const renderProfile = ({item}) => {
-	//fixme::how to require image dynamically
-	return (
-		<Surface style={styles.surfaceStyle} elevation={1}>
-			<TouchableOpacity onPress={() => clickUserProfile(item)}>
-				<Avatar.Image style={styles.avatarStyle} size={100} source={item.imgUrl} />
-			</TouchableOpacity>
-			<Text style={styles.userNameStyle}>{item.userName}</Text>
-		</Surface>
-	);
-};
-
 const FriendsList = () => {
+	//brings navigation from parents
+	const navigation = useNavigation();
+
+	const clickUserProfile = (item) => {
+		console.log(item);
+		return (
+			<Portal>
+				<ProfileViewer userName={item.userName} userID={item.userID} imgUrl={item.imgUrl} />
+			</Portal>
+			//fixme:: make it so when clicked routes to a view of friends profile
+		);
+		//todo:: make it so when clicked routes to a view of friends profile
+	};
+
+	const RenderProfile = ({item}) => {
+		//fixme::how to require image dynamically
+		return (
+			<Surface style={styles.surfaceStyle} elevation={1}>
+				<TouchableOpacity
+					onPress={() => {
+						//todo::navigate to friends profile
+					}}
+				>
+					<Avatar.Image style={styles.avatarStyle} size={100} source={item.imgUrl} />
+				</TouchableOpacity>
+				<Text style={styles.userNameStyle}>{item.userName}</Text>
+			</Surface>
+		);
+	};
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
+			<SvgImage2
+				style={{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
+				}}
+			/>
 			<FlatList
 				style={styles.flatListContainer}
 				numColumns={2}
 				showsVerticalScrollIndicator={false}
 				alwaysBounceVertical={true}
 				data={friends}
-				renderItem={renderProfile}
+				renderItem={RenderProfile}
 				keyExtractor={(item) => item.userID}
 			/>
-			<Surface style={styles.addButton} elevation={1}>
-				<Avatar.Image
-					style={styles.avatarStyle}
-					size={50}
-					source={require("../../../assets/add.png")}
-				/>
-				<Text style={styles.addTextStyle}>Add</Text>
-			</Surface>
+			<IconButton
+				icon="plus-circle"
+				iconColor={GlobalStyles.hexColor.red}
+				size={50}
+				compact={true}
+				style={styles.addUserButton}
+				onPress={() => navigation.navigate("Front Page")}
+			/>
 		</SafeAreaView>
 	);
 };

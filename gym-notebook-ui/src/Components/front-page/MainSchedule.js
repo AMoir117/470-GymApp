@@ -9,6 +9,7 @@ import {
 	SafeAreaView,
 	TouchableOpacity,
 	Image,
+	ImageBackground,
 } from "react-native";
 import {
 	Divider,
@@ -22,16 +23,27 @@ import {
 	Text,
 } from "react-native-paper";
 import axios from "axios";
+import GlobalStyles from "../GlobalStyles";
+import WorkoutCard from "../WorkoutCard";
 
 const styles = StyleSheet.create({
+	backgroundColor: {
+		flex: 1,
+		backgroundColor: GlobalStyles.hexColor.black,
+	},
 	dayText: {
 		fontSize: 40,
 		alignSelf: "center",
+		color: GlobalStyles.hexColor.brown,
 	},
 	scheduleNameText: {
 		fontSize: 20,
 		alignSelf: "center",
 		fontStyle: "italic",
+		color: GlobalStyles.hexColor.brown,
+	},
+	workoutCellStyles: {
+		color: GlobalStyles.hexColor.brown,
 	},
 	gifModal: {
 		width: 300,
@@ -89,6 +101,54 @@ const data = [
 		reps: 8,
 		weight: 225,
 	},
+	{
+		id: "4567",
+		name: "frankenstein squat",
+		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3194.gif",
+		sets: 4,
+		reps: 12,
+		weight: 50,
+	},
+	{
+		id: "6666",
+		name: "glute bridge march",
+		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3561.gif",
+		sets: 3,
+		reps: 8,
+		weight: 225,
+	},
+	{
+		id: "6654",
+		name: "hanging oblique knee raise",
+		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/1761.gif",
+		sets: 4,
+		reps: 10,
+		weight: 75,
+	},
+	{
+		id: "7986",
+		name: "incline close-grip push-up",
+		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0490.gif",
+		sets: 3,
+		reps: 10,
+		weight: 55,
+	},
+	{
+		id: "3223",
+		name: "inverse leg curl (on pull-up cable machine)",
+		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/2400.gif",
+		sets: 4,
+		reps: 8,
+		weight: 315,
+	},
+	{
+		id: "1348",
+		name: "kettlebell alternating press",
+		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0520.gif",
+		sets: 3,
+		reps: 8,
+		weight: 225,
+	},
 ];
 
 const MainSchedule = ({navigation, back}) => {
@@ -123,36 +183,22 @@ const MainSchedule = ({navigation, back}) => {
 		);
 	};
 
-	const renderItem = ({item}) => (
-		//fixme::create new design to show each workout to make room for long workout names
-		<DataTable.Row>
-			<DataTable.Cell style={{flex: 5}}>
-				<TouchableOpacity onPress={() => showModal(item)}>
-					<Text variant="bodySmall">{item.name}</Text>
-				</TouchableOpacity>
-			</DataTable.Cell>
-			<DataTable.Cell numeric>{item.sets}</DataTable.Cell>
-			<DataTable.Cell numeric>{item.reps}</DataTable.Cell>
-			<DataTable.Cell numeric>{item.weight}</DataTable.Cell>
-		</DataTable.Row>
-	);
+	const renderItem = ({item}) => <WorkoutCard workout={item} />;
 
 	return (
-		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<Text style={styles.dayText}>{currentDay}</Text>
-			<Text style={styles.scheduleNameText}>{scheduleName}</Text>
-
-			<Divider
-				style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
-				horizontalInset="3"
-			/>
-			<DataTable>
-				<DataTable.Header>
-					<DataTable.Title style={{flex: 5}}>Exercise</DataTable.Title>
-					<DataTable.Title numeric>Sets</DataTable.Title>
-					<DataTable.Title numeric>Reps</DataTable.Title>
-					<DataTable.Title numeric>Weight</DataTable.Title>
-				</DataTable.Header>
+		<SafeAreaView style={{flex: 1, maxHeight: "200%"}}>
+			<ImageBackground style={styles.backgroundColor}>
+				<Text style={styles.dayText}>{currentDay}</Text>
+				<Text style={styles.scheduleNameText}>{scheduleName}</Text>
+				<Divider
+					style={{
+						borderColor: GlobalStyles.hexColor.red,
+						borderWidth: 1,
+						borderRadius: 5,
+						margin: 10,
+					}}
+					horizontalInset="3"
+				/>
 
 				<FlatList
 					showsVerticalScrollIndicator={false}
@@ -161,8 +207,8 @@ const MainSchedule = ({navigation, back}) => {
 					renderItem={renderItem}
 					keyExtractor={(item) => item.id}
 				/>
-			</DataTable>
-			<ShowGif />
+				<ShowGif />
+			</ImageBackground>
 		</SafeAreaView>
 	);
 };

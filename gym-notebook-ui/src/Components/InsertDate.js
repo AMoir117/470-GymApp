@@ -7,14 +7,14 @@ const styles = StyleSheet.create({
 	buttonSave: {
 		height: 40,
 		width: 100,
-		marginTop: 20,
+		margin: 20,
 		alignSelf: "center",
 	},
 	buttonSaveDatePicker: {
 		alignSelf: "center",
 		height: 50,
 		width: 130,
-		marginTop: 30,
+		margin: 20,
 	},
 	IOSdatePickerButton: {
 		width: 80,

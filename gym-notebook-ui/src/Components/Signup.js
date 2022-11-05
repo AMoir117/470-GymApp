@@ -9,21 +9,22 @@ import {
 	TextInput,
 	SafeAreaView,
 	Platform,
+	ImageBackground,
 } from "react-native";
-import {
-	Divider,
-	TextInput as TextInputDoB,
-	Appbar,
-	Button,
-	Avatar,
-	Dialog,
-} from "react-native-paper";
+import {Divider, Appbar, Button, Avatar, Dialog} from "react-native-paper";
 import WheelPickerExpo from "react-native-wheel-picker-expo";
 import InsertDate from "./InsertDate";
 import ImagePick from "./ImagePicker";
 import axios from "axios";
 
+import SvgImage from "./SvgImage";
+import GlobalStyles from "./GlobalStyles";
+
 const styles = StyleSheet.create({
+	backgroundColor: {
+		flex: 1,
+		backgroundColor: GlobalStyles.hexColor.black,
+	},
 	areaView: {
 		height: 1200,
 	},
@@ -33,20 +34,16 @@ const styles = StyleSheet.create({
 	},
 	textInputStyle: {
 		height: 40,
-		width: 250,
-		borderWidth: 1,
+		width: 300,
 		paddingLeft: 10,
-		marginTop: 30,
 		alignSelf: "center",
 		borderColor: "#000000",
-		backgroundColor: "#FFFFFF",
+		backgroundColor: "#ffffff",
 	},
 	bioInputStyle: {
 		height: 100,
-		width: 250,
-		borderWidth: 1,
+		width: 300,
 		paddingLeft: 10,
-		marginTop: 30,
 		alignSelf: "center",
 		borderColor: "#000000",
 		backgroundColor: "#FFFFFF",
@@ -115,13 +112,23 @@ const Signup = ({navigation, back}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ScrollView
-				style={{flex: 1, maxHeight: "100%"}}
-				//stickyHeaderIndices={[0]}
-				showsVerticalScrollIndicator={false}
-				alwaysBounceVertical={false}
-			>
-				{/* <View>
+			<ImageBackground style={styles.backgroundColor}>
+				<SvgImage
+					style={{
+						position: "absolute",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+					}}
+				/>
+				<ScrollView
+					style={{flex: 1, maxHeight: "100%"}}
+					//stickyHeaderIndices={[0]}
+					showsVerticalScrollIndicator={false}
+					alwaysBounceVertical={false}
+				>
+					{/* <View>
 					<Appbar.Header alignSelf="center">
 						{back ? (
 							<Appbar.BackAction
@@ -138,7 +145,7 @@ const Signup = ({navigation, back}) => {
 						horizontalInset="3"
 					/>
 				</View> */}
-				{/* <View>
+					{/* <View>
 					<Avatar.Image
 						style={styles.avatarStyle}
 						size={150}
@@ -150,82 +157,83 @@ const Signup = ({navigation, back}) => {
 						<Text style={styles.textUploadImage}>Upload Image</Text>
 					</Pressable>
 				</View> */}
-				<ImagePick image={image} setImage={setImage} />
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Username"}
-					value={username}
-					textContentType={"username"}
-					onChangeText={setUsername}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"First Name"}
-					value={firstName}
-					textContentType={"givenName"}
-					onChangeText={setFirstName}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Last Name"}
-					value={lastName}
-					textContentType={"lastName"}
-					onChangeText={setLastName}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Email"}
-					value={email}
-					textContentType={"emailAddress"}
-					onChangeText={setEmail}
-				/>
-				<TextInputDoB
-					style={styles.textInputStyle}
-					placeholder={"Date of Birth"}
-					value={date.toLocaleDateString(undefined, options)}
-					disabled={true}
-				/>
-
-				<InsertDate show={show} setShow={setShow} date={date} setDate={setDate} />
-				{/* <WheelPickerExpo
+					<ImagePick image={image} setImage={setImage} />
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"Username"}
+						value={username}
+						textContentType={"username"}
+						onChangeText={setUsername}
+					/>
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"First Name"}
+						value={firstName}
+						textContentType={"givenName"}
+						onChangeText={setFirstName}
+					/>
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"Last Name"}
+						value={lastName}
+						textContentType={"lastName"}
+						onChangeText={setLastName}
+					/>
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"Email"}
+						value={email}
+						textContentType={"emailAddress"}
+						onChangeText={setEmail}
+					/>
+					<TextInput
+						style={styles.textInputStyle}
+						placeholder={"Date of Birth"}
+						value={date.toLocaleDateString(undefined, options)}
+						editable={false}
+					/>
+					<InsertDate show={show} setShow={setShow} date={date} setDate={setDate} />
+					{/* <WheelPickerExpo
 					height={300}
 					width={150}
 					initialSelectedIndex={3}
 					items={CITIES.map((name) => ({label: name, value: ""}))}
 					onChange={() => {}}
 				/> */}
-				<TextInput
-					style={styles.bioInputStyle}
-					placeholder={"Bio"}
-					value={bio}
-					multiline={true}
-					onChangeText={setBio}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					secureTextEntry={true}
-					placeholder={"Password"}
-					value={password}
-					textContentType={"emailAddress"}
-					onChangeText={setPassword}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					secureTextEntry={true}
-					placeholder={"Re-input Password"}
-					value={password}
-					textContentType={"emailAddress"}
-					onChangeText={setPassword}
-				/>
-				<Button
-					style={styles.buttonSave}
-					icon="content-save"
-					mode="contained"
-					buttonColor="#ff0000"
-					onPress={saveProfile}
-					//todo::determine if signing up or looking at own profile
-				/>
-			</ScrollView>
+					<TextInput
+						style={styles.bioInputStyle}
+						placeholder={"Bio"}
+						value={bio}
+						multiline={true}
+						onChangeText={setBio}
+					/>
+					<TextInput
+						style={styles.textInputStyle}
+						secureTextEntry={true}
+						placeholder={"Password"}
+						value={password}
+						textContentType={"password"}
+						onChangeText={setPassword}
+					/>
+					{/*fixme::check if second password is the same as first password*/}
+					<TextInput
+						style={styles.textInputStyle}
+						secureTextEntry={true}
+						placeholder={"Re-input Password"}
+						value={password}
+						textContentType={"password"}
+						onChangeText={setPassword}
+					/>
+					<Button
+						style={styles.buttonSave}
+						icon="content-save"
+						mode="contained"
+						buttonColor="#ff0000"
+						onPress={saveProfile}
+						//todo::determine if signing up or looking at own profile
+					/>
+				</ScrollView>
+			</ImageBackground>
 		</SafeAreaView>
 	);
 };

@@ -8,28 +8,35 @@ import {
 	TextInput,
 	Pressable,
 	SafeAreaView,
+	ImageBackground,
 } from "react-native";
 import {DataTable, Avatar, Surface} from "react-native-paper";
 
 import SwipingRow from "../SwipingRow";
 import GmailStyleSwipeableRow from "../AndroidSwipe";
+import GlobalStyles from "../GlobalStyles";
+import SvgImage2 from "../SvgImage2";
 
 const styles = StyleSheet.create({
+	backgroundColor: {
+		flex: 1,
+		backgroundColor: GlobalStyles.hexColor.black,
+	},
 	surfaceStyle: {
 		height: 80,
-		width: 350,
 		flex: 1,
 		flexDirection: "row",
-		alignSelf: "center",
+		backgroundColor: GlobalStyles.hexColor.brown,
 	},
 	flatListContainer: {
-		alignSelf: "center",
+		flex: 1,
 	},
 	addButton: {
-		width: 90,
-		height: 90,
+		width: 40,
+		height: 40,
 		borderRadius: 20,
-		backgroundColor: "#ff0000",
+		margin: 5,
+		backgroundColor: GlobalStyles.hexColor.red,
 		alignSelf: "center",
 	},
 	addTextStyle: {
@@ -59,7 +66,7 @@ const styles = StyleSheet.create({
 	avatarStyle: {
 		alignSelf: "center",
 		margin: 5,
-		backgroundColor: "#ffffff",
+		backgroundColor: GlobalStyles.hexColor.white,
 	},
 });
 
@@ -89,6 +96,15 @@ const renderSchedules = ({item}) => {
 const SchedulesList = () => {
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
+			<SvgImage2
+				style={{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
+				}}
+			/>
 			<FlatList
 				style={styles.flatListContainer}
 				numColumns={1}
@@ -98,14 +114,6 @@ const SchedulesList = () => {
 				renderItem={renderSchedules}
 				keyExtractor={(item) => item.scheduleID}
 			/>
-			<Surface style={styles.addButton} elevation={1}>
-				<Avatar.Image
-					style={styles.avatarStyle}
-					size={50}
-					source={require("../../../assets/add.png")}
-				/>
-				<Text style={styles.addTextStyle}>Post</Text>
-			</Surface>
 		</SafeAreaView>
 	);
 };
