@@ -1,14 +1,5 @@
-CREATE TABLE DailyRoutine(
-   id               INTEGER  NOT NULL PRIMARY KEY
-  ,exerciseID       INTEGER  NOT NULL
-  ,userID           INTEGER  NOT NULL
-  ,sets             INTEGER  NOT NULL
-  ,reps             INTEGER  NOT NULL
-  ,weight           INTEGER  NOT NULL
-  ,dayOfWeek        VARCHAR(3) NOT NULL
-  ,weeklyScheduleID INTEGER  NOT NULL
-  ,FIELD9           VARCHAR(30)
-);
+using gymappdb;
+
 INSERT INTO DailyRoutine(id,exerciseID,userID,sets,reps,weight,dayOfWeek,weeklyScheduleID) VALUES (1,0269,48,3,25,3,'MON',20);
 INSERT INTO DailyRoutine(id,exerciseID,userID,sets,reps,weight,dayOfWeek,weeklyScheduleID) VALUES (2,0712,29,9,10,4,'WED',196);
 INSERT INTO DailyRoutine(id,exerciseID,userID,sets,reps,weight,dayOfWeek,weeklyScheduleID) VALUES (3,0754,49,4,37,2,'MON',191);
