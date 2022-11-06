@@ -12,6 +12,7 @@ gym-notebook-ui/npm-debug.*
 *.orig.*
 gym-notebook-ui/web-build/
 gym-notebook-api/.env
+gym-notebook-api/node_modules/
 
 # macOS
 .DS_Store
