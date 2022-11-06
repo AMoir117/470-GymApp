@@ -1,94 +1,68 @@
 import {useState, useEffect} from "react";
-import {StyleSheet, View} from "react-native";
-import {Avatar, Button, Card, Title, Paragraph, SegmentedButtons} from "react-native-paper";
+import {StyleSheet, View, Image} from "react-native";
+import {
+	Avatar,
+	Button,
+	Card,
+	Title,
+	Paragraph,
+	SegmentedButtons,
+	Divider,
+	Provider,
+	Portal,
+	Modal,
+} from "react-native-paper";
 import GlobalStyles from "./GlobalStyles";
-
-const data = [
-	{
-		id: "3194",
-		name: "frankenstein squat",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3194.gif",
-		sets: 4,
-		reps: 12,
-		weight: 50,
-	},
-	{
-		id: "3561",
-		name: "glute bridge march",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3561.gif",
-		sets: 3,
-		reps: 8,
-		weight: 225,
-	},
-	{
-		id: "1761",
-		name: "hanging oblique knee raise",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/1761.gif",
-		sets: 4,
-		reps: 10,
-		weight: 75,
-	},
-	{
-		id: "0490",
-		name: "incline close-grip push-up",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0490.gif",
-		sets: 3,
-		reps: 10,
-		weight: 55,
-	},
-	{
-		id: "2400",
-		name: "inverse leg curl (on pull-up cable machine)",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/2400.gif",
-		sets: 4,
-		reps: 8,
-		weight: 315,
-	},
-	{
-		id: "0520",
-		name: "kettlebell alternating press",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0520.gif",
-		sets: 3,
-		reps: 8,
-		weight: 225,
-	},
-];
+import axios from "axios";
 
 const styles = StyleSheet.create({
-	cardContainer: {backgroundColor: GlobalStyles.hexColor.brown, flex: 1},
-	cardContent: {alignSelf: "center"},
-	cardButton: {justifyContent: "center", alignSelf: "center"},
+	cardContainer: {
+		backgroundColor: GlobalStyles.hexColor.brown,
+		flex: 1,
+		margin: 2,
+		borderRadius: 10,
+	},
+	cardContent: {
+		alignSelf: "center",
+	},
+	cardButton: {
+		justifyContent: "center",
+		alignSelf: "center",
+	},
+	dividerStyle: {
+		color: GlobalStyles.hexColor.black,
+		borderWidth: 0.2,
+	},
 });
 
 const MyComponent = (props) => {
-	const {workout} = props;
-	const [value, setValue] = useState("");
+	const {workout, showModal} = props;
+
+	useEffect(() => {
+		const getAllExercises = async () => {
+			const response = await axios.get(`exercises/all-exercises`);
+		};
+
+		getAllExercises();
+	}, []);
+
 	return (
-		<Card style={styles.cardContainer}>
-			<Card.Content>
-				<Paragraph style={styles.cardContent}>{workout.name}</Paragraph>
-			</Card.Content>
-			<Card.Actions style={styles.cardButton}>
-				<SegmentedButtons
-					value={value}
-					onValueChange={setValue}
-					buttons={[
-						{
-							value: "set",
-							label: workout.sets,
-						},
-						{
-							value: "rep",
-							label: workout.reps,
-						},
-						{
-							value: "weight",
-							label: workout.weight,
-						},
-					]}
-				/>
-			</Card.Actions>
-		</Card>
+		<>
+			<Card style={styles.cardContainer}>
+				<Card.Content>
+					<Button mode="outlined" compact={true} onPress={() => showModal(workout)}>
+						<Paragraph style={styles.cardContent}>
+							{workout.name.toUpperCase()}
+						</Paragraph>
+					</Button>
+				</Card.Content>
+				<Card.Actions style={styles.cardButton}>
+					<Button mode="outlined">Sets: {workout.sets}</Button>
+					<Button mode="outlined">Reps: {workout.reps}</Button>
+					<Button mode="outlined">{workout.weight} Lbs</Button>
+				</Card.Actions>
+			</Card>
+		</>
 	);
 };
 

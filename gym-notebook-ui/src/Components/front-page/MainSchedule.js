@@ -183,7 +183,7 @@ const MainSchedule = ({navigation, back}) => {
 		);
 	};
 
-	const renderItem = ({item}) => <WorkoutCard workout={item} />;
+	const renderItem = ({item}) => <WorkoutCard showModal={showModal} workout={item} />;
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "200%"}}>

@@ -25,11 +25,13 @@ const SearchBar = () => {
 
 	const API_KEY = process.env.API_KEY;
 	const listExercisesURL = `exercises/all-exercises`;
+	const mobileUrl = `http://192.168.1.242:19006/api/v1/exercises/all-exercise`;
+	const testUrl = `http://192.168.1.242:19000/exercises/all-exercises`;
 
 	useEffect(() => {
 		const getAllExercises = async () => {
 			const response = await axios.get(listExercisesURL);
-			console.log(response);
+			//console.log(response);
 			setFilteredDataSource(response.data);
 			setMasterDataSource(response.data);
 		};
@@ -80,7 +82,7 @@ const SearchBar = () => {
 
 	const getItem = (item) => {
 		// Function for click on an item
-		alert("Id : " + item.id + " Name : " + item.name);
+		alert("clicked");
 	};
 
 	return (
