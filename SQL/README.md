@@ -2,13 +2,11 @@
 
 * DailyRoutine id could potentially be removed
 
-* "CONSTRAINT OneWayRelationship CHECK (ID1 < ID2)," doesnt actually do anything with newer versions of MySQL, but it should still hold the OneWayRelationship with the unique key CONSTRAINT
+* SQL Inserts moved to individual files
 
-* SQL Inserts are at the bottom of db_schema.sql
-
-* use the name "GymAppDB" as your database name
+* use the name "gymappdb" as your database name
 
 
 * TODO:
 
-* change friends table to followers
+* follower table might need to reference to the user table so it can update/delete cascade when a user account is deleted

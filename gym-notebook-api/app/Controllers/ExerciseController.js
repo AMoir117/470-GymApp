@@ -10,8 +10,8 @@ const allExercises = async (ctx) => {
     return new Promise((resolve, reject) => {
         const query = `
                        SELECT *
-                        FROM 
-                            exercises
+                        FROM
+                            exercise
                         ORDER BY id
                         `;
         dbConnection.query({
