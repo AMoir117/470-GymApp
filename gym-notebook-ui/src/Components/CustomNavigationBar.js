@@ -58,7 +58,7 @@ const CustomNavigationBar = ({navigation, back}) => {
 					titleStyle={styles.menuItemTop}
 					onPress={() => {
 						closeMenu();
-						navigation.navigate("Profile");
+						navigation.navigate("Profile Viewer");
 					}}
 				/>
 				<Divider style={styles.dividerMenu} />

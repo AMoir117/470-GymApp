@@ -8,6 +8,7 @@ const GlobalStyles = StyleSheet.create({
 		black: "#423f3b",
 		gold: "#ffe5a9",
 		white: "#ffffff",
+		green: "#729676",
 	},
 });
 

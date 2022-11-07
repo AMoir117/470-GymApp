@@ -10,7 +10,7 @@ import {
 	SafeAreaView,
 	ImageBackground,
 } from "react-native";
-import {DataTable, Avatar, Surface} from "react-native-paper";
+import {DataTable, Avatar, Surface, Badge} from "react-native-paper";
 import GlobalStyles from "../GlobalStyles";
 import SvgImage2 from "../SvgImage2";
 
@@ -56,13 +56,10 @@ const styles = StyleSheet.create({
 		margin: 10,
 		alignSelf: "center",
 	},
-	upVoteStyle: {
-		height: 20,
+	upVoteBadge: {
 		margin: 5,
-		flex: 1,
-		alignSelf: "center",
-		textAlign: "right",
 		color: "#93c47d",
+		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	avatarStyle: {
 		alignSelf: "center",
@@ -94,7 +91,7 @@ const renderPosts = ({item}) => {
 		<Surface style={styles.surfaceStyle} numColumns={3} elevation={1}>
 			<Avatar.Image style={styles.avatarStyle} size={50} source={item.imgUrl} />
 			<Text style={styles.postTitleStyle}>{item.postTitle}</Text>
-			<Text style={styles.upVoteStyle}>{item.upVotes}</Text>
+			<Badge style={styles.upVoteBadge}>{item.upVotes}</Badge>
 		</Surface>
 	);
 };

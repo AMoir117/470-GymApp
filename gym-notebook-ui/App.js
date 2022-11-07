@@ -18,46 +18,56 @@ import GlobalStyles from "./src/Components/GlobalStyles";
 import {ScreenStackHeaderBackButtonImage} from "react-native-screens";
 
 import {Appbar} from "react-native-paper";
+import ProfileViewer from "./src/Components/front-page/ProfileViewer";
+import ScheduleEdit from "./src/Components/ScheduleEdit";
 
 const App = () => {
 	const Stack = createNativeStackNavigator();
 
 	return (
-		// <GestureHandlerRootView style={{flex: 1}}>
-		// 	<Provider>
-		// 		<NavigationContainer>
-		// 			<Stack.Navigator initialRouteName="Login">
-		// 				<Stack.Screen
-		// 					name="Login"
-		// 					component={Login}
-		// 					options={{
-		// 						title: "",
-		// 						headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
-		// 					}}
-		// 				/>
-		// 				<Stack.Screen
-		// 					name="Signup"
-		// 					component={Signup}
-		// 					options={{
-		// 						title: "",
-		// 						headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
-		// 					}}
-		// 				/>
-		// 				<Stack.Screen
-		// 					name="Front Page"
-		// 					component={FrontPage}
-		// 					options={{header: (props) => <CustomNavigationBar {...props} />}}
-		// 				/>
-		// 				<Stack.Screen
-		// 					name="Profile"
-		// 					component={Profile}
-		// 					options={{header: (props) => <CustomNavigationBar {...props} />}}
-		// 				/>
-		// 			</Stack.Navigator>
-		// 		</NavigationContainer>
-		// 	</Provider>
-		// </GestureHandlerRootView>
-		<SearchBar />
+		<GestureHandlerRootView style={{flex: 1}}>
+			<Provider>
+				<NavigationContainer>
+					<Stack.Navigator initialRouteName="Login">
+						<Stack.Screen
+							name="Login"
+							component={Login}
+							options={{
+								title: "",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+							}}
+						/>
+						<Stack.Screen
+							name="Signup"
+							component={Signup}
+							options={{
+								title: "",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+							}}
+						/>
+						<Stack.Screen
+							name="Front Page"
+							component={FrontPage}
+							options={{header: (props) => <CustomNavigationBar {...props} />}}
+						/>
+						<Stack.Screen
+							name="Profile Viewer"
+							component={ProfileViewer}
+							options={{header: (props) => <CustomNavigationBar {...props} />}}
+						/>
+						<Stack.Screen
+							name="WORKING_PAGE"
+							component={ScheduleEdit}
+							options={{
+								title: "WORKING_PAGE",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+							}}
+						/>
+					</Stack.Navigator>
+				</NavigationContainer>
+			</Provider>
+		</GestureHandlerRootView>
+		//<SearchBar />
 	);
 };
 
