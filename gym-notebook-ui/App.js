@@ -57,7 +57,7 @@ const App = () => {
 						/>
 						<Stack.Screen
 							name="WORKING_PAGE"
-							component={ScheduleEdit}
+							component={SearchBar}
 							options={{
 								title: "WORKING_PAGE",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},

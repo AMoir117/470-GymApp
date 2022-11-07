@@ -23,7 +23,7 @@
     "koa-jwt": "^3.3.2",
     "koa-router": "^7.3.0",
     "lodash": "^4.17.4",
-    "mysql": "^2.15.0"
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "nodemon": "^1.18.3"

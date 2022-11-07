@@ -36,9 +36,45 @@ export default class APIInterface {
 		return axiosAgent.get(`exercises/all-exercises`);
 	}
 
-	/*async routesWithID(routeID) {
-		return axiosAgent.get(`routes/${routeID}`);
-	}*/
+	async exerciseByName(workoutName) {
+		console.log(`exercisesByName called for workoutName = ${workoutName}`);
+		return axiosAgent.get(`exercises/${workoutName}`);
+	}
+
+	async exerciseByID(id) {
+		console.log(`exercisesByID called for id = ${id}`);
+		return axiosAgent.get(`exercises/${id}`);
+	}
+
+	async exerciseByBodyPart(bodyPart) {
+		console.log(`exercisesByBodyPart called for body part = ${bodyPart}`);
+		return axiosAgent.get(`exercises/${bodyPart}`);
+	}
+
+	async exerciseByMuscle(targetMuscle) {
+		console.log(`exercisesByBodyPart called for muscle = ${targetMuscle}`);
+		return axiosAgent.get(`exercises/${targetMuscle}`);
+	}
+
+	async exerciseByEquipment(equipment) {
+		console.log(`exercisesByEquipment called for equipment = ${equipment}`);
+		return axiosAgent.get(`exercises/${equipment}`);
+	}
+
+	async allUsers() {
+		console.log(`users all users called for`);
+		return axiosAgent.get(`users/all-users`);
+	}
+
+	async userByName(username) {
+		console.log(`userByName called for username = ${username}`);
+		return axiosAgent.get(`users/${username}`);
+	}
+
+	async userByID(id) {
+		console.log(`userByID called for id = ${id}`);
+		return axiosAgent.get(`users/${id}`);
+	}
 }
 
 /*const styles = StyleSheet.create({
