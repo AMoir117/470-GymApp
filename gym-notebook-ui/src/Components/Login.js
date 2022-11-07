@@ -118,6 +118,20 @@ const Login = ({navigation}) => {
 					<Text style={styles.buttonText}>Signup</Text>
 				</TouchableOpacity>
 			</View>
+			<View>
+				<TouchableOpacity
+					style={{
+						backgroundColor: GlobalStyles.hexColor.red,
+						borderColor: "black",
+						borderWidth: 2,
+						width: 50,
+						height: 50,
+					}}
+					onPress={() => navigation.navigate("WORKING_PAGE")}
+				>
+					<Text>TEST</Text>
+				</TouchableOpacity>
+			</View>
 		</SafeAreaView>
 	);
 };

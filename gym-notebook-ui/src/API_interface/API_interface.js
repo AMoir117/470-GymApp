@@ -4,35 +4,32 @@ import {SectionList, StyleSheet, Text, View} from "react-native";
 
 const AxiosConfigured = () => {
 	// Indicate to the API that all requests for this app are AJAX
-	axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+	axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 	// Set the baseURL for all requests to the API domain instead of the current domain
 	// axios.defaults.baseURL = `http://localhost:8443/api/v1`;
-	axios.defaults.baseURL = `http://localhost:8443/api/v1`;
-
+	//fixme::find out how to put ip address in .env
+	axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
 
 	// Allow the browser to send cookies to the API domain (which include auth_token)
 	axios.defaults.withCredentials = true;
 
-
-//    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf_token;
+	//    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf_token;
 
 	return axios;
 };
 
-
 const axiosAgent = AxiosConfigured();
 
 export default class APIInterface {
-
 	async getUserInfo(user_id) {
-		return axiosAgent.get(`login/${user_id}`)
-			.then(userInfo => userInfo.data)
-			.catch(error => (
-				{
-					error,
-					user: undefined
-				}));
+		return axiosAgent
+			.get(`login/${user_id}`)
+			.then((userInfo) => userInfo.data)
+			.catch((error) => ({
+				error,
+				user: undefined,
+			}));
 	}
 
 	async allExercises() {
@@ -78,7 +75,6 @@ export default class APIInterface {
 		console.log(`userByID called for id = ${id}`);
 		return axiosAgent.get(`users/${id}`);
 	}
-
 }
 
 /*const styles = StyleSheet.create({

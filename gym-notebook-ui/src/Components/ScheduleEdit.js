@@ -21,10 +21,13 @@ import {
 	Modal,
 	Portal,
 	Text,
+	Card,
+	Paragraph,
+	IconButton,
 } from "react-native-paper";
 import axios from "axios";
-import GlobalStyles from "../GlobalStyles";
-import WorkoutCard from "../WorkoutCard";
+import GlobalStyles from "./GlobalStyles";
+import WorkoutCardEditable from "./WorkoutCardEditable";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -49,6 +52,26 @@ const styles = StyleSheet.create({
 		width: 300,
 		height: 300,
 		alignSelf: "center",
+	},
+	cardContainer: {
+		backgroundColor: GlobalStyles.hexColor.brown,
+		flex: 1,
+		margin: 2,
+		borderRadius: 10,
+	},
+	cardContent: {
+		alignSelf: "center",
+	},
+	cardButton: {
+		justifyContent: "center",
+		alignSelf: "center",
+	},
+	dividerStyle: {
+		color: GlobalStyles.hexColor.black,
+		borderWidth: 0.2,
+	},
+	buttonStyles: {
+		backgroundColor: GlobalStyles.hexColor.red,
 	},
 });
 
@@ -127,38 +150,16 @@ const data = [
 	},
 ];
 
-const MainSchedule = ({navigation, back}) => {
+const ScheduleEdit = ({navigation, back}) => {
 	const [currentDay, setCurrentDay] = useState("Friday");
 	const [scheduleName, setScheduleName] = useState("Path to Mr. Olympia");
 	const [workouts, setWorkouts] = useState(data);
-	const [gifShow, setGifShow] = useState(false);
-	const [modalUri, setModalUri] = useState("");
 
 	useEffect(() => {}, []);
 
-	const showModal = (item) => {
-		setGifShow(true);
-		setModalUri(item.gifUrl);
+	const renderItem = ({item}) => {
+		return <WorkoutCardEditable workout={item} />;
 	};
-	const hideModal = () => setGifShow(false);
-
-	const ShowGif = (props) => {
-		return (
-			<Provider>
-				<Portal>
-					<Modal
-						visible={gifShow}
-						onDismiss={hideModal}
-						contentContainerStyle={styles.gifModal}
-					>
-						<Image style={{width: 300, height: 300}} source={{uri: modalUri}} />
-					</Modal>
-				</Portal>
-			</Provider>
-		);
-	};
-
-	const renderItem = ({item}) => <WorkoutCard showModal={showModal} workout={item} />;
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "200%"}}>
@@ -182,10 +183,9 @@ const MainSchedule = ({navigation, back}) => {
 					renderItem={renderItem}
 					keyExtractor={(item) => item.id}
 				/>
-				<ShowGif />
 			</ImageBackground>
 		</SafeAreaView>
 	);
 };
 
-export default MainSchedule;
+export default ScheduleEdit;

@@ -9,8 +9,9 @@ import {
 	Pressable,
 	SafeAreaView,
 } from "react-native";
-import {Divider, Appbar, Button, Avatar, Portal} from "react-native-paper";
+import {Divider, Appbar, Button, Avatar, Portal, Card, Title, Paragraph} from "react-native-paper";
 import axios from "axios";
+import GlobalStyles from "../GlobalStyles";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -25,14 +26,9 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 	},
 	textInputStyle: {
-		height: 40,
 		width: 250,
-		borderWidth: 1,
-		paddingLeft: 10,
 		marginTop: 30,
 		alignSelf: "center",
-		borderColor: "#000000",
-		backgroundColor: "#FFFFFF",
 	},
 	bioInputStyle: {
 		height: 100,
@@ -71,99 +67,46 @@ const styles = StyleSheet.create({
 	},
 	avatarStyle: {
 		alignSelf: "center",
-		margin: 15,
 	},
 });
 const ProfileViewer = (props) => {
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
-	const [email, setEmail] = useState("");
-	const [bio, setBio] = useState("");
+	/*
 
-	const [alertVisible, setAlertVisible] = useState(false);
+  username VARCHAR(25) NOT NULL UNIQUE,
+  firstName VARCHAR(20),
+  lastName VARCHAR(20),
+  DoB DATE,
+  imagePath VARCHAR(100),
+
+	*/
+
+	const User = {
+		username: "arnolds17",
+		firstName: "Arnold",
+		lastName: "Schwarzenegger",
+		Dob: "1947-07-03",
+		bio: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur porta ex sit amet odio volutpat tincidunt. Quisque eleifend suscipit quam, vitae ultricies dui. Fusce nibh nibh, gravida non arcu quis, cursus luctus enim. Vivamus vitae porttitor orci, sed rutrum nulla. Pellentesque euismod sagittis lobortis. Sed tincidunt arcu non nisi porttitor.`,
+		imagePath: require("../../../assets/arnold.jpg"),
+	};
 
 	const {userID, imgUrl, userName} = props;
 
-	console.log(userID);
-
-	useEffect(() => {
-		setUsername("NotAnAthlete");
-		setFirstName("John");
-		setLastName("Smith");
-		setEmail("not_an_athlete@gmail.com");
-		setBio("I am not an athlete, I just move heavy objects from point A to point B.");
-	}, []);
-
-	const editProfile = () => {
-		console.log("profile saved");
-		//todo::edit information for user
-	};
+	useEffect(() => {}, []);
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ScrollView
-				style={{flex: 1, maxHeight: "100%"}}
-				//stickyHeaderIndices={[0]}
-				showsVerticalScrollIndicator={false}
-				alwaysBounceVertical={false}
-			>
-				<View>
-					<Avatar.Image
-						style={styles.avatarStyle}
-						size={150}
-						source={require("../../../assets/arnold.jpg")}
-					/>
-				</View>
-				<View>
-					<Pressable color={"#026df7"} onPress={() => {}}>
-						<Text style={styles.textUploadImage}>Upload Image</Text>
-					</Pressable>
-				</View>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Username"}
-					value={username}
-					textContentType={"username"}
-					onChangeText={setUsername}
+			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
+				<Card.Cover source={User.imagePath} />
+				<Card.Title
+					title={User.firstName + " " + User.lastName[0] + "."}
+					subtitle={User.username}
 				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"First Name"}
-					value={firstName}
-					textContentType={"givenName"}
-					onChangeText={setFirstName}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Last Name"}
-					value={lastName}
-					textContentType={"lastName"}
-					onChangeText={setLastName}
-				/>
-				<TextInput
-					style={styles.textInputStyle}
-					placeholder={"Email"}
-					value={email}
-					textContentType={"emailAddress"}
-					onChangeText={setEmail}
-				/>
-				<TextInput
-					style={styles.bioInputStyle}
-					placeholder={"Bio"}
-					value={bio}
-					multiline={true}
-					onChangeText={setBio}
-				/>
-				<Button
-					style={styles.buttonSave}
-					icon="pencil"
-					mode="contained"
-					buttonColor="red"
-					onPress={editProfile}
-				/>
-			</ScrollView>
+				<Card.Content>
+					<Title>Bio</Title>
+					<Divider style={{borderWidth: 1}} />
+					<Paragraph>{User.bio}</Paragraph>
+				</Card.Content>
+			</Card>
 		</SafeAreaView>
 	);
 };

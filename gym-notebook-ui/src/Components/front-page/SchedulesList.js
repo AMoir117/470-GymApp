@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
 	},
 	flatListContainer: {
 		flex: 1,
+		marginTop: 20,
 	},
 	addButton: {
 		width: 40,
@@ -73,9 +74,21 @@ const styles = StyleSheet.create({
 const mySchedules = [
 	{
 		scheduleID: "01",
+		dateCreated: "05/15/2001",
+		title: "Back to the Gym",
+		upVotes: 93,
+	},
+	{
+		scheduleID: "02",
+		dateCreated: "12/1/2014",
+		title: "Pull yourself up by the bootstraps",
+		upVotes: 26,
+	},
+	{
+		scheduleID: "03",
 		dateCreated: "08/11/2005",
 		title: "Path to Mr. Olympia",
-		upVotes: 93,
+		upVotes: 56,
 	},
 ];
 

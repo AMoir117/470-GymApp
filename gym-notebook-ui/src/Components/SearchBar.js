@@ -23,13 +23,11 @@ const SearchBar = () => {
 	const [filteredDataSource, setFilteredDataSource] = useState([]);
 	const [masterDataSource, setMasterDataSource] = useState([]);
 
-	const API_KEY = process.env.API_KEY;
 	const listExercisesURL = `exercises/all-exercises`;
 
 	useEffect(() => {
 		const getAllExercises = async () => {
 			const response = await axios.get(listExercisesURL);
-			console.log(response);
 			setFilteredDataSource(response.data);
 			setMasterDataSource(response.data);
 		};
@@ -42,7 +40,10 @@ const SearchBar = () => {
 			// Filter the masterDataSource and update FilteredDataSource
 			const newData = masterDataSource.filter(function (item) {
 				// Applying filter for the inserted text in search bar
-				const itemData = item.name ? item.name.toUpperCase() : "".toUpperCase();
+				//item is an exercise with the same naming convention in the db
+				const itemData = item.workoutName
+					? item.workoutName.toUpperCase()
+					: "".toUpperCase();
 				const textData = text.toUpperCase();
 				return itemData.indexOf(textData) > -1;
 			});
@@ -65,22 +66,9 @@ const SearchBar = () => {
 		);
 	};
 
-	const ItemSeparatorView = () => {
-		return (
-			// Flat List Item Separator
-			<View
-				style={{
-					height: 0.5,
-					width: "100%",
-					backgroundColor: "#C8C8C8",
-				}}
-			/>
-		);
-	};
-
 	const getItem = (item) => {
 		// Function for click on an item
-		alert("Id : " + item.id + " Name : " + item.name);
+		alert("clicked");
 	};
 
 	return (
@@ -96,7 +84,6 @@ const SearchBar = () => {
 				<FlatList
 					data={filteredDataSource}
 					keyExtractor={(item, index) => index.toString()}
-					ItemSeparatorComponent={ItemSeparatorView}
 					renderItem={ItemView}
 				/>
 			</View>
