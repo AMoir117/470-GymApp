@@ -77,7 +77,7 @@ usersRouter.get("/username/:username", UsersController.userByName, (err) =>
 usersRouter.get("/id/:id", UsersController.userByID, (err) =>
 	console.log(`userByID ran into an error: ${err}`)
 );
-/*exercisesRouter.get("/bodypart/:bodyPart", ExercisesController.exerciseByBodyPart, (err) =>
+exercisesRouter.get("/bodypart/:bodyPart", ExercisesController.exerciseByBodyPart, (err) =>
 	console.log(`exerciseByBodyPart ran into an error: ${err}`)
 );
 exercisesRouter.get("/muscle/:targetMuscle", ExercisesController.exerciseByMuscle, (err) =>
@@ -85,7 +85,7 @@ exercisesRouter.get("/muscle/:targetMuscle", ExercisesController.exerciseByMuscl
 );
 exercisesRouter.get("/equipment/:equipment", ExercisesController.exerciseByEquipment, (err) =>
 	console.log(`exerciseByEquipment ran into an error: ${err}`)
-);*/
+);
 
 /**
  * Register all of the controllers into the default controller.
