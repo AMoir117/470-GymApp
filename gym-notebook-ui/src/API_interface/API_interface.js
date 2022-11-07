@@ -39,6 +39,30 @@ export default class APIInterface {
 		return axiosAgent.get(`exercises/all-exercises`);
 	}
 
+	async exerciseByName(workoutName) {
+		console.log(`exercisesByName called for workoutName = ${workoutName}`);
+		return axiosAgent.get(`exercises/${workoutName}`);
+	}
+
+	async exerciseByID(id) {
+		console.log(`exercisesByID called for id = ${id}`);
+		return axiosAgent.get(`exercises/${id}`);
+	}
+
+	async exerciseByBodyPart(bodyPart) {
+		console.log(`exercisesByBodyPart called for body part = ${bodyPart}`);
+		return axiosAgent.get(`exercises/${bodyPart}`);
+	}
+
+	async exerciseByMuscle(targetMuscle) {
+		console.log(`exercisesByBodyPart called for muscle = ${targetMuscle}`);
+		return axiosAgent.get(`exercises/${targetMuscle}`);
+	}
+
+	async exerciseByEquipment(equipment) {
+		console.log(`exercisesByEquipment called for equipment = ${equipment}`);
+		return axiosAgent.get(`exercises/${equipment}`);
+	}
 	/*async routesWithID(routeID) {
 		return axiosAgent.get(`routes/${routeID}`);
 	}*/

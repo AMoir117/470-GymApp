@@ -14,11 +14,10 @@ const router = require("koa-router")({
 	prefix: "/api/v1",
 });
 
-router.get("/", function (ctx) {
+/*router.get("/", function (ctx) {
 	console.log("router.get(/)");
 	return (ctx.body = "What is up??");
-});
-
+});*/
 /*
 |--------------------------------------------------------------------------
 | login router
@@ -49,12 +48,30 @@ const exercisesRouter = require("koa-router")({
 exercisesRouter.get("/all-exercises", ExercisesController.allExercises, (err) =>
 	console.log(`allExercises ran into an error: ${err}`)
 );
-//exercisesRouter.get('/:routeID/', Authorize('admin'), ExercisesController.exerciseWithExerciseID);
+exercisesRouter.get("/name/:workoutName", ExercisesController.exerciseByName, (err) =>
+	console.log(`exerciseByName ran into an error: ${err}`)
+);
+exercisesRouter.get("/id/:id", ExercisesController.exerciseByID, (err) =>
+	console.log(`exerciseByID ran into an error: ${err}`)
+);
+exercisesRouter.get("/bodypart/:bodyPart", ExercisesController.exerciseByBodyPart, (err) =>
+	console.log(`exerciseByBodyPart ran into an error: ${err}`)
+);
+exercisesRouter.get("/muscle/:targetMuscle", ExercisesController.exerciseByMuscle, (err) =>
+	console.log(`exerciseByMuscle ran into an error: ${err}`)
+);
+exercisesRouter.get("/equipment/:equipment", ExercisesController.exerciseByEquipment, (err) =>
+	console.log(`exerciseByEquipment ran into an error: ${err}`)
+);
 
 /**
  * Register all of the controllers into the default controller.
  */
-router.use("", loginRouter.routes(), exercisesRouter.routes());
+router.use(
+	"",
+	loginRouter.routes(),
+	exercisesRouter.routes()
+);
 
 module.exports = function (app) {
 	app.use(router.routes());
