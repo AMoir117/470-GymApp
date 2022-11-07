@@ -63,9 +63,21 @@ export default class APIInterface {
 		console.log(`exercisesByEquipment called for equipment = ${equipment}`);
 		return axiosAgent.get(`exercises/${equipment}`);
 	}
-	/*async routesWithID(routeID) {
-		return axiosAgent.get(`routes/${routeID}`);
-	}*/
+
+	async allUsers() {
+		console.log(`users all users called for`);
+		return axiosAgent.get(`users/all-users`);
+	}
+
+	async userByName(username) {
+		console.log(`userByName called for username = ${username}`);
+		return axiosAgent.get(`users/${username}`);
+	}
+
+	async userByID(id) {
+		console.log(`userByID called for id = ${id}`);
+		return axiosAgent.get(`users/${id}`);
+	}
 
 }
 
