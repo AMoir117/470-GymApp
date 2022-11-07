@@ -1,4 +1,5 @@
 gym-notebook-ui/node_modules/
+gym-notebook-api/node_modules/
 gym-notebook-ui/.expo/
 gym-notebook-ui/dist/
 gym-notebook-ui/npm-debug.*
@@ -10,9 +11,6 @@ gym-notebook-ui/npm-debug.*
 *.orig.*
 gym-notebook-ui/web-build/
 gym-notebook-api/.env
-gym-notebook-api/node_modules/
 gym-notebook-ui/firebaseConfig.js
-
 # macOS
 .DS_Store
-gym-notebook-api/.env
