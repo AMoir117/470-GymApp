@@ -16,3 +16,4 @@ gym-notebook-api/node_modules/
 
 # macOS
 .DS_Store
+gym-notebook-api/.env
