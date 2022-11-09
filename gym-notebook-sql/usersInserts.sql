@@ -1,4 +1,4 @@
-using gymappdb;
+use gymappdb;
 
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email,profileBio) VALUES (1,'beth99','d54fe869e9e6bd65471f2b9889d68ff5','Lessie','Hand','2009-02-23','tmp//b6e0ca2fdff75e5c9410b559cce348de.jpg','jenifer.osinski@example.com','Deserunt itaque eos exercitationem est. Similique sit quidem fuga tenetur placeat. Nihil rerum deserunt officia hic.');
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email,profileBio) VALUES (2,'mclaughlin.reed','1af8b1cb5395e9c9340deae611fe64a0','Green','Wilderman','2014-01-25','tmp//0874014758929e38a9bb2ed9d9a1da6c.jpg','eking@example.net','Quas autem fugiat dolor doloribus eveniet quis. Ut sed ut a eaque ut. Aperiam aut exercitationem iure.');

@@ -14,6 +14,9 @@ import axios from "axios";
 import SvgImage from "./SvgImage";
 import GlobalStyles from "./GlobalStyles";
 
+import API from "../API_interface/API_interface";
+import {setUncaughtExceptionCaptureCallback} from "process";
+
 const styles = StyleSheet.create({
 	backgroundColor: {
 		flex: 1,
@@ -61,14 +64,46 @@ const styles = StyleSheet.create({
 const Login = ({navigation}) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [verifyUser, setVerifyUser] = useState(false);
+	const [authFailed, setAuthFailed] = useState(false);
 
-	useEffect(() => {}, []);
+	const handleUsernameChange = (u) => {
+		console.log(u);
+		setUsername(u);
+	};
+
+	const handlePasswordChange = (p) => {
+		console.log(p);
+		setPassword(p);
+	};
+
+	useEffect(() => {
+		if (!verifyUser || username.length === 0) return;
+
+		const api = new API();
+		async function getUserInfo() {
+			api.getUserInfo(username).then((userInfo) => {
+				console.log(`test.....${JSON.stringify(userInfo)}`);
+				const user = userInfo;
+				if (userInfo.id > 0) {
+					setUsername(user);
+				} else {
+					setVerifyUser(false);
+					setAuthFailed(true);
+				}
+			});
+		}
+		getUserInfo();
+	}, [verifyUser, setUsername, username]);
 
 	const forgetPassword = () => {
 		//todo::send email to user to reset password
 	};
 	const login = () => {
-		navigation.navigate("Front Page");
+		console.log(username);
+		console.log(password);
+
+		//navigation.navigate("Front Page");
 		//todo::check if user input is in our database
 	};
 	const signup = () => {
@@ -96,14 +131,14 @@ const Login = ({navigation}) => {
 				style={styles.textInputStyle}
 				placeholder={"Username"}
 				value={username}
-				onChangeText={setUsername}
+				onChangeText={(u) => handleUsernameChange(u)}
 			/>
 			<TextInput
 				style={styles.textInputStyle}
 				secureTextEntry={true}
 				placeholder={"Password"}
 				value={password}
-				onChangeText={setPassword}
+				onChangeText={(p) => handlePasswordChange(p)}
 			/>
 			<View style={styles.textForgetPassword}>
 				<TouchableOpacity color={"#026df7"} onPress={forgetPassword}>
@@ -121,15 +156,14 @@ const Login = ({navigation}) => {
 			<View>
 				<TouchableOpacity
 					style={{
-						backgroundColor: GlobalStyles.hexColor.red,
-						borderColor: "black",
-						borderWidth: 2,
+						backgroundColor: GlobalStyles.hexColor.black,
+						borderColor: GlobalStyles.hexColor.black,
 						width: 50,
 						height: 50,
 					}}
 					onPress={() => navigation.navigate("WORKING_PAGE")}
 				>
-					<Text>TEST</Text>
+					<Text style={{alignSelf: "center"}}></Text>
 				</TouchableOpacity>
 			</View>
 		</SafeAreaView>
