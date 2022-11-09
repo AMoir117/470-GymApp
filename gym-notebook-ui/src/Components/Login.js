@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from "react";
+import React, {useContext, useState, useEffect} from "react";
+import AuthContext from "../Context/AuthProvider";
 import {
 	SafeAreaView,
 	Text,
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
 	},
 });
 const Login = ({navigation}) => {
+	const {setAuth} = useContext(AuthContext);
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [verifyUser, setVerifyUser] = useState(false);
@@ -80,28 +82,20 @@ const Login = ({navigation}) => {
 	useEffect(() => {
 		if (!verifyUser || username.length === 0) return;
 
-		const api = new API();
-		async function getUserInfo() {
-			api.getUserInfo(username).then((userInfo) => {
-				console.log(`test.....${JSON.stringify(userInfo)}`);
-				const user = userInfo;
-				if (userInfo.id > 0) {
-					setUsername(user);
-				} else {
-					setVerifyUser(false);
-					setAuthFailed(true);
-				}
-			});
-		}
 		getUserInfo();
 	}, [verifyUser, setUsername, username]);
 
 	const forgetPassword = () => {
 		//todo::send email to user to reset password
 	};
-	const login = () => {
+	const login = async () => {
 		console.log(username);
 		console.log(password);
+
+		try {
+			const response = await axios.get(`users/username/${username}`);
+			console.log(response.data);
+		} catch (err) {}
 
 		//navigation.navigate("Front Page");
 		//todo::check if user input is in our database
