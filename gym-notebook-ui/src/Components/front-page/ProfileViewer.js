@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext, createContext} from "react";
 import {
 	ScrollView,
 	Text,
@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import {Divider, Appbar, Button, Avatar, Portal, Card, Title, Paragraph} from "react-native-paper";
 import axios from "axios";
+import AuthContext from "../../Context/AuthProvider";
 import GlobalStyles from "../GlobalStyles";
 
 const styles = StyleSheet.create({
@@ -70,6 +71,13 @@ const styles = StyleSheet.create({
 	},
 });
 const ProfileViewer = (props) => {
+	const {auth} = useContext(AuthContext);
+
+	const username = auth.user.username;
+	const firstName = auth.user.firstName;
+	const lastName = auth.user.lastName;
+	const Dob = auth.user.DoB;
+
 	/*
 
   username VARCHAR(25) NOT NULL UNIQUE,
@@ -77,6 +85,7 @@ const ProfileViewer = (props) => {
   lastName VARCHAR(20),
   DoB DATE,
   imagePath VARCHAR(100),
+
 
 	*/
 
@@ -89,18 +98,16 @@ const ProfileViewer = (props) => {
 		imagePath: require("../../../assets/arnold.jpg"),
 	};
 
-	const {userID, imgUrl, userName} = props;
-
-	useEffect(() => {}, []);
+	useEffect(() => {
+		//const bio = auth.user.bio;
+		//const imagePath = auth.user.imagePath;
+	}, []);
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
 				<Card.Cover source={User.imagePath} />
-				<Card.Title
-					title={User.firstName + " " + User.lastName[0] + "."}
-					subtitle={User.username}
-				/>
+				<Card.Title title={firstName + " " + lastName[0] + "."} subtitle={username} />
 				<Card.Content>
 					<Title>Bio</Title>
 					<Divider style={{borderWidth: 1}} />
