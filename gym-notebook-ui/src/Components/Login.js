@@ -16,7 +16,6 @@ import SvgImage from "./SvgImage";
 import GlobalStyles from "./GlobalStyles";
 
 import API from "../API_interface/API_interface";
-import {setUncaughtExceptionCaptureCallback} from "process";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -69,36 +68,34 @@ const Login = ({navigation}) => {
 	const [verifyUser, setVerifyUser] = useState(false);
 	const [authFailed, setAuthFailed] = useState(false);
 
+	useEffect(() => {}, []);
+
 	const handleUsernameChange = (u) => {
-		console.log(u);
 		setUsername(u);
 	};
 
 	const handlePasswordChange = (p) => {
-		console.log(p);
 		setPassword(p);
 	};
-
-	useEffect(() => {
-		if (!verifyUser || username.length === 0) return;
-
-		getUserInfo();
-	}, [verifyUser, setUsername, username]);
 
 	const forgetPassword = () => {
 		//todo::send email to user to reset password
 	};
 	const login = async () => {
-		console.log(username);
-		console.log(password);
+		//fixme::try catch for wrong inputs
+		const response = await axios.get(`users/username/${username}`);
+		const currentUser = response.data[0].username;
+		const currentPassword = response.data[0].userPassword;
 
-		try {
-			const response = await axios.get(`users/username/${username}`);
-			console.log(response.data);
-		} catch (err) {}
-
-		//navigation.navigate("Front Page");
-		//todo::check if user input is in our database
+		if (password === currentPassword) {
+			setAuth({user: response.data[0]});
+			setVerifyUser(true);
+			setAuthFailed(false);
+			navigation.navigate("Front Page");
+		} else {
+			setVerifyUser(false);
+			setAuthFailed(true);
+		}
 	};
 	const signup = () => {
 		navigation.navigate("Signup");
