@@ -1,4 +1,4 @@
-using gymappdb;
+use gymappdb;
 
 INSERT INTO DailyRoutine(id,exerciseID,userID,sets,reps,weight,dayOfWeek,weeklyScheduleID) VALUES (1,0269,48,3,25,3,'MON',20);
 INSERT INTO DailyRoutine(id,exerciseID,userID,sets,reps,weight,dayOfWeek,weeklyScheduleID) VALUES (2,0712,29,9,10,4,'WED',196);

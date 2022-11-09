@@ -1,4 +1,4 @@
-using gymappdb;
+use gymappdb;
 
 INSERT INTO WeeklySchedule(id,accessStatus,title,stamp,upvotes,userID) VALUES (1,'public','Fuga sit quo sit ut officiis minima libero quia.','1989-04-22 09:58:27',0,33);
 INSERT INTO WeeklySchedule(id,accessStatus,title,stamp,upvotes,userID) VALUES (2,'private','Et aut qui perferendis vitae quod aut.','1977-11-24 08:09:43',0,2);
