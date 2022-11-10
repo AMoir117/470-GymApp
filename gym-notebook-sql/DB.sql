@@ -17,6 +17,7 @@ CREATE TABLE Users
   DoB DATE,
   imagePath VARCHAR(100),
   email VARCHAR(100) UNIQUE,
+  profileBio VARCHAR(512),
   CHECK (length(userPassword) >= 4)
 );
 
