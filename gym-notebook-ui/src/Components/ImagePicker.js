@@ -3,6 +3,19 @@ import {Button, Image, View, StyleSheet, Pressable, Text} from "react-native";
 import {Avatar} from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import * as FS from "expo-file-system";
+//import {getStorage, ref, uploadBytes} from "firebase/storage";
+import {getStorage, ref, uploadBytes} from "firebase/storage";
+import {initializeApp} from "firebase/app";
+
+const firebaseConfig = {
+	apiKey: "AIzaSyB4zyAMCH-mZgRfZg8H2tb_YdH1ZDNUNMk",
+	authDomain: "gymapp-470.firebaseapp.com",
+	projectId: "gymapp-470",
+	storageBucket: "gymapp-470.appspot.com",
+	messagingSenderId: "1042794128025",
+	appId: "1:1042794128025:web:f5a32270ecb4e00dc74e08",
+	measurementId: "G-N71EJW49W4",
+};
 
 const styles = StyleSheet.create({
 	areaView: {
@@ -22,6 +35,10 @@ const styles = StyleSheet.create({
 
 const ImagePick = () => {
 	const [image, setImage] = useState(undefined);
+
+	const app = initializeApp(firebaseConfig);
+	const storage = getStorage(app);
+	const storageRef = ref(storage, "some-child");
 
 	useEffect(() => {});
 
@@ -67,17 +84,21 @@ const ImagePick = () => {
 			aspect: [4, 3],
 			quality: 1,
 		});
-		console.log(pick);
 
-		// await FS.writeAsStringAsync(FS.documentDirectory + "profile.jpg", pick.uri, {
-		// 	encoding: FS.EncodingType.UTF8,
-		// });
+		if (!pick.cancelled) {
+			uploadImage(pick.uri);
+		}
+	};
 
-		// const info = await FS.getInfoAsync(FS.documentDirectory + "profile.jpg");
-		// console.log(pick);
-		// const test = info.uri;
+	const uploadImage = async (uri) => {
+		const response = await fetch(uri);
+		const blob = await response.blob();
 
-		// setImage(test);
+		//var ref = getStorage().ref().child("first-image");
+		//return ref.put(blob);
+		uploadBytes(storageRef, blob).then((snapshot) => {
+			console.log("uploaded blob");
+		});
 	};
 
 	return (
