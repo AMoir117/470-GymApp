@@ -1,11 +1,4 @@
-import React, {
-	useState,
-	useEffect,
-	useContext,
-	createContext,
-	useContext,
-	createContext,
-} from "react";
+import React, {useState, useEffect, useContext, createContext} from "react";
 import {
 	ScrollView,
 	Text,
@@ -18,7 +11,6 @@ import {
 } from "react-native";
 import {Divider, Appbar, Button, Avatar, Portal, Card, Title, Paragraph} from "react-native-paper";
 import axios from "axios";
-import AuthContext from "../../Context/AuthProvider";
 import AuthContext from "../../Context/AuthProvider";
 import GlobalStyles from "../GlobalStyles";
 import * as FS from "expo-file-system";

@@ -59,7 +59,7 @@ const ImagePick = () => {
 		<View>
 			<Avatar.Image style={styles.avatarStyle} size={150} source={{uri: image}} />
 
-			<Pressable color={"#026df7"} onPress={pickImage2}>
+			<Pressable color={"#026df7"} onPress={pickImage}>
 				<Text style={styles.textUploadImage}>Upload Image</Text>
 			</Pressable>
 		</View>
