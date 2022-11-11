@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext, createContext} from "react";
 import {
 	ScrollView,
 	Text,
@@ -11,7 +11,12 @@ import {
 } from "react-native";
 import {Divider, Appbar, Button, Avatar, Portal, Card, Title, Paragraph} from "react-native-paper";
 import axios from "axios";
+import AuthContext from "../../Context/AuthProvider";
 import GlobalStyles from "../GlobalStyles";
+import * as FS from "expo-file-system";
+import {getStorage, ref, getDownloadURL} from "firebase/storage";
+import {initializeApp} from "firebase/app";
+import firebaseConfig from "../../../firebaseConfig";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -70,41 +75,36 @@ const styles = StyleSheet.create({
 	},
 });
 const ProfileViewer = (props) => {
-	/*
+	const app = initializeApp(firebaseConfig);
+	const storage = getStorage(app);
+	const pathRef = ref(storage, "admin"); //todo:: set second argument to user pathFileName
 
-  username VARCHAR(25) NOT NULL UNIQUE,
-  firstName VARCHAR(20),
-  lastName VARCHAR(20),
-  DoB DATE,
-  imagePath VARCHAR(100),
+	const {auth} = useContext(AuthContext);
+	const [uri, setUri] = useState(undefined);
 
-	*/
+	const username = auth.user.username;
+	const firstName = auth.user.firstName;
+	const lastName = auth.user.lastName;
+	const bio = auth.user.profileBio;
+	const Dob = auth.user.DoB;
+	const pathFileName = auth.user.imagePath;
 
-	const User = {
-		username: "arnolds17",
-		firstName: "Arnold",
-		lastName: "Schwarzenegger",
-		Dob: "1947-07-03",
-		bio: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur porta ex sit amet odio volutpat tincidunt. Quisque eleifend suscipit quam, vitae ultricies dui. Fusce nibh nibh, gravida non arcu quis, cursus luctus enim. Vivamus vitae porttitor orci, sed rutrum nulla. Pellentesque euismod sagittis lobortis. Sed tincidunt arcu non nisi porttitor.`,
-		imagePath: require("../../../assets/arnold.jpg"),
-	};
-
-	const {userID, imgUrl, userName} = props;
-
-	useEffect(() => {}, []);
+	useEffect(() => {
+		// getDownloadURL(pathRef).then(async (url) => {
+		// 	console.log(url);
+		// 	setUri(url);
+		// });
+	}, []);
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
-				<Card.Cover source={User.imagePath} />
-				<Card.Title
-					title={User.firstName + " " + User.lastName[0] + "."}
-					subtitle={User.username}
-				/>
+				<Card.Cover style={{top: 0}} source={{uri: pathFileName}} />
+				<Card.Title title={firstName + " " + lastName[0] + "."} subtitle={username} />
 				<Card.Content>
 					<Title>Bio</Title>
 					<Divider style={{borderWidth: 1}} />
-					<Paragraph>{User.bio}</Paragraph>
+					<Paragraph>{bio}</Paragraph>
 				</Card.Content>
 			</Card>
 		</SafeAreaView>
