@@ -23,9 +23,7 @@ const styles = StyleSheet.create({
 const ImagePick = () => {
 	const [image, setImage] = useState(undefined);
 
-	useEffect(() => {
-		console.log("image has changed!!!!");
-	}, [image]);
+	useEffect(() => {});
 
 	const pickImage = async () => {
 		const pick = await ImagePicker.launchImageLibraryAsync({
@@ -47,7 +45,7 @@ const ImagePick = () => {
 					const getImage = await FS.getInfoAsync(FS.documentDirectory + "profile.jpg");
 					if (getImage) {
 						console.log("get image");
-						setImage(getImage.uri);
+						setImage(newImage);
 					}
 				}
 			});
@@ -62,11 +60,31 @@ const ImagePick = () => {
 		// console.log(readFromDir);
 	};
 
+	const pickImage2 = async () => {
+		const pick = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+		});
+		console.log(pick);
+
+		// await FS.writeAsStringAsync(FS.documentDirectory + "profile.jpg", pick.uri, {
+		// 	encoding: FS.EncodingType.UTF8,
+		// });
+
+		// const info = await FS.getInfoAsync(FS.documentDirectory + "profile.jpg");
+		// console.log(pick);
+		// const test = info.uri;
+
+		// setImage(test);
+	};
+
 	return (
 		<View>
 			<Avatar.Image style={styles.avatarStyle} size={150} source={{uri: image}} />
 
-			<Pressable color={"#026df7"} onPress={pickImage}>
+			<Pressable color={"#026df7"} onPress={pickImage2}>
 				<Text style={styles.textUploadImage}>Upload Image</Text>
 			</Pressable>
 		</View>
