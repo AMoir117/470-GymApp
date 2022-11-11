@@ -10,7 +10,7 @@ import {
 	TouchableOpacity,
 	ImageBackground,
 } from "react-native";
-import {Divider} from "react-native-paper";
+import {Divider, Snackbar} from "react-native-paper";
 import axios from "axios";
 import SvgImage from "./SvgImage";
 import GlobalStyles from "./GlobalStyles";
@@ -60,6 +60,9 @@ const styles = StyleSheet.create({
 		color: "#000000",
 		textAlign: "center",
 	},
+	snackBar: {
+		backgroundColor: GlobalStyles.hexColor.red,
+	},
 });
 const Login = ({navigation}) => {
 	const {setAuth} = useContext(AuthContext);
@@ -67,6 +70,7 @@ const Login = ({navigation}) => {
 	const [password, setPassword] = useState("");
 	const [verifyUser, setVerifyUser] = useState(false);
 	const [authFailed, setAuthFailed] = useState(false);
+	const [visible, setVisible] = useState(false);
 
 	useEffect(() => {}, []);
 
@@ -83,23 +87,37 @@ const Login = ({navigation}) => {
 	};
 	const login = async () => {
 		//fixme::try catch for wrong inputs
-		const response = await axios.get(`users/username/${username}`);
-		const currentUser = response.data[0].username;
-		const currentPassword = response.data[0].userPassword;
-
-		if (password === currentPassword) {
-			setAuth({user: response.data[0]});
-			setVerifyUser(true);
-			setAuthFailed(false);
-			navigation.navigate("Front Page");
-		} else {
-			setVerifyUser(false);
-			setAuthFailed(true);
-		}
+		await axios
+			.get(`users/username/${username}`)
+			.then((response) => {
+				const userInfo = response.data[0];
+				if (userInfo === undefined) {
+					setVisible(true);
+				} else if (password === userInfo.userPassword) {
+					setAuth({user: userInfo});
+					setVerifyUser(true);
+					setAuthFailed(false);
+					navigation.navigate("Front Page");
+				} else {
+					setVerifyUser(false);
+					setAuthFailed(true);
+				}
+			})
+			.catch(function (error) {
+				if (error.response) {
+					console.log(error.response.data);
+					console.log(error.response.status);
+					console.log(error.response.headers);
+				}
+			});
 	};
 	const signup = () => {
 		navigation.navigate("Signup");
 		//todo::send user to signup page
+	};
+
+	const onDismissSnackBar = () => {
+		setVisible(false);
 	};
 
 	return (
@@ -157,6 +175,15 @@ const Login = ({navigation}) => {
 					<Text style={{alignSelf: "center"}}></Text>
 				</TouchableOpacity>
 			</View>
+			<Snackbar
+				style={styles.snackBar}
+				wrapperStyle={{top: 0}}
+				visible={visible}
+				duration={2000}
+				onDismiss={onDismissSnackBar}
+			>
+				Username or Password Incorrect!!
+			</Snackbar>
 		</SafeAreaView>
 	);
 };
