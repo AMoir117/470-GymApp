@@ -15,7 +15,7 @@ CREATE TABLE Users
   firstName VARCHAR(20),
   lastName VARCHAR(20),
   DoB DATE,
-  imagePath VARCHAR(100),
+  imagePath VARCHAR(200),
   email VARCHAR(100) UNIQUE,
   profileBio VARCHAR(512),
   CHECK (length(userPassword) >= 4)

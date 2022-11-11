@@ -14,6 +14,9 @@ import axios from "axios";
 import AuthContext from "../../Context/AuthProvider";
 import GlobalStyles from "../GlobalStyles";
 import * as FS from "expo-file-system";
+import {getStorage, ref, getDownloadURL} from "firebase/storage";
+import {initializeApp} from "firebase/app";
+import firebaseConfig from "../../../firebaseConfig";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -72,6 +75,10 @@ const styles = StyleSheet.create({
 	},
 });
 const ProfileViewer = (props) => {
+	const app = initializeApp(firebaseConfig);
+	const storage = getStorage(app);
+	const pathRef = ref(storage, "admin"); //todo:: set second argument to user pathFileName
+
 	const {auth} = useContext(AuthContext);
 	const [uri, setUri] = useState(undefined);
 
@@ -80,20 +87,19 @@ const ProfileViewer = (props) => {
 	const lastName = auth.user.lastName;
 	const bio = auth.user.profileBio;
 	const Dob = auth.user.DoB;
+	const pathFileName = auth.user.imagePath;
 
 	useEffect(() => {
-		const loadUri = async () => {
-			await FS.getInfoAsync(FS.documentDirectory + "profile.jpg").then((image) => {
-				setUri(image.uri);
-			});
-		};
-		loadUri();
+		// getDownloadURL(pathRef).then(async (url) => {
+		// 	console.log(url);
+		// 	setUri(url);
+		// });
 	}, []);
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
-				<Card.Cover style={{top: 0}} source={{uri: uri}} />
+				<Card.Cover style={{top: 0}} source={{uri: pathFileName}} />
 				<Card.Title title={firstName + " " + lastName[0] + "."} subtitle={username} />
 				<Card.Content>
 					<Title>Bio</Title>

@@ -93,7 +93,6 @@ const Signup = ({navigation, back}) => {
 	const [email, setEmail] = useState("");
 	const [bio, setBio] = useState("");
 	const [show, setShow] = useState(false);
-
 	const [date, setDate] = useState(new Date());
 
 	useEffect(() => {}, []);
@@ -125,35 +124,6 @@ const Signup = ({navigation, back}) => {
 					showsVerticalScrollIndicator={false}
 					alwaysBounceVertical={false}
 				>
-					{/* <View>
-					<Appbar.Header alignSelf="center">
-						{back ? (
-							<Appbar.BackAction
-								onPress={() => {
-									navigation.goBack;
-								}}
-							/>
-						) : null}
-						<Appbar.Content title="MY PROFILE" mode="center-align" alignSelf="center" />
-					</Appbar.Header>
-
-					<Divider
-						style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
-						horizontalInset="3"
-					/>
-				</View> */}
-					{/* <View>
-					<Avatar.Image
-						style={styles.avatarStyle}
-						size={150}
-						//source={require("../../assets/pexels-anush-gorak-1431283.jpg")}
-					/>
-				</View>
-				<View>
-					<Pressable color={"#026df7"} onPress={() => {}}>
-						<Text style={styles.textUploadImage}>Upload Image</Text>
-					</Pressable>
-				</View> */}
 					<ImagePick />
 					<TextInput
 						style={styles.textInputStyle}
