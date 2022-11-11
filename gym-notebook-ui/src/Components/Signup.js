@@ -92,9 +92,6 @@ const Signup = ({navigation, back}) => {
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [bio, setBio] = useState("");
-
-	const [image, setImage] = useState(null);
-
 	const [show, setShow] = useState(false);
 
 	const [date, setDate] = useState(new Date());
@@ -157,7 +154,7 @@ const Signup = ({navigation, back}) => {
 						<Text style={styles.textUploadImage}>Upload Image</Text>
 					</Pressable>
 				</View> */}
-					<ImagePick image={image} setImage={setImage} />
+					<ImagePick />
 					<TextInput
 						style={styles.textInputStyle}
 						placeholder={"Username"}
