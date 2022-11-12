@@ -103,7 +103,7 @@ const insertNewUser = (ctx) => {
         'firstName',
         'lastName',
         'DoB',
-        'imagePath',
+        //'imagePath',
         'email',
         'profileBio'
     ];

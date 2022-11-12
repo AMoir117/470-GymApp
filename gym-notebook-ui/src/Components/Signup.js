@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {
 	ScrollView,
 	Text,
@@ -16,6 +16,7 @@ import WheelPickerExpo from "react-native-wheel-picker-expo";
 import InsertDate from "./InsertDate";
 import ImagePick from "./ImagePicker";
 import axios from "axios";
+import AuthContext from "../Context/AuthProvider";
 
 import SvgImage from "./SvgImage";
 import GlobalStyles from "./GlobalStyles";
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
 
 const options = {
 	year: "numeric",
-	month: "long",
+	month: "numeric",
 	day: "numeric",
 };
 
@@ -93,17 +94,59 @@ const Signup = ({navigation, back}) => {
 	const [email, setEmail] = useState("");
 	const [bio, setBio] = useState("");
 	const [show, setShow] = useState(false);
-	const [date, setDate] = useState(new Date());
+	const [date, setDate] = useState(new Date(1995, 11, 17));
+	const [imagePath, setImagePath] = useState("");
+
+	const {setAuth} = useContext(AuthContext);
 
 	useEffect(() => {}, []);
 
-	const saveProfile = () => {
+	const saveProfile = async() => {
 		navigation.navigate("Login");
 		console.log("profile saved");
 		//todo::save information for new user
 		console.log(`${date.getDate()}, ${date.getDay()}, ${date.getFullYear()}`);
 		console.log(date.toLocaleDateString(undefined, options));
 		console.log(Platform.OS);
+		await axios
+			.post(`users/insert-user`, {
+				"username": username,
+				'userPassword': password,
+				'firstName': firstName,
+				'lastName': lastName,
+				'DoB': date.toISOString().split('T')[0],
+				'imagePath': imagePath,
+				'email': email,
+				'profileBio': bio
+			})
+			.then((response) => {
+				const userInfo = {
+					"username": username,
+					'userPassword': password,
+					'firstName': firstName,
+					'lastName': lastName,
+					'DoB': date.toISOString().split('T')[0],
+					'imagePath': imagePath,
+					'email': email,
+					'profileBio': bio
+				};
+				setAuth({user: userInfo});
+				console.log(userInfo);
+				//setVisible(true);3
+
+				navigation.navigate("Front Page");
+				/*if (userInfo === undefined) {
+					setVisible(true);
+				} else if (password === userInfo.userPassword) {
+					setAuth({user: userInfo});
+					setVerifyUser(true);
+					setAuthFailed(false);
+					navigation.navigate("Front Page");
+				} else {
+					setVerifyUser(false);
+					setAuthFailed(true);
+				}*/
+			})
 
 	};
 
@@ -125,7 +168,7 @@ const Signup = ({navigation, back}) => {
 					showsVerticalScrollIndicator={false}
 					alwaysBounceVertical={false}
 				>
-					<ImagePick />
+					<ImagePick image={imagePath} setImage={setImagePath}/>
 					<TextInput
 						style={styles.textInputStyle}
 						placeholder={"Username"}
