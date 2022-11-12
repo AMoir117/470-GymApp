@@ -90,10 +90,11 @@ const ProfileViewer = (props) => {
 	const pathFileName = auth.user.imagePath;
 
 	useEffect(() => {
-		// getDownloadURL(pathRef).then(async (url) => {
-		// 	console.log(url);
-		// 	setUri(url);
-		// });
+		getDownloadURL(pathRef).then(async (url) => {
+			console.log(url);
+			//fixme:: post url to db
+			setUri(url);
+		});
 	}, []);
 
 	return (
