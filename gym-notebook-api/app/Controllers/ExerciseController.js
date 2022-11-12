@@ -11,7 +11,7 @@ const allExercises = async (ctx) => {
 		const query = `
                        SELECT *
                         FROM 
-                            exercise
+						Exercise
                         ORDER BY id
                         `;
 		dbConnection.query(
@@ -44,8 +44,9 @@ const exerciseByName = (ctx) => {
 		dbConnection.query(
 			{
 				sql: query,
-				values: [ctx.params.workoutName]
-			}, (error, tuples) => {
+				values: [ctx.params.workoutName],
+			},
+			(error, tuples) => {
 				if (error) {
 					console.log("Connection error in ExercisesController::exerciseByName", error);
 					ctx.body = [];
@@ -55,7 +56,8 @@ const exerciseByName = (ctx) => {
 				ctx.body = tuples;
 				ctx.status = 200;
 				return resolve();
-			});
+			}
+		);
 		console.log(ctx.params);
 	}).catch((err) => {
 		console.log("Database connection error in exerciseByName.", err);
@@ -73,8 +75,9 @@ const exerciseByID = (ctx) => {
 		dbConnection.query(
 			{
 				sql: query,
-				values: [ctx.params.id]
-			}, (error, tuples) => {
+				values: [ctx.params.id],
+			},
+			(error, tuples) => {
 				if (error) {
 					console.log("Connection error in ExercisesController::exerciseByID", error);
 					ctx.body = [];
@@ -84,7 +87,8 @@ const exerciseByID = (ctx) => {
 				ctx.body = tuples;
 				ctx.status = 200;
 				return resolve();
-			});
+			}
+		);
 	}).catch((err) => {
 		console.log("Database connection error in exerciseByID.", err);
 		// The UI side will have to look for the value of status and
@@ -101,10 +105,14 @@ const exerciseByBodyPart = (ctx) => {
 		dbConnection.query(
 			{
 				sql: query,
-				values: [ctx.params.bodyPart]
-			}, (error, tuples) => {
+				values: [ctx.params.bodyPart],
+			},
+			(error, tuples) => {
 				if (error) {
-					console.log("Connection error in ExercisesController::exerciseByBodyPart", error);
+					console.log(
+						"Connection error in ExercisesController::exerciseByBodyPart",
+						error
+					);
 					ctx.body = [];
 					ctx.status = 200;
 					return reject(error);
@@ -112,7 +120,8 @@ const exerciseByBodyPart = (ctx) => {
 				ctx.body = tuples;
 				ctx.status = 200;
 				return resolve();
-			});
+			}
+		);
 	}).catch((err) => {
 		console.log("Database connection error in exerciseByBodyPart.", err);
 		// The UI side will have to look for the value of status and
@@ -129,8 +138,9 @@ const exerciseByMuscle = (ctx) => {
 		dbConnection.query(
 			{
 				sql: query,
-				values: [ctx.params.targetMuscle]
-			}, (error, tuples) => {
+				values: [ctx.params.targetMuscle],
+			},
+			(error, tuples) => {
 				if (error) {
 					console.log("Connection error in ExercisesController::exerciseByMuscle", error);
 					ctx.body = [];
@@ -140,7 +150,8 @@ const exerciseByMuscle = (ctx) => {
 				ctx.body = tuples;
 				ctx.status = 200;
 				return resolve();
-			});
+			}
+		);
 	}).catch((err) => {
 		console.log("Database connection error in exerciseByMuscle.", err);
 		// The UI side will have to look for the value of status and
@@ -157,10 +168,14 @@ const exerciseByEquipment = (ctx) => {
 		dbConnection.query(
 			{
 				sql: query,
-				values: [ctx.params.equipment]
-			}, (error, tuples) => {
+				values: [ctx.params.equipment],
+			},
+			(error, tuples) => {
 				if (error) {
-					console.log("Connection error in ExercisesController::exerciseByEquipment", error);
+					console.log(
+						"Connection error in ExercisesController::exerciseByEquipment",
+						error
+					);
 					ctx.body = [];
 					ctx.status = 200;
 					return reject(error);
@@ -168,7 +183,8 @@ const exerciseByEquipment = (ctx) => {
 				ctx.body = tuples;
 				ctx.status = 200;
 				return resolve();
-			});
+			}
+		);
 	}).catch((err) => {
 		console.log("Database connection error in exerciseByEquipment.", err);
 		// The UI side will have to look for the value of status and
@@ -177,7 +193,6 @@ const exerciseByEquipment = (ctx) => {
 		ctx.status = 500;
 	});
 };
-
 
 module.exports = {
 	allExercises,

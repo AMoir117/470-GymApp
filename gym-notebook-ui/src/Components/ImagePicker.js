@@ -2,6 +2,10 @@ import React, {useState, useEffect} from "react";
 import {Button, Image, View, StyleSheet, Pressable, Text} from "react-native";
 import {Avatar} from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
+import * as FS from "expo-file-system";
+import {getStorage, ref, uploadBytes} from "firebase/storage";
+import {initializeApp} from "firebase/app";
+import firebaseConfig from "../../firebaseConfig";
 
 const styles = StyleSheet.create({
 	areaView: {
@@ -19,22 +23,36 @@ const styles = StyleSheet.create({
 	},
 });
 
-const ImagePick = (props) => {
-	const {image, setImage} = props;
+const ImagePick = () => {
+	const [image, setImage] = useState(undefined);
+
+	const app = initializeApp(firebaseConfig);
+	const storage = getStorage(app);
+	const storageRef = ref(storage, "admin"); //todo:: set second argument to user pathFileName
+
+	useEffect(() => {});
 
 	const pickImage = async () => {
-		let result = await ImagePicker.launchImageLibraryAsync({
+		const pick = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.All,
 			allowsEditing: true,
 			aspect: [4, 3],
 			quality: 1,
 		});
 
-		console.log(result.uri);
-
-		if (!result.cancelled) {
-			setImage(result.uri);
+		if (!pick.cancelled) {
+			setImage(pick.uri);
+			uploadImage(pick.uri);
 		}
+	};
+
+	const uploadImage = async (uri) => {
+		const response = await fetch(uri);
+		const blob = await response.blob();
+		//UNCOMMENT TO UPLOAD TO FIREBASE
+		uploadBytes(storageRef, blob).then((snapshot) => {
+			console.log("uploaded blob");
+		});
 	};
 
 	return (
