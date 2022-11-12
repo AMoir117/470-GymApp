@@ -11,7 +11,7 @@ const allExercises = async (ctx) => {
 		const query = `
                        SELECT *
                         FROM 
-                            exercises
+                            exercise
                         ORDER BY id
                         `;
 		dbConnection.query(
@@ -40,7 +40,7 @@ const allExercises = async (ctx) => {
 const exerciseByName = (ctx) => {
 	console.log("exercises exercise by name called.");
 	return new Promise((resolve, reject) => {
-		const query = `SELECT * FROM Exercises WHERE workoutName = ?;`;
+		const query = `SELECT * FROM Exercise WHERE workoutName = ?;`;
 		dbConnection.query(
 			{
 				sql: query,
@@ -69,7 +69,7 @@ const exerciseByName = (ctx) => {
 const exerciseByID = (ctx) => {
 	console.log("exercises exercise by ID called.");
 	return new Promise((resolve, reject) => {
-		const query = `SELECT * FROM Exercises WHERE id = ?`;
+		const query = `SELECT * FROM Exercise WHERE id = ?`;
 		dbConnection.query(
 			{
 				sql: query,
@@ -97,7 +97,7 @@ const exerciseByID = (ctx) => {
 const exerciseByBodyPart = (ctx) => {
 	console.log("exercises exercise by bodyPart called.");
 	return new Promise((resolve, reject) => {
-		const query = `SELECT * FROM Exercises WHERE bodyPart = ?`;
+		const query = `SELECT * FROM Exercise WHERE bodyPart = ?`;
 		dbConnection.query(
 			{
 				sql: query,
@@ -125,7 +125,7 @@ const exerciseByBodyPart = (ctx) => {
 const exerciseByMuscle = (ctx) => {
 	console.log("exercises exercise by muscle called.");
 	return new Promise((resolve, reject) => {
-		const query = `SELECT * FROM Exercises WHERE targetMuscle = ?`;
+		const query = `SELECT * FROM Exercise WHERE targetMuscle = ?`;
 		dbConnection.query(
 			{
 				sql: query,
@@ -153,7 +153,7 @@ const exerciseByMuscle = (ctx) => {
 const exerciseByEquipment = (ctx) => {
 	console.log("exercises exercise by Equipment called.");
 	return new Promise((resolve, reject) => {
-		const query = `SELECT * FROM Exercises WHERE equipment = ?`;
+		const query = `SELECT * FROM Exercise WHERE equipment = ?`;
 		dbConnection.query(
 			{
 				sql: query,

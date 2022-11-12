@@ -108,6 +108,7 @@ const Signup = ({navigation, back}) => {
 		console.log(`${date.getDate()}, ${date.getDay()}, ${date.getFullYear()}`);
 		console.log(date.toLocaleDateString(undefined, options));
 		console.log(Platform.OS);
+
 	};
 
 	return (

@@ -1,5 +1,5 @@
-const Authorize = require("../app/Middleware/Authorize.js");
-const VerifyJWT = require("../app/Middleware/VerifyJWT.js");
+/*const Authorize = require("../app/Middleware/Authorize.js");
+const VerifyJWT = require("../app/Middleware/VerifyJWT.js");*/
 
 /*
 |--------------------------------------------------------------------------
@@ -10,6 +10,8 @@ const VerifyJWT = require("../app/Middleware/VerifyJWT.js");
 | controller. Also used as a parent container for the other routers.
 |
 */
+const koa = require('koa');
+bodyParser = require('koa-bodyparser');
 const router = require("koa-router")({
 	prefix: "/api/v1",
 });
@@ -77,6 +79,10 @@ usersRouter.get("/username/:username", UsersController.userByName, (err) =>
 usersRouter.get("/id/:id", UsersController.userByID, (err) =>
 	console.log(`userByID ran into an error: ${err}`)
 );
+usersRouter.post('/insert-user', UsersController.insertNewUser, (err) =>
+	console.log(`insertUser ran into an error: ${err}`)
+);
+
 
 
 /**
