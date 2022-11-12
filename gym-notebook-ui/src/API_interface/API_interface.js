@@ -9,7 +9,7 @@ const AxiosConfigured = () => {
 	// Set the baseURL for all requests to the API domain instead of the current domain
 	// axios.defaults.baseURL = `http://localhost:8443/api/v1`;
 	//fixme::find out how to put ip address in .env
-	axios.defaults.baseURL = `http://10.0.0.224:8443/api/v1`;
+	axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
 
 	// Allow the browser to send cookies to the API domain (which include auth_token)
 	axios.defaults.withCredentials = true;
@@ -76,7 +76,7 @@ export default class APIInterface {
 		return axiosAgent.get(`users/${id}`);
 	}
 	async insertNewUser(userInfo) {
-		console.log(`API_Interface::insertNewUser: userInfo contains: ${JSON.stringify(userInfo )}`);
+		console.log(`API_Interface::insertNewUser: userInfo contains: ${JSON.stringify(userInfo)}`);
 		return axiosAgent.post(`users/insert-user`, userInfo);
 	}
 }

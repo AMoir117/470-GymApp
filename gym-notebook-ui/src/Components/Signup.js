@@ -95,13 +95,13 @@ const Signup = ({navigation, back}) => {
 	const [bio, setBio] = useState("");
 	const [show, setShow] = useState(false);
 	const [date, setDate] = useState(new Date(1995, 11, 17));
-	const [imagePath, setImagePath] = useState("");
+	const [imagePath, setImagePath] = useState(undefined);
 
 	const {setAuth} = useContext(AuthContext);
 
 	useEffect(() => {}, []);
 
-	const saveProfile = async() => {
+	const saveProfile = async () => {
 		navigation.navigate("Login");
 		console.log("profile saved");
 		//todo::save information for new user
@@ -110,25 +110,25 @@ const Signup = ({navigation, back}) => {
 		console.log(Platform.OS);
 		await axios
 			.post(`users/insert-user`, {
-				"username": username,
-				'userPassword': password,
-				'firstName': firstName,
-				'lastName': lastName,
-				'DoB': date.toISOString().split('T')[0],
-				'imagePath': imagePath,
-				'email': email,
-				'profileBio': bio
+				username: username,
+				userPassword: password,
+				firstName: firstName,
+				lastName: lastName,
+				DoB: date.toISOString().split("T")[0],
+				imagePath: imagePath,
+				email: email,
+				profileBio: bio,
 			})
 			.then((response) => {
 				const userInfo = {
-					"username": username,
-					'userPassword': password,
-					'firstName': firstName,
-					'lastName': lastName,
-					'DoB': date.toISOString().split('T')[0],
-					'imagePath': imagePath,
-					'email': email,
-					'profileBio': bio
+					username: username,
+					userPassword: password,
+					firstName: firstName,
+					lastName: lastName,
+					DoB: date.toISOString().split("T")[0],
+					imagePath: imagePath,
+					email: email,
+					profileBio: bio,
 				};
 				setAuth({user: userInfo});
 				console.log(userInfo);
@@ -146,8 +146,7 @@ const Signup = ({navigation, back}) => {
 					setVerifyUser(false);
 					setAuthFailed(true);
 				}*/
-			})
-
+			});
 	};
 
 	return (
@@ -168,7 +167,7 @@ const Signup = ({navigation, back}) => {
 					showsVerticalScrollIndicator={false}
 					alwaysBounceVertical={false}
 				>
-					<ImagePick image={imagePath} setImage={setImagePath}/>
+					<ImagePick image={imagePath} setImage={setImagePath} />
 					<TextInput
 						style={styles.textInputStyle}
 						placeholder={"Username"}
