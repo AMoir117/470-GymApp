@@ -2,6 +2,8 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {SectionList, StyleSheet, Text, View} from "react-native";
 
+// require('dotenv').config();
+
 const AxiosConfigured = () => {
 	// Indicate to the API that all requests for this app are AJAX
 	axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
@@ -9,7 +11,13 @@ const AxiosConfigured = () => {
 	// Set the baseURL for all requests to the API domain instead of the current domain
 	// axios.defaults.baseURL = `http://localhost:8443/api/v1`;
 	//fixme::find out how to put ip address in .env
-	axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
+
+	// desktop
+	// axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
+	// phone
+	axios.defaults.baseURL = `http://192.168.1.142:8443/api/v1`;
+
+
 
 	// Allow the browser to send cookies to the API domain (which include auth_token)
 	axios.defaults.withCredentials = true;
@@ -75,6 +83,17 @@ export default class APIInterface {
 		console.log(`userByID called for id = ${id}`);
 		return axiosAgent.get(`users/${id}`);
 	}
+
+	async getUsersFollowers(followedUserID){
+		console.log(`getUsersFollowers called for id = ${followedUserID}`);
+		return axiosAgent.get(`users/get-followers/${followedUserID}`);
+	}
+
+	async getPublicSchedules(){
+		console.log(`getPublicSchedules called.`);
+		return axiosAgent.get(`weekly-schedule/lobby`);
+	}
+
 	async insertNewUser(userInfo) {
 		console.log(`API_Interface::insertNewUser: userInfo contains: ${JSON.stringify(userInfo)}`);
 		return axiosAgent.post(`users/insert-user`, userInfo);

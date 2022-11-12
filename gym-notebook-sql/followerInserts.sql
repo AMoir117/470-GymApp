@@ -1,4 +1,4 @@
-using gymappdb;
+use gymappdb;
 
 INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 6);
 INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 7);

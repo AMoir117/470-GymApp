@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 use gymappdb;
-=======
-using gymappdb;
->>>>>>> 0eda6f6 (users router has get followers by an id, and weeklyschedule router has get all public schedules ordered by upvotes)
 
 INSERT INTO Exercise (bodyPart, equipment, gifUrl, id, workoutName, targetMuscle) VALUES ('waist', 'body weight', 'http://d205bpvrqc9yn1.cloudfront.net/0001.gif', '0001', '3/4 sit-up', 'abs');
 INSERT INTO Exercise (bodyPart, equipment, gifUrl, id, workoutName, targetMuscle) VALUES ('waist', 'body weight', 'http://d205bpvrqc9yn1.cloudfront.net/0002.gif', '0002', '45° side bend', 'abs');
