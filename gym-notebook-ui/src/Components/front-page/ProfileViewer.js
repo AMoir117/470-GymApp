@@ -90,16 +90,17 @@ const ProfileViewer = (props) => {
 	const pathFileName = auth.user.imagePath;
 
 	useEffect(() => {
-		// getDownloadURL(pathRef).then(async (url) => {
-		// 	console.log(url);
-		// 	setUri(url);
-		// });
+		getDownloadURL(pathRef).then(async (url) => {
+			console.log(url);
+			//fixme:: post url to db
+			setUri(url);
+		});
 	}, []);
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
-				<Card.Cover style={{top: 0}} source={{uri: pathFileName}} />
+				<Card.Cover style={{top: 0}} source={{uri: uri}} />
 				<Card.Title title={firstName + " " + lastName[0] + "."} subtitle={username} />
 				<Card.Content>
 					<Title>Bio</Title>
