@@ -89,6 +89,7 @@ const options = {
 const Signup = ({navigation, back}) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [checkPassword, setCheckPassword] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
@@ -102,6 +103,16 @@ const Signup = ({navigation, back}) => {
 	useEffect(() => {}, []);
 
 	const saveProfile = async () => {
+		if (password !== checkPassword) {
+			console.log("Password is different");
+			return;
+		} else if (username === "" || email === "") {
+			console.log("Username or email is empty!");
+			return;
+		} else {
+			console.log(username);
+			return;
+		}
 		await axios
 			.post(`users/insert-user`, {
 				username: username,
@@ -151,7 +162,7 @@ const Signup = ({navigation, back}) => {
 					<ImagePick image={imagePath} setImage={setImagePath} />
 					<TextInput
 						style={styles.textInputStyle}
-						placeholder={"Username"}
+						placeholder={"*Username"}
 						value={username}
 						textContentType={"username"}
 						onChangeText={setUsername}
@@ -172,7 +183,7 @@ const Signup = ({navigation, back}) => {
 					/>
 					<TextInput
 						style={styles.textInputStyle}
-						placeholder={"Email"}
+						placeholder={"*Email"}
 						value={email}
 						textContentType={"emailAddress"}
 						onChangeText={setEmail}
@@ -211,9 +222,9 @@ const Signup = ({navigation, back}) => {
 						style={styles.textInputStyle}
 						secureTextEntry={true}
 						placeholder={"Re-input Password"}
-						value={password}
+						value={checkPassword}
 						textContentType={"password"}
-						onChangeText={setPassword}
+						onChangeText={setCheckPassword}
 					/>
 					<Button
 						style={styles.buttonSave}
