@@ -15,9 +15,7 @@ const AxiosConfigured = () => {
 	// desktop
 	// axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
 	// phone
-	axios.defaults.baseURL = `http://192.168.1.142:8443/api/v1`;
-
-
+	axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
 
 	// Allow the browser to send cookies to the API domain (which include auth_token)
 	axios.defaults.withCredentials = true;
@@ -84,12 +82,12 @@ export default class APIInterface {
 		return axiosAgent.get(`users/${id}`);
 	}
 
-	async getUsersFollowers(followedUserID){
+	async getUsersFollowers(followedUserID) {
 		console.log(`getUsersFollowers called for id = ${followedUserID}`);
 		return axiosAgent.get(`users/get-followers/${followedUserID}`);
 	}
 
-	async getPublicSchedules(){
+	async getPublicSchedules() {
 		console.log(`getPublicSchedules called.`);
 		return axiosAgent.get(`weekly-schedule/lobby`);
 	}
