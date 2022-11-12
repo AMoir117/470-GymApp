@@ -1,5 +1,3 @@
-use gymappdb;
-
 DROP TABLE IF EXISTS Follower;
 DROP TABLE IF EXISTS DailyRoutine;
 DROP TABLE IF EXISTS WeeklySchedule;
@@ -15,7 +13,12 @@ CREATE TABLE Users
   firstName VARCHAR(20),
   lastName VARCHAR(20),
   DoB DATE,
+<<<<<<< HEAD
   imagePath VARCHAR(200),
+  email VARCHAR(100) UNIQUE,
+  profileBio VARCHAR(512),
+=======
+  imagePath VARCHAR(100),
   email VARCHAR(100) UNIQUE,
   profileBio VARCHAR(512),
   CHECK (length(userPassword) >= 4)

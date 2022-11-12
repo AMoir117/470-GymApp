@@ -1,5 +1,5 @@
-const Authorize = require("../app/Middleware/Authorize.js");
-const VerifyJWT = require("../app/Middleware/VerifyJWT.js");
+/*const Authorize = require("../app/Middleware/Authorize.js");
+const VerifyJWT = require("../app/Middleware/VerifyJWT.js");*/
 
 /*
 |--------------------------------------------------------------------------
@@ -10,25 +10,13 @@ const VerifyJWT = require("../app/Middleware/VerifyJWT.js");
 | controller. Also used as a parent container for the other routers.
 |
 */
+const koa = require("koa");
+bodyParser = require("koa-bodyparser");
 const router = require("koa-router")({
 	prefix: "/api/v1",
 });
 
-/*router.get("/", function (ctx) {
-	console.log("router.get(/)");
-	return (ctx.body = "What is up??");
-});*/
-/*
-|--------------------------------------------------------------------------
-| login router
-|--------------------------------------------------------------------------
-|
-| Description
-|
-*/
-
 // Login router configuration.
-
 const LoginController = require("../app/Controllers/LoginController.js");
 const loginRouter = require("koa-router")({
 	prefix: "/login",
@@ -38,7 +26,6 @@ loginRouter.get("/:user_id", LoginController.authorizeUser, (err) =>
 );
 
 // Exercises router configuration.
-
 const ExercisesController = require("../app/Controllers/ExerciseController.js");
 const exercisesRouter = require("koa-router")({
 	prefix: "/exercises",
@@ -63,7 +50,6 @@ exercisesRouter.get("/equipment/:equipment", ExercisesController.exerciseByEquip
 );
 
 // Users router configuration.
-
 const UsersController = require("../app/Controllers/UsersController.js");
 const usersRouter = require("koa-router")({
 	prefix: "/users",
@@ -77,7 +63,23 @@ usersRouter.get("/username/:username", UsersController.userByName, (err) =>
 usersRouter.get("/id/:id", UsersController.userByID, (err) =>
 	console.log(`userByID ran into an error: ${err}`)
 );
+// get followers of ID
+usersRouter.get("/get-followers/:followedUserID", UsersController.getUsersFollowers, (err) =>
+	console.log(`getUsersFollowers ran into an error: ${err}`)
+);
 
+// WeeklySchedule router configuration
+const WeeklyScheduleController = require("../app/Controllers/WeeklyScheduleController.js");
+const WeeklyScheduleRouter = require("koa-router")({
+	prefix: "/weekly-schedule",
+});
+WeeklyScheduleRouter.get("/lobby", WeeklyScheduleController.getPublicSchedules, (err) =>
+	console.log(`lobby ran into an error: ${err}`)
+);
+
+usersRouter.post("/insert-user", UsersController.insertNewUser, (err) =>
+	console.log(`insertUser ran into an error: ${err}`)
+);
 
 /**
  * Register all of the controllers into the default controller.
@@ -86,7 +88,8 @@ router.use(
 	"",
 	loginRouter.routes(),
 	exercisesRouter.routes(),
-	usersRouter.routes()
+	usersRouter.routes(),
+	WeeklyScheduleRouter.routes()
 );
 
 module.exports = function (app) {

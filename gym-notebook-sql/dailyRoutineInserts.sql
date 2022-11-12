@@ -1,5 +1,6 @@
 use gymappdb;
 
+
 INSERT INTO DailyRoutine(id,exerciseID,userID,sets,reps,weight,dayOfWeek,weeklyScheduleID) VALUES (1,'0991',25,10,15,260,'FRI',66);
 INSERT INTO DailyRoutine(id,exerciseID,userID,sets,reps,weight,dayOfWeek,weeklyScheduleID) VALUES (2,'0087',45,6,40,40,'SAT',100);
 INSERT INTO DailyRoutine(id,exerciseID,userID,sets,reps,weight,dayOfWeek,weeklyScheduleID) VALUES (3,'0267',36,12,22,65,'FRI',3);

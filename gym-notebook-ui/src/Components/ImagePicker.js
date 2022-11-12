@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
 	},
 });
 
-const ImagePick = () => {
-	const [image, setImage] = useState(undefined);
+const ImagePick = (props) => {
+	const {image, setImage} = props;
 
 	const app = initializeApp(firebaseConfig);
 	const storage = getStorage(app);
