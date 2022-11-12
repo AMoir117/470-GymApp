@@ -1,4 +1,4 @@
-using gymappdb;
+use gymappdb;
 
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (1,'eleonore87','d5f4c3ebedca2760ecad4ff078a9efbd','Lloyd','O''Connell','1972-03-15','tmp//47c4a1ebae2580939e6b12b34fa63f09.jpg','rosalind.zieme@gmail.com');
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (2,'ida37','07d2b0b9d1d6f72abb58d7f0fedf38be','Camila','Crooks','1977-10-14','tmp//7538725d36307dfa154ebb93f9225e06.jpg','fmitchell@yahoo.com');

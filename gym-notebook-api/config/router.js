@@ -14,21 +14,7 @@ const router = require("koa-router")({
 	prefix: "/api/v1",
 });
 
-/*router.get("/", function (ctx) {
-	console.log("router.get(/)");
-	return (ctx.body = "What is up??");
-});*/
-/*
-|--------------------------------------------------------------------------
-| login router
-|--------------------------------------------------------------------------
-|
-| Description
-|
-*/
-
 // Login router configuration.
-
 const LoginController = require("../app/Controllers/LoginController.js");
 const loginRouter = require("koa-router")({
 	prefix: "/login",
@@ -38,7 +24,6 @@ loginRouter.get("/:user_id", LoginController.authorizeUser, (err) =>
 );
 
 // Exercises router configuration.
-
 const ExercisesController = require("../app/Controllers/ExerciseController.js");
 const exercisesRouter = require("koa-router")({
 	prefix: "/exercises",
@@ -62,8 +47,8 @@ exercisesRouter.get("/equipment/:equipment", ExercisesController.exerciseByEquip
 	console.log(`exerciseByEquipment ran into an error: ${err}`)
 );
 
-// Users router configuration.
 
+// Users router configuration.
 const UsersController = require("../app/Controllers/UsersController.js");
 const usersRouter = require("koa-router")({
 	prefix: "/users",
@@ -77,6 +62,19 @@ usersRouter.get("/username/:username", UsersController.userByName, (err) =>
 usersRouter.get("/id/:id", UsersController.userByID, (err) =>
 	console.log(`userByID ran into an error: ${err}`)
 );
+usersRouter.get("/get-followers/:followedUserID", UsersController.getUsersFollowers, (err) =>
+	console.log(`getUsersFollowers ran into an error: ${err}`)
+);
+
+// WeeklySchedule router configuration
+const WeeklyScheduleController = require("../app/Controllers/WeekScheduleController.js");
+const WeeklyScheduleRouter = require("koa-router")({
+  prefix: "/weekly-schedule"
+});
+WeeklyScheduleRouter.get("/lobby", WeeklyScheduleController.getPublicSchedules,(err) =>
+	console.log(`lobby ran into an error: ${err}`)
+);
+
 
 
 /**
@@ -86,7 +84,8 @@ router.use(
 	"",
 	loginRouter.routes(),
 	exercisesRouter.routes(),
-	usersRouter.routes()
+	usersRouter.routes(),
+  WeeklyScheduleRouter.routes()
 );
 
 module.exports = function (app) {

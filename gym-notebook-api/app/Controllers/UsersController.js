@@ -10,7 +10,7 @@ const allUsers = async (ctx) => {
     return new Promise((resolve, reject) => {
         const query = `
                        SELECT *
-                        FROM 
+                        FROM
                             users
                         ORDER BY id
                         `;
@@ -95,8 +95,39 @@ const userByID = (ctx) => {
     });
 };
 
+const getUsersFollowers = async (ctx) => {
+    console.log('getUsersFollowers called.');
+    return new Promise((resolve, reject) => {
+        const query = `
+                      SELECT * FROM Users Users_Table
+                      LEFT JOIN Follower Follower_Table
+                      ON Follower_Table.followerUserID = Users_Table.id
+                      WHERE Follower_Table.followedUserID = ?;
+                      `;
+        dbConnection.query({
+            sql: query,
+            values: [ctx.params.followedUserID]
+        }, (error, tuples) => {
+            if (error) {
+                console.log("Connection error in UsersController::getUsersFollowers", error);
+                return reject(error);
+            }
+            ctx.body = tuples;
+            ctx.status = 200;
+            return resolve();
+        });
+    }).catch(err => {
+        console.log("Database connection error in getUsersFollowers.", err);
+        // The UI side will have to look for the value of status and
+        // if it is not 200, act appropriately.
+        ctx.body = [];
+        ctx.status = 500;
+    });
+}
+
 module.exports = {
     allUsers,
     userByName,
-    userByID
+    userByID,
+    getUsersFollowers
 };
