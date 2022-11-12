@@ -14,3 +14,4 @@ gym-notebook-api/.env
 gym-notebook-ui/firebaseConfig.js
 # macOS
 .DS_Store
+gym-notebook-api/.env

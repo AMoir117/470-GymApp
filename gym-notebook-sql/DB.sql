@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 use gymappdb;
 
 DROP TABLE IF EXISTS Follower;
+=======
+DROP TABLE IF EXISTS Friend;
+>>>>>>> 0eda6f6 (users router has get followers by an id, and weeklyschedule router has get all public schedules ordered by upvotes)
 DROP TABLE IF EXISTS DailyRoutine;
 DROP TABLE IF EXISTS WeeklySchedule;
 DROP TABLE IF EXISTS Exercise;
@@ -15,9 +19,14 @@ CREATE TABLE Users
   firstName VARCHAR(20),
   lastName VARCHAR(20),
   DoB DATE,
+<<<<<<< HEAD
   imagePath VARCHAR(200),
   email VARCHAR(100) UNIQUE,
   profileBio VARCHAR(512),
+=======
+  imagePath VARCHAR(100),
+  email VARCHAR(100) UNIQUE,
+>>>>>>> 0eda6f6 (users router has get followers by an id, and weeklyschedule router has get all public schedules ordered by upvotes)
   CHECK (length(userPassword) >= 4)
 );
 
@@ -38,7 +47,11 @@ CREATE TABLE WeeklySchedule
   title LONGTEXT,
   stamp TIMESTAMP,
   upvotes INT,
+<<<<<<< HEAD
   userID INT NOT NULL,
+=======
+  userID INT NOT NULL UNIQUE,
+>>>>>>> 0eda6f6 (users router has get followers by an id, and weeklyschedule router has get all public schedules ordered by upvotes)
   FOREIGN KEY (userID) REFERENCES Users(id)
           ON UPDATE CASCADE ON DELETE CASCADE
 );
