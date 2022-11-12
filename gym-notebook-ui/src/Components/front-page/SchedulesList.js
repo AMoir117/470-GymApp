@@ -12,8 +12,8 @@ import {
 } from "react-native";
 import {DataTable, Avatar, Surface} from "react-native-paper";
 
-import SwipingRow from "../SwipingRow";
-import GmailStyleSwipeableRow from "../AndroidSwipe";
+import SwipingRow from "../Modules/SwipingRow";
+import GmailStyleSwipeableRow from "../Modules/AndroidSwipe";
 import GlobalStyles from "../GlobalStyles";
 import SvgImage2 from "../SvgImage2";
 

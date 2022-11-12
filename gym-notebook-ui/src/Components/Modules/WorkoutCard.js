@@ -13,7 +13,7 @@ import {
 	Modal,
 	IconButton,
 } from "react-native-paper";
-import GlobalStyles from "./GlobalStyles";
+import GlobalStyles from "../GlobalStyles";
 import axios from "axios";
 
 const styles = StyleSheet.create({
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 });
 
 const MyComponent = (props) => {
-	const {workout} = props;
+	const {workout, showModal} = props;
 
 	return (
 		<>
@@ -53,6 +53,12 @@ const MyComponent = (props) => {
 					</Button>
 				</Card.Content>
 				<Card.Actions style={styles.cardButton}>
+					<IconButton
+						icon="file-gif-box"
+						style={styles.buttonStyles}
+						iconColor={GlobalStyles.hexColor.green}
+						onPress={() => showModal(workout)}
+					/>
 					<Button
 						mode="outlined"
 						style={styles.buttonStyles}

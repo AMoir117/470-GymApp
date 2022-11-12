@@ -1,25 +1,21 @@
 import {React, useEffect, useState, goBack} from "react";
 import {SectionList, StyleSheet, Text, View} from "react-native";
-import {Provider, Drawer} from "react-native-paper";
-import SectionListBasics from "./src/Components/SectionListBasics";
+import {Provider, Drawer, Appbar} from "react-native-paper";
 import {NavigationContainer, StackActions} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import CustomNavigationBar from "./src/Components/CustomNavigationBar";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 
 import Data from "./src/API_interface/API_interface";
-import SearchBar from "./src/Components/SearchBar";
+import SearchBar from "./src/Components/Modules/SearchBar";
 import Login from "./src/Components/Login";
 import Signup from "./src/Components/Signup";
 import FrontPage from "./src/Components/FrontPage";
 import Profile from "./src/Components/front-page/Profile";
-
-import {GestureHandlerRootView} from "react-native-gesture-handler";
 import GlobalStyles from "./src/Components/GlobalStyles";
-import {ScreenStackHeaderBackButtonImage} from "react-native-screens";
-
-import {Appbar} from "react-native-paper";
+import CustomNavigationBar from "./src/Components/CustomNavigationBar";
 import ProfileViewer from "./src/Components/front-page/ProfileViewer";
 import ScheduleEdit from "./src/Components/ScheduleEdit";
+import SectionListBasics from "./src/Components/SectionListBasics";
 
 const App = () => {
 	const Stack = createNativeStackNavigator();

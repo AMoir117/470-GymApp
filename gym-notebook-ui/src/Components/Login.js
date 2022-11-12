@@ -1,5 +1,4 @@
 import React, {useContext, useState, useEffect} from "react";
-import AuthContext from "../Context/AuthProvider";
 import {
 	SafeAreaView,
 	Text,
@@ -12,10 +11,9 @@ import {
 } from "react-native";
 import {Divider, Snackbar} from "react-native-paper";
 import axios from "axios";
+import AuthContext from "../Context/AuthProvider";
 import SvgImage from "./SvgImage";
 import GlobalStyles from "./GlobalStyles";
-
-import API from "../API_interface/API_interface";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -68,8 +66,6 @@ const Login = ({navigation}) => {
 	const {setAuth} = useContext(AuthContext);
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
-	const [verifyUser, setVerifyUser] = useState(false);
-	const [authFailed, setAuthFailed] = useState(false);
 	const [visible, setVisible] = useState(false);
 
 	useEffect(() => {}, []);
@@ -95,12 +91,7 @@ const Login = ({navigation}) => {
 					setVisible(true);
 				} else if (password === userInfo.userPassword) {
 					setAuth({user: userInfo});
-					setVerifyUser(true);
-					setAuthFailed(false);
 					navigation.navigate("Front Page");
-				} else {
-					setVerifyUser(false);
-					setAuthFailed(true);
 				}
 			})
 			.catch(function (error) {
@@ -113,7 +104,6 @@ const Login = ({navigation}) => {
 	};
 	const signup = () => {
 		navigation.navigate("Signup");
-		//todo::send user to signup page
 	};
 
 	const onDismissSnackBar = () => {
@@ -124,6 +114,7 @@ const Login = ({navigation}) => {
 		<SafeAreaView style={{flex: 1}}>
 			<SvgImage
 				style={{
+					zIndex: -1,
 					position: "absolute",
 					top: 0,
 					left: 0,

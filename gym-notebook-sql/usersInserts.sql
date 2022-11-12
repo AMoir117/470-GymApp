@@ -1,6 +1,6 @@
 use gymappdb;
 
-INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (1,'eleonore87','d5f4c3ebedca2760ecad4ff078a9efbd','Lloyd','O''Connell','1972-03-15','tmp//47c4a1ebae2580939e6b12b34fa63f09.jpg','rosalind.zieme@gmail.com');
+INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (1,'admin','admin','John','Smith','2001-1-1','https://firebasestorage.googleapis.com/v0/b/gymapp-470.appspot.com/o/admin?alt=media&token=87081d39-0e27-47e8-a8fc-a0e24abb9ff2','admin@gmail.com');
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (2,'ida37','07d2b0b9d1d6f72abb58d7f0fedf38be','Camila','Crooks','1977-10-14','tmp//7538725d36307dfa154ebb93f9225e06.jpg','fmitchell@yahoo.com');
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (3,'lhuel','b27fa34978d89984d5bc654ab69791a6','Sharon','Gulgowski','1991-01-10','tmp//52121627eb402e2f04594b4e530901fd.jpg','fwaters@hotmail.com');
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (4,'cronin.selena','9f746020dea7e909c0d219cb2ec90bde','Tito','Predovic','1992-08-22','tmp//b2961b4d9cf9a5f146f2da8c4578c33c.jpg','hubert33@hotmail.com');
@@ -50,3 +50,4 @@ INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,emai
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (48,'kaleb.tremblay','27806ae9a8b1691bd1c996265f27616c','Davon','Quitzon','1986-03-24','tmp//0c45295d6afb8da64375b394ab5fde64.jpg','daniella32@yahoo.com');
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (49,'mcglynn.everett','c5a667bee756206db2d18a9f1fd5e270','Alan','Lindgren','2005-05-01','tmp//dc71e362a8fb67c11f952d9c803ebff6.jpg','obalistreri@yahoo.com');
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (50,'kenyatta99','0bbee5209bd7b51caddadfcaef898e23','Brennan','Rohan','1995-01-25','tmp//6913a3774fbfe556cd4bd271ac81611e.jpg','vpfannerstill@yahoo.com');
+

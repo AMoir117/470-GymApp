@@ -5,7 +5,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as FS from "expo-file-system";
 import {getStorage, ref, uploadBytes} from "firebase/storage";
 import {initializeApp} from "firebase/app";
-import firebaseConfig from "../../firebaseConfig";
+import firebaseConfig from "../../../firebaseConfig";
 
 const styles = StyleSheet.create({
 	areaView: {
@@ -23,15 +23,19 @@ const styles = StyleSheet.create({
 	},
 });
 
+//COMPONENT TO TO PICK AND SHOW IMAGE FROM LIBRARY
 const ImagePick = (props) => {
 	const {image, setImage} = props;
 
 	const app = initializeApp(firebaseConfig);
 	const storage = getStorage(app);
-	const storageRef = ref(storage, "admin"); //todo:: set second argument to user pathFileName
+
+	//todo:: set second argument to user pathFileName
+	const storageRef = ref(storage, "admin");
 
 	useEffect(() => {});
 
+	//PICK IMAGE FROM IMAGE LIBRARY
 	const pickImage = async () => {
 		const pick = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -46,10 +50,11 @@ const ImagePick = (props) => {
 		}
 	};
 
+	//UPLOAD TO FIREBASE
 	const uploadImage = async (uri) => {
 		const response = await fetch(uri);
 		const blob = await response.blob();
-		//UNCOMMENT TO UPLOAD TO FIREBASE
+
 		uploadBytes(storageRef, blob).then((snapshot) => {
 			console.log("uploaded blob");
 		});

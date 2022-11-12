@@ -13,8 +13,8 @@ import {
 } from "react-native";
 import {Divider, Appbar, Button, Avatar, Dialog} from "react-native-paper";
 import WheelPickerExpo from "react-native-wheel-picker-expo";
-import InsertDate from "./InsertDate";
-import ImagePick from "./ImagePicker";
+import InsertDate from "./Modules/InsertDate";
+import ImagePick from "./Modules/ImagePicker";
 import axios from "axios";
 import AuthContext from "../Context/AuthProvider";
 
@@ -94,7 +94,7 @@ const Signup = ({navigation, back}) => {
 	const [email, setEmail] = useState("");
 	const [bio, setBio] = useState("");
 	const [show, setShow] = useState(false);
-	const [date, setDate] = useState(new Date(1995, 11, 17));
+	const [date, setDate] = useState(new Date(2001, 1, 1));
 	const [imagePath, setImagePath] = useState(undefined);
 
 	const {setAuth} = useContext(AuthContext);
@@ -102,12 +102,6 @@ const Signup = ({navigation, back}) => {
 	useEffect(() => {}, []);
 
 	const saveProfile = async () => {
-		navigation.navigate("Login");
-		console.log("profile saved");
-		//todo::save information for new user
-		console.log(`${date.getDate()}, ${date.getDay()}, ${date.getFullYear()}`);
-		console.log(date.toLocaleDateString(undefined, options));
-		console.log(Platform.OS);
 		await axios
 			.post(`users/insert-user`, {
 				username: username,
@@ -131,21 +125,8 @@ const Signup = ({navigation, back}) => {
 					profileBio: bio,
 				};
 				setAuth({user: userInfo});
-				console.log(userInfo);
-				//setVisible(true);3
-
+				console.log("profile saved");
 				navigation.navigate("Front Page");
-				/*if (userInfo === undefined) {
-					setVisible(true);
-				} else if (password === userInfo.userPassword) {
-					setAuth({user: userInfo});
-					setVerifyUser(true);
-					setAuthFailed(false);
-					navigation.navigate("Front Page");
-				} else {
-					setVerifyUser(false);
-					setAuthFailed(true);
-				}*/
 			});
 	};
 
@@ -240,7 +221,6 @@ const Signup = ({navigation, back}) => {
 						mode="contained"
 						buttonColor="#ff0000"
 						onPress={saveProfile}
-						//todo::determine if signing up or looking at own profile
 					/>
 				</ScrollView>
 			</ImageBackground>

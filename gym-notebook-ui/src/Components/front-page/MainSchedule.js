@@ -24,7 +24,7 @@ import {
 } from "react-native-paper";
 import axios from "axios";
 import GlobalStyles from "../GlobalStyles";
-import WorkoutCard from "../WorkoutCard";
+import WorkoutCard from "../Modules/WorkoutCard";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
