@@ -50,4 +50,3 @@ INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,emai
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (48,'kaleb.tremblay','27806ae9a8b1691bd1c996265f27616c','Davon','Quitzon','1986-03-24','tmp//0c45295d6afb8da64375b394ab5fde64.jpg','daniella32@yahoo.com');
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (49,'mcglynn.everett','c5a667bee756206db2d18a9f1fd5e270','Alan','Lindgren','2005-05-01','tmp//dc71e362a8fb67c11f952d9c803ebff6.jpg','obalistreri@yahoo.com');
 INSERT INTO Users(id,username,userPassword,firstName,lastName,DoB,imagePath,email) VALUES (50,'kenyatta99','0bbee5209bd7b51caddadfcaef898e23','Brennan','Rohan','1995-01-25','tmp//6913a3774fbfe556cd4bd271ac81611e.jpg','vpfannerstill@yahoo.com');
->>>>>>> 0eda6f6 (users router has get followers by an id, and weeklyschedule router has get all public schedules ordered by upvotes)
