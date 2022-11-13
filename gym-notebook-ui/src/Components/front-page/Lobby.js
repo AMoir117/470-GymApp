@@ -21,14 +21,13 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	surfaceStyle: {
-		height: 80,
-		width: 350,
-		borderRadius: 10,
+		height: "auto",
+		width: 400,
+		borderRadius: 5,
 		backgroundColor: GlobalStyles.hexColor.brown,
 		flex: 1,
 		marginTop: 20,
 		flexDirection: "row",
-		alignSelf: "center",
 	},
 	flatListContainer: {
 		alignSelf: "center",
@@ -43,19 +42,19 @@ const styles = StyleSheet.create({
 	},
 	addTextStyle: {
 		height: 20,
-		margin: 1,
 		alignSelf: "center",
 		color: "#ffffff",
 	},
-	userNameStyle: {
+	postTitle: {
 		height: 20,
-		margin: 1,
-		alignSelf: "center",
+
+		flex: 1,
 	},
-	postTitleStyle: {
+	postUsername: {
+		fontSize: 10,
 		height: 20,
-		margin: 10,
-		alignSelf: "center",
+		marginTop: 10,
+		flex: 1,
 	},
 	upVoteBadge: {
 		margin: 5,
@@ -90,8 +89,10 @@ const renderPosts = ({item}) => {
 	return (
 		<Surface style={styles.surfaceStyle} numColumns={3} elevation={1}>
 			<Avatar.Image style={styles.avatarStyle} size={50} source={item.pathFileName} />
-			<Text style={styles.postTitleStyle}>{item.username}</Text>
-			<Text style={styles.postTitleStyle}>{item.title}</Text>
+			<View style={{flex: 1}}>
+				<Text style={styles.postTitle}>{item.title}</Text>
+				<Text style={styles.postUsername}>{item.username}</Text>
+			</View>
 			<Badge style={styles.upVoteBadge}>{item.upvotes}</Badge>
 		</Surface>
 	);
@@ -108,8 +109,6 @@ const Lobby = () => {
 					await axios
 						.get(`users/id/${post.userID}`)
 						.then((userResponse) => {
-							// console.log(`username: ${userResponse.data[0].username}`);
-							// console.log(post);
 							const newPost = {
 								username: userResponse.data[0].username,
 								title: post.title,
@@ -117,11 +116,9 @@ const Lobby = () => {
 								pathFileName: userResponse.data[0].imagePath,
 								id: post.id,
 							};
-							//console.log(newPost);
 							newPostsArray.push(newPost);
 						})
 						.then(() => {
-							console.log(newPostsArray);
 							setPosts(newPostsArray);
 						});
 				});
