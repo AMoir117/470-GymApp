@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, {useState, useEffect} from "react";
 import {
 	ScrollView,
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
 	surfaceStyle: {
 		height: 80,
 		width: 350,
-		borderRadius: 20,
+		borderRadius: 10,
 		backgroundColor: GlobalStyles.hexColor.brown,
 		flex: 1,
 		marginTop: 20,
@@ -68,35 +69,67 @@ const styles = StyleSheet.create({
 	},
 });
 
-const posts = [
-	{
-		postID: "01",
-		imgUrl: require("../../../assets/arnold.jpg"),
-		userName: "Arnie47",
-		postTitle: "How to build your back in 6 months",
-		upVotes: 93,
-	},
-	{
-		postID: "02",
-		imgUrl: require("../../../assets/ronnie-coleman.png"),
-		userName: "LightW8",
-		postTitle: "light weight to heavy weight!!!",
-		upVotes: 68,
-	},
-];
+// const posts = [
+// 	{
+// 		postID: "01",
+// 		imgUrl: require("../../../assets/arnold.jpg"),
+// 		userName: "Arnie47",
+// 		postTitle: "How to build your back in 6 months",
+// 		upVotes: 93,
+// 	},
+// 	{
+// 		postID: "02",
+// 		imgUrl: require("../../../assets/ronnie-coleman.png"),
+// 		userName: "LightW8",
+// 		postTitle: "light weight to heavy weight!!!",
+// 		upVotes: 68,
+// 	},
+// ];
 
 const renderPosts = ({item}) => {
-	//fixme::how to require image dynamically
 	return (
 		<Surface style={styles.surfaceStyle} numColumns={3} elevation={1}>
-			<Avatar.Image style={styles.avatarStyle} size={50} source={item.imgUrl} />
-			<Text style={styles.postTitleStyle}>{item.postTitle}</Text>
-			<Badge style={styles.upVoteBadge}>{item.upVotes}</Badge>
+			<Avatar.Image style={styles.avatarStyle} size={50} source={item.pathFileName} />
+			<Text style={styles.postTitleStyle}>{item.username}</Text>
+			<Text style={styles.postTitleStyle}>{item.title}</Text>
+			<Badge style={styles.upVoteBadge}>{item.upvotes}</Badge>
 		</Surface>
 	);
 };
 
-const FriendsList = () => {
+const Lobby = () => {
+	const [posts, setPosts] = useState([]);
+
+	useEffect(() => {
+		const lobby = async () => {
+			const newPostsArray = posts.slice();
+			await axios.get("weekly-schedule/lobby").then((response) => {
+				response.data.map(async (post) => {
+					await axios
+						.get(`users/id/${post.userID}`)
+						.then((userResponse) => {
+							// console.log(`username: ${userResponse.data[0].username}`);
+							// console.log(post);
+							const newPost = {
+								username: userResponse.data[0].username,
+								title: post.title,
+								upvotes: post.upvotes,
+								pathFileName: userResponse.data[0].imagePath,
+								id: post.id,
+							};
+							//console.log(newPost);
+							newPostsArray.push(newPost);
+						})
+						.then(() => {
+							console.log(newPostsArray);
+							setPosts(newPostsArray);
+						});
+				});
+			});
+		};
+		lobby();
+	}, []);
+
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<SvgImage2
@@ -115,10 +148,10 @@ const FriendsList = () => {
 				alwaysBounceVertical={true}
 				data={posts}
 				renderItem={renderPosts}
-				keyExtractor={(item) => item.postID}
+				keyExtractor={(item) => item.id}
 			/>
 		</SafeAreaView>
 	);
 };
 
-export default FriendsList;
+export default Lobby;
