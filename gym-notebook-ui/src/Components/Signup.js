@@ -127,7 +127,6 @@ const Signup = ({navigation, back}) => {
 
 			getDownloadURL(pathRef).then(async (imageUrl) => {
 				console.log(`imageUrl: ${imageUrl}`);
-				setImagePath(imageUrl);
 				await axios
 					.post(`users/insert-user`, {
 						username: username,
