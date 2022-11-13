@@ -27,12 +27,6 @@ const styles = StyleSheet.create({
 const ImagePick = (props) => {
 	const {image, setImage} = props;
 
-	const app = initializeApp(firebaseConfig);
-	const storage = getStorage(app);
-
-	//todo:: set second argument to user pathFileName
-	const storageRef = ref(storage, "admin");
-
 	useEffect(() => {});
 
 	//PICK IMAGE FROM IMAGE LIBRARY
@@ -46,18 +40,7 @@ const ImagePick = (props) => {
 
 		if (!pick.cancelled) {
 			setImage(pick.uri);
-			uploadImage(pick.uri);
 		}
-	};
-
-	//UPLOAD TO FIREBASE
-	const uploadImage = async (uri) => {
-		const response = await fetch(uri);
-		const blob = await response.blob();
-
-		uploadBytes(storageRef, blob).then((snapshot) => {
-			console.log("uploaded blob");
-		});
 	};
 
 	return (

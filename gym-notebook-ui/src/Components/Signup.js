@@ -6,12 +6,11 @@ import {
 	View,
 	FlatList,
 	Pressable,
-	TextInput,
 	SafeAreaView,
 	Platform,
 	ImageBackground,
 } from "react-native";
-import {Divider, Appbar, Button, Avatar, Dialog} from "react-native-paper";
+import {Divider, Appbar, Button, Avatar, Dialog, TextInput} from "react-native-paper";
 import WheelPickerExpo from "react-native-wheel-picker-expo";
 import InsertDate from "./Modules/InsertDate";
 import ImagePick from "./Modules/ImagePicker";
@@ -20,6 +19,10 @@ import AuthContext from "../Context/AuthProvider";
 
 import SvgImage from "./SvgImage";
 import GlobalStyles from "./GlobalStyles";
+
+import {getStorage, ref, getDownloadURL, uploadBytes} from "firebase/storage";
+import {initializeApp} from "firebase/app";
+import firebaseConfig from "../../firebaseConfig";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -100,6 +103,9 @@ const Signup = ({navigation, back}) => {
 
 	const {setAuth} = useContext(AuthContext);
 
+	const app = initializeApp(firebaseConfig);
+	const storage = getStorage(app);
+
 	useEffect(() => {}, []);
 
 	const saveProfile = async () => {
@@ -109,36 +115,47 @@ const Signup = ({navigation, back}) => {
 		} else if (username === "" || email === "") {
 			console.log("Username or email is empty!");
 			return;
-		} else {
-			console.log(username);
-			return;
 		}
-		await axios
-			.post(`users/insert-user`, {
-				username: username,
-				userPassword: password,
-				firstName: firstName,
-				lastName: lastName,
-				DoB: date.toISOString().split("T")[0],
-				imagePath: imagePath,
-				email: email,
-				profileBio: bio,
-			})
-			.then((response) => {
-				const userInfo = {
-					username: username,
-					userPassword: password,
-					firstName: firstName,
-					lastName: lastName,
-					DoB: date.toISOString().split("T")[0],
-					imagePath: imagePath,
-					email: email,
-					profileBio: bio,
-				};
-				setAuth({user: userInfo});
-				console.log("profile saved");
-				navigation.navigate("Front Page");
+
+		const response = await fetch(imagePath);
+		const blob = await response.blob();
+
+		const pathRef = ref(storage, username);
+
+		uploadBytes(pathRef, blob).then((snapshot) => {
+			console.log("uploaded blob");
+
+			getDownloadURL(pathRef).then(async (imageUrl) => {
+				console.log(`imageUrl: ${imageUrl}`);
+				setImagePath(imageUrl);
+				await axios
+					.post(`users/insert-user`, {
+						username: username,
+						userPassword: password,
+						firstName: firstName,
+						lastName: lastName,
+						DoB: date.toISOString().split("T")[0],
+						imagePath: imageUrl,
+						email: email,
+						profileBio: bio,
+					})
+					.then((response) => {
+						const userInfo = {
+							username: username,
+							userPassword: password,
+							firstName: firstName,
+							lastName: lastName,
+							DoB: date.toISOString().split("T")[0],
+							imagePath: imageUrl,
+							email: email,
+							profileBio: bio,
+						};
+						setAuth({user: userInfo});
+						console.log("profile saved");
+					});
 			});
+		});
+		navigation.navigate("Front Page");
 	};
 
 	return (
@@ -162,35 +179,35 @@ const Signup = ({navigation, back}) => {
 					<ImagePick image={imagePath} setImage={setImagePath} />
 					<TextInput
 						style={styles.textInputStyle}
-						placeholder={"*Username"}
+						label={"Username"}
 						value={username}
 						textContentType={"username"}
 						onChangeText={setUsername}
 					/>
 					<TextInput
 						style={styles.textInputStyle}
-						placeholder={"First Name"}
+						label={"First Name"}
 						value={firstName}
 						textContentType={"givenName"}
 						onChangeText={setFirstName}
 					/>
 					<TextInput
 						style={styles.textInputStyle}
-						placeholder={"Last Name"}
+						label={"Last Name"}
 						value={lastName}
 						textContentType={"lastName"}
 						onChangeText={setLastName}
 					/>
 					<TextInput
 						style={styles.textInputStyle}
-						placeholder={"*Email"}
+						label={"Email"}
 						value={email}
 						textContentType={"emailAddress"}
 						onChangeText={setEmail}
 					/>
 					<TextInput
 						style={styles.textInputStyle}
-						placeholder={"Date of Birth"}
+						label={"Date of Birth"}
 						value={date.toLocaleDateString(undefined, options)}
 						editable={false}
 					/>
@@ -204,15 +221,18 @@ const Signup = ({navigation, back}) => {
 				/> */}
 					<TextInput
 						style={styles.bioInputStyle}
-						placeholder={"Bio"}
+						error={true}
+						mode="outlined"
+						label={"Bio"}
 						value={bio}
 						multiline={true}
 						onChangeText={setBio}
 					/>
 					<TextInput
 						style={styles.textInputStyle}
+						mode="outlined"
 						secureTextEntry={true}
-						placeholder={"Password"}
+						label={"Password"}
 						value={password}
 						textContentType={"password"}
 						onChangeText={setPassword}
@@ -221,7 +241,7 @@ const Signup = ({navigation, back}) => {
 					<TextInput
 						style={styles.textInputStyle}
 						secureTextEntry={true}
-						placeholder={"Re-input Password"}
+						label={"Re-input Password"}
 						value={checkPassword}
 						textContentType={"password"}
 						onChangeText={setCheckPassword}

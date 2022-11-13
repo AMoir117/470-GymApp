@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
 const ProfileViewer = (props) => {
 	const app = initializeApp(firebaseConfig);
 	const storage = getStorage(app);
-	const pathRef = ref(storage, "admin"); //todo:: set second argument to user pathFileName
 
 	const {auth} = useContext(AuthContext);
 	const [uri, setUri] = useState(undefined);
@@ -90,9 +89,9 @@ const ProfileViewer = (props) => {
 	const pathFileName = auth.user.imagePath;
 
 	useEffect(() => {
+		const pathRef = ref(storage, username);
+
 		getDownloadURL(pathRef).then(async (url) => {
-			console.log(url);
-			//fixme:: post url to db
 			setUri(url);
 		});
 	}, []);
