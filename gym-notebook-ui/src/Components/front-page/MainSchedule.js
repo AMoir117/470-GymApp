@@ -134,7 +134,10 @@ const MainSchedule = ({navigation, back}) => {
 	const [gifShow, setGifShow] = useState(false);
 	const [modalUri, setModalUri] = useState("");
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		const day = new Date().toLocaleDateString(undefined, {weekday: "long"});
+		setCurrentDay(day);
+	}, []);
 
 	const showModal = (item) => {
 		setGifShow(true);
