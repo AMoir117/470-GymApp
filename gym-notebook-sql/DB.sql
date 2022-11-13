@@ -18,6 +18,7 @@ CREATE TABLE Users
   imagePath VARCHAR(200),
   email VARCHAR(100) UNIQUE,
   profileBio VARCHAR(512),
+  currentWeeklyScheduleID BIGINT,
   CHECK (length(userPassword) >= 4)
 );
 
