@@ -84,7 +84,7 @@ const UserProfile = (props) => {
 				<Card.Cover
 					style={{top: 0}}
 					source={{
-						url: "https://firebasestorage.googleapis.com/v0/b/gymapp-470.appspot.com/o/admin?alt=media&token=87081d39-0e27-47e8-a8fc-a0e24abb9ff2",
+						uri: auth.user.imagePath,
 					}}
 				/>
 				<Card.Title

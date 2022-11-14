@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	surfaceStyle: {
-		height: "auto",
 		width: 400,
 		borderRadius: 5,
 		backgroundColor: GlobalStyles.hexColor.brown,
@@ -71,55 +70,40 @@ const styles = StyleSheet.create({
 	},
 });
 
-const renderPosts = ({item}) => {
-	return (
-		<Surface style={styles.surfaceStyle} numColumns={3} elevation={1}>
-			<Avatar.Image style={styles.avatarStyle} size={50} source={item.imagePath} />
-			<View style={{flex: 1}}>
-				<Text style={styles.postTitle}>{item.title}</Text>
-				<Text style={styles.postUsername}>{item.username}</Text>
-			</View>
-			<View>
-				<Badge style={styles.upVoteBadge}>{item.upvotes}</Badge>
-				<IconButton
-					style={styles.upVoteButton}
-					icon="arrow-up-drop-circle"
-					animate={true}
-					selected={true}
-				/>
-			</View>
-		</Surface>
-	);
-};
-
 const Lobby = () => {
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
-		const lobby = async () => {
-			const newPostsArray = posts.slice();
+		async function getLobby() {
 			await axios.get("weekly-schedule/lobby").then((response) => {
-				response.data.map(async (post) => {
-					await axios
-						.get(`users/id/${post.userID}`)
-						.then((userResponse) => {
-							const newPost = {
-								username: userResponse.data[0].username,
-								title: post.title,
-								upvotes: post.upvotes,
-								imagePath: userResponse.data[0].imagePath,
-								id: post.id,
-							};
-							newPostsArray.push(newPost);
-						})
-						.then(() => {
-							setPosts(newPostsArray);
-						});
-				});
+				setPosts(response.data);
 			});
-		};
-		lobby();
+		}
+		getLobby();
 	}, []);
+
+	useEffect(() => {}, [posts]);
+
+	const renderPosts = ({item}) => {
+		return (
+			<Surface style={styles.surfaceStyle} numColumns={3} elevation={1}>
+				<Avatar.Image style={styles.avatarStyle} size={50} source={item.imagePath} />
+				<View style={{flex: 1}}>
+					<Text style={styles.postTitle}>{item.title}</Text>
+					<Text style={styles.postUsername}>{item.username}</Text>
+				</View>
+				<View>
+					<Badge style={styles.upVoteBadge}>{item.upvotes}</Badge>
+					<IconButton
+						style={styles.upVoteButton}
+						icon="arrow-up-drop-circle"
+						animate={true}
+						selected={true}
+					/>
+				</View>
+			</Surface>
+		);
+	};
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
