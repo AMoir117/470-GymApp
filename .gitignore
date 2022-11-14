@@ -1,16 +1,9 @@
 gym-notebook-ui/node_modules/
-<<<<<<< HEAD
 gym-notebook-api/node_modules/
-=======
->>>>>>> 049fe7053cdf611108d5186f3732f0b58d717849
 gym-notebook-ui/.expo/
 gym-notebook-ui/dist/
 gym-notebook-ui/npm-debug.*
 gym-notebook-ui/src/API_interface/API_interface.js
-
-
-
-
 *.jks
 *.p8
 *.p12
@@ -19,12 +12,7 @@ gym-notebook-ui/src/API_interface/API_interface.js
 *.orig.*
 gym-notebook-ui/web-build/
 gym-notebook-api/.env
-<<<<<<< HEAD
 gym-notebook-ui/firebaseConfig.js
-=======
-gym-notebook-api/node_modules/
-gym-notebook-api/database/mySQLconnect.js
 
->>>>>>> 049fe7053cdf611108d5186f3732f0b58d717849
 # macOS
 .DS_Store

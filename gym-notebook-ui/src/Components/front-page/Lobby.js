@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
 });
 
 const Lobby = () => {
+	//fixme:: lobby profiles not having bios
 	const navigation = useNavigation();
 	const [posts, setPosts] = useState([]);
 
