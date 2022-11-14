@@ -103,7 +103,7 @@ const DailyRoutineRouter = require("koa-router")({
 DailyRoutineRouter.get("/get-daily-routines/:dayOfWeek/:weeklyScheduleID", DailyRoutineController.getDailyRoutines,(err) =>
 	console.log(`get-daily-routines ran into an error: ${err}`)
 );
-DailyRoutineRouter.get("/update/:sets/:reps/:weight/:dailyRoutineID", DailyRoutineController.updateRoutine,(err) =>
+DailyRoutineRouter.put("/update/:sets/:reps/:weight/:dailyRoutineID", DailyRoutineController.updateRoutine,(err) =>
 	console.log(`update-daily-routine ran into an error: ${err}`)
 );
 

@@ -42,7 +42,7 @@ const getAllSchedules = async (ctx) => {
                       SELECT *
                       FROM
                           WeeklySchedule
-                      WHERE userID = ?
+                      WHERE userID = ?;
                       `;
         dbConnection.query({
             sql: query,

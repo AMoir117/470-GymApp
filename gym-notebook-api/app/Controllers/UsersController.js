@@ -217,7 +217,7 @@ const useWeeklySchedule = async (ctx) => {
                       `;
         dbConnection.query({
             sql: query,
-            values: [ctx.params.currentWeeklyScheduleID, ctx.params.userID]
+            values: [ctx.params.weeklyScheduleID, ctx.params.userID]
         }, (error, tuples) => {
             if (error) {
                 console.log("Connection error in userController::useWeeklySchedule", error);
