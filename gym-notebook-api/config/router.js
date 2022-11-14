@@ -129,7 +129,14 @@ DailyRoutineRouter.post("/insert/:exerciseID/:sets/:reps/:weight/:dayOfWeek/:wee
 );
 
 
+const FollowerController = require("../app/Controllers/FollowerController.js");
+const FollowerRouter = require("koa-router")({
+  prefix: "/follower"
+});
 
+FollowerRouter.post("/insert/:followedUserID/:followerUserID/", FollowerController.addFollower,(err) =>
+	console.log(`follower-insert ran into an error: ${err}`)
+);
 /**
  * Register all of the controllers into the default controller.
  */
@@ -140,6 +147,7 @@ router.use(
 	usersRouter.routes(),
   WeeklyScheduleRouter.routes(),
   DailyRoutineRouter.routes()
+	FollowerRouter.routes()
 );
 
 module.exports = function (app) {
