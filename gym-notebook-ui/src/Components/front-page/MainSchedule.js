@@ -10,6 +10,7 @@ import {
 	TouchableOpacity,
 	Image,
 	ImageBackground,
+	Platform,
 } from "react-native";
 import {
 	Divider,
@@ -127,16 +128,22 @@ const data = [
 	},
 ];
 
+const dayAndroid = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 const MainSchedule = ({navigation, back}) => {
 	const [currentDay, setCurrentDay] = useState("Friday");
 	const [scheduleName, setScheduleName] = useState("Path to Mr. Olympia");
 	const [workouts, setWorkouts] = useState(data);
 	const [gifShow, setGifShow] = useState(false);
 	const [modalUri, setModalUri] = useState("");
-
+	const day = new Date();
 	useEffect(() => {
-		const day = new Date().toLocaleDateString(undefined, {weekday: "long"});
-		setCurrentDay(day);
+		//Android has different formats for toLocaleDateString
+		if (Platform.OS === "android") {
+			setCurrentDay(dayAndroid[day.getDay()]);
+		} else {
+			setCurrentDay(day.toLocaleDateString("en-us", {weekday: "long"}));
+		}
 	}, []);
 
 	const showModal = (item) => {

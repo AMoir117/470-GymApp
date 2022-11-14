@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {
 	ScrollView,
 	Text,
@@ -13,9 +13,11 @@ import {
 } from "react-native";
 import {DataTable, Avatar, Surface, Portal, IconButton} from "react-native-paper";
 import GlobalStyles from "../GlobalStyles";
-import ProfileViewer from "./ProfileViewer";
+import ProfileView from "../ProfileView";
+import AuthContext from "../../Context/AuthProvider";
 import {useNavigation} from "@react-navigation/native";
 import SvgImage2 from "../SvgImage2";
+import axios from "axios";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -64,37 +66,23 @@ const styles = StyleSheet.create({
 	},
 });
 
-const friends = [
-	{
-		userID: "01",
-		imgUrl: require("../../../assets/arnold.jpg"),
-		userName: "Arnie47",
-	},
-	{
-		userID: "02",
-		imgUrl: require("../../../assets/anush.jpg"),
-		userName: "theMosster",
-	},
-	{
-		userID: "03",
-		imgUrl: require("../../../assets/ronnie-coleman.png"),
-		userName: "LightW8",
-	},
-];
-
 const FriendsList = () => {
 	//brings navigation from parents
 	const navigation = useNavigation();
+	const {auth} = useContext(AuthContext);
+	const [following, setFollowing] = useState([]);
+
+	useEffect(() => {
+		const getFollowers = async () => {
+			await axios.get(`users/get-followers/${auth.user.id}`).then((followersResponse) => {
+				setFollowing(followersResponse.data);
+			});
+		};
+		getFollowers();
+	}, []);
 
 	const clickUserProfile = (item) => {
-		console.log(item);
-		return (
-			<Portal>
-				<ProfileViewer userName={item.userName} userID={item.userID} imgUrl={item.imgUrl} />
-			</Portal>
-			//fixme:: make it so when clicked routes to a view of friends profile
-		);
-		//todo:: make it so when clicked routes to a view of friends profile
+		navigation.navigate("Profile View", {userProfile: item});
 	};
 
 	const RenderProfile = ({item}) => {
@@ -103,12 +91,12 @@ const FriendsList = () => {
 			<Surface style={styles.surfaceStyle} elevation={1}>
 				<TouchableOpacity
 					onPress={() => {
-						//todo::navigate to friends profile
+						clickUserProfile(item);
 					}}
 				>
-					<Avatar.Image style={styles.avatarStyle} size={100} source={item.imgUrl} />
+					<Avatar.Image style={styles.avatarStyle} size={100} source={item.imagePath} />
 				</TouchableOpacity>
-				<Text style={styles.userNameStyle}>{item.userName}</Text>
+				<Text style={styles.userNameStyle}>{item.username}</Text>
 			</Surface>
 		);
 	};
@@ -128,9 +116,9 @@ const FriendsList = () => {
 				numColumns={2}
 				showsVerticalScrollIndicator={false}
 				alwaysBounceVertical={true}
-				data={friends}
+				data={following}
 				renderItem={RenderProfile}
-				keyExtractor={(item) => item.userID}
+				keyExtractor={(item) => item.id}
 			/>
 			<IconButton
 				icon="plus-circle"

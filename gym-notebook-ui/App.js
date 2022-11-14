@@ -10,10 +10,10 @@ import SearchBar from "./src/Components/Modules/SearchBar";
 import Login from "./src/Components/Login";
 import Signup from "./src/Components/Signup";
 import FrontPage from "./src/Components/FrontPage";
-import Profile from "./src/Components/front-page/Profile";
+import UserProfile from "./src/Components/UserProfile";
 import GlobalStyles from "./src/Components/GlobalStyles";
 import CustomNavigationBar from "./src/Components/CustomNavigationBar";
-import ProfileViewer from "./src/Components/front-page/ProfileViewer";
+import ProfileView from "./src/Components/ProfileView";
 import ScheduleEdit from "./src/Components/ScheduleEdit";
 import SectionListBasics from "./src/Components/SectionListBasics";
 
@@ -47,10 +47,11 @@ const App = () => {
 							options={{header: (props) => <CustomNavigationBar {...props} />}}
 						/>
 						<Stack.Screen
-							name="Profile Viewer"
-							component={ProfileViewer}
+							name="User Profile"
+							component={UserProfile}
 							options={{header: (props) => <CustomNavigationBar {...props} />}}
 						/>
+						<Stack.Screen name="Profile View" component={ProfileView} />
 						<Stack.Screen
 							name="WORKING_PAGE"
 							component={SearchBar}
