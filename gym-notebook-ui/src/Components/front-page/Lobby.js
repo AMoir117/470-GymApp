@@ -10,8 +10,10 @@ import {
 	Pressable,
 	SafeAreaView,
 	ImageBackground,
+	TouchableOpacity,
 } from "react-native";
 import {DataTable, Avatar, Surface, Badge, IconButton} from "react-native-paper";
+import {useNavigation} from "@react-navigation/native";
 import GlobalStyles from "../GlobalStyles";
 import SvgImage2 from "../SvgImage2";
 
@@ -71,6 +73,7 @@ const styles = StyleSheet.create({
 });
 
 const Lobby = () => {
+	const navigation = useNavigation();
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
@@ -82,12 +85,16 @@ const Lobby = () => {
 		getLobby();
 	}, []);
 
-	useEffect(() => {}, [posts]);
-
 	const renderPosts = ({item}) => {
 		return (
 			<Surface style={styles.surfaceStyle} numColumns={3} elevation={1}>
-				<Avatar.Image style={styles.avatarStyle} size={50} source={item.imagePath} />
+				<TouchableOpacity
+					onPress={() => {
+						clickUserProfile(item);
+					}}
+				>
+					<Avatar.Image style={styles.avatarStyle} size={50} source={item.imagePath} />
+				</TouchableOpacity>
 				<View style={{flex: 1}}>
 					<Text style={styles.postTitle}>{item.title}</Text>
 					<Text style={styles.postUsername}>{item.username}</Text>
@@ -103,6 +110,11 @@ const Lobby = () => {
 				</View>
 			</Surface>
 		);
+	};
+
+	const clickUserProfile = (item) => {
+		console.log(item);
+		navigation.navigate("Profile View", {userProfile: item});
 	};
 
 	return (

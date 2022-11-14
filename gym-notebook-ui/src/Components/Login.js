@@ -87,7 +87,7 @@ const Login = ({navigation}) => {
 			.get(`users/username/${username}`)
 			.then((response) => {
 				const userInfo = response.data[0];
-				if (userInfo === undefined) {
+				if (userInfo === undefined || password !== userInfo.userPassword) {
 					setVisible(true);
 				} else if (password === userInfo.userPassword) {
 					setAuth({user: userInfo});

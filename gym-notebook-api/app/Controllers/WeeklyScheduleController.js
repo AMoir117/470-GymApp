@@ -14,7 +14,9 @@ const getPublicSchedules = async (ctx) => {
             W.title, 
             W.upvotes, 
             U.username, 
-            U.imagePath 
+            U.imagePath,
+			U.firstName,
+			U.lastName
         FROM 
             WeeklySchedule W LEFT JOIN Users U 
         ON 
@@ -23,6 +25,8 @@ const getPublicSchedules = async (ctx) => {
             accessStatus = 'public' 
         ORDER BY 
             upvotes ASC;
+
+	
 
                       `;
 		dbConnection.query(
@@ -58,7 +62,7 @@ const getAllSchedules = async (ctx) => {
                       SELECT *
                       FROM
                           WeeklySchedule
-                      WHERE userID = ?
+                      WHERE userID = ?;
                       `;
 		dbConnection.query(
 			{
@@ -191,10 +195,44 @@ const deleteWeeklySchedule = async (ctx) => {
 	});
 };
 
+const getTitleById = async (ctx) => {
+	console.log("getTitleById called.");
+	return new Promise((resolve, reject) => {
+		const query = `
+                      SELECT title FROM WeeklySchedule WHERE id = ?;
+                      `;
+		dbConnection.query(
+			{
+				sql: query,
+				values: [ctx.params.weeklyScheduleID],
+			},
+			(error, tuples) => {
+				if (error) {
+					console.log(
+						"Connection error in WeeklyScheduleController::getTitleById",
+						error
+					);
+					return reject(error);
+				}
+				ctx.body = tuples;
+				ctx.status = 200;
+				return resolve();
+			}
+		);
+	}).catch((err) => {
+		console.log("Database connection error in getTitleById.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
+};
+
 module.exports = {
 	getPublicSchedules,
 	getAllSchedules,
 	incrementUpvotes,
 	editWeeklyScheduleTitle,
 	deleteWeeklySchedule,
+	getTitleById,
 };

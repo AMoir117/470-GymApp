@@ -100,6 +100,10 @@ WeeklyScheduleRouter.put(
 	(err) => console.log(`edit-weekly-schedule-title ran into an error: ${err}`)
 );
 
+WeeklyScheduleRouter.get("/id/:weeklyScheduleID", WeeklyScheduleController.getTitleById, (err) =>
+	console.log(`getTitleById ran into an error: ${err}`)
+);
+
 WeeklyScheduleRouter.delete(
 	"/delete/:weeklyScheduleID",
 	WeeklyScheduleController.deleteWeeklySchedule,
@@ -110,6 +114,10 @@ const DailyRoutineController = require("../app/Controllers/DailyRoutineControlle
 const DailyRoutineRouter = require("koa-router")({
 	prefix: "/daily-routine",
 });
+
+DailyRoutineRouter.delete("/delete/:dailyRoutineID", DailyRoutineController.deleteRoutine, (err) =>
+	console.log(`delete-daily-routine ran into an error: ${err}`)
+);
 DailyRoutineRouter.get(
 	"/get-daily-routines/:dayOfWeek/:weeklyScheduleID",
 	DailyRoutineController.getDailyRoutines,

@@ -82,6 +82,7 @@ const FriendsList = () => {
 	}, []);
 
 	const clickUserProfile = (item) => {
+		console.log(item);
 		navigation.navigate("Profile View", {userProfile: item});
 	};
 
