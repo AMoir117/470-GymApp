@@ -49,15 +49,13 @@ CREATE TABLE DailyRoutine
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   exerciseID CHAR(4),
   FOREIGN KEY(exerciseID) REFERENCES Exercise(id),
-  userID INT NOT NULL,
   sets INT,
   reps INT,
   weight varchar(4),
+
   dayOfWeek ENUM('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday') NOT NULL,
   weeklyScheduleID BIGINT NOT NULL,
   FOREIGN KEY (weeklyScheduleID) REFERENCES WeeklySchedule(id)
-          ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (userID) REFERENCES Users(id)
           ON UPDATE CASCADE ON DELETE CASCADE
 );
 
