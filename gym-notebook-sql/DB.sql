@@ -53,8 +53,6 @@ CREATE TABLE DailyRoutine
   dayOfWeek ENUM('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday') NOT NULL,
   weeklyScheduleID BIGINT NOT NULL,
   FOREIGN KEY (weeklyScheduleID) REFERENCES WeeklySchedule(id)
-          ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (userID) REFERENCES Users(id)
           ON UPDATE CASCADE ON DELETE CASCADE
 );
 
