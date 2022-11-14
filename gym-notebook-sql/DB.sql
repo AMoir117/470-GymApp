@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS Friend;
+DROP TABLE IF EXISTS Follower;
 DROP TABLE IF EXISTS DailyRoutine;
 DROP TABLE IF EXISTS WeeklySchedule;
 DROP TABLE IF EXISTS Exercise;
@@ -37,7 +37,7 @@ CREATE TABLE WeeklySchedule
   title LONGTEXT,
   stamp TIMESTAMP,
   upvotes INT,
-  userID INT NOT NULL UNIQUE,
+  userID INT NOT NULL,
   FOREIGN KEY (userID) REFERENCES Users(id)
           ON UPDATE CASCADE ON DELETE CASCADE
 );
