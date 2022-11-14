@@ -50,7 +50,7 @@ CREATE TABLE DailyRoutine
   userID INT NOT NULL,
   sets INT,
   reps INT,
-  weight ENUM('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'BW'),
+  weight VARCHAR(4),
   dayOfWeek ENUM('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday') NOT NULL,
   weeklyScheduleID BIGINT NOT NULL,
   FOREIGN KEY (weeklyScheduleID) REFERENCES WeeklySchedule(id)
