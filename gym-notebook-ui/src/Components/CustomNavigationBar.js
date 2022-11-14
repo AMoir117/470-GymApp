@@ -53,12 +53,12 @@ const CustomNavigationBar = ({navigation, back}) => {
 				}
 			>
 				<Menu.Item
-					title="Profile"
+					title="My Profile"
 					style={styles.menuItemTop}
 					titleStyle={styles.menuItemTop}
 					onPress={() => {
 						closeMenu();
-						navigation.navigate("Profile Viewer");
+						navigation.navigate("User Profile");
 					}}
 				/>
 				<Divider style={styles.dividerMenu} />

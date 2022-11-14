@@ -11,12 +11,8 @@ import {
 } from "react-native";
 import {Divider, Appbar, Button, Avatar, Portal, Card, Title, Paragraph} from "react-native-paper";
 import axios from "axios";
-import AuthContext from "../../Context/AuthProvider";
-import GlobalStyles from "../GlobalStyles";
+import GlobalStyles from "./GlobalStyles";
 import * as FS from "expo-file-system";
-import {getStorage, ref, getDownloadURL} from "firebase/storage";
-import {initializeApp} from "firebase/app";
-import firebaseConfig from "../../../firebaseConfig";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -74,35 +70,27 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 	},
 });
-const ProfileViewer = (props) => {
-	const app = initializeApp(firebaseConfig);
-	const storage = getStorage(app);
-
-	const {auth} = useContext(AuthContext);
-	const [uri, setUri] = useState(undefined);
-
-	const username = auth.user.username;
-	const firstName = auth.user.firstName;
-	const lastName = auth.user.lastName;
-	const bio = auth.user.profileBio;
-	const Dob = auth.user.DoB;
-	const pathFileName = auth.user.imagePath;
+const ProfileView = ({route, navigation}) => {
+	const {userProfile} = route.params;
 
 	useEffect(() => {}, []);
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
-				<Card.Cover style={{top: 0}} source={{uri: pathFileName}} />
-				<Card.Title title={firstName + " " + lastName[0] + "."} subtitle={username} />
+				<Card.Cover style={{top: 0}} source={{uri: userProfile.imagePath}} />
+				<Card.Title
+					title={userProfile.firstName + " " + userProfile.lastName[0] + "."}
+					subtitle={userProfile.username}
+				/>
 				<Card.Content>
 					<Title>Bio</Title>
 					<Divider style={{borderWidth: 1}} />
-					<Paragraph>{bio}</Paragraph>
+					<Paragraph>{userProfile.profileBio}</Paragraph>
 				</Card.Content>
 			</Card>
 		</SafeAreaView>
 	);
 };
 
-export default ProfileViewer;
+export default ProfileView;

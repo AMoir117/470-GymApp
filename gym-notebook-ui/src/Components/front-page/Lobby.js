@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, {useState, useEffect} from "react";
 import {
 	ScrollView,
@@ -10,7 +11,7 @@ import {
 	SafeAreaView,
 	ImageBackground,
 } from "react-native";
-import {DataTable, Avatar, Surface, Badge} from "react-native-paper";
+import {DataTable, Avatar, Surface, Badge, IconButton} from "react-native-paper";
 import GlobalStyles from "../GlobalStyles";
 import SvgImage2 from "../SvgImage2";
 
@@ -20,14 +21,12 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	surfaceStyle: {
-		height: 80,
-		width: 350,
-		borderRadius: 20,
+		width: 400,
+		borderRadius: 5,
 		backgroundColor: GlobalStyles.hexColor.brown,
 		flex: 1,
 		marginTop: 20,
 		flexDirection: "row",
-		alignSelf: "center",
 	},
 	flatListContainer: {
 		alignSelf: "center",
@@ -42,24 +41,27 @@ const styles = StyleSheet.create({
 	},
 	addTextStyle: {
 		height: 20,
-		margin: 1,
 		alignSelf: "center",
 		color: "#ffffff",
 	},
-	userNameStyle: {
+	postTitle: {
 		height: 20,
-		margin: 1,
-		alignSelf: "center",
+
+		flex: 1,
 	},
-	postTitleStyle: {
+	postUsername: {
+		fontSize: 10,
 		height: 20,
-		margin: 10,
-		alignSelf: "center",
+		marginTop: 10,
+		flex: 1,
 	},
 	upVoteBadge: {
 		margin: 5,
 		color: "#93c47d",
 		backgroundColor: GlobalStyles.hexColor.black,
+	},
+	upVoteButton: {
+		margin: 5,
 	},
 	avatarStyle: {
 		alignSelf: "center",
@@ -68,35 +70,41 @@ const styles = StyleSheet.create({
 	},
 });
 
-const posts = [
-	{
-		postID: "01",
-		imgUrl: require("../../../assets/arnold.jpg"),
-		userName: "Arnie47",
-		postTitle: "How to build your back in 6 months",
-		upVotes: 93,
-	},
-	{
-		postID: "02",
-		imgUrl: require("../../../assets/ronnie-coleman.png"),
-		userName: "LightW8",
-		postTitle: "light weight to heavy weight!!!",
-		upVotes: 68,
-	},
-];
+const Lobby = () => {
+	const [posts, setPosts] = useState([]);
 
-const renderPosts = ({item}) => {
-	//fixme::how to require image dynamically
-	return (
-		<Surface style={styles.surfaceStyle} numColumns={3} elevation={1}>
-			<Avatar.Image style={styles.avatarStyle} size={50} source={item.imgUrl} />
-			<Text style={styles.postTitleStyle}>{item.postTitle}</Text>
-			<Badge style={styles.upVoteBadge}>{item.upVotes}</Badge>
-		</Surface>
-	);
-};
+	useEffect(() => {
+		async function getLobby() {
+			await axios.get("weekly-schedule/lobby").then((response) => {
+				setPosts(response.data);
+			});
+		}
+		getLobby();
+	}, []);
 
-const FriendsList = () => {
+	useEffect(() => {}, [posts]);
+
+	const renderPosts = ({item}) => {
+		return (
+			<Surface style={styles.surfaceStyle} numColumns={3} elevation={1}>
+				<Avatar.Image style={styles.avatarStyle} size={50} source={item.imagePath} />
+				<View style={{flex: 1}}>
+					<Text style={styles.postTitle}>{item.title}</Text>
+					<Text style={styles.postUsername}>{item.username}</Text>
+				</View>
+				<View>
+					<Badge style={styles.upVoteBadge}>{item.upvotes}</Badge>
+					<IconButton
+						style={styles.upVoteButton}
+						icon="arrow-up-drop-circle"
+						animate={true}
+						selected={true}
+					/>
+				</View>
+			</Surface>
+		);
+	};
+
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<SvgImage2
@@ -115,10 +123,10 @@ const FriendsList = () => {
 				alwaysBounceVertical={true}
 				data={posts}
 				renderItem={renderPosts}
-				keyExtractor={(item) => item.postID}
+				keyExtractor={(item) => item.id}
 			/>
 		</SafeAreaView>
 	);
 };
 
-export default FriendsList;
+export default Lobby;
