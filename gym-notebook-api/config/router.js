@@ -91,7 +91,7 @@ WeeklyScheduleRouter.get(
 );
 WeeklyScheduleRouter.put(
 	"/increment-upvotes/:weeklyScheduleID",
-	WeeklyScheduleController.getAllSchedules,
+	WeeklyScheduleController.incrementUpvotes,
 	(err) => console.log(`increment-upvotes ran into an error: ${err}`)
 );
 WeeklyScheduleRouter.get("/id/:weeklyScheduleId", WeeklyScheduleController.getTitleById, (err) =>
