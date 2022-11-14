@@ -106,7 +106,7 @@ const insertNewUser = (ctx) => {
 		"firstName",
 		"lastName",
 		"DoB",
-		//'imagePath',
+		"imagePath",
 		"email",
 		"profileBio",
 	];
@@ -123,9 +123,9 @@ const insertNewUser = (ctx) => {
 			firstName: valuesFromRequest["firstName"],
 			lastName: valuesFromRequest["lastName"],
 			DoB: valuesFromRequest["DoB"],
+			imagePath: valuesFromRequest["imagePath"],
 			email: valuesFromRequest["email"],
 			profileBio: valuesFromRequest["profileBio"],
-			//imagePath: valuesFromRequest['imagePath']
 		},
 	};
 

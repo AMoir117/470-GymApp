@@ -1,5 +1,5 @@
-/*const Authorize = require("../app/Middleware/Authorize.js");
-const VerifyJWT = require("../app/Middleware/VerifyJWT.js");*/
+const Authorize = require("../app/Middleware/Authorize.js");
+const VerifyJWT = require("../app/Middleware/VerifyJWT.js");
 
 /*
 |--------------------------------------------------------------------------
@@ -10,8 +10,6 @@ const VerifyJWT = require("../app/Middleware/VerifyJWT.js");*/
 | controller. Also used as a parent container for the other routers.
 |
 */
-const koa = require("koa");
-bodyParser = require("koa-bodyparser");
 const router = require("koa-router")({
 	prefix: "/api/v1",
 });
@@ -72,10 +70,10 @@ usersRouter.post("/insert-user", UsersController.insertNewUser, (err) =>
 	console.log(`insertUser ran into an error: ${err}`)
 );
 
-usersRouter.get(
+usersRouter.put(
 	"/use-weekly-schedule/:weeklyScheduleID/:userID",
 	UsersController.useWeeklySchedule,
-	(err) => console.log(`increment-upvotes ran into an error: ${err}`)
+	(err) => console.log(`use-weekly-schedule ran into an error: ${err}`)
 );
 
 // WeeklySchedule router configuration
@@ -91,10 +89,21 @@ WeeklyScheduleRouter.get(
 	WeeklyScheduleController.getAllSchedules,
 	(err) => console.log(`get-all-schedules ran into an error: ${err}`)
 );
-WeeklyScheduleRouter.get(
+WeeklyScheduleRouter.put(
 	"/increment-upvotes/:weeklyScheduleID",
-	WeeklyScheduleController.getAllSchedules,
+	WeeklyScheduleController.incrementUpvotes,
 	(err) => console.log(`increment-upvotes ran into an error: ${err}`)
+);
+WeeklyScheduleRouter.put(
+	"/edit-title/:title/:weeklyScheduleID",
+	WeeklyScheduleController.editWeeklyScheduleTitle,
+	(err) => console.log(`edit-weekly-schedule-title ran into an error: ${err}`)
+);
+
+WeeklyScheduleRouter.delete(
+	"/delete/:weeklyScheduleID",
+	WeeklyScheduleController.deleteWeeklySchedule,
+	(err) => console.log(`delete-weekly-schedule ran into an error: ${err}`)
 );
 
 const DailyRoutineController = require("../app/Controllers/DailyRoutineController.js");
@@ -106,14 +115,10 @@ DailyRoutineRouter.get(
 	DailyRoutineController.getDailyRoutines,
 	(err) => console.log(`get-daily-routines ran into an error: ${err}`)
 );
-DailyRoutineRouter.get(
+DailyRoutineRouter.put(
 	"/update-daily-routine/:sets/:reps/:weight/:dailyRoutineID",
 	DailyRoutineController.updateRoutine,
 	(err) => console.log(`update-daily-routine ran into an error: ${err}`)
-);
-
-usersRouter.post("/insert-user", UsersController.insertNewUser, (err) =>
-	console.log(`insertUser ran into an error: ${err}`)
 );
 
 /**
