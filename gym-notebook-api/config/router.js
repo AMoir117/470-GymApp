@@ -71,8 +71,8 @@ usersRouter.post("/insert-user", UsersController.insertNewUser, (err) =>
 	console.log(`insertUser ran into an error: ${err}`)
 );
 
-usersRouter.put("/use-weekly-schedule/:weeklyScheduleID/:userID", UsersController.useWeeklySchedule,(err) =>
-	console.log(`use-weekly-schedule ran into an error: ${err}`)
+usersRouter.get("/use-weekly-schedule/:weeklyScheduleID/:userID", UsersController.useWeeklySchedule,(err) =>
+	console.log(`increment-upvotes ran into an error: ${err}`)
 );
 
 
@@ -88,15 +88,8 @@ WeeklyScheduleRouter.get("/lobby", WeeklyScheduleController.getPublicSchedules,(
 WeeklyScheduleRouter.get("/get-all-schedules/:userID", WeeklyScheduleController.getAllSchedules,(err) =>
 	console.log(`get-all-schedules ran into an error: ${err}`)
 );
-WeeklyScheduleRouter.put("/increment-upvotes/:weeklyScheduleID", WeeklyScheduleController.incrementUpvotes,(err) =>
+WeeklyScheduleRouter.put("/increment-upvotes/:weeklyScheduleID", WeeklyScheduleController.getAllSchedules,(err) =>
 	console.log(`increment-upvotes ran into an error: ${err}`)
-);
-WeeklyScheduleRouter.put("/edit-title/:title/:weeklyScheduleID", WeeklyScheduleController.editWeeklyScheduleTitle,(err) =>
-	console.log(`edit-weekly-schedule-title ran into an error: ${err}`)
-);
-
-WeeklyScheduleRouter.delete("/delete/:weeklyScheduleID", WeeklyScheduleController.deleteWeeklySchedule,(err) =>
-	console.log(`delete-weekly-schedule ran into an error: ${err}`)
 );
 
 
@@ -110,8 +103,12 @@ const DailyRoutineRouter = require("koa-router")({
 DailyRoutineRouter.get("/get-daily-routines/:dayOfWeek/:weeklyScheduleID", DailyRoutineController.getDailyRoutines,(err) =>
 	console.log(`get-daily-routines ran into an error: ${err}`)
 );
-DailyRoutineRouter.put("/update-daily-routine/:sets/:reps/:weight/:dailyRoutineID", DailyRoutineController.updateRoutine,(err) =>
+DailyRoutineRouter.get("/update/:sets/:reps/:weight/:dailyRoutineID", DailyRoutineController.updateRoutine,(err) =>
 	console.log(`update-daily-routine ran into an error: ${err}`)
+);
+
+DailyRoutineRouter.delete("/delete/:dailyRoutineID", DailyRoutineController.deleteRoutine,(err) =>
+	console.log(`delete-daily-routine ran into an error: ${err}`)
 );
 
 

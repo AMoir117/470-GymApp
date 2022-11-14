@@ -51,7 +51,7 @@ CREATE TABLE DailyRoutine
   sets INT,
   reps INT,
   weight INT,
-  dayOfWeek ENUM('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT') NOT NULL,
+  dayOfWeek ENUM('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday') NOT NULL,
   weeklyScheduleID BIGINT NOT NULL,
   FOREIGN KEY (weeklyScheduleID) REFERENCES WeeklySchedule(id)
           ON UPDATE CASCADE ON DELETE CASCADE,
