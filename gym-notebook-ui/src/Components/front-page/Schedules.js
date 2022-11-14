@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
 	},
 });
 
+//fixme:: change to reflect database
 const daysOfWeek = [
 	{
 		dayID: "1",

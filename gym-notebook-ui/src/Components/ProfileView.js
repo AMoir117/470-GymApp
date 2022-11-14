@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext, createContext} from "react";
 import {
 	ScrollView,
 	Text,
@@ -11,7 +11,8 @@ import {
 } from "react-native";
 import {Divider, Appbar, Button, Avatar, Portal, Card, Title, Paragraph} from "react-native-paper";
 import axios from "axios";
-import GlobalStyles from "../GlobalStyles";
+import GlobalStyles from "./GlobalStyles";
+import * as FS from "expo-file-system";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -69,46 +70,27 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 	},
 });
-const ProfileViewer = (props) => {
-	/*
-
-  username VARCHAR(25) NOT NULL UNIQUE,
-  firstName VARCHAR(20),
-  lastName VARCHAR(20),
-  DoB DATE,
-  imagePath VARCHAR(100),
-
-	*/
-
-	const User = {
-		username: "arnolds17",
-		firstName: "Arnold",
-		lastName: "Schwarzenegger",
-		Dob: "1947-07-03",
-		bio: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur porta ex sit amet odio volutpat tincidunt. Quisque eleifend suscipit quam, vitae ultricies dui. Fusce nibh nibh, gravida non arcu quis, cursus luctus enim. Vivamus vitae porttitor orci, sed rutrum nulla. Pellentesque euismod sagittis lobortis. Sed tincidunt arcu non nisi porttitor.`,
-		imagePath: require("../../../assets/arnold.jpg"),
-	};
-
-	const {userID, imgUrl, userName} = props;
+const ProfileView = ({route, navigation}) => {
+	const {userProfile} = route.params;
 
 	useEffect(() => {}, []);
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
-				<Card.Cover source={User.imagePath} />
+				<Card.Cover style={{top: 0}} source={{uri: userProfile.imagePath}} />
 				<Card.Title
-					title={User.firstName + " " + User.lastName[0] + "."}
-					subtitle={User.username}
+					title={userProfile.firstName + " " + userProfile.lastName[0] + "."}
+					subtitle={userProfile.username}
 				/>
 				<Card.Content>
 					<Title>Bio</Title>
 					<Divider style={{borderWidth: 1}} />
-					<Paragraph>{User.bio}</Paragraph>
+					<Paragraph>{userProfile.profileBio}</Paragraph>
 				</Card.Content>
 			</Card>
 		</SafeAreaView>
 	);
 };
 
-export default ProfileViewer;
+export default ProfileView;

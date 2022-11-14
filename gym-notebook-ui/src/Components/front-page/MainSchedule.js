@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {
 	ScrollView,
 	StyleSheet,
@@ -10,6 +10,7 @@ import {
 	TouchableOpacity,
 	Image,
 	ImageBackground,
+	Platform,
 } from "react-native";
 import {
 	Divider,
@@ -22,9 +23,10 @@ import {
 	Portal,
 	Text,
 } from "react-native-paper";
+import AuthContext from "../../Context/AuthProvider";
 import axios from "axios";
 import GlobalStyles from "../GlobalStyles";
-import WorkoutCard from "../WorkoutCard";
+import WorkoutCard from "../Modules/WorkoutCard";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -127,14 +129,58 @@ const data = [
 	},
 ];
 
+const dayAndroid = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 const MainSchedule = ({navigation, back}) => {
-	const [currentDay, setCurrentDay] = useState("Friday");
-	const [scheduleName, setScheduleName] = useState("Path to Mr. Olympia");
-	const [workouts, setWorkouts] = useState(data);
+	const {auth} = useContext(AuthContext);
+	const [currentDay, setCurrentDay] = useState("Monday");
+	const [scheduleName, setScheduleName] = useState("");
+	//const [workouts, setWorkouts] = useState(data);
 	const [gifShow, setGifShow] = useState(false);
 	const [modalUri, setModalUri] = useState("");
+	const [dailyWorkoutData, setDailyWorkoutData] = useState([]);
+	const day = new Date();
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		console.log(auth);
+		//Android has different formats for toLocaleDateString
+		const getDailyRoutine = async () => {
+			if (Platform.OS === "android") {
+				await axios
+					.get(
+						`daily-routine/get-daily-routines/${dayAndroid[day.getDay()]}/${
+							auth.user.currentWeeklyScheduleID
+						}`
+					)
+					.then((routineResponse) => {
+						setDailyWorkoutData(routineResponse.data);
+					});
+				setCurrentDay(dayAndroid[day.getDay()]);
+			} else {
+				await axios
+					.get(
+						`daily-routine/get-daily-routines/${day.toLocaleDateString("en-us", {
+							weekday: "long",
+						})}/${auth.user.currentWeeklyScheduleID}`
+					)
+					.then((routineResponse) => {
+						setDailyWorkoutData(routineResponse.data);
+					});
+				setCurrentDay(day.toLocaleDateString("en-us", {weekday: "long"}));
+			}
+		};
+		const getScheduleTitle = async () => {
+			console.log(auth.user.currentWeeklyScheduleID);
+			await axios
+				.get(`weekly-schedule/id/${auth.user.currentWeeklyScheduleID}`)
+				.then((titleResponse) => {
+					console.log(titleResponse);
+					setScheduleName(titleResponse.data[0].title);
+				});
+		};
+		getScheduleTitle();
+		getDailyRoutine();
+	}, []);
 
 	const showModal = (item) => {
 		setGifShow(true);
@@ -178,7 +224,7 @@ const MainSchedule = ({navigation, back}) => {
 				<FlatList
 					showsVerticalScrollIndicator={false}
 					alwaysBounceVertical={true}
-					data={workouts}
+					data={dailyWorkoutData}
 					renderItem={renderItem}
 					keyExtractor={(item) => item.id}
 				/>

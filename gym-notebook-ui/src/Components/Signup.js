@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {
 	ScrollView,
 	Text,
@@ -6,19 +6,23 @@ import {
 	View,
 	FlatList,
 	Pressable,
-	TextInput,
 	SafeAreaView,
 	Platform,
 	ImageBackground,
 } from "react-native";
-import {Divider, Appbar, Button, Avatar, Dialog} from "react-native-paper";
+import {Divider, Appbar, Button, Avatar, Dialog, TextInput} from "react-native-paper";
 import WheelPickerExpo from "react-native-wheel-picker-expo";
-import InsertDate from "./InsertDate";
-import ImagePick from "./ImagePicker";
+import InsertDate from "./Modules/InsertDate";
+import ImagePick from "./Modules/ImagePicker";
 import axios from "axios";
+import AuthContext from "../Context/AuthProvider";
 
 import SvgImage from "./SvgImage";
 import GlobalStyles from "./GlobalStyles";
+
+import {getStorage, ref, getDownloadURL, uploadBytes} from "firebase/storage";
+import {initializeApp} from "firebase/app";
+import firebaseConfig from "../../firebaseConfig";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -81,33 +85,76 @@ const styles = StyleSheet.create({
 
 const options = {
 	year: "numeric",
-	month: "long",
+	month: "numeric",
 	day: "numeric",
 };
 
 const Signup = ({navigation, back}) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [checkPassword, setCheckPassword] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [bio, setBio] = useState("");
-
-	const [image, setImage] = useState(null);
-
 	const [show, setShow] = useState(false);
+	const [date, setDate] = useState(new Date(2001, 1, 1));
+	const [imagePath, setImagePath] = useState(undefined);
 
-	const [date, setDate] = useState(new Date());
+	const {setAuth} = useContext(AuthContext);
+
+	const app = initializeApp(firebaseConfig);
+	const storage = getStorage(app);
 
 	useEffect(() => {}, []);
 
-	const saveProfile = () => {
-		navigation.navigate("Login");
-		console.log("profile saved");
-		//todo::save information for new user
-		console.log(`${date.getDate()}, ${date.getDay()}, ${date.getFullYear()}`);
-		console.log(date.toLocaleDateString(undefined, options));
-		console.log(Platform.OS);
+	const saveProfile = async () => {
+		if (password !== checkPassword) {
+			console.log("Password is different");
+			return;
+		} else if (username === "" || email === "") {
+			console.log("Username or email is empty!");
+			return;
+		}
+
+		const response = await fetch(imagePath);
+		const blob = await response.blob();
+
+		const pathRef = ref(storage, username);
+
+		uploadBytes(pathRef, blob).then((snapshot) => {
+			console.log("uploaded blob");
+
+			getDownloadURL(pathRef).then(async (imageUrl) => {
+				console.log(`imageUrl: ${imageUrl}`);
+				await axios
+					.post(`users/insert-user`, {
+						username: username,
+						userPassword: password,
+						firstName: firstName,
+						lastName: lastName,
+						DoB: date.toISOString().split("T")[0],
+						imagePath: imageUrl,
+						email: email,
+						profileBio: bio,
+					})
+					.then((response) => {
+						const userInfo = {
+							username: username,
+							userPassword: password,
+							firstName: firstName,
+							lastName: lastName,
+							DoB: date.toISOString().split("T")[0],
+							imagePath: imageUrl,
+							email: email,
+							profileBio: bio,
+						};
+						setAuth({user: userInfo});
+						console.log("profile saved");
+					});
+			});
+		});
+		navigation.navigate("Front Page");
 	};
 
 	return (
@@ -128,67 +175,38 @@ const Signup = ({navigation, back}) => {
 					showsVerticalScrollIndicator={false}
 					alwaysBounceVertical={false}
 				>
-					{/* <View>
-					<Appbar.Header alignSelf="center">
-						{back ? (
-							<Appbar.BackAction
-								onPress={() => {
-									navigation.goBack;
-								}}
-							/>
-						) : null}
-						<Appbar.Content title="MY PROFILE" mode="center-align" alignSelf="center" />
-					</Appbar.Header>
-
-					<Divider
-						style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
-						horizontalInset="3"
-					/>
-				</View> */}
-					{/* <View>
-					<Avatar.Image
-						style={styles.avatarStyle}
-						size={150}
-						//source={require("../../assets/pexels-anush-gorak-1431283.jpg")}
-					/>
-				</View>
-				<View>
-					<Pressable color={"#026df7"} onPress={() => {}}>
-						<Text style={styles.textUploadImage}>Upload Image</Text>
-					</Pressable>
-				</View> */}
-					<ImagePick image={image} setImage={setImage} />
+					<ImagePick image={imagePath} setImage={setImagePath} />
 					<TextInput
 						style={styles.textInputStyle}
-						placeholder={"Username"}
+						label={"Username"}
 						value={username}
 						textContentType={"username"}
 						onChangeText={setUsername}
 					/>
 					<TextInput
 						style={styles.textInputStyle}
-						placeholder={"First Name"}
+						label={"First Name"}
 						value={firstName}
 						textContentType={"givenName"}
 						onChangeText={setFirstName}
 					/>
 					<TextInput
 						style={styles.textInputStyle}
-						placeholder={"Last Name"}
+						label={"Last Name"}
 						value={lastName}
 						textContentType={"lastName"}
 						onChangeText={setLastName}
 					/>
 					<TextInput
 						style={styles.textInputStyle}
-						placeholder={"Email"}
+						label={"Email"}
 						value={email}
 						textContentType={"emailAddress"}
 						onChangeText={setEmail}
 					/>
 					<TextInput
 						style={styles.textInputStyle}
-						placeholder={"Date of Birth"}
+						label={"Date of Birth"}
 						value={date.toLocaleDateString(undefined, options)}
 						editable={false}
 					/>
@@ -202,15 +220,18 @@ const Signup = ({navigation, back}) => {
 				/> */}
 					<TextInput
 						style={styles.bioInputStyle}
-						placeholder={"Bio"}
+						error={true}
+						mode="outlined"
+						label={"Bio"}
 						value={bio}
 						multiline={true}
 						onChangeText={setBio}
 					/>
 					<TextInput
 						style={styles.textInputStyle}
+						mode="outlined"
 						secureTextEntry={true}
-						placeholder={"Password"}
+						label={"Password"}
 						value={password}
 						textContentType={"password"}
 						onChangeText={setPassword}
@@ -219,10 +240,10 @@ const Signup = ({navigation, back}) => {
 					<TextInput
 						style={styles.textInputStyle}
 						secureTextEntry={true}
-						placeholder={"Re-input Password"}
-						value={password}
+						label={"Re-input Password"}
+						value={checkPassword}
 						textContentType={"password"}
-						onChangeText={setPassword}
+						onChangeText={setCheckPassword}
 					/>
 					<Button
 						style={styles.buttonSave}
@@ -230,7 +251,6 @@ const Signup = ({navigation, back}) => {
 						mode="contained"
 						buttonColor="#ff0000"
 						onPress={saveProfile}
-						//todo::determine if signing up or looking at own profile
 					/>
 				</ScrollView>
 			</ImageBackground>

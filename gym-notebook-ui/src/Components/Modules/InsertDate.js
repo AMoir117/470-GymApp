@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
 });
 
 const InsertDate = (props) => {
-	console.log(Platform.OS);
 	const {show, setShow, date, setDate} = props;
 
 	const onChange = (event, selectedDate) => {

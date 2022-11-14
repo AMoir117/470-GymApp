@@ -200,5 +200,5 @@ module.exports = {
 	exerciseByID,
 	exerciseByBodyPart,
 	exerciseByMuscle,
-	exerciseByEquipment,
+	exerciseByEquipment
 };
