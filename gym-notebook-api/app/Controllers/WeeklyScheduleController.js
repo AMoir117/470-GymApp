@@ -152,11 +152,39 @@ const deleteWeeklySchedule = async (ctx) => {
     });
 }
 
+const getScheduleById = async (ctx) => {
+    console.log('getScheduleById called.');
+    return new Promise((resolve, reject) => {
+        const query = `
+                      SELECT * FROM WeeklySchedule WHERE id = ?;
+                      `;
+        dbConnection.query({
+            sql: query,
+            values: [ctx.params.weeklyScheduleID]
+        }, (error, tuples) => {
+            if (error) {
+                console.log("Connection error in WeeklyScheduleController::getScheduleById", error);
+                return reject(error);
+            }
+            ctx.body = tuples;
+            ctx.status = 200;
+            return resolve();
+        });
+    }).catch(err => {
+        console.log("Database connection error in getScheduleById.", err);
+        // The UI side will have to look for the value of status and
+        // if it is not 200, act appropriately.
+        ctx.body = [];
+        ctx.status = 500;
+    });
+}
+
 
 module.exports = {
     getPublicSchedules,
     getAllSchedules,
     incrementUpvotes,
     editWeeklyScheduleTitle,
-    deleteWeeklySchedule
+    deleteWeeklySchedule,
+    getScheduleById
 };

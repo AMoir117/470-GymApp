@@ -91,6 +91,9 @@ WeeklyScheduleRouter.get("/get-all-schedules/:userID", WeeklyScheduleController.
 WeeklyScheduleRouter.put("/increment-upvotes/:weeklyScheduleID", WeeklyScheduleController.getAllSchedules,(err) =>
 	console.log(`increment-upvotes ran into an error: ${err}`)
 );
+WeeklyScheduleRouter.get("/id/:userID", WeeklyScheduleController.getScheduleById,(err) =>
+	console.log(`getScheduleById ran into an error: ${err}`)
+);
 
 
 
@@ -109,6 +112,10 @@ DailyRoutineRouter.put("/update/:sets/:reps/:weight/:dailyRoutineID", DailyRouti
 
 DailyRoutineRouter.delete("/delete/:dailyRoutineID", DailyRoutineController.deleteRoutine,(err) =>
 	console.log(`delete-daily-routine ran into an error: ${err}`)
+);
+
+DailyRoutineRouter.post("/insert/:exerciseID/:sets/:reps/:weight/:dayOfWeek/:weeklyScheduleID", DailyRoutineController.insertNewDailyRoutine,(err) =>
+	console.log(`daily-routine-insert ran into an error: ${err}`)
 );
 
 
