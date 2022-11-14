@@ -71,8 +71,8 @@ usersRouter.post("/insert-user", UsersController.insertNewUser, (err) =>
 	console.log(`insertUser ran into an error: ${err}`)
 );
 
-usersRouter.get("/use-weekly-schedule/:weeklyScheduleID/:userID", UsersController.useWeeklySchedule,(err) =>
-	console.log(`increment-upvotes ran into an error: ${err}`)
+usersRouter.put("/use-weekly-schedule/:weeklyScheduleID/:userID", UsersController.useWeeklySchedule,(err) =>
+	console.log(`use-weekly-schedule ran into an error: ${err}`)
 );
 
 
@@ -88,8 +88,15 @@ WeeklyScheduleRouter.get("/lobby", WeeklyScheduleController.getPublicSchedules,(
 WeeklyScheduleRouter.get("/get-all-schedules/:userID", WeeklyScheduleController.getAllSchedules,(err) =>
 	console.log(`get-all-schedules ran into an error: ${err}`)
 );
-WeeklyScheduleRouter.get("/increment-upvotes/:weeklyScheduleID", WeeklyScheduleController.getAllSchedules,(err) =>
+WeeklyScheduleRouter.put("/increment-upvotes/:weeklyScheduleID", WeeklyScheduleController.incrementUpvotes,(err) =>
 	console.log(`increment-upvotes ran into an error: ${err}`)
+);
+WeeklyScheduleRouter.put("/edit-title/:title/:weeklyScheduleID", WeeklyScheduleController.editWeeklyScheduleTitle,(err) =>
+	console.log(`edit-weekly-schedule-title ran into an error: ${err}`)
+);
+
+WeeklyScheduleRouter.delete("/delete/:weeklyScheduleID", WeeklyScheduleController.deleteWeeklySchedule,(err) =>
+	console.log(`delete-weekly-schedule ran into an error: ${err}`)
 );
 
 
@@ -103,7 +110,7 @@ const DailyRoutineRouter = require("koa-router")({
 DailyRoutineRouter.get("/get-daily-routines/:dayOfWeek/:weeklyScheduleID", DailyRoutineController.getDailyRoutines,(err) =>
 	console.log(`get-daily-routines ran into an error: ${err}`)
 );
-DailyRoutineRouter.get("/update-daily-routine/:sets/:reps/:weight/:dailyRoutineID", DailyRoutineController.updateRoutine,(err) =>
+DailyRoutineRouter.put("/update-daily-routine/:sets/:reps/:weight/:dailyRoutineID", DailyRoutineController.updateRoutine,(err) =>
 	console.log(`update-daily-routine ran into an error: ${err}`)
 );
 
