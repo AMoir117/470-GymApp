@@ -124,6 +124,35 @@ const editWeeklyScheduleTitle = async (ctx) => {
     });
 }
 
+const editWeeklyScheduleStatus = async (ctx) => {
+    console.log('editWeeklyScheduleStatus called.');
+    return new Promise((resolve, reject) => {
+        const query = `
+                      UPDATE WeeklySchedule
+                      SET accessStatus = ?
+                      WHERE id = ?;
+                      `;
+        dbConnection.query({
+            sql: query,
+            values: [ctx.params.accessStatus, ctx.params.weeklyScheduleID]
+        }, (error, tuples) => {
+            if (error) {
+                console.log("Connection error in WeeklyScheduleController::editWeeklyScheduleStatus", error);
+                return reject(error);
+            }
+            ctx.body = tuples;
+            ctx.status = 200;
+            return resolve();
+        });
+    }).catch(err => {
+        console.log("Database connection error in editWeeklyScheduleStatus.", err);
+        // The UI side will have to look for the value of status and
+        // if it is not 200, act appropriately.
+        ctx.body = [];
+        ctx.status = 500;
+    });
+}
+
 const deleteWeeklySchedule = async (ctx) => {
     console.log('deleteWeeklySchedule called.');
     return new Promise((resolve, reject) => {
@@ -179,6 +208,34 @@ const getScheduleById = async (ctx) => {
     });
 }
 
+const insertNewWeeklySchedule = async (ctx) => {
+	console.log('insertNewWeeklySchedule called.');
+	return new Promise((resolve, reject) => {
+		const query = `
+                      INSERT INTO WeeklySchedule
+                      (accessStatus, title, upvotes, userID)
+                      VALUES (?, ?, ?, ?)
+                      `;
+		dbConnection.query({
+			sql: query,
+			values: [ctx.params.accessStatus, ctx.params.title, ctx.params.upvotes, ctx.params.userID]
+		}, (error, tuples) => {
+			if (error) {
+				console.log("Connection error in WeeklyScheduleController::insertNewWeeklySchedule", error);
+				return reject(error);
+			}
+			ctx.body = tuples;
+			ctx.status = 200;
+			return resolve();
+		});
+	}).catch(err => {
+		console.log("Database connection error in insertNewWeeklySchedule.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
+}
 
 module.exports = {
     getPublicSchedules,
@@ -186,5 +243,7 @@ module.exports = {
     incrementUpvotes,
     editWeeklyScheduleTitle,
     deleteWeeklySchedule,
-    getScheduleById
+    getScheduleById,
+    insertNewWeeklySchedule,
+    editWeeklyScheduleStatus
 };

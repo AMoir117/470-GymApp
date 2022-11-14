@@ -94,37 +94,33 @@ const deleteRoutine = async (ctx) => {
     });
 }
 
-
 const insertNewDailyRoutine = async (ctx) => {
-    console.log('insertNewDailyRoutine called.');
-    console.log(ctx);
-    return new Promise((resolve, reject) => {
-        const query = `
-                      INSERT INTO DailyRoutine
-                      (exerciseID, sets, reps, weight, dayOfWeek, weeklyScheduleID)
-                      VALUES (?, ?, ?, ?, ?, ?);
-                      `;
-        dbConnection.query({
-            sql: query,
-            values: [ctx.params.exerciseID, ctx.params.sets, ctx.params.reps, ctx.params.weight. ctx.params.dayOfWeek, ctx.params.weeklyScheduleID]
-        }, (error, tuples) => {
-            if (error) {
-                console.log("Connection error in DailyRoutineController::insertNewDailyRoutine", error);
-                return reject(error);
-            }
-            ctx.body = tuples;
-            ctx.status = 200;
-            return resolve();
-        });
-
-    }).catch(err => {
-        console.log("Database connection error in insertNewDailyRoutine.", err);
-        // console.log(err.response);
-        // The UI side will have to look for the value of status and
-        // if it is not 200, act appropriately.
-        ctx.body = [];
-        ctx.status = 500;
-    });
+	console.log('insertNewDailyRoutine called.');
+	return new Promise((resolve, reject) => {
+		const query = `
+                  INSERT INTO DailyRoutine
+                  (exerciseID, sets, reps, weight, dayOfWeek, weeklyScheduleID)
+                  VALUES (?, ?, ?, ?, ?, ?);
+                  `;
+		dbConnection.query({
+			sql: query,
+			values: [ctx.params.exerciseID, ctx.params.sets, ctx.params.reps, ctx.params.weight, ctx.params.dayOfWeek, ctx.params.weeklyScheduleID]
+		}, (error, tuples) => {
+			if (error) {
+				console.log("Connection error in DailyRoutineController::insertNewDailyRoutine", error);
+				return reject(error);
+			}
+			ctx.body = tuples;
+			ctx.status = 200;
+			return resolve();
+		});
+	}).catch(err => {
+		console.log("Database connection error in insertNewDailyRoutine.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
 }
 
 module.exports = {

@@ -95,6 +95,16 @@ WeeklyScheduleRouter.get("/id/:userID", WeeklyScheduleController.getScheduleById
 	console.log(`getScheduleById ran into an error: ${err}`)
 );
 
+WeeklyScheduleRouter.post("/insert/:accessStatus/:title/:upvotes/:userID", WeeklyScheduleController.insertNewWeeklySchedule,(err) =>
+	console.log(`insertNewWeeklySchedule ran into an error: ${err}`)
+);
+
+WeeklyScheduleRouter.put("/update-status/:accessStatus/:weeklyScheduleID", WeeklyScheduleController.editWeeklyScheduleStatus,(err) =>
+	console.log(`update-status ran into an error: ${err}`)
+);
+WeeklyScheduleRouter.put("/update-title/:title/:weeklyScheduleID", WeeklyScheduleController.editWeeklyScheduleTitle,(err) =>
+	console.log(`update-title ran into an error: ${err}`)
+);
 
 
 
