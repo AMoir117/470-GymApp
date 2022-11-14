@@ -88,7 +88,7 @@ WeeklyScheduleRouter.get("/lobby", WeeklyScheduleController.getPublicSchedules,(
 WeeklyScheduleRouter.get("/get-all-schedules/:userID", WeeklyScheduleController.getAllSchedules,(err) =>
 	console.log(`get-all-schedules ran into an error: ${err}`)
 );
-WeeklyScheduleRouter.put("/increment-upvotes/:weeklyScheduleID", WeeklyScheduleController.getAllSchedules,(err) =>
+WeeklyScheduleRouter.put("/increment-upvotes/:weeklyScheduleID", WeeklyScheduleController.incrementUpvotes,(err) =>
 	console.log(`increment-upvotes ran into an error: ${err}`)
 );
 WeeklyScheduleRouter.get("/id/:userID", WeeklyScheduleController.getScheduleById,(err) =>
@@ -146,7 +146,7 @@ router.use(
 	exercisesRouter.routes(),
 	usersRouter.routes(),
   WeeklyScheduleRouter.routes(),
-  DailyRoutineRouter.routes()
+  DailyRoutineRouter.routes(),
 	FollowerRouter.routes()
 );
 
