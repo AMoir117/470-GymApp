@@ -17,13 +17,13 @@ const router = require("koa-router")({
 });
 
 // Login router configuration.
-const LoginController = require("../app/Controllers/LoginController.js");
-const loginRouter = require("koa-router")({
-	prefix: "/login",
-});
-loginRouter.get("/:user_id", LoginController.authorizeUser, (err) =>
-	console.log("exercisesRoutes.js: login-route error:", err)
-);
+// const LoginController = require("../app/Controllers/LoginController.js");
+// const loginRouter = require("koa-router")({
+// 	prefix: "/login",
+// });
+// loginRouter.get("/:user_id", LoginController.authorizeUser, (err) =>
+// 	console.log("exercisesRoutes.js: login-route error:", err)
+// );
 
 // Exercises router configuration.
 const ExercisesController = require("../app/Controllers/ExerciseController.js");
@@ -68,6 +68,16 @@ usersRouter.get("/get-followers/:followedUserID", UsersController.getUsersFollow
 	console.log(`getUsersFollowers ran into an error: ${err}`)
 );
 
+usersRouter.post("/insert-user", UsersController.insertNewUser, (err) =>
+	console.log(`insertUser ran into an error: ${err}`)
+);
+
+usersRouter.get(
+	"/use-weekly-schedule/:weeklyScheduleID/:userID",
+	UsersController.useWeeklySchedule,
+	(err) => console.log(`increment-upvotes ran into an error: ${err}`)
+);
+
 // WeeklySchedule router configuration
 const WeeklyScheduleController = require("../app/Controllers/WeeklyScheduleController.js");
 const WeeklyScheduleRouter = require("koa-router")({
@@ -75,6 +85,31 @@ const WeeklyScheduleRouter = require("koa-router")({
 });
 WeeklyScheduleRouter.get("/lobby", WeeklyScheduleController.getPublicSchedules, (err) =>
 	console.log(`lobby ran into an error: ${err}`)
+);
+WeeklyScheduleRouter.get(
+	"/get-all-schedules/:userID",
+	WeeklyScheduleController.getAllSchedules,
+	(err) => console.log(`get-all-schedules ran into an error: ${err}`)
+);
+WeeklyScheduleRouter.get(
+	"/increment-upvotes/:weeklyScheduleID",
+	WeeklyScheduleController.getAllSchedules,
+	(err) => console.log(`increment-upvotes ran into an error: ${err}`)
+);
+
+const DailyRoutineController = require("../app/Controllers/DailyRoutineController.js");
+const DailyRoutineRouter = require("koa-router")({
+	prefix: "/daily-routine",
+});
+DailyRoutineRouter.get(
+	"/get-daily-routines/:dayOfWeek/:weeklyScheduleID",
+	DailyRoutineController.getDailyRoutines,
+	(err) => console.log(`get-daily-routines ran into an error: ${err}`)
+);
+DailyRoutineRouter.get(
+	"/update-daily-routine/:sets/:reps/:weight/:dailyRoutineID",
+	DailyRoutineController.updateRoutine,
+	(err) => console.log(`update-daily-routine ran into an error: ${err}`)
 );
 
 usersRouter.post("/insert-user", UsersController.insertNewUser, (err) =>
@@ -86,10 +121,11 @@ usersRouter.post("/insert-user", UsersController.insertNewUser, (err) =>
  */
 router.use(
 	"",
-	loginRouter.routes(),
+	// loginRouter.routes(),
 	exercisesRouter.routes(),
 	usersRouter.routes(),
-	WeeklyScheduleRouter.routes()
+	WeeklyScheduleRouter.routes(),
+	DailyRoutineRouter.routes()
 );
 
 module.exports = function (app) {
