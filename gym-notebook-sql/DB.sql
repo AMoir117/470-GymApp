@@ -47,7 +47,6 @@ CREATE TABLE DailyRoutine
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   exerciseID CHAR(4),
   FOREIGN KEY(exerciseID) REFERENCES Exercise(id),
-  userID INT NOT NULL,
   sets INT,
   reps INT,
   weight VARCHAR(4),
