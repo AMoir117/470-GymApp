@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	upVoteButton: {
+		flex: 1,
 		margin: 5,
 	},
 	avatarStyle: {
@@ -94,7 +95,11 @@ const Lobby = () => {
 						clickUserProfile(item);
 					}}
 				>
-					<Avatar.Image style={styles.avatarStyle} size={50} source={item.imagePath} />
+					<Avatar.Image
+						style={styles.avatarStyle}
+						size={50}
+						source={{uri: item.imagePath}}
+					/>
 				</TouchableOpacity>
 				<View style={{flex: 1}}>
 					<Text style={styles.postTitle}>{item.title}</Text>
@@ -105,8 +110,7 @@ const Lobby = () => {
 					<IconButton
 						style={styles.upVoteButton}
 						icon="arrow-up-drop-circle"
-						animate={true}
-						selected={true}
+						onPress={upVote}
 					/>
 				</View>
 			</Surface>
@@ -116,6 +120,10 @@ const Lobby = () => {
 	const clickUserProfile = (item) => {
 		console.log(item);
 		navigation.navigate("Profile View", {userProfile: item});
+	};
+
+	const upVote = () => {
+		//todo::array of user ids that voted
 	};
 
 	return (

@@ -95,7 +95,11 @@ const FriendsList = () => {
 						clickUserProfile(item);
 					}}
 				>
-					<Avatar.Image style={styles.avatarStyle} size={100} source={item.imagePath} />
+					<Avatar.Image
+						style={styles.avatarStyle}
+						size={100}
+						source={{uri: item.imagePath}}
+					/>
 				</TouchableOpacity>
 				<Text style={styles.userNameStyle}>{item.username}</Text>
 			</Surface>

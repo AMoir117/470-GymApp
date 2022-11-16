@@ -54,81 +54,6 @@ const styles = StyleSheet.create({
 	},
 });
 
-const data = [
-	{
-		id: "3194",
-		name: "frankenstein squat",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3194.gif",
-		sets: 4,
-		reps: 12,
-		weight: 50,
-	},
-	{
-		id: "3561",
-		name: "glute bridge march",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3561.gif",
-		sets: 3,
-		reps: 8,
-		weight: 225,
-	},
-	{
-		id: "1761",
-		name: "hanging oblique knee raise",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/1761.gif",
-		sets: 4,
-		reps: 10,
-		weight: 75,
-	},
-	{
-		id: "0490",
-		name: "incline close-grip push-up",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0490.gif",
-		sets: 3,
-		reps: 10,
-		weight: 55,
-	},
-	{
-		id: "2400",
-		name: "inverse leg curl (on pull-up cable machine)",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/2400.gif",
-		sets: 4,
-		reps: 8,
-		weight: 315,
-	},
-	{
-		id: "3116",
-		name: "band fixed back underhand pulldown",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3116.gif",
-		sets: 3,
-		reps: 15,
-		weight: 25,
-	},
-	{
-		id: "0043",
-		name: "barbell full squat",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0043.gif",
-		sets: 3,
-		reps: 8,
-		weight: 315,
-	},
-	{
-		id: "0032",
-		name: "barbell deadlift",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
-		sets: 3,
-		reps: 5,
-		weight: 405,
-	},
-	{
-		id: "0025",
-		name: "barbell bench press",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0025.gif",
-		sets: 3,
-		reps: 10,
-		weight: 225,
-	},
-];
-
 const dayAndroid = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const MainSchedule = ({navigation, back}) => {
@@ -142,7 +67,7 @@ const MainSchedule = ({navigation, back}) => {
 	const day = new Date();
 
 	useEffect(() => {
-		console.log(auth);
+		//fixme::check if weeklyschedule is empty or not!!!
 		//Android has different formats for toLocaleDateString
 		const getDailyRoutine = async () => {
 			if (Platform.OS === "android") {
@@ -164,6 +89,7 @@ const MainSchedule = ({navigation, back}) => {
 						})}/${auth.user.currentWeeklyScheduleID}`
 					)
 					.then((routineResponse) => {
+						console.log(routineResponse);
 						setDailyWorkoutData(routineResponse.data);
 					});
 				setCurrentDay(day.toLocaleDateString("en-us", {weekday: "long"}));

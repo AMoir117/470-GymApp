@@ -10,6 +10,11 @@ const GlobalStyles = StyleSheet.create({
 		white: "#ffffff",
 		green: "#729676",
 	},
+	date: {
+		month: "numeric",
+		day: "numeric",
+		year: "numeric",
+	},
 });
 
 export default GlobalStyles;

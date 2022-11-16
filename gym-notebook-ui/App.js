@@ -16,6 +16,8 @@ import CustomNavigationBar from "./src/Components/CustomNavigationBar";
 import ProfileView from "./src/Components/ProfileView";
 import ScheduleEdit from "./src/Components/ScheduleEdit";
 import SectionListBasics from "./src/Components/SectionListBasics";
+import SchedulesList from "./src/Components/front-page/SchedulesList";
+import Schedules from "./src/Components/front-page/Schedules";
 
 const App = () => {
 	const Stack = createNativeStackNavigator();
@@ -54,7 +56,7 @@ const App = () => {
 						<Stack.Screen name="Profile View" component={ProfileView} />
 						<Stack.Screen
 							name="WORKING_PAGE"
-							component={SearchBar}
+							component={Schedules}
 							options={{
 								title: "WORKING_PAGE",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},

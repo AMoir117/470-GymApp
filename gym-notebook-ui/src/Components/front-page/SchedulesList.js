@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {
 	ScrollView,
 	Text,
@@ -10,12 +10,14 @@ import {
 	SafeAreaView,
 	ImageBackground,
 } from "react-native";
-import {DataTable, Avatar, Surface} from "react-native-paper";
+import {DataTable, Avatar, Surface, Badge} from "react-native-paper";
 
 import SwipingRow from "../Modules/SwipingRow";
 import GmailStyleSwipeableRow from "../Modules/AndroidSwipe";
 import GlobalStyles from "../GlobalStyles";
+import axios from "axios";
 import SvgImage2 from "../SvgImage2";
+import AuthContext from "../../Context/AuthProvider";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -46,23 +48,22 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 		color: "#ffffff",
 	},
-	userNameStyle: {
-		height: 20,
-		margin: 1,
-		alignSelf: "center",
-	},
 	postTitleStyle: {
+		fontSize: 20,
 		height: 20,
 		marginTop: 10,
-		alignSelf: "center",
+		marginLeft: 10,
 	},
-	upVoteStyle: {
+	postCreatedOn: {
 		height: 20,
-		margin: 5,
-		flex: 1,
-		alignSelf: "center",
-		textAlign: "right",
+		marginTop: 10,
+		marginLeft: 10,
+	},
+	upVoteBadge: {
 		color: "#93c47d",
+		alignSelf: "center",
+		margin: 20,
+		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	avatarStyle: {
 		alignSelf: "center",
@@ -71,42 +72,37 @@ const styles = StyleSheet.create({
 	},
 });
 
-const mySchedules = [
-	{
-		scheduleID: "01",
-		dateCreated: "05/15/2001",
-		title: "Back to the Gym",
-		upVotes: 93,
-	},
-	{
-		scheduleID: "02",
-		dateCreated: "12/1/2014",
-		title: "Pull yourself up by the bootstraps",
-		upVotes: 26,
-	},
-	{
-		scheduleID: "03",
-		dateCreated: "08/11/2005",
-		title: "Path to Mr. Olympia",
-		upVotes: 56,
-	},
-];
-
-const renderSchedules = ({item}) => {
-	return (
-		<SwipingRow>
-			<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
-				<View style={{flex: 1}}>
-					<Text style={styles.postTitleStyle}>{item.title}</Text>
-					<Text style={styles.postTitleStyle}>Created: {item.dateCreated}</Text>
-				</View>
-				<Text style={styles.upVoteStyle}>{item.upVotes}</Text>
-			</Surface>
-		</SwipingRow>
-	);
-};
-
 const SchedulesList = () => {
+	const {auth} = useContext(AuthContext);
+	const [mySchedules, setMySchedules] = useState([]);
+
+	useEffect(() => {
+		const getAllSchedules = async () => {
+			await axios
+				.get(`weekly-schedule/get-all-schedules/${auth.user.id}`)
+				.then((scheduleResponses) => {
+					console.log(scheduleResponses.data);
+					setMySchedules(scheduleResponses.data);
+				});
+		};
+		getAllSchedules();
+	}, []);
+
+	const renderSchedules = ({item}) => {
+		const test = new Date(item.created);
+		const myDate = test.toLocaleDateString("en-us", GlobalStyles.date);
+		return (
+			<SwipingRow>
+				<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
+					<View style={{flex: 1}}>
+						<Text style={styles.postTitleStyle}>{item.title}</Text>
+						<Text style={styles.postCreatedOn}>{`Created: ${myDate}`}</Text>
+					</View>
+					<Badge style={styles.upVoteBadge}>{item.upvotes}</Badge>
+				</Surface>
+			</SwipingRow>
+		);
+	};
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<SvgImage2
@@ -125,7 +121,7 @@ const SchedulesList = () => {
 				alwaysBounceVertical={true}
 				data={mySchedules}
 				renderItem={renderSchedules}
-				keyExtractor={(item) => item.scheduleID}
+				keyExtractor={(item) => item.id}
 			/>
 		</SafeAreaView>
 	);

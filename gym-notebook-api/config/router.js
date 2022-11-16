@@ -23,6 +23,14 @@ const router = require("koa-router")({
 // 	console.log("exercisesRoutes.js: login-route error:", err)
 // );
 
+const LoginController = require("../app/Controllers/LoginController.js");
+const loginRouter = require("koa-router")({
+	prefix: "/login",
+});
+loginRouter.get("/:username", LoginController.authorizeUser, (err) =>
+	console.log(`login users ran into an error: ${err}`)
+);
+
 // Exercises router configuration.
 const ExercisesController = require("../app/Controllers/ExerciseController.js");
 const exercisesRouter = require("koa-router")({
@@ -155,7 +163,7 @@ FollowerRouter.post(
  */
 router.use(
 	"",
-	// loginRouter.routes(),
+	loginRouter.routes(),
 	exercisesRouter.routes(),
 	usersRouter.routes(),
 	WeeklyScheduleRouter.routes(),

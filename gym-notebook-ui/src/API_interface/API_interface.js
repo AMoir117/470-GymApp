@@ -28,9 +28,9 @@ const AxiosConfigured = () => {
 const axiosAgent = AxiosConfigured();
 
 export default class APIInterface {
-	async getUserInfo(user_id) {
+	async getUserInfo(username) {
 		return axiosAgent
-			.get(`login/${user_id}`)
+			.get(`login/${username}`)
 			.then((userInfo) => userInfo.data)
 			.catch((error) => ({
 				error,

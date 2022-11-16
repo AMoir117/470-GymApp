@@ -37,7 +37,7 @@ CREATE TABLE WeeklySchedule
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   accessStatus ENUM('private', 'public') NOT NULL,
   title LONGTEXT,
-  stamp TIMESTAMP,
+  created DATE,
   upvotes INT,
   userID INT NOT NULL,
   FOREIGN KEY (userID) REFERENCES Users(id)
@@ -52,7 +52,6 @@ CREATE TABLE DailyRoutine
   sets INT,
   reps INT,
   weight varchar(4),
-
   dayOfWeek ENUM('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday') NOT NULL,
   weeklyScheduleID BIGINT NOT NULL,
   FOREIGN KEY (weeklyScheduleID) REFERENCES WeeklySchedule(id)

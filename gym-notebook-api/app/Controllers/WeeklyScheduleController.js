@@ -16,7 +16,8 @@ const getPublicSchedules = async (ctx) => {
             U.username, 
             U.imagePath,
 			U.firstName,
-			U.lastName
+			U.lastName,
+			U.profileBio
         FROM 
             WeeklySchedule W LEFT JOIN Users U 
         ON 
@@ -24,7 +25,7 @@ const getPublicSchedules = async (ctx) => {
         WHERE 
             accessStatus = 'public' 
         ORDER BY 
-            upvotes ASC;
+            upvotes DESC;
 
 	
 

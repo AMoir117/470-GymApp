@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import {Divider, Appbar, Button, Avatar, DataTable} from "react-native-paper";
 import axios from "axios";
+import SvgImage from "../SvgImage";
+import GlobalStyles from "../GlobalStyles";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -21,11 +23,13 @@ const styles = StyleSheet.create({
 	dayText: {
 		fontSize: 40,
 		alignSelf: "center",
+		color: GlobalStyles.hexColor.brown,
 	},
 	scheduleNameText: {
 		fontSize: 20,
 		alignSelf: "center",
 		fontStyle: "italic",
+		color: GlobalStyles.hexColor.brown,
 	},
 	daysOfWeek: {
 		flexDirection: "row",
@@ -35,6 +39,12 @@ const styles = StyleSheet.create({
 		margin: 7,
 		marginTop: 10,
 		//fixme::width of window for each day button
+	},
+	tableHeader: {
+		backgroundColor: GlobalStyles.hexColor.brown,
+	},
+	tableData: {
+		backgroundColor: GlobalStyles.hexColor.brown,
 	},
 });
 
@@ -128,7 +138,7 @@ const Schedules = ({navigation, back}) => {
 	useEffect(() => {}, []);
 
 	const renderItem = ({item}) => (
-		<DataTable.Row>
+		<DataTable.Row style={styles.tableData}>
 			<DataTable.Cell style={{flex: 5}}>{item.name}</DataTable.Cell>
 			<DataTable.Cell numeric>{item.sets}</DataTable.Cell>
 			<DataTable.Cell numeric>{item.reps}</DataTable.Cell>
@@ -143,49 +153,53 @@ const Schedules = ({navigation, back}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<ImageBackground style={styles.backgroundImage}>
-				<View style={styles.daysOfWeek}>
-					{daysOfWeek.map((day) => {
-						return (
-							<Button
-								style={styles.dayButton}
-								compact={true}
-								mode="elevated"
-								textColor="#000000"
-								onPress={() => clickDay(day.dayName)}
-								key={day.dayID}
-							>
-								{day.dayName}
-							</Button>
-						);
-					})}
-				</View>
+			<SvgImage
+				style={{
+					zIndex: -1,
+					position: "absolute",
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
+				}}
+			/>
+			<View style={styles.daysOfWeek}>
+				{daysOfWeek.map((day) => {
+					return (
+						<Button
+							style={styles.dayButton}
+							compact={true}
+							mode="elevated"
+							textColor="#000000"
+							onPress={() => clickDay(day.dayName)}
+							key={day.dayID}
+						>
+							{day.dayName}
+						</Button>
+					);
+				})}
+			</View>
 
-				<Text style={styles.dayText}>{currentDay}</Text>
+			<Text style={styles.dayText}>{currentDay}</Text>
 
-				<Text style={styles.scheduleNameText}>{scheduleName}</Text>
+			<Text style={styles.scheduleNameText}>{scheduleName}</Text>
 
-				<Divider
-					style={{borderColor: "#ff0000", borderWidth: 3, borderRadius: 5}}
-					horizontalInset="3"
+			<DataTable>
+				<DataTable.Header style={styles.tableHeader}>
+					<DataTable.Title style={{flex: 5}}>Exercise</DataTable.Title>
+					<DataTable.Title numeric>Sets</DataTable.Title>
+					<DataTable.Title numeric>Reps</DataTable.Title>
+					<DataTable.Title numeric>Weight</DataTable.Title>
+				</DataTable.Header>
+
+				<FlatList
+					showsVerticalScrollIndicator={false}
+					alwaysBounceVertical={true}
+					data={schedules}
+					renderItem={renderItem}
+					keyExtractor={(item) => item.id}
 				/>
-				<DataTable>
-					<DataTable.Header>
-						<DataTable.Title style={{flex: 5}}>Exercise</DataTable.Title>
-						<DataTable.Title numeric>Sets</DataTable.Title>
-						<DataTable.Title numeric>Reps</DataTable.Title>
-						<DataTable.Title numeric>Weight</DataTable.Title>
-					</DataTable.Header>
-
-					<FlatList
-						showsVerticalScrollIndicator={false}
-						alwaysBounceVertical={true}
-						data={schedules}
-						renderItem={renderItem}
-						keyExtractor={(item) => item.id}
-					/>
-				</DataTable>
-			</ImageBackground>
+			</DataTable>
 		</SafeAreaView>
 	);
 };

@@ -15,7 +15,7 @@ const authorizeUser = async (ctx) => {
 		dbConnection.query(
 			{
 				sql: query,
-				values: [ctx.params.user_id],
+				values: [ctx.params.username],
 			},
 			(error, tuples) => {
 				if (error) {
