@@ -9,11 +9,13 @@ import {
 	Pressable,
 	SafeAreaView,
 	ImageBackground,
+	Animated,
+	Alert,
 } from "react-native";
 import {DataTable, Avatar, Surface, Badge} from "react-native-paper";
 
 import SwipingRow from "../Modules/SwipingRow";
-import GmailStyleSwipeableRow from "../Modules/AndroidSwipe";
+import {RectButton, Swipeable} from "react-native-gesture-handler";
 import GlobalStyles from "../GlobalStyles";
 import axios from "axios";
 import SvgImage2 from "../SvgImage2";
@@ -28,6 +30,8 @@ const styles = StyleSheet.create({
 		height: 80,
 		flex: 1,
 		flexDirection: "row",
+		borderWidth: 1,
+		borderColor: GlobalStyles.hexColor.black,
 		backgroundColor: GlobalStyles.hexColor.brown,
 	},
 	flatListContainer: {
@@ -50,14 +54,14 @@ const styles = StyleSheet.create({
 	},
 	postTitleStyle: {
 		fontSize: 20,
-		height: 20,
+		height: 25,
 		marginTop: 10,
 		marginLeft: 10,
 	},
 	postCreatedOn: {
 		height: 20,
 		marginTop: 10,
-		marginLeft: 10,
+		marginLeft: 20,
 	},
 	upVoteBadge: {
 		color: "#93c47d",
@@ -69,6 +73,22 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 		margin: 5,
 		backgroundColor: GlobalStyles.hexColor.white,
+	},
+	leftAction: {
+		width: 120,
+		backgroundColor: "#497AFC",
+		justifyContent: "center",
+	},
+	actionText: {
+		color: "white",
+		fontSize: 16,
+		backgroundColor: "transparent",
+		padding: 10,
+	},
+	rightAction: {
+		alignItems: "center",
+		flex: 1,
+		justifyContent: "center",
 	},
 });
 
@@ -88,11 +108,72 @@ const SchedulesList = () => {
 		getAllSchedules();
 	}, []);
 
+	const setCurrentSchedule = async () => {
+		//todo::set current schedule
+		console.log("test");
+	};
+
+	const renderLeftActions = () => {
+		return (
+			<RectButton style={styles.leftAction} onPress={() => {}}>
+				<Animated.Text style={[styles.actionText]}>Post Schedule</Animated.Text>
+			</RectButton>
+		);
+	};
+	const renderRightAction = (text, color) => {
+		const pressHandler = () => {
+			switch (text) {
+				case "Select":
+					Alert.alert("Make As Your Main Schedule.", "", [
+						{text: "accept", onPress: () => setCurrentSchedule},
+						{text: "cancel", style: "cancel"},
+					]);
+					break;
+
+				case "Edit":
+					//todo::go to Schedules.js edit page
+					break;
+
+				case "Delete":
+					Alert.alert(text, "Delete Permanently?", [
+						{text: "accept", onPress: () => Alert.alert("accept")},
+						{text: "cancel", onPress: () => Alert.alert("cancel"), style: "cancel"},
+					]);
+
+					break;
+			}
+		};
+		return (
+			<Animated.View style={{flex: 1, transform: [{translateX: 0}]}}>
+				<RectButton
+					style={[styles.rightAction, {backgroundColor: color}]}
+					onPress={pressHandler}
+				>
+					<Text style={styles.actionText}>{text}</Text>
+				</RectButton>
+			</Animated.View>
+		);
+	};
+
+	const renderRightActions = (progress) => (
+		<View style={{width: 230, flexDirection: "row"}}>
+			{renderRightAction("Select", "#C8C7CD", 230, progress)}
+			{renderRightAction("Edit", "#ffab00", 200, progress)}
+			{renderRightAction("Delete", "#dd2c00", 170, progress)}
+		</View>
+	);
+
 	const renderSchedules = ({item}) => {
 		const test = new Date(item.created);
 		const myDate = test.toLocaleDateString("en-us", GlobalStyles.date);
 		return (
-			<SwipingRow>
+			<Swipeable
+				friction={2}
+				leftThreshold={40}
+				rightThreshold={40}
+				renderLeftActions={renderLeftActions}
+				renderRightActions={renderRightActions}
+			>
 				<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
 					<View style={{flex: 1}}>
 						<Text style={styles.postTitleStyle}>{item.title}</Text>
@@ -100,7 +181,7 @@ const SchedulesList = () => {
 					</View>
 					<Badge style={styles.upVoteBadge}>{item.upvotes}</Badge>
 				</Surface>
-			</SwipingRow>
+			</Swipeable>
 		);
 	};
 	return (

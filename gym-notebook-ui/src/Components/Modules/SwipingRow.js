@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
 });
 
 const SwipingRow = (props) => {
+	const {children} = props;
+
 	const renderLeftActions = () => {
 		return (
 			<RectButton style={styles.leftAction} onPress={() => {}}>
@@ -45,8 +47,6 @@ const SwipingRow = (props) => {
 			</Animated.View>
 		);
 	};
-
-	const {children} = props;
 
 	const renderRightActions = (progress) => (
 		<View style={{width: 230, flexDirection: "row"}}>
