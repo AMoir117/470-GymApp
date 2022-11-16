@@ -142,6 +142,7 @@ const Schedules = ({navigation, back}) => {
 				<IconButton
 					icon="arrow-left"
 					onPress={() => {
+						//todo::make sure user is sure about going back
 						navigation.goBack();
 					}}
 					title="Back"
