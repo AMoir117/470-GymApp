@@ -10,10 +10,11 @@ import {
 	SafeAreaView,
 	ImageBackground,
 } from "react-native";
-import {Divider, Appbar, Button, Avatar, DataTable} from "react-native-paper";
+import {Divider, Appbar, Button, Avatar, DataTable, IconButton} from "react-native-paper";
 import axios from "axios";
 import SvgImage from "../SvgImage";
 import GlobalStyles from "../GlobalStyles";
+import {TouchableOpacity} from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -135,7 +136,19 @@ const Schedules = ({navigation, back}) => {
 	const [scheduleName, setScheduleName] = useState("Path to Mr. Olympia");
 	const [workouts, setWorkouts] = useState(schedules);
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		navigation.setOptions({
+			headerLeft: () => (
+				<IconButton
+					icon="arrow-left"
+					onPress={() => {
+						navigation.goBack();
+					}}
+					title="Back"
+				/>
+			),
+		});
+	}, [navigation]);
 
 	const renderItem = ({item}) => (
 		<DataTable.Row style={styles.tableData}>
@@ -200,6 +213,11 @@ const Schedules = ({navigation, back}) => {
 					keyExtractor={(item) => item.id}
 				/>
 			</DataTable>
+			<TouchableOpacity>
+				<Button mode="contained" style={{alignSelf: "center"}}>
+					Save
+				</Button>
+			</TouchableOpacity>
 		</SafeAreaView>
 	);
 };

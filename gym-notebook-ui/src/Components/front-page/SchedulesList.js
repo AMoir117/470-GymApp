@@ -13,7 +13,7 @@ import {
 	Alert,
 } from "react-native";
 import {DataTable, Avatar, Surface, Badge} from "react-native-paper";
-
+import {useNavigation} from "@react-navigation/native";
 import SwipingRow from "../Modules/SwipingRow";
 import {RectButton, Swipeable} from "react-native-gesture-handler";
 import GlobalStyles from "../GlobalStyles";
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
 
 const SchedulesList = () => {
 	const {auth} = useContext(AuthContext);
+	const navigation = useNavigation();
 	const [mySchedules, setMySchedules] = useState([]);
 
 	useEffect(() => {
@@ -108,7 +109,7 @@ const SchedulesList = () => {
 		getAllSchedules();
 	}, []);
 
-	const setCurrentSchedule = async () => {
+	const setCurrentSchedule = () => {
 		//todo::set current schedule
 		console.log("test");
 	};
@@ -124,20 +125,23 @@ const SchedulesList = () => {
 		const pressHandler = () => {
 			switch (text) {
 				case "Select":
-					Alert.alert("Make As Your Main Schedule.", "", [
-						{text: "accept", onPress: () => setCurrentSchedule},
-						{text: "cancel", style: "cancel"},
+					Alert.alert("Make This Your Main Schedule.", "", [
+						{
+							text: "Accept",
+							onPress: () => setCurrentSchedule(),
+						},
+						{text: "Cancel", style: "cancel"},
 					]);
 					break;
 
 				case "Edit":
-					//todo::go to Schedules.js edit page
+					navigation.navigate("Schedules");
 					break;
 
 				case "Delete":
-					Alert.alert(text, "Delete Permanently?", [
-						{text: "accept", onPress: () => Alert.alert("accept")},
-						{text: "cancel", onPress: () => Alert.alert("cancel"), style: "cancel"},
+					Alert.alert("Delete Permanently", "", [
+						{text: "accept", onPress: () => console.log("deleted")},
+						{text: "cancel", onPress: () => console.log("canceled"), style: "cancel"},
 					]);
 
 					break;

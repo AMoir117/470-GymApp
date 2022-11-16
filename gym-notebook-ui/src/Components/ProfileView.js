@@ -9,7 +9,17 @@ import {
 	Pressable,
 	SafeAreaView,
 } from "react-native";
-import {Divider, Appbar, Button, Avatar, Portal, Card, Title, Paragraph} from "react-native-paper";
+import {
+	Divider,
+	Appbar,
+	Button,
+	Avatar,
+	Portal,
+	Card,
+	Title,
+	Paragraph,
+	IconButton,
+} from "react-native-paper";
 import axios from "axios";
 import GlobalStyles from "./GlobalStyles";
 import * as FS from "expo-file-system";
@@ -73,7 +83,19 @@ const styles = StyleSheet.create({
 const ProfileView = ({route, navigation}) => {
 	const {userProfile} = route.params;
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		navigation.setOptions({
+			headerLeft: () => (
+				<IconButton
+					icon="arrow-left"
+					onPress={() => {
+						navigation.goBack();
+					}}
+					title="Back"
+				/>
+			),
+		});
+	}, [navigation]);
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>

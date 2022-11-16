@@ -41,6 +41,7 @@ const App = () => {
 							options={{
 								title: "",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+								headerBackTitleVisible: false,
 							}}
 						/>
 						<Stack.Screen
@@ -53,7 +54,24 @@ const App = () => {
 							component={UserProfile}
 							options={{header: (props) => <CustomNavigationBar {...props} />}}
 						/>
-						<Stack.Screen name="Profile View" component={ProfileView} />
+						<Stack.Screen
+							name="Schedules"
+							component={Schedules}
+							options={{
+								title: "Editor",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+								headerBackTitleVisible: false,
+							}}
+						/>
+						<Stack.Screen
+							name="Profile View"
+							component={ProfileView}
+							options={{
+								title: "",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+								headerBackTitleVisible: false,
+							}}
+						/>
 						<Stack.Screen
 							name="WORKING_PAGE"
 							component={Schedules}
