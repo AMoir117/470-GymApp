@@ -164,6 +164,9 @@ FollowerRouter.post(
 	FollowerController.addFollower,
 	(err) => console.log(`follower-insert ran into an error: ${err}`)
 );
+FollowerRouter.delete("/delete/:followerUserID/", FollowerController.removeFollower, (err) =>
+	console.log(`follower-delete ran into an error: ${err}`)
+);
 /**
  * Register all of the controllers into the default controller.
  */
