@@ -3,10 +3,6 @@ gym-notebook-ui/.expo/
 gym-notebook-ui/dist/
 gym-notebook-ui/npm-debug.*
 gym-notebook-ui/src/API_interface/API_interface.js
-
-
-
-
 *.jks
 *.p8
 *.p12

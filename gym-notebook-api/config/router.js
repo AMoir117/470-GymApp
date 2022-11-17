@@ -71,7 +71,7 @@ usersRouter.post("/insert-user", UsersController.insertNewUser, (err) =>
 	console.log(`insertUser ran into an error: ${err}`)
 );
 
-usersRouter.get("/use-weekly-schedule/:weeklyScheduleID/:userID", UsersController.useWeeklySchedule,(err) =>
+usersRouter.put("/use-weekly-schedule/:weeklyScheduleID/:userID", UsersController.useWeeklySchedule,(err) =>
 	console.log(`increment-upvotes ran into an error: ${err}`)
 );
 
@@ -91,7 +91,7 @@ WeeklyScheduleRouter.get("/get-all-schedules/:userID", WeeklyScheduleController.
 WeeklyScheduleRouter.put("/increment-upvotes/:weeklyScheduleID", WeeklyScheduleController.incrementUpvotes,(err) =>
 	console.log(`increment-upvotes ran into an error: ${err}`)
 );
-WeeklyScheduleRouter.get("/id/:userID", WeeklyScheduleController.getScheduleById,(err) =>
+WeeklyScheduleRouter.get("/id/:weeklyScheduleID", WeeklyScheduleController.getScheduleById,(err) =>
 	console.log(`getScheduleById ran into an error: ${err}`)
 );
 
@@ -136,6 +136,9 @@ const FollowerRouter = require("koa-router")({
 
 FollowerRouter.post("/insert/:followedUserID/:followerUserID/", FollowerController.addFollower,(err) =>
 	console.log(`follower-insert ran into an error: ${err}`)
+);
+FollowerRouter.delete("/delete/:followerUserID/", FollowerController.removeFollower,(err) =>
+	console.log(`follower-delete ran into an error: ${err}`)
 );
 /**
  * Register all of the controllers into the default controller.
