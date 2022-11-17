@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {
 	ScrollView,
 	Text,
@@ -10,12 +10,25 @@ import {
 	SafeAreaView,
 	ImageBackground,
 	Alert,
+	Image,
 } from "react-native";
-import {Divider, Appbar, Button, Avatar, DataTable, IconButton} from "react-native-paper";
+import {
+	Divider,
+	Appbar,
+	Button,
+	Avatar,
+	DataTable,
+	IconButton,
+	Provider,
+	Modal,
+	Portal,
+} from "react-native-paper";
 import axios from "axios";
 import SvgImage from "../SvgImage";
 import GlobalStyles from "../GlobalStyles";
 import {TouchableOpacity} from "react-native-gesture-handler";
+import AuthContext from "../../Context/AuthProvider";
+import WorkoutCardEditable from "../Modules/WorkoutCardEditable";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -40,7 +53,6 @@ const styles = StyleSheet.create({
 		flexGrow: 1,
 		margin: 7,
 		marginTop: 10,
-		//fixme::width of window for each day button
 	},
 	tableHeader: {
 		backgroundColor: GlobalStyles.hexColor.brown,
@@ -48,94 +60,59 @@ const styles = StyleSheet.create({
 	tableData: {
 		backgroundColor: GlobalStyles.hexColor.brown,
 	},
+	gifModal: {
+		width: 300,
+		height: 300,
+		alignSelf: "center",
+	},
 });
 
 //fixme:: change to reflect database
 const daysOfWeek = [
 	{
 		dayID: "1",
-		dayName: "Mon",
+		dayNameShort: "Mon",
+		dayNameLong: "Monday",
 	},
 	{
 		dayID: "2",
-		dayName: "Tue",
+		dayNameShort: "Tue",
+		dayNameLong: "Tuesday",
 	},
 	{
 		dayID: "3",
-		dayName: "Wed",
+		dayNameShort: "Wed",
+		dayNameLong: "Wednesday",
 	},
 	{
 		dayID: "4",
-		dayName: "Thu",
+		dayNameShort: "Thu",
+		dayNameLong: "Thursday",
 	},
 	{
 		dayID: "5",
-		dayName: "Fri",
+		dayNameShort: "Fri",
+		dayNameLong: "Friday",
 	},
 	{
 		dayID: "6",
-		dayName: "Sat",
+		dayNameShort: "Sat",
+		dayNameLong: "Saturday",
 	},
 	{
 		dayID: "7",
-		dayName: "Sun",
-	},
-];
-const schedules = [
-	{
-		id: "3194",
-		name: "frankenstein squat",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3194.gif",
-		sets: 4,
-		reps: 12,
-		weight: 50,
-	},
-	{
-		id: "3561",
-		name: "glute bridge march",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3561.gif",
-		sets: 3,
-		reps: 8,
-		weight: 225,
-	},
-	{
-		id: "1761",
-		name: "hanging oblique knee raise",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/1761.gif",
-		sets: 4,
-		reps: 10,
-		weight: 75,
-	},
-	{
-		id: "0490",
-		name: "incline close-grip push-up",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0490.gif",
-		sets: 3,
-		reps: 10,
-		weight: 55,
-	},
-	{
-		id: "2400",
-		name: "inverse leg curl (on pull-up cable machine)",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/2400.gif",
-		sets: 4,
-		reps: 8,
-		weight: 315,
-	},
-	{
-		id: "0520",
-		name: "kettlebell alternating press",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0520.gif",
-		sets: 3,
-		reps: 8,
-		weight: 225,
+		dayNameShort: "Sun",
+		dayNameLong: "Sunday",
 	},
 ];
 
 const Schedules = ({navigation, back}) => {
-	const [currentDay, setCurrentDay] = useState("Friday");
+	const {auth, setAuth} = useContext(AuthContext);
+	const [currentDay, setCurrentDay] = useState("Monday");
 	const [scheduleName, setScheduleName] = useState("Path to Mr. Olympia");
-	const [workouts, setWorkouts] = useState(schedules);
+	const [dailyWorkoutData, setDailyWorkoutData] = useState([]);
+	const [gifShow, setGifShow] = useState(false);
+	const [modalUri, setModalUri] = useState("");
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -159,18 +136,60 @@ const Schedules = ({navigation, back}) => {
 		});
 	}, [navigation]);
 
-	const renderItem = ({item}) => (
-		<DataTable.Row style={styles.tableData}>
-			<DataTable.Cell style={{flex: 5}}>{item.name}</DataTable.Cell>
-			<DataTable.Cell numeric>{item.sets}</DataTable.Cell>
-			<DataTable.Cell numeric>{item.reps}</DataTable.Cell>
-			<DataTable.Cell numeric>{item.weight}</DataTable.Cell>
-		</DataTable.Row>
-	);
+	useEffect(() => {
+		if (!auth.user.currentWeeklyScheduleID) {
+			console.log("user has not weekly schedule");
+			//todo::create new weekly schedule
+			return;
+		}
 
-	const clickDay = (dayName) => {
-		//fixme::click a day and query the schedule for that day
-		console.log(dayName);
+		//Android has different formats for toLocaleDateString
+
+		const getDailyRoutine = async () => {
+			await axios
+				.get(
+					`daily-routine/get-daily-routines/${currentDay}/${auth.user.currentWeeklyScheduleID}`
+				)
+				.then((routineResponse) => {
+					setDailyWorkoutData(routineResponse.data);
+				});
+		};
+		const getScheduleTitle = async () => {
+			await axios
+				.get(`weekly-schedule/id/${auth.user.currentWeeklyScheduleID}`)
+				.then((titleResponse) => {
+					setScheduleName(titleResponse.data[0].title);
+				});
+		};
+		getScheduleTitle();
+		getDailyRoutine();
+	}, [currentDay]);
+
+	const showModal = (item) => {
+		setGifShow(true);
+		setModalUri(item.gifUrl);
+	};
+
+	const hideModal = () => setGifShow(false);
+
+	const ShowGif = (props) => {
+		return (
+			<Provider>
+				<Portal>
+					<Modal
+						visible={gifShow}
+						onDismiss={hideModal}
+						contentContainerStyle={styles.gifModal}
+					>
+						<Image style={{width: 300, height: 300}} source={{uri: modalUri}} />
+					</Modal>
+				</Portal>
+			</Provider>
+		);
+	};
+
+	const renderItem = ({item}) => {
+		return <WorkoutCardEditable showModal={showModal} workout={item} />;
 	};
 
 	return (
@@ -193,10 +212,11 @@ const Schedules = ({navigation, back}) => {
 							compact={true}
 							mode="elevated"
 							textColor="#000000"
-							onPress={() => clickDay(day.dayName)}
+							buttonColor={GlobalStyles.hexColor.brown}
+							onPress={() => setCurrentDay(day.dayNameLong)}
 							key={day.dayID}
 						>
-							{day.dayName}
+							{day.dayNameShort}
 						</Button>
 					);
 				})}
@@ -206,27 +226,19 @@ const Schedules = ({navigation, back}) => {
 
 			<Text style={styles.scheduleNameText}>{scheduleName}</Text>
 
-			<DataTable>
-				<DataTable.Header style={styles.tableHeader}>
-					<DataTable.Title style={{flex: 5}}>Exercise</DataTable.Title>
-					<DataTable.Title numeric>Sets</DataTable.Title>
-					<DataTable.Title numeric>Reps</DataTable.Title>
-					<DataTable.Title numeric>Weight</DataTable.Title>
-				</DataTable.Header>
-
-				<FlatList
-					showsVerticalScrollIndicator={false}
-					alwaysBounceVertical={true}
-					data={schedules}
-					renderItem={renderItem}
-					keyExtractor={(item) => item.id}
-				/>
-			</DataTable>
+			<FlatList
+				showsVerticalScrollIndicator={false}
+				alwaysBounceVertical={true}
+				data={dailyWorkoutData}
+				renderItem={renderItem}
+				keyExtractor={(item) => item.id}
+			/>
 			<TouchableOpacity>
 				<Button mode="contained" style={{alignSelf: "center"}}>
-					Save
+					Add
 				</Button>
 			</TouchableOpacity>
+			<ShowGif />
 		</SafeAreaView>
 	);
 };

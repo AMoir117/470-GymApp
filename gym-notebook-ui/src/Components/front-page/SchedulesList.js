@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
 	},
 });
 
+//fixme:: consider using modal, Alert.alert does not work on web or android
 const SchedulesList = () => {
 	const {auth, setAuth} = useContext(AuthContext);
 	const navigation = useNavigation();
@@ -112,7 +113,9 @@ const SchedulesList = () => {
 	}, []);
 
 	const closeRow = (item) => {
-		if (prevRow && prevRow !== item.id) {
+		if (prevRow === null) {
+			setPrevRow(item.id);
+		} else if (prevRow !== item.id) {
 			refArray[prevRow].close();
 		}
 		setPrevRow(item.id);
@@ -135,7 +138,13 @@ const SchedulesList = () => {
 			Alert.alert(
 				"Unable to delete current schedule!",
 				"Change current schedule and try again.",
-				[{text: "OK", onPress: () => console.log("cancel"), style: "cancel"}]
+				[
+					{
+						text: "OK",
+						onPress: () => console.log("cancel"),
+						style: "cancel",
+					},
+				]
 			);
 			refArray[item.id].close();
 			return;
