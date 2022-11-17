@@ -6,6 +6,8 @@
 
 * use the name "gymappdb" as your database name
 
+* To add upvotes to DB use(this requires safemode to be off): UPDATE WeeklySchedule SET upvotes = FLOOR(1 + RAND( ) * 100) WHERE accessStatus = 'public';
+
 
 * TODO:
 

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {
 	ScrollView,
 	StyleSheet,
@@ -10,6 +10,7 @@ import {
 	TouchableOpacity,
 	Image,
 	ImageBackground,
+	Platform,
 } from "react-native";
 import {
 	Divider,
@@ -22,9 +23,10 @@ import {
 	Portal,
 	Text,
 } from "react-native-paper";
+import AuthContext from "../../Context/AuthProvider";
 import axios from "axios";
 import GlobalStyles from "../GlobalStyles";
-import WorkoutCard from "../WorkoutCard";
+import WorkoutCard from "../Modules/WorkoutCard";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -52,89 +54,59 @@ const styles = StyleSheet.create({
 	},
 });
 
-const data = [
-	{
-		id: "3194",
-		name: "frankenstein squat",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3194.gif",
-		sets: 4,
-		reps: 12,
-		weight: 50,
-	},
-	{
-		id: "3561",
-		name: "glute bridge march",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3561.gif",
-		sets: 3,
-		reps: 8,
-		weight: 225,
-	},
-	{
-		id: "1761",
-		name: "hanging oblique knee raise",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/1761.gif",
-		sets: 4,
-		reps: 10,
-		weight: 75,
-	},
-	{
-		id: "0490",
-		name: "incline close-grip push-up",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0490.gif",
-		sets: 3,
-		reps: 10,
-		weight: 55,
-	},
-	{
-		id: "2400",
-		name: "inverse leg curl (on pull-up cable machine)",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/2400.gif",
-		sets: 4,
-		reps: 8,
-		weight: 315,
-	},
-	{
-		id: "3116",
-		name: "band fixed back underhand pulldown",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/3116.gif",
-		sets: 3,
-		reps: 15,
-		weight: 25,
-	},
-	{
-		id: "0043",
-		name: "barbell full squat",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0043.gif",
-		sets: 3,
-		reps: 8,
-		weight: 315,
-	},
-	{
-		id: "0032",
-		name: "barbell deadlift",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
-		sets: 3,
-		reps: 5,
-		weight: 405,
-	},
-	{
-		id: "0025",
-		name: "barbell bench press",
-		gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0025.gif",
-		sets: 3,
-		reps: 10,
-		weight: 225,
-	},
-];
+const dayAndroid = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const MainSchedule = ({navigation, back}) => {
-	const [currentDay, setCurrentDay] = useState("Friday");
-	const [scheduleName, setScheduleName] = useState("Path to Mr. Olympia");
-	const [workouts, setWorkouts] = useState(data);
+	const {auth} = useContext(AuthContext);
+	const [currentDay, setCurrentDay] = useState("Monday");
+	const [scheduleName, setScheduleName] = useState("");
+	//const [workouts, setWorkouts] = useState(data);
 	const [gifShow, setGifShow] = useState(false);
 	const [modalUri, setModalUri] = useState("");
+	const [dailyWorkoutData, setDailyWorkoutData] = useState([]);
+	const day = new Date();
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		//fixme::check if weeklyschedule is empty or not!!!
+		//Android has different formats for toLocaleDateString
+		const getDailyRoutine = async () => {
+			if (Platform.OS === "android") {
+				await axios
+					.get(
+						`daily-routine/get-daily-routines/${dayAndroid[day.getDay()]}/${
+							auth.user.currentWeeklyScheduleID
+						}`
+					)
+					.then((routineResponse) => {
+						setDailyWorkoutData(routineResponse.data);
+					});
+				setCurrentDay(dayAndroid[day.getDay()]);
+			} else {
+				await axios
+					.get(
+						`daily-routine/get-daily-routines/${day.toLocaleDateString("en-us", {
+							weekday: "long",
+						})}/${auth.user.currentWeeklyScheduleID}`
+					)
+					.then((routineResponse) => {
+						console.log(routineResponse);
+						setDailyWorkoutData(routineResponse.data);
+					});
+				setCurrentDay(day.toLocaleDateString("en-us", {weekday: "long"}));
+			}
+		};
+		const getScheduleTitle = async () => {
+			console.log(auth.user.currentWeeklyScheduleID);
+			await axios
+				.get(`weekly-schedule/id/${auth.user.currentWeeklyScheduleID}`)
+				.then((titleResponse) => {
+					console.log(titleResponse);
+					setScheduleName(titleResponse.data[0].title);
+				});
+		};
+		getScheduleTitle();
+		getDailyRoutine();
+	}, []);
 
 	const showModal = (item) => {
 		setGifShow(true);
@@ -178,7 +150,7 @@ const MainSchedule = ({navigation, back}) => {
 				<FlatList
 					showsVerticalScrollIndicator={false}
 					alwaysBounceVertical={true}
-					data={workouts}
+					data={dailyWorkoutData}
 					renderItem={renderItem}
 					keyExtractor={(item) => item.id}
 				/>

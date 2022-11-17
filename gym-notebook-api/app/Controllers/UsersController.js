@@ -106,7 +106,7 @@ const insertNewUser = (ctx) => {
 		"firstName",
 		"lastName",
 		"DoB",
-		//'imagePath',
+		"imagePath",
 		"email",
 		"profileBio",
 	];
@@ -123,9 +123,9 @@ const insertNewUser = (ctx) => {
 			firstName: valuesFromRequest["firstName"],
 			lastName: valuesFromRequest["lastName"],
 			DoB: valuesFromRequest["DoB"],
+			imagePath: valuesFromRequest["imagePath"],
 			email: valuesFromRequest["email"],
 			profileBio: valuesFromRequest["profileBio"],
-			//imagePath: valuesFromRequest['imagePath']
 		},
 	};
 
@@ -208,34 +208,36 @@ const getUsersFollowers = async (ctx) => {
 };
 
 const useWeeklySchedule = async (ctx) => {
-    console.log('useWeeklySchedule called.');
-    return new Promise((resolve, reject) => {
-        const query = `
+	console.log("useWeeklySchedule called.");
+	return new Promise((resolve, reject) => {
+		const query = `
                       UPDATE Users
                       SET currentWeeklyScheduleID = ?
                       WHERE id = ?;
                       `;
-        dbConnection.query({
-            sql: query,
-            values: [ctx.params.weeklyScheduleID, ctx.params.userID]
-        }, (error, tuples) => {
-            if (error) {
-                console.log("Connection error in userController::useWeeklySchedule", error);
-                return reject(error);
-            }
-            ctx.body = tuples;
-            ctx.status = 200;
-            return resolve();
-        });
-    }).catch(err => {
-        console.log("Database connection error in useWeeklySchedule.", err);
-        // The UI side will have to look for the value of status and
-        // if it is not 200, act appropriately.
-        ctx.body = [];
-        ctx.status = 500;
-    });
-}
-
+		dbConnection.query(
+			{
+				sql: query,
+				values: [ctx.params.currentWeeklyScheduleID, ctx.params.userID],
+			},
+			(error, tuples) => {
+				if (error) {
+					console.log("Connection error in userController::useWeeklySchedule", error);
+					return reject(error);
+				}
+				ctx.body = tuples;
+				ctx.status = 200;
+				return resolve();
+			}
+		);
+	}).catch((err) => {
+		console.log("Database connection error in useWeeklySchedule.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
+};
 
 module.exports = {
 	allUsers,
@@ -243,5 +245,5 @@ module.exports = {
 	userByID,
 	insertNewUser,
 	getUsersFollowers,
-  useWeeklySchedule
+	useWeeklySchedule,
 };

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import {
 	SafeAreaView,
 	Text,
@@ -9,10 +9,12 @@ import {
 	TouchableOpacity,
 	ImageBackground,
 } from "react-native";
-import {Divider} from "react-native-paper";
+import {Divider, Snackbar} from "react-native-paper";
 import axios from "axios";
+import AuthContext from "../Context/AuthProvider";
 import SvgImage from "./SvgImage";
 import GlobalStyles from "./GlobalStyles";
+import API from "../API_interface/API_interface";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -57,29 +59,69 @@ const styles = StyleSheet.create({
 		color: "#000000",
 		textAlign: "center",
 	},
+	snackBar: {
+		backgroundColor: GlobalStyles.hexColor.red,
+	},
 });
 const Login = ({navigation}) => {
+	const {auth, setAuth} = useContext(AuthContext);
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [visible, setVisible] = useState(false);
+	const [verifyUser, setVerifyUser] = useState(false);
+	const [authFailed, setAuthFailed] = useState(false);
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		console.log(verifyUser);
+		console.log(username);
+		if (!verifyUser || username.length === 0) return;
+
+		const api = new API();
+		async function getUserInfo() {
+			api.getUserInfo(username).then((userInfo) => {
+				if (userInfo.status === "OK") {
+					setAuth(userInfo);
+					setVerifyUser(false);
+					navigation.navigate("Front Page");
+				}
+				setVisible(true);
+				setVerifyUser(false);
+				setAuthFailed(true);
+			});
+		}
+		getUserInfo();
+	}, [verifyUser, setAuth]);
+
+	const handleUsernameChange = (u) => {
+		setUsername(u);
+		setAuthFailed(false);
+		if (u.key === "Enter") {
+			console.log("handleKeyPress: Verify user input.");
+			setVerifyUser(true);
+		}
+	};
+
+	const handlePasswordChange = (p) => {
+		setPassword(p);
+	};
 
 	const forgetPassword = () => {
 		//todo::send email to user to reset password
 	};
-	const login = () => {
-		navigation.navigate("Front Page");
-		//todo::check if user input is in our database
-	};
+
 	const signup = () => {
 		navigation.navigate("Signup");
-		//todo::send user to signup page
+	};
+
+	const onDismissSnackBar = () => {
+		setVisible(false);
 	};
 
 	return (
 		<SafeAreaView style={{flex: 1}}>
 			<SvgImage
 				style={{
+					zIndex: -1,
 					position: "absolute",
 					top: 0,
 					left: 0,
@@ -96,14 +138,14 @@ const Login = ({navigation}) => {
 				style={styles.textInputStyle}
 				placeholder={"Username"}
 				value={username}
-				onChangeText={setUsername}
+				onChangeText={(u) => handleUsernameChange(u)}
 			/>
 			<TextInput
 				style={styles.textInputStyle}
 				secureTextEntry={true}
 				placeholder={"Password"}
 				value={password}
-				onChangeText={setPassword}
+				onChangeText={(p) => handlePasswordChange(p)}
 			/>
 			<View style={styles.textForgetPassword}>
 				<TouchableOpacity color={"#026df7"} onPress={forgetPassword}>
@@ -111,7 +153,7 @@ const Login = ({navigation}) => {
 				</TouchableOpacity>
 			</View>
 			<View style={styles.buttonContainer}>
-				<TouchableOpacity style={styles.buttonStyle} onPress={login}>
+				<TouchableOpacity style={styles.buttonStyle} onPress={() => setVerifyUser(true)}>
 					<Text style={styles.buttonText}>Login</Text>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.buttonStyle} onPress={signup}>
@@ -121,17 +163,25 @@ const Login = ({navigation}) => {
 			<View>
 				<TouchableOpacity
 					style={{
-						backgroundColor: GlobalStyles.hexColor.red,
-						borderColor: "black",
-						borderWidth: 2,
+						backgroundColor: GlobalStyles.hexColor.black,
+						borderColor: GlobalStyles.hexColor.black,
 						width: 50,
 						height: 50,
 					}}
 					onPress={() => navigation.navigate("WORKING_PAGE")}
 				>
-					<Text>TEST</Text>
+					<Text style={{alignSelf: "center"}}></Text>
 				</TouchableOpacity>
 			</View>
+			<Snackbar
+				style={styles.snackBar}
+				wrapperStyle={{top: 0}}
+				visible={visible}
+				duration={2000}
+				onDismiss={onDismissSnackBar}
+			>
+				Username or Password Incorrect!!
+			</Snackbar>
 		</SafeAreaView>
 	);
 };

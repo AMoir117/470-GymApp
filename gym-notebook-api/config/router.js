@@ -23,6 +23,14 @@ const router = require("koa-router")({
 // 	console.log("exercisesRoutes.js: login-route error:", err)
 // );
 
+const LoginController = require("../app/Controllers/LoginController.js");
+const loginRouter = require("koa-router")({
+	prefix: "/login",
+});
+loginRouter.get("/:username", LoginController.authorizeUser, (err) =>
+	console.log(`login users ran into an error: ${err}`)
+);
+
 // Exercises router configuration.
 const ExercisesController = require("../app/Controllers/ExerciseController.js");
 const exercisesRouter = require("koa-router")({
@@ -47,7 +55,6 @@ exercisesRouter.get("/equipment/:equipment", ExercisesController.exerciseByEquip
 	console.log(`exerciseByEquipment ran into an error: ${err}`)
 );
 
-
 // Users router configuration.
 const UsersController = require("../app/Controllers/UsersController.js");
 const usersRouter = require("koa-router")({
@@ -71,71 +78,95 @@ usersRouter.post("/insert-user", UsersController.insertNewUser, (err) =>
 	console.log(`insertUser ran into an error: ${err}`)
 );
 
+<<<<<<< HEAD
 usersRouter.put("/use-weekly-schedule/:weeklyScheduleID/:userID", UsersController.useWeeklySchedule,(err) =>
 	console.log(`increment-upvotes ran into an error: ${err}`)
+=======
+usersRouter.get(
+	"/use-weekly-schedule/:weeklyScheduleID/:userID",
+	UsersController.useWeeklySchedule,
+	(err) => console.log(`increment-upvotes ran into an error: ${err}`)
+>>>>>>> 8a1c33efaace15af92faa8ab0b78b787479e71d0
 );
-
-
 
 // WeeklySchedule router configuration
 const WeeklyScheduleController = require("../app/Controllers/WeeklyScheduleController.js");
 const WeeklyScheduleRouter = require("koa-router")({
-  prefix: "/weekly-schedule"
+	prefix: "/weekly-schedule",
 });
-WeeklyScheduleRouter.get("/lobby", WeeklyScheduleController.getPublicSchedules,(err) =>
+WeeklyScheduleRouter.get("/lobby", WeeklyScheduleController.getPublicSchedules, (err) =>
 	console.log(`lobby ran into an error: ${err}`)
 );
-WeeklyScheduleRouter.get("/get-all-schedules/:userID", WeeklyScheduleController.getAllSchedules,(err) =>
-	console.log(`get-all-schedules ran into an error: ${err}`)
+WeeklyScheduleRouter.get(
+	"/get-all-schedules/:userID",
+	WeeklyScheduleController.getAllSchedules,
+	(err) => console.log(`get-all-schedules ran into an error: ${err}`)
 );
-WeeklyScheduleRouter.put("/increment-upvotes/:weeklyScheduleID", WeeklyScheduleController.incrementUpvotes,(err) =>
-	console.log(`increment-upvotes ran into an error: ${err}`)
+WeeklyScheduleRouter.put(
+	"/increment-upvotes/:weeklyScheduleID",
+	WeeklyScheduleController.incrementUpvotes,
+	(err) => console.log(`increment-upvotes ran into an error: ${err}`)
 );
+<<<<<<< HEAD
 WeeklyScheduleRouter.get("/id/:weeklyScheduleID", WeeklyScheduleController.getScheduleById,(err) =>
 	console.log(`getScheduleById ran into an error: ${err}`)
+=======
+WeeklyScheduleRouter.get("/id/:weeklyScheduleID", WeeklyScheduleController.getTitleById, (err) =>
+	console.log(`getTitleById ran into an error: ${err}`)
+>>>>>>> 8a1c33efaace15af92faa8ab0b78b787479e71d0
 );
 
-WeeklyScheduleRouter.post("/insert/:accessStatus/:title/:upvotes/:userID", WeeklyScheduleController.insertNewWeeklySchedule,(err) =>
-	console.log(`insertNewWeeklySchedule ran into an error: ${err}`)
+WeeklyScheduleRouter.post(
+	"/insert/:accessStatus/:title/:upvotes/:userID",
+	WeeklyScheduleController.insertNewWeeklySchedule,
+	(err) => console.log(`insertNewWeeklySchedule ran into an error: ${err}`)
 );
 
-WeeklyScheduleRouter.put("/update-status/:accessStatus/:weeklyScheduleID", WeeklyScheduleController.editWeeklyScheduleStatus,(err) =>
-	console.log(`update-status ran into an error: ${err}`)
+WeeklyScheduleRouter.put(
+	"/update-status/:accessStatus/:weeklyScheduleID",
+	WeeklyScheduleController.editWeeklyScheduleStatus,
+	(err) => console.log(`update-status ran into an error: ${err}`)
 );
-WeeklyScheduleRouter.put("/update-title/:title/:weeklyScheduleID", WeeklyScheduleController.editWeeklyScheduleTitle,(err) =>
-	console.log(`update-title ran into an error: ${err}`)
+WeeklyScheduleRouter.put(
+	"/update-title/:title/:weeklyScheduleID",
+	WeeklyScheduleController.editWeeklyScheduleTitle,
+	(err) => console.log(`update-title ran into an error: ${err}`)
 );
-
-
-
 
 const DailyRoutineController = require("../app/Controllers/DailyRoutineController.js");
 const DailyRoutineRouter = require("koa-router")({
-	prefix: "/daily-routine"
+	prefix: "/daily-routine",
 });
-DailyRoutineRouter.get("/get-daily-routines/:dayOfWeek/:weeklyScheduleID", DailyRoutineController.getDailyRoutines,(err) =>
-	console.log(`get-daily-routines ran into an error: ${err}`)
+DailyRoutineRouter.get(
+	"/get-daily-routines/:dayOfWeek/:weeklyScheduleID",
+	DailyRoutineController.getDailyRoutines,
+	(err) => console.log(`get-daily-routines ran into an error: ${err}`)
 );
-DailyRoutineRouter.put("/update/:sets/:reps/:weight/:dailyRoutineID", DailyRoutineController.updateRoutine,(err) =>
-	console.log(`update-daily-routine ran into an error: ${err}`)
+DailyRoutineRouter.put(
+	"/update/:sets/:reps/:weight/:dailyRoutineID",
+	DailyRoutineController.updateRoutine,
+	(err) => console.log(`update-daily-routine ran into an error: ${err}`)
 );
 
-DailyRoutineRouter.delete("/delete/:dailyRoutineID", DailyRoutineController.deleteRoutine,(err) =>
+DailyRoutineRouter.delete("/delete/:dailyRoutineID", DailyRoutineController.deleteRoutine, (err) =>
 	console.log(`delete-daily-routine ran into an error: ${err}`)
 );
 
-DailyRoutineRouter.post("/insert/:exerciseID/:sets/:reps/:weight/:dayOfWeek/:weeklyScheduleID", DailyRoutineController.insertNewDailyRoutine,(err) =>
-	console.log(`daily-routine-insert ran into an error: ${err}`)
+DailyRoutineRouter.post(
+	"/insert/:exerciseID/:sets/:reps/:weight/:dayOfWeek/:weeklyScheduleID",
+	DailyRoutineController.insertNewDailyRoutine,
+	(err) => console.log(`daily-routine-insert ran into an error: ${err}`)
 );
-
 
 const FollowerController = require("../app/Controllers/FollowerController.js");
 const FollowerRouter = require("koa-router")({
-  prefix: "/follower"
+	prefix: "/follower",
 });
 
-FollowerRouter.post("/insert/:followedUserID/:followerUserID/", FollowerController.addFollower,(err) =>
-	console.log(`follower-insert ran into an error: ${err}`)
+FollowerRouter.post(
+	"/insert/:followedUserID/:followerUserID/",
+	FollowerController.addFollower,
+	(err) => console.log(`follower-insert ran into an error: ${err}`)
 );
 FollowerRouter.delete("/delete/:followerUserID/", FollowerController.removeFollower,(err) =>
 	console.log(`follower-delete ran into an error: ${err}`)
@@ -145,11 +176,11 @@ FollowerRouter.delete("/delete/:followerUserID/", FollowerController.removeFollo
  */
 router.use(
 	"",
-	// loginRouter.routes(),
+	loginRouter.routes(),
 	exercisesRouter.routes(),
 	usersRouter.routes(),
-  WeeklyScheduleRouter.routes(),
-  DailyRoutineRouter.routes(),
+	WeeklyScheduleRouter.routes(),
+	DailyRoutineRouter.routes(),
 	FollowerRouter.routes()
 );
 

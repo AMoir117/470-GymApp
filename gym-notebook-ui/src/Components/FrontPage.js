@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, createContext} from "react";
 import {BottomNavigation} from "react-native-paper";
-import Profile from "./front-page/Profile";
 import MainSchedule from "./front-page/MainSchedule";
 import FriendsList from "./front-page/FriendsList";
 import Lobby from "./front-page/Lobby";

@@ -5,7 +5,7 @@ import {RectButton, Swipeable} from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
 	leftAction: {
-		flex: 1,
+		width: 120,
 		backgroundColor: "#497AFC",
 		justifyContent: "center",
 	},
@@ -45,6 +45,9 @@ const SwipingRow = (props) => {
 			</Animated.View>
 		);
 	};
+
+	const {children} = props;
+
 	const renderRightActions = (progress) => (
 		<View style={{width: 230, flexDirection: "row"}}>
 			{renderRightAction("Select", "#C8C7CD", 230, progress)}
@@ -53,12 +56,10 @@ const SwipingRow = (props) => {
 		</View>
 	);
 
-	const {children} = props;
-
 	return (
 		<Swipeable
 			friction={2}
-			leftThreshold={30}
+			leftThreshold={40}
 			rightThreshold={40}
 			renderLeftActions={renderLeftActions}
 			renderRightActions={renderRightActions}

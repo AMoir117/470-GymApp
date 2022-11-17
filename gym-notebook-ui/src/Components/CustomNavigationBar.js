@@ -1,8 +1,9 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import {StyleSheet, View} from "react-native";
 import {Appbar, Button, Divider, Menu, IconButton} from "react-native-paper";
 import GlobalStyles from "./GlobalStyles";
 import {useNavigation} from "@react-navigation/native";
+import AuthContext from "../Context/AuthProvider";
 
 const styles = StyleSheet.create({
 	appBarHeader: {
@@ -32,9 +33,16 @@ const styles = StyleSheet.create({
 });
 
 const CustomNavigationBar = ({navigation, back}) => {
+	const {setAuth} = useContext(AuthContext);
 	const [visible, setVisible] = useState(false);
 	const openMenu = () => setVisible(true);
 	const closeMenu = () => setVisible(false);
+
+	const logOut = () => {
+		console.log("Signed out");
+		setAuth(undefined);
+		navigation.navigate("Login");
+	};
 
 	return (
 		<Appbar.Header style={styles.appBarHeader} mode="center-aligned">
@@ -53,12 +61,12 @@ const CustomNavigationBar = ({navigation, back}) => {
 				}
 			>
 				<Menu.Item
-					title="Profile"
+					title="My Profile"
 					style={styles.menuItemTop}
 					titleStyle={styles.menuItemTop}
 					onPress={() => {
 						closeMenu();
-						navigation.navigate("Profile Viewer");
+						navigation.navigate("User Profile");
 					}}
 				/>
 				<Divider style={styles.dividerMenu} />
@@ -66,10 +74,7 @@ const CustomNavigationBar = ({navigation, back}) => {
 					title="Sign out"
 					style={styles.menuItemBot}
 					titleStyle={styles.menuItemBot}
-					onPress={() => {
-						console.log("Signed out");
-						navigation.navigate("Login");
-					}}
+					onPress={logOut}
 				/>
 			</Menu>
 			<Appbar.Content

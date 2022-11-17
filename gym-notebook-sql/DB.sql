@@ -1,3 +1,5 @@
+use gymappdb;
+
 DROP TABLE IF EXISTS Follower;
 DROP TABLE IF EXISTS DailyRoutine;
 DROP TABLE IF EXISTS WeeklySchedule;
@@ -13,7 +15,7 @@ CREATE TABLE Users
   firstName VARCHAR(20),
   lastName VARCHAR(20),
   DoB DATE,
-  imagePath VARCHAR(100),
+  imagePath VARCHAR(200),
   email VARCHAR(100) UNIQUE,
   profileBio VARCHAR(512),
   currentWeeklyScheduleID BIGINT,
@@ -35,7 +37,7 @@ CREATE TABLE WeeklySchedule
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   accessStatus ENUM('private', 'public') NOT NULL,
   title LONGTEXT,
-  stamp TIMESTAMP,
+  created DATE,
   upvotes INT,
   userID INT NOT NULL,
   FOREIGN KEY (userID) REFERENCES Users(id)
@@ -49,7 +51,7 @@ CREATE TABLE DailyRoutine
   FOREIGN KEY(exerciseID) REFERENCES Exercise(id),
   sets INT,
   reps INT,
-  weight VARCHAR(4),
+  weight varchar(4),
   dayOfWeek ENUM('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday') NOT NULL,
   weeklyScheduleID BIGINT NOT NULL,
   FOREIGN KEY (weeklyScheduleID) REFERENCES WeeklySchedule(id)
