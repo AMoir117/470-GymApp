@@ -14,7 +14,6 @@ import axios from "axios";
 import AuthContext from "../Context/AuthProvider";
 import SvgImage from "./SvgImage";
 import GlobalStyles from "./GlobalStyles";
-import API from "../API_interface/API_interface";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -64,12 +63,10 @@ const styles = StyleSheet.create({
 	},
 });
 const Login = ({navigation}) => {
-	const {auth, setAuth} = useContext(AuthContext);
+	const {setAuth} = useContext(AuthContext);
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [visible, setVisible] = useState(false);
-	const [verifyUser, setVerifyUser] = useState(false);
-	const [authFailed, setAuthFailed] = useState(false);
 
 	useEffect(() => {
 		if (!verifyUser || username.length === 0) return;
@@ -92,11 +89,6 @@ const Login = ({navigation}) => {
 
 	const handleUsernameChange = (u) => {
 		setUsername(u);
-		setAuthFailed(false);
-		if (u.key === "Enter") {
-			console.log("handleKeyPress: Verify user input.");
-			setVerifyUser(true);
-		}
 	};
 
 	const handlePasswordChange = (p) => {
@@ -106,7 +98,27 @@ const Login = ({navigation}) => {
 	const forgetPassword = () => {
 		//todo::send email to user to reset password
 	};
-
+	const login = async () => {
+		//fixme::try catch for wrong inputs
+		await axios
+			.get(`users/username/${username}`)
+			.then((response) => {
+				const userInfo = response.data[0];
+				if (userInfo === undefined) {
+					setVisible(true);
+				} else if (password === userInfo.userPassword) {
+					setAuth({user: userInfo});
+					navigation.navigate("Front Page");
+				}
+			})
+			.catch(function (error) {
+				if (error.response) {
+					console.log(error.response.data);
+					console.log(error.response.status);
+					console.log(error.response.headers);
+				}
+			});
+	};
 	const signup = () => {
 		navigation.navigate("Signup");
 	};
@@ -151,7 +163,7 @@ const Login = ({navigation}) => {
 				</TouchableOpacity>
 			</View>
 			<View style={styles.buttonContainer}>
-				<TouchableOpacity style={styles.buttonStyle} onPress={() => setVerifyUser(true)}>
+				<TouchableOpacity style={styles.buttonStyle} onPress={login}>
 					<Text style={styles.buttonText}>Login</Text>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.buttonStyle} onPress={signup}>

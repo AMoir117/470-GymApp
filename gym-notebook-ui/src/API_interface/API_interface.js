@@ -17,6 +17,11 @@ const AxiosConfigured = () => {
 
 	//HOME LAN
 	axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
+	// phone
+	// axios.defaults.baseURL = `http://192.168.1.142:8443/api/v1`;
+
+	//HOME WLAN
+	//axios.defaults.baseURL = `http://172.29.5.153:8443/api/v1`;
 
 	//HOME WLAN
 	//axios.defaults.baseURL = `http://172.29.5.153:8443/api/v1`;
