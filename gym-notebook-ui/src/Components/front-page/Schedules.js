@@ -9,6 +9,7 @@ import {
 	Pressable,
 	SafeAreaView,
 	ImageBackground,
+	Alert,
 } from "react-native";
 import {Divider, Appbar, Button, Avatar, DataTable, IconButton} from "react-native-paper";
 import axios from "axios";
@@ -143,7 +144,14 @@ const Schedules = ({navigation, back}) => {
 					icon="arrow-left"
 					onPress={() => {
 						//todo::make sure user is sure about going back
-						navigation.goBack();
+						Alert.alert("", "Any unsaved progress will be discarded, continue?", [
+							{text: "Accept", onPress: () => navigation.goBack()},
+							{
+								text: "Cancel",
+								onPress: () => console.log("canceled"),
+								style: "cancel",
+							},
+						]);
 					}}
 					title="Back"
 				/>

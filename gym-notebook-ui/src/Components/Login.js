@@ -72,8 +72,6 @@ const Login = ({navigation}) => {
 	const [authFailed, setAuthFailed] = useState(false);
 
 	useEffect(() => {
-		console.log(verifyUser);
-		console.log(username);
 		if (!verifyUser || username.length === 0) return;
 
 		const api = new API();

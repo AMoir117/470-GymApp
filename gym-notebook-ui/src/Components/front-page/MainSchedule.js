@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect, useContext, useCallback} from "react";
 import {
 	ScrollView,
 	StyleSheet,
@@ -24,6 +24,7 @@ import {
 	Text,
 } from "react-native-paper";
 import AuthContext from "../../Context/AuthProvider";
+import {useFocusEffect, useIsFocused, useNavigation} from "@react-navigation/native";
 import axios from "axios";
 import GlobalStyles from "../GlobalStyles";
 import WorkoutCard from "../Modules/WorkoutCard";
@@ -56,8 +57,8 @@ const styles = StyleSheet.create({
 
 const dayAndroid = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-const MainSchedule = ({navigation, back}) => {
-	const {auth} = useContext(AuthContext);
+const MainSchedule = () => {
+	const {auth, setAuth} = useContext(AuthContext);
 	const [currentDay, setCurrentDay] = useState("Monday");
 	const [scheduleName, setScheduleName] = useState("");
 	//const [workouts, setWorkouts] = useState(data);
@@ -65,10 +66,15 @@ const MainSchedule = ({navigation, back}) => {
 	const [modalUri, setModalUri] = useState("");
 	const [dailyWorkoutData, setDailyWorkoutData] = useState([]);
 	const day = new Date();
-
+	const navigation = useNavigation();
 	useEffect(() => {
-		//fixme::check if weeklyschedule is empty or not!!!
+		if (!auth.user.currentWeeklyScheduleID) {
+			console.log("user has not weekly schedule");
+			//todo::create new weekly schedule
+			return;
+		}
 		//Android has different formats for toLocaleDateString
+
 		const getDailyRoutine = async () => {
 			if (Platform.OS === "android") {
 				await axios
@@ -89,24 +95,21 @@ const MainSchedule = ({navigation, back}) => {
 						})}/${auth.user.currentWeeklyScheduleID}`
 					)
 					.then((routineResponse) => {
-						console.log(routineResponse);
 						setDailyWorkoutData(routineResponse.data);
 					});
 				setCurrentDay(day.toLocaleDateString("en-us", {weekday: "long"}));
 			}
 		};
 		const getScheduleTitle = async () => {
-			console.log(auth.user.currentWeeklyScheduleID);
 			await axios
 				.get(`weekly-schedule/id/${auth.user.currentWeeklyScheduleID}`)
 				.then((titleResponse) => {
-					console.log(titleResponse);
 					setScheduleName(titleResponse.data[0].title);
 				});
 		};
 		getScheduleTitle();
 		getDailyRoutine();
-	}, []);
+	}, [navigation, navigation.getState().index, auth]);
 
 	const showModal = (item) => {
 		setGifShow(true);

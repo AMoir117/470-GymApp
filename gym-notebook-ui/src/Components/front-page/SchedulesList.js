@@ -20,6 +20,7 @@ import GlobalStyles from "../GlobalStyles";
 import axios from "axios";
 import SvgImage2 from "../SvgImage2";
 import AuthContext from "../../Context/AuthProvider";
+import {setStatusBarHidden} from "expo-status-bar";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -93,25 +94,61 @@ const styles = StyleSheet.create({
 });
 
 const SchedulesList = () => {
-	const {auth} = useContext(AuthContext);
+	const {auth, setAuth} = useContext(AuthContext);
 	const navigation = useNavigation();
 	const [mySchedules, setMySchedules] = useState([]);
+	const refArray = [];
+	const [prevRow, setPrevRow] = useState(null);
 
 	useEffect(() => {
 		const getAllSchedules = async () => {
 			await axios
 				.get(`weekly-schedule/get-all-schedules/${auth.user.id}`)
 				.then((scheduleResponses) => {
-					console.log(scheduleResponses.data);
 					setMySchedules(scheduleResponses.data);
 				});
 		};
 		getAllSchedules();
 	}, []);
 
-	const setCurrentSchedule = () => {
-		//todo::set current schedule
-		console.log("test");
+	const closeRow = (item) => {
+		if (prevRow && prevRow !== item.id) {
+			refArray[prevRow].close();
+		}
+		setPrevRow(item.id);
+	};
+
+	const setCurrentSchedule = async (item) => {
+		await axios.put(`users/use-weekly-schedule/${item.id}/${item.userID}`).then(() => {
+			refArray[item.id].close();
+			const newAuth = auth;
+			newAuth.user = {
+				...newAuth.user,
+				currentWeeklyScheduleID: item.id,
+			};
+			setAuth(newAuth);
+		});
+	};
+
+	const deleteCurrentSchedule = async (item) => {
+		if (auth.user.currentWeeklyScheduleID === item.id) {
+			Alert.alert(
+				"Unable to delete current schedule!",
+				"Change current schedule and try again.",
+				[{text: "OK", onPress: () => console.log("cancel"), style: "cancel"}]
+			);
+			refArray[item.id].close();
+			return;
+		} else {
+			await axios.delete(`weekly-schedule/delete/${item.id}`).then(async () => {
+				refArray[item.id].close();
+				await axios
+					.get(`weekly-schedule/get-all-schedules/${auth.user.id}`)
+					.then((scheduleResponses) => {
+						setMySchedules(scheduleResponses.data);
+					});
+			});
+		}
 	};
 
 	const renderLeftActions = () => {
@@ -121,26 +158,34 @@ const SchedulesList = () => {
 			</RectButton>
 		);
 	};
-	const renderRightAction = (text, color) => {
+	const renderRightAction = (text, color, width, progress, item) => {
 		const pressHandler = () => {
 			switch (text) {
 				case "Select":
 					Alert.alert("Make This Your Main Schedule.", "", [
 						{
 							text: "Accept",
-							onPress: () => setCurrentSchedule(),
+							onPress: () => {
+								setCurrentSchedule(item);
+							},
 						},
 						{text: "Cancel", style: "cancel"},
 					]);
 					break;
 
 				case "Edit":
+					progress = 0;
 					navigation.navigate("Schedules");
 					break;
 
 				case "Delete":
 					Alert.alert("Delete Permanently", "", [
-						{text: "accept", onPress: () => console.log("deleted")},
+						{
+							text: "accept",
+							onPress: () => {
+								deleteCurrentSchedule(item);
+							},
+						},
 						{text: "cancel", onPress: () => console.log("canceled"), style: "cancel"},
 					]);
 
@@ -159,24 +204,28 @@ const SchedulesList = () => {
 		);
 	};
 
-	const renderRightActions = (progress) => (
-		<View style={{width: 230, flexDirection: "row"}}>
-			{renderRightAction("Select", "#C8C7CD", 230, progress)}
-			{renderRightAction("Edit", "#ffab00", 200, progress)}
-			{renderRightAction("Delete", "#dd2c00", 170, progress)}
-		</View>
-	);
+	const renderRightActions = (progress, item) => {
+		return (
+			<View style={{width: 230, flexDirection: "row"}}>
+				{renderRightAction("Select", "#C8C7CD", 230, progress, item)}
+				{renderRightAction("Edit", "#ffab00", 200, progress, item)}
+				{renderRightAction("Delete", "#dd2c00", 170, progress, item)}
+			</View>
+		);
+	};
 
-	const renderSchedules = ({item}) => {
+	const renderSchedules = ({item, index}) => {
 		const test = new Date(item.created);
 		const myDate = test.toLocaleDateString("en-us", GlobalStyles.date);
 		return (
 			<Swipeable
+				ref={(ref) => (refArray[item.id] = ref)}
 				friction={2}
 				leftThreshold={40}
 				rightThreshold={40}
 				renderLeftActions={renderLeftActions}
-				renderRightActions={renderRightActions}
+				renderRightActions={(progress) => renderRightActions(progress, item)}
+				onSwipeableOpen={() => closeRow(item)}
 			>
 				<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
 					<View style={{flex: 1}}>

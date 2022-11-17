@@ -78,8 +78,8 @@ usersRouter.post("/insert-user", UsersController.insertNewUser, (err) =>
 	console.log(`insertUser ran into an error: ${err}`)
 );
 
-usersRouter.get(
-	"/use-weekly-schedule/:weeklyScheduleID/:userID",
+usersRouter.put(
+	"/use-weekly-schedule/:currentWeeklyScheduleID/:userID",
 	UsersController.useWeeklySchedule,
 	(err) => console.log(`increment-upvotes ran into an error: ${err}`)
 );
@@ -121,6 +121,12 @@ WeeklyScheduleRouter.put(
 	"/update-title/:title/:weeklyScheduleID",
 	WeeklyScheduleController.editWeeklyScheduleTitle,
 	(err) => console.log(`update-title ran into an error: ${err}`)
+);
+
+WeeklyScheduleRouter.delete(
+	"/delete/:weeklyScheduleID",
+	WeeklyScheduleController.deleteWeeklySchedule,
+	(err) => console.log(`delete WeeklySchedule ran into an error: ${err}`)
 );
 
 const DailyRoutineController = require("../app/Controllers/DailyRoutineController.js");

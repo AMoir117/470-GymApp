@@ -138,7 +138,7 @@ const Signup = ({navigation, back}) => {
 						email: email,
 						profileBio: bio,
 					})
-					.then((response) => {
+					.then(async () => {
 						const userInfo = {
 							username: username,
 							userPassword: password,
@@ -154,6 +154,7 @@ const Signup = ({navigation, back}) => {
 					});
 			});
 		});
+
 		navigation.navigate("Front Page");
 	};
 
