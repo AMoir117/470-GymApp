@@ -58,16 +58,16 @@ const App = () => {
 							name="Schedules"
 							component={Schedules}
 							options={{
-								title: "Editor",
+								title: "",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
 								headerBackTitleVisible: false,
 							}}
 						/>
 						<Stack.Screen
-							name="Searchbar"
+							name="Search Bar"
 							component={SearchBar}
 							options={{
-								title: "Search",
+								title: "",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
 								headerBackTitleVisible: false,
 							}}
@@ -81,14 +81,14 @@ const App = () => {
 								headerBackTitleVisible: false,
 							}}
 						/>
-						<Stack.Screen
+						{/* <Stack.Screen
 							name="WORKING_PAGE"
 							component={Schedules}
 							options={{
 								title: "WORKING_PAGE",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
 							}}
-						/>
+						/> */}
 					</Stack.Navigator>
 				</NavigationContainer>
 			</Provider>

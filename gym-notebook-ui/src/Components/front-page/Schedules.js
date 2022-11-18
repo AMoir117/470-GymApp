@@ -65,6 +65,17 @@ const styles = StyleSheet.create({
 		height: 300,
 		alignSelf: "center",
 	},
+	buttonStyle: {
+		height: 30,
+		width: 70,
+		margin: 2,
+		marginTop: 10,
+		alignSelf: "center",
+		alignItems: "center",
+		textAlign: "center",
+		textAlignVertical: "center",
+		backgroundColor: GlobalStyles.hexColor.brown,
+	},
 });
 
 //fixme:: change to reflect database
@@ -233,16 +244,23 @@ const Schedules = ({navigation, back}) => {
 				renderItem={renderItem}
 				keyExtractor={(item) => item.id}
 			/>
-			<TouchableOpacity>
+			{/* <TouchableOpacity>
 				<Button
 					mode="contained"
 					style={{alignSelf: "center"}}
 					onPress={() => {
-						navigation.navigate("Searchbar");
+						console.log("add new workout");
+						navigation.navigate("SearchBar");
 					}}
 				>
 					Add
 				</Button>
+			</TouchableOpacity> */}
+			<TouchableOpacity
+				style={styles.buttonStyle}
+				onPress={() => navigation.navigate("Search Bar")}
+			>
+				<Text style={styles.buttonText}>Add</Text>
 			</TouchableOpacity>
 			<ShowGif />
 		</SafeAreaView>
