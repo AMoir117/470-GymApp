@@ -64,6 +64,15 @@ const App = () => {
 							}}
 						/>
 						<Stack.Screen
+							name="Searchbar"
+							component={SearchBar}
+							options={{
+								title: "Search",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+								headerBackTitleVisible: false,
+							}}
+						/>
+						<Stack.Screen
 							name="Profile View"
 							component={ProfileView}
 							options={{

@@ -18,16 +18,19 @@ const styles = StyleSheet.create({
 		backgroundColor: "#FFFFFF",
 	},
 });
+
+// axios.get("/bodypart/:bodyPart")
+// axios.get("/muscle/:targetMuscle")
+// axios.get("/equipment/:equipment")
+
 const SearchBar = () => {
 	const [search, setSearch] = useState("");
 	const [filteredDataSource, setFilteredDataSource] = useState([]);
 	const [masterDataSource, setMasterDataSource] = useState([]);
 
-	const listExercisesURL = `exercises/all-exercises`;
-
 	useEffect(() => {
 		const getAllExercises = async () => {
-			const response = await axios.get(listExercisesURL);
+			const response = await axios.get("exercises/all-exercises");
 			setFilteredDataSource(response.data);
 			setMasterDataSource(response.data);
 		};
@@ -41,8 +44,8 @@ const SearchBar = () => {
 			const newData = masterDataSource.filter(function (item) {
 				// Applying filter for the inserted text in search bar
 				//item is an exercise with the same naming convention in the db
-				const itemData = item.workoutName
-					? item.workoutName.toUpperCase()
+				const itemData = item.targetMuscle
+					? item.targetMuscle.toUpperCase()
 					: "".toUpperCase();
 				const textData = text.toUpperCase();
 				return itemData.indexOf(textData) > -1;

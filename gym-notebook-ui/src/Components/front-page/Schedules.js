@@ -234,7 +234,13 @@ const Schedules = ({navigation, back}) => {
 				keyExtractor={(item) => item.id}
 			/>
 			<TouchableOpacity>
-				<Button mode="contained" style={{alignSelf: "center"}}>
+				<Button
+					mode="contained"
+					style={{alignSelf: "center"}}
+					onPress={() => {
+						navigation.navigate("Searchbar");
+					}}
+				>
 					Add
 				</Button>
 			</TouchableOpacity>
