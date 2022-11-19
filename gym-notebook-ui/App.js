@@ -18,6 +18,7 @@ import ScheduleEdit from "./src/Components/ScheduleEdit";
 import SectionListBasics from "./src/Components/SectionListBasics";
 import SchedulesList from "./src/Components/front-page/SchedulesList";
 import Schedules from "./src/Components/front-page/Schedules";
+import DrawerTest from "./src/Components/DrawerTest";
 
 const App = () => {
 	const Stack = createNativeStackNavigator();
@@ -81,14 +82,14 @@ const App = () => {
 								headerBackTitleVisible: false,
 							}}
 						/>
-						{/* <Stack.Screen
+						<Stack.Screen
 							name="WORKING_PAGE"
-							component={Schedules}
+							component={DrawerTest}
 							options={{
 								title: "WORKING_PAGE",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
 							}}
-						/> */}
+						/>
 					</Stack.Navigator>
 				</NavigationContainer>
 			</Provider>

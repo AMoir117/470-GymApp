@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {SafeAreaView, Text, StyleSheet, View, FlatList, TextInput, Image} from "react-native";
 import axios from "axios";
-import {Drawer, IconButton, Modal, Portal, Provider} from "react-native-paper";
-import {createDrawerNavigator} from "@react-navigation/drawer";
-import {NavigationContainer} from "@react-navigation/native";
+import {IconButton, Modal, Portal, Provider} from "react-native-paper";
 
 const styles = StyleSheet.create({
 	container: {
@@ -56,7 +54,6 @@ const SearchBar = ({navigation, back}) => {
 						icon="filter"
 						onPress={() => {
 							//todo::add window to filter equipment, targetMuscle, bodyPart
-							navigation.openDrawer();
 						}}
 					/>
 				);
@@ -94,28 +91,6 @@ const SearchBar = ({navigation, back}) => {
 			setFilteredDataSource(masterDataSource);
 			setSearch(text);
 		}
-	};
-
-	const FilterDrawer = createDrawerNavigator();
-
-	const MyDrawer = () => {
-		return (
-			<FilterDrawer.Navigator
-				screenOptions={{
-					drawerPosition: "right",
-					headerShown: false,
-				}}
-			>
-				<FilterDrawer.Screen name="HomeDrawer" component={SearchBar} />
-			</FilterDrawer.Navigator>
-		);
-	};
-	const RightDrawerContent = () => {
-		return (
-			<View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-				<Text>This is the right drawer</Text>
-			</View>
-		);
 	};
 
 	const ItemView = ({item}) => {
@@ -165,7 +140,6 @@ const SearchBar = ({navigation, back}) => {
 				/>
 			</View>
 			<ShowGif />
-			<MyDrawer />
 		</SafeAreaView>
 	);
 };
