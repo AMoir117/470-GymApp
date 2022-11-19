@@ -6,7 +6,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 
 import Data from "./src/API_interface/API_interface";
-import SearchBar from "./src/Components/Modules/SearchBar";
+import Search from "./src/Components/Search";
 import Login from "./src/Components/Login";
 import Signup from "./src/Components/Signup";
 import FrontPage from "./src/Components/FrontPage";
@@ -18,7 +18,7 @@ import ScheduleEdit from "./src/Components/ScheduleEdit";
 import SectionListBasics from "./src/Components/SectionListBasics";
 import SchedulesList from "./src/Components/front-page/SchedulesList";
 import Schedules from "./src/Components/front-page/Schedules";
-import DrawerTest from "./src/Components/DrawerTest";
+//import DrawerTest from "./src/Components/DrawerTest";
 
 const App = () => {
 	const Stack = createNativeStackNavigator();
@@ -65,8 +65,8 @@ const App = () => {
 							}}
 						/>
 						<Stack.Screen
-							name="Search Bar"
-							component={SearchBar}
+							name="Search"
+							component={Search}
 							options={{
 								title: "",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
@@ -82,14 +82,14 @@ const App = () => {
 								headerBackTitleVisible: false,
 							}}
 						/>
-						<Stack.Screen
+						{/* <Stack.Screen
 							name="WORKING_PAGE"
-							component={DrawerTest}
+							component={}
 							options={{
 								title: "WORKING_PAGE",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
 							}}
-						/>
+						/> */}
 					</Stack.Navigator>
 				</NavigationContainer>
 			</Provider>

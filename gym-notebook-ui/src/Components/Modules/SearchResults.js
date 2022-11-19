@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {StyleSheet, View, Image} from "react-native";
+import {StyleSheet, View, Image, Text} from "react-native";
 import {
 	Avatar,
 	Button,
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 });
 
 const SearchResults = (props) => {
-	const {workout, showModal} = props;
+	const {workout, showModal, addResult} = props;
 	const [workoutName, setWorkoutName] = useState({});
 
 	useEffect(() => {}, []);
@@ -50,38 +50,24 @@ const SearchResults = (props) => {
 		<>
 			<Card style={styles.cardContainer}>
 				<Card.Content>
-					<Button mode="outlined" compact={true}>
-						<Paragraph style={styles.cardContent}>{workout.workoutName}</Paragraph>
+					<Button mode="outlined" compact={true} onPress={() => addResult(workout)}>
+						<Paragraph style={styles.cardContent}>
+							{workout.workoutName.toUpperCase()}
+						</Paragraph>
 					</Button>
 				</Card.Content>
-				<Card.Actions style={styles.cardButton}>
-					<Button
-						mode="outlined"
-						style={styles.buttonStyles}
-						textColor={GlobalStyles.hexColor.green}
-					>
-						{workout.bodyPart}
-					</Button>
-					<Button
-						mode="outlined"
-						textColor={GlobalStyles.hexColor.black}
-						style={styles.buttonStyles}
-					>
-						{workout.targetMuscle}
-					</Button>
-					<Button
-						mode="outlined"
-						style={styles.buttonStyles}
-						textColor={GlobalStyles.hexColor.black}
-					>
-						{workout.equipment}
-					</Button>
+				<Card.Actions style={{alignSelf: "left"}}>
 					<IconButton
 						icon="file-gif-box"
 						style={styles.buttonStyles}
 						iconColor={GlobalStyles.hexColor.green}
 						onPress={() => showModal(workout)}
 					/>
+					<View>
+						<Text>{workout.bodyPart.toUpperCase()}</Text>
+						<Text>{workout.targetMuscle.toUpperCase()}</Text>
+						<Text>{workout.equipment.toUpperCase()}</Text>
+					</View>
 				</Card.Actions>
 			</Card>
 		</>

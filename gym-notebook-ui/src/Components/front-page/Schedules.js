@@ -258,7 +258,7 @@ const Schedules = ({navigation, back}) => {
 			</TouchableOpacity> */}
 			<TouchableOpacity
 				style={styles.buttonStyle}
-				onPress={() => navigation.navigate("Search Bar")}
+				onPress={() => navigation.navigate("Search")}
 			>
 				<Text style={styles.buttonText}>Add</Text>
 			</TouchableOpacity>

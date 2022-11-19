@@ -10,7 +10,7 @@ import {
 	ScrollView,
 } from "react-native";
 import {createDrawerNavigator, DrawerItemList} from "@react-navigation/drawer";
-import {IconButton, Modal, Portal, Provider} from "react-native-paper";
+import {IconButton, Modal, Portal, Provider, Searchbar} from "react-native-paper";
 import axios from "axios";
 import {DrawerActions, useNavigation} from "@react-navigation/native";
 import SearchResults from "./Modules/SearchResults";
@@ -110,15 +110,21 @@ const SearchBar = ({navigation, back}) => {
 	const [gifShow, setGifShow] = useState(false);
 	const [modalUri, setModalUri] = useState("");
 
+	const [searchQuery, setSearchQuery] = useState("");
+
 	useEffect(() => {
 		const getAllExercises = async () => {
 			const response = await axios.get("exercises/all-exercises");
 			setFilteredDataSource(response.data);
 			setMasterDataSource(response.data);
+
+			setSearchQuery(response);
 		};
 
 		getAllExercises();
 	}, []);
+
+	const onChangeSearch = (query) => setSearchQuery(query);
 
 	const searchFilterFunction = (text) => {
 		if (text) {
@@ -143,6 +149,14 @@ const SearchBar = ({navigation, back}) => {
 		}
 	};
 
+	const searchFilterFunction2 = (text) => {
+		masterDataSource.filter(function (item) {
+			if (item.hasOwnProperty(text)) {
+				console.log(true);
+			}
+		});
+	};
+
 	const ItemView = ({item}) => {
 		/*
 		item.bodyPart
@@ -152,7 +166,15 @@ const SearchBar = ({navigation, back}) => {
 		item.targetMuscle
 		item.workoutName
 		*/
-		return <SearchResults showModal={showModal} workout={item} />;
+		return <SearchResults showModal={showModal} workout={item} addResult={addResult} />;
+	};
+
+	const addResult = async (item) => {
+		console.log(item);
+		await axios.post(
+			"daily-routine/insert/${item.id}/:sets/:reps/:weight/:dayOfWeek/:weeklyScheduleID"
+		);
+		//	"/insert/:exerciseID/:sets/:reps/:weight/:dayOfWeek/:weeklyScheduleID",
 	};
 
 	const ShowGif = (props) => {
@@ -179,12 +201,17 @@ const SearchBar = ({navigation, back}) => {
 	return (
 		<SafeAreaView style={{flex: 1}}>
 			<View style={styles.container}>
-				<TextInput
+				{/* <TextInput
 					style={styles.textInputStyle}
 					onChangeText={(text) => searchFilterFunction(text)}
 					value={search}
 					underlineColorAndroid="transparent"
 					placeholder="Search Here"
+				/> */}
+				<Searchbar
+					placeholder="Search"
+					onChangeText={(text) => searchFilterFunction2(text)}
+					value={searchQuery}
 				/>
 				<FlatList
 					data={filteredDataSource}
@@ -223,7 +250,7 @@ const RightDrawerScreen = () => {
 	);
 };
 
-const DrawerTest = () => {
+const Search = () => {
 	const navigation = useNavigation();
 
 	useEffect(() => {
@@ -255,4 +282,4 @@ const DrawerTest = () => {
 	return <RightDrawerScreen />;
 };
 
-export default DrawerTest;
+export default Search;
