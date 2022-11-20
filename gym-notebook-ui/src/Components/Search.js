@@ -14,6 +14,7 @@ import {IconButton, Modal, Portal, Provider, Searchbar} from "react-native-paper
 import axios from "axios";
 import {DrawerActions, useNavigation} from "@react-navigation/native";
 import SearchResults from "./Modules/SearchResults";
+import GlobalStyles from "./GlobalStyles";
 
 const styles = StyleSheet.create({
 	container: {
@@ -109,32 +110,25 @@ const SearchBar = ({navigation, back}) => {
 	const [masterDataSource, setMasterDataSource] = useState([]);
 	const [gifShow, setGifShow] = useState(false);
 	const [modalUri, setModalUri] = useState("");
-
-	const [searchQuery, setSearchQuery] = useState("");
+	const [addWorkoutShow, setAddWorkoutShow] = useState(false);
 
 	useEffect(() => {
 		const getAllExercises = async () => {
 			const response = await axios.get("exercises/all-exercises");
 			setFilteredDataSource(response.data);
 			setMasterDataSource(response.data);
-
-			setSearchQuery(response);
 		};
 
 		getAllExercises();
 	}, []);
 
-	const onChangeSearch = (query) => setSearchQuery(query);
-
 	const searchFilterFunction = (text) => {
 		if (text) {
 			// Filter the masterDataSource and update FilteredDataSource
 			const newData = masterDataSource.filter(function (item) {
-				const itemData = item.targetMuscle
-					? item.targetMuscle.toUpperCase()
+				const itemData = item.workoutName
+					? item.workoutName.toUpperCase()
 					: "".toUpperCase();
-				item.bodyPart ? item.bodyPart.toUpperCase() : "".toUpperCase();
-				item.workoutName ? item.workoutName.toUpperCase() : "".toUpperCase();
 
 				const textData = text.toUpperCase();
 				return itemData.indexOf(textData) > -1;
@@ -147,14 +141,6 @@ const SearchBar = ({navigation, back}) => {
 			setFilteredDataSource(masterDataSource);
 			setSearch(text);
 		}
-	};
-
-	const searchFilterFunction2 = (text) => {
-		masterDataSource.filter(function (item) {
-			if (item.hasOwnProperty(text)) {
-				console.log(true);
-			}
-		});
 	};
 
 	const ItemView = ({item}) => {
@@ -170,12 +156,35 @@ const SearchBar = ({navigation, back}) => {
 	};
 
 	const addResult = async (item) => {
+		showAddModal();
 		console.log(item);
-		await axios.post(
-			"daily-routine/insert/${item.id}/:sets/:reps/:weight/:dayOfWeek/:weeklyScheduleID"
-		);
+		//todo::show modal asking for reps sets and weight
+		// await axios.post(
+		// 	"daily-routine/insert/${item.id}/:sets/:reps/:weight/:dayOfWeek/:weeklyScheduleID"
+		// );
 		//	"/insert/:exerciseID/:sets/:reps/:weight/:dayOfWeek/:weeklyScheduleID",
 	};
+
+	const AddWorkout = (props) => {
+		return (
+			<Provider>
+				<Portal>
+					<Modal
+						visible={addWorkoutShow}
+						onDismiss={hideAddModal}
+						contentContainerStyle={styles.gifModal}
+					>
+						<View style={{backgroundColor: GlobalStyles.hexColor.black}} />
+					</Modal>
+				</Portal>
+			</Provider>
+		);
+	};
+
+	const showAddModal = (item) => {
+		setAddWorkoutShow(true);
+	};
+	const hideAddModal = () => setAddWorkoutShow(false);
 
 	const ShowGif = (props) => {
 		return (
@@ -210,8 +219,7 @@ const SearchBar = ({navigation, back}) => {
 				/> */}
 				<Searchbar
 					placeholder="Search"
-					onChangeText={(text) => searchFilterFunction2(text)}
-					value={searchQuery}
+					onChangeText={(text) => searchFilterFunction(text)}
 				/>
 				<FlatList
 					data={filteredDataSource}
@@ -220,6 +228,7 @@ const SearchBar = ({navigation, back}) => {
 				/>
 			</View>
 			<ShowGif />
+			<AddWorkout />
 		</SafeAreaView>
 	);
 };
