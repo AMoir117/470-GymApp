@@ -57,12 +57,6 @@ const SearchResults = (props) => {
 					</Button>
 				</Card.Content>
 				<Card.Actions style={{alignSelf: "left"}}>
-					<IconButton
-						icon="file-gif-box"
-						style={styles.buttonStyles}
-						iconColor={GlobalStyles.hexColor.green}
-						onPress={() => showModal(workout)}
-					/>
 					<View>
 						<Text>{workout.bodyPart.toUpperCase()}</Text>
 						<Text>{workout.targetMuscle.toUpperCase()}</Text>
