@@ -59,4 +59,3 @@ INSERT INTO DailyRoutine(id,exerciseID,sets,reps,weight,dayOfWeek,weeklySchedule
 INSERT INTO DailyRoutine(id,exerciseID,sets,reps,weight,dayOfWeek,weeklyScheduleID) VALUES (54,'1666',4,12,80,'Saturday',4);
 INSERT INTO DailyRoutine(id,exerciseID,sets,reps,weight,dayOfWeek,weeklyScheduleID) VALUES (55,'1769',4,8,25,'Sunday',4);
 INSERT INTO DailyRoutine(id,exerciseID,sets,reps,weight,dayOfWeek,weeklyScheduleID) VALUES (56,'2414',3,15,20,'Sunday',4);
-

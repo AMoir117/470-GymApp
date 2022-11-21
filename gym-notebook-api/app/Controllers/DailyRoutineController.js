@@ -41,6 +41,42 @@ const getDailyRoutines = async (ctx) => {
 	});
 };
 
+const getDailyRoutineByWeeklyScheduleID = async (ctx) => {
+	console.log("getDailyRoutineByWeeklyScheduleID called.");
+	return new Promise((resolve, reject) => {
+		const query = `
+                      SELECT *
+                      FROM
+                          DailyRoutine
+                      WHERE weeklyScheduleID = ? ORDER BY dayOfWeek;
+                      `;
+		dbConnection.query(
+			{
+				sql: query,
+				values: [ctx.params.weeklyScheduleID],
+			},
+			(error, tuples) => {
+				if (error) {
+					console.log(
+						"Connection error in DailyRoutineController::getDailyRoutineByWeeklyScheduleID",
+						error
+					);
+					return reject(error);
+				}
+				ctx.body = tuples;
+				ctx.status = 200;
+				return resolve();
+			}
+		);
+	}).catch((err) => {
+		console.log("Database connection error in getDailyRoutineByWeeklyScheduleID.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
+};
+
 const updateRoutine = async (ctx) => {
 	console.log("updateRoutine called.");
 	return new Promise((resolve, reject) => {
@@ -156,4 +192,5 @@ module.exports = {
 	updateRoutine,
 	deleteRoutine,
 	insertNewDailyRoutine,
+	getDailyRoutineByWeeklyScheduleID,
 };

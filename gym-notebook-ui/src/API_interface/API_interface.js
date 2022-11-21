@@ -13,7 +13,7 @@ const AxiosConfigured = () => {
 	//fixme::find out how to put ip address in .env
 
 	// desktop
-	axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
+	axios.defaults.baseURL = `http://192.168.1.142:8443/api/v1`;
 	// phone
 	// axios.defaults.baseURL = `http://192.168.1.142:8443/api/v1`;
 

@@ -94,6 +94,10 @@ WeeklyScheduleRouter.put("/increment-upvotes/:weeklyScheduleID", WeeklyScheduleC
 WeeklyScheduleRouter.get("/id/:weeklyScheduleID", WeeklyScheduleController.getScheduleById,(err) =>
 	console.log(`getScheduleById ran into an error: ${err}`)
 );
+WeeklyScheduleRouter.get("/profile-view/:userID/:accessStatus", WeeklyScheduleController.getPublicSchedulesById,(err) =>
+	console.log(`getPublicSchedulesById ran into an error: ${err}`)
+);
+
 
 WeeklyScheduleRouter.post("/insert/:accessStatus/:title/:upvotes/:userID", WeeklyScheduleController.insertNewWeeklySchedule,(err) =>
 	console.log(`insertNewWeeklySchedule ran into an error: ${err}`)
@@ -118,6 +122,10 @@ const DailyRoutineRouter = require("koa-router")({
 DailyRoutineRouter.get("/get-daily-routines/:dayOfWeek/:weeklyScheduleID", DailyRoutineController.getDailyRoutines,(err) =>
 	console.log(`get-daily-routines ran into an error: ${err}`)
 );
+DailyRoutineRouter.get("/by-weekly-schedule/:weeklyScheduleID", DailyRoutineController.getDailyRoutineByWeeklyScheduleID,(err) =>
+	console.log(`by-weekly-schedule ran into an error: ${err}`)
+);
+
 DailyRoutineRouter.put("/update/:sets/:reps/:weight/:dailyRoutineID", DailyRoutineController.updateRoutine,(err) =>
 	console.log(`update-daily-routine ran into an error: ${err}`)
 );
