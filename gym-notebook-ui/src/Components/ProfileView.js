@@ -9,6 +9,7 @@ import {
 	Pressable,
 	SafeAreaView,
 	ImageBackground,
+	TouchableOpacity,
 } from "react-native";
 import {
 	Divider,
@@ -134,12 +135,13 @@ const ProfileView = ({route, navigation}) => {
 
 	useEffect(() => {
 		const getPublicSchedules = async () => {
+			console.log(userProfile);
 			// dont display schedules if profile is your own
 			if (auth.user.id === userProfile.id) {
 				return;
 			}
 			await axios
-				.get(`weekly-schedule/profile-view/${auth.user.id}/public`)
+				.get(`weekly-schedule/profile-view/${userProfile.id}/public`)
 				.then((scheduleResponses) => {
 					console.log(scheduleResponses.data);
 					setUserSchedules(scheduleResponses.data);
@@ -148,16 +150,19 @@ const ProfileView = ({route, navigation}) => {
 		getPublicSchedules();
 	}, []);
 
-	const addSchedule = async (weeklyScheduleData) => {
-		console.log(`in add schedule.`);
-		return;
+	const clickAddSchedule = async (weeklyScheduleData) => {
+		console.log(`in clickAddSchedule.`);
+		// console.log(weeklyScheduleData);
+		let routineData = [];
+		let weeklyScheduleID = "";
 
 		// first get all the daily schedules of the weekly schedule
 		await axios
-			.get(`daily-routine/by-weekly-schedule/${weeklyScheduleID}`)
+			.get(`daily-routine/by-weekly-schedule/${weeklyScheduleData.id}`)
 			.then((routineResponse) => {
-				console.log(routineResponse.data);
-				setRoutinesToAdd(routineResponse);
+				// console.log(routineResponse.data);
+				setRoutinesToAdd(routineResponse.data);
+				routineData = routineResponse.data;
 			});
 		// insert new weekly schedule
 		await axios
@@ -165,17 +170,28 @@ const ProfileView = ({route, navigation}) => {
 			.then((response) => {
 				console.log("Schedule Added.");
 				setScheduleToAdd({id: response.data.insertId});
+				weeklyScheduleID = response.data.insertId;
 			});
 
 		// add daily routines to new weeklyid
-		routinesToAdd.forEach(() => {});
+
+		routineData.forEach(async (item) => {
+			await axios
+				.post(
+					`daily-routine/insert/${item.exerciseID}/${item.sets}/${item.reps}/${item.weight}/${item.dayOfWeek}/${weeklyScheduleID}`
+				)
+				.then((response) => {
+					console.log("added routine.");
+				});
+		});
 	};
 
 	const renderSchedules = ({item}) => {
 		const test = new Date(item.created);
 		const myDate = test.toLocaleDateString("en-us", GlobalStyles.date);
+
 		return (
-			<ProfileSwipingRow addSchedule={addSchedule}>
+			<ProfileSwipingRow clickAddSchedule={clickAddSchedule} data={item}>
 				<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
 					<View style={{flex: 1}}>
 						<Text style={styles.postTitleStyle}>{item.title}</Text>

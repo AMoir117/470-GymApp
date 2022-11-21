@@ -27,20 +27,22 @@ const styles = StyleSheet.create({
 
 const ProfileSwipingRow = (props) => {
 
-  const {addSchedule} = props;
 
-
+	const {children} = props;
+	const clickAddSchedule = props.clickAddSchedule;
+	const data = props.data;
 	const renderRightAction = () => {
+		// console.log("on swipe right.");
+		// console.log(children);
 		return (
 			// fix: onPress needs to be passed the data of the element clicked
-			<RectButton style={styles.leftAction} onClick={addSchedule({id: 1})}>
+
+
+			<RectButton style={styles.leftAction} onPress={() => clickAddSchedule(data)}>
 				<Animated.Text style={[styles.actionText]}>Add Schedule</Animated.Text>
 			</RectButton>
 		);
 	};
-
-
-	const {children} = props;
 
 	return (
 		<Swipeable
