@@ -120,6 +120,80 @@ const EQUIPMENT = [
 	"weighted",
 	"wheel roller",
 ];
+const RightDrawer = createDrawerNavigator();
+
+const RightDrawerContent = (props) => {
+	const {workoutToAdd} = props;
+	return (
+		<View
+			style={{
+				flex: 1,
+				backgroundColor: GlobalStyles.hexColor.brown,
+				flexDirection: "column",
+			}}
+		>
+			<Text style={{fontSize: 15, alignSelf: "center", padding: 10}}>
+				{workoutToAdd.workoutName ? workoutToAdd.workoutName.toUpperCase() : ""}
+			</Text>
+			{/* <Image
+				style={{
+					width: 200,
+					height: 200,
+					alignSelf: "center",
+					margin: 20,
+				}}
+				source={{uri: workoutToAdd.gifUrl}}
+			/> */}
+			<View style={{flexDirection: "row"}}>
+				<SelectDropdown
+					data={acceptedSets}
+					defaultButtonText="Sets"
+					buttonStyle={styles.buttonStyles}
+					onSelect={(selectedItem) => setSets(selectedItem)}
+					buttonTextAfterSelection={(selectedItem) => {
+						return selectedItem;
+					}}
+				/>
+				<SelectDropdown
+					data={acceptedReps}
+					defaultButtonText="Reps"
+					buttonStyle={styles.buttonStyles}
+					onSelect={(selectedItem) => setReps(selectedItem)}
+					buttonTextAfterSelection={(selectedItem) => {
+						return selectedItem;
+					}}
+				/>
+				<SelectDropdown
+					data={acceptedWeights}
+					defaultButtonText="Weight"
+					buttonStyle={styles.buttonStyles}
+					onSelect={(selectedItem) => setWeight(selectedItem)}
+					buttonTextAfterSelection={(selectedItem) => {
+						return selectedItem;
+					}}
+				/>
+			</View>
+			<Button mode="outlined">Add Routine</Button>
+		</View>
+	);
+};
+
+const RightDrawerScreen = (props) => {
+	const {workoutToAdd} = props;
+	return (
+		<RightDrawer.Navigator
+			useLegacyImplementation
+			id="RightDrawer"
+			drawerContent={(props) => <RightDrawerContent {...props} />}
+			screenOptions={{
+				drawerPosition: "right",
+				headerShown: false,
+			}}
+		>
+			<RightDrawer.Screen name="HomeDrawer" component={SearchBar} />
+		</RightDrawer.Navigator>
+	);
+};
 
 const SearchBar = ({navigation, back}) => {
 	const [search, setSearch] = useState("");
@@ -129,9 +203,9 @@ const SearchBar = ({navigation, back}) => {
 	const [modalUri, setModalUri] = useState("");
 	const [addWorkoutShow, setAddWorkoutShow] = useState(false);
 	const [workoutToAdd, setWorkoutToAdd] = useState({});
-	const [reps, setReps] = useState("");
-	const [sets, setSets] = useState("");
-	const [weight, setWeight] = useState("");
+	const [reps, setReps] = useState(undefined);
+	const [sets, setSets] = useState(undefined);
+	const [weight, setWeight] = useState(undefined);
 
 	useEffect(() => {
 		const getAllExercises = async () => {
@@ -203,65 +277,46 @@ const SearchBar = ({navigation, back}) => {
 								flexDirection: "column",
 							}}
 						>
-							<View>
-								<Text style={{fontSize: 15, alignSelf: "center", padding: 10}}>
-									{workoutToAdd.workoutName
-										? workoutToAdd.workoutName.toUpperCase()
-										: ""}
-								</Text>
-							</View>
-							<View>
-								<Image
-									style={{
-										width: 200,
-										height: 200,
-										alignSelf: "center",
-										margin: 20,
-									}}
-									source={{uri: workoutToAdd.gifUrl}}
-								/>
-							</View>
+							<Text style={{fontSize: 15, alignSelf: "center", padding: 10}}>
+								{workoutToAdd.workoutName
+									? workoutToAdd.workoutName.toUpperCase()
+									: ""}
+							</Text>
+							<Image
+								style={{
+									width: 200,
+									height: 200,
+									alignSelf: "center",
+									margin: 20,
+								}}
+								source={{uri: workoutToAdd.gifUrl}}
+							/>
 							<View style={{flexDirection: "row"}}>
 								<SelectDropdown
 									data={acceptedSets}
 									defaultButtonText="Sets"
 									buttonStyle={styles.buttonStyles}
-									onSelect={(selectedItem, index) => {
-										setSets(selectedItem);
-									}}
-									buttonTextAfterSelection={(selectedItem, index) => {
+									onSelect={(selectedItem) => setSets(selectedItem)}
+									buttonTextAfterSelection={(selectedItem) => {
 										return selectedItem;
-									}}
-									rowTextForSelection={(item, index) => {
-										return item;
 									}}
 								/>
 								<SelectDropdown
 									data={acceptedReps}
 									defaultButtonText="Reps"
 									buttonStyle={styles.buttonStyles}
-									onSelect={(selectedItem, index) => {
-										setReps(selectedItem);
-									}}
-									buttonTextAfterSelection={(selectedItem, index) => {
+									onSelect={(selectedItem) => setReps(selectedItem)}
+									buttonTextAfterSelection={(selectedItem) => {
 										return selectedItem;
-									}}
-									rowTextForSelection={(item, index) => {
-										return item;
 									}}
 								/>
 								<SelectDropdown
 									data={acceptedWeights}
 									defaultButtonText="Weight"
 									buttonStyle={styles.buttonStyles}
-									onSelect={(selectedItem, index) => {
-										setWeight(selectedItem);
-									}}
-									buttonTextAfterSelection={(selectedItem, index) => {
+									onSelect={(selectedItem) => setWeight(selectedItem)}
+									buttonTextAfterSelection={(selectedItem) => {
 										return selectedItem;
-									}}
-									rowTextForSelection={(item, index) => {
-										return item;
 									}}
 								/>
 							</View>
@@ -321,33 +376,8 @@ const SearchBar = ({navigation, back}) => {
 			</View>
 			{/* <ShowGif /> */}
 			<AddWorkout />
+			<RightDrawerScreen workoutToAdd={workoutToAdd} />;
 		</SafeAreaView>
-	);
-};
-
-const RightDrawerContent = () => {
-	return (
-		<View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-			<Text>This is the right drawer</Text>
-		</View>
-	);
-};
-
-const RightDrawer = createDrawerNavigator();
-
-const RightDrawerScreen = () => {
-	return (
-		<RightDrawer.Navigator
-			useLegacyImplementation
-			id="RightDrawer"
-			drawerContent={(props) => <RightDrawerContent {...props} />}
-			screenOptions={{
-				drawerPosition: "right",
-				headerShown: false,
-			}}
-		>
-			<RightDrawer.Screen name="HomeDrawer" component={SearchBar} />
-		</RightDrawer.Navigator>
 	);
 };
 
@@ -383,4 +413,4 @@ const Search = (props) => {
 	return <RightDrawerScreen />;
 };
 
-export default Search;
+export default SearchBar;

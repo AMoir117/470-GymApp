@@ -58,6 +58,9 @@ const acceptedWeights = [
 const MyComponent = (props) => {
 	const {workout, showModal} = props;
 	const [workoutName, setWorkoutName] = useState({});
+	const [sets, setSets] = useState("");
+	const [reps, setReps] = useState("");
+	const [weight, setWeight] = useState("");
 
 	useEffect(() => {
 		const getExerciseName = async () => {
@@ -108,55 +111,41 @@ const MyComponent = (props) => {
 					</Button> */}
 					<SelectDropdown
 						data={acceptedSets}
-						defaultButtonText="Sets"
+						defaultButtonText={workout.sets}
 						buttonStyle={styles.buttonStyles}
-						onSelect={(selectedItem, index) => {
-							console.log(selectedItem, index);
-						}}
+						onSelect={(selectedItem, index) => setSets(selectedItem)}
 						buttonTextAfterSelection={(selectedItem, index) => {
-							// text represented after item is selected
-							// if data array is an array of objects then return selectedItem.property to render after item is selected
 							return selectedItem;
 						}}
 						rowTextForSelection={(item, index) => {
-							// text represented for each item in dropdown
-							// if data array is an array of objects then return item.property to represent item in dropdown
 							return item;
 						}}
 					/>
 					<SelectDropdown
 						data={acceptedReps}
-						defaultButtonText="Reps"
+						defaultButtonText={workout.reps}
 						buttonStyle={styles.buttonStyles}
 						onSelect={(selectedItem, index) => {
-							console.log(selectedItem, index);
+							setReps(selectedItem);
 						}}
 						buttonTextAfterSelection={(selectedItem, index) => {
-							// text represented after item is selected
-							// if data array is an array of objects then return selectedItem.property to render after item is selected
 							return selectedItem;
 						}}
 						rowTextForSelection={(item, index) => {
-							// text represented for each item in dropdown
-							// if data array is an array of objects then return item.property to represent item in dropdown
 							return item;
 						}}
 					/>
 					<SelectDropdown
 						data={acceptedWeights}
-						defaultButtonText="Weight"
+						defaultButtonText={workout.weight}
 						buttonStyle={styles.buttonStyles}
 						onSelect={(selectedItem, index) => {
-							console.log(selectedItem, index);
+							setWeight(selectedItem);
 						}}
 						buttonTextAfterSelection={(selectedItem, index) => {
-							// text represented after item is selected
-							// if data array is an array of objects then return selectedItem.property to render after item is selected
 							return selectedItem;
 						}}
 						rowTextForSelection={(item, index) => {
-							// text represented for each item in dropdown
-							// if data array is an array of objects then return item.property to represent item in dropdown
 							return item;
 						}}
 					/>

@@ -55,14 +55,12 @@ const SearchResults = (props) => {
 							{workout.workoutName.toUpperCase()}
 						</Paragraph>
 					</Button>
-				</Card.Content>
-				<Card.Actions style={{alignSelf: "left"}}>
 					<View>
 						<Text>{workout.bodyPart.toUpperCase()}</Text>
 						<Text>{workout.targetMuscle.toUpperCase()}</Text>
 						<Text>{workout.equipment.toUpperCase()}</Text>
 					</View>
-				</Card.Actions>
+				</Card.Content>
 			</Card>
 		</>
 	);
