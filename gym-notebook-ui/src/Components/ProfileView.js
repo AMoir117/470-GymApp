@@ -8,6 +8,7 @@ import {
 	TextInput,
 	Pressable,
 	SafeAreaView,
+	ImageBackground,
 } from "react-native";
 import {
 	Divider,
@@ -18,11 +19,20 @@ import {
 	Card,
 	Title,
 	Paragraph,
-	IconButton,
+	Surface,
+	Badge,
+	DataTable,
 } from "react-native-paper";
 import axios from "axios";
+
+import ProfileSwipingRow from "./Modules/ProfileSwipingRow";
+import GmailStyleSwipeableRow from "./Modules/AndroidSwipe";
+
 import GlobalStyles from "./GlobalStyles";
 import * as FS from "expo-file-system";
+import SvgImage2 from "./SvgImage2";
+
+import AuthContext from "../Context/AuthProvider";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -52,6 +62,16 @@ const styles = StyleSheet.create({
 		backgroundColor: "#FFFFFF",
 		textAlignVertical: "top",
 	},
+	surfaceStyle: {
+		height: 80,
+		flex: 1,
+		flexDirection: "row",
+		backgroundColor: GlobalStyles.hexColor.brown,
+		padding: 10,
+		borderRadius: 25,
+		margin: 5,
+		borderColor: "#000000",
+	},
 	textUploadImage: {
 		fontSize: 15,
 		color: "#0073ff",
@@ -79,9 +99,96 @@ const styles = StyleSheet.create({
 	avatarStyle: {
 		alignSelf: "center",
 	},
+	profileScheduleHeader: {
+		alignSelf: "center",
+		fontSize: 35,
+		margin: 5,
+		color: "#000000",
+		padding: 20,
+	},
+	postTitleStyle: {
+		fontSize: 20,
+		height: 20,
+		marginTop: 10,
+		marginLeft: 10,
+	},
+	postCreatedOn: {
+		height: 20,
+		marginTop: 10,
+		marginLeft: 10,
+	},
+	upVoteBadge: {
+		color: "#93c47d",
+		alignSelf: "center",
+		margin: 20,
+		backgroundColor: GlobalStyles.hexColor.black,
+	},
 });
+
 const ProfileView = ({route, navigation}) => {
+	const {auth} = useContext(AuthContext);
 	const {userProfile} = route.params;
+	const [userSchedules, setUserSchedules] = useState([]);
+	const [routinesToAdd, setRoutinesToAdd] = useState([]);
+	const [scheduleToAdd, setScheduleToAdd] = useState();
+
+	useEffect(() => {
+		const getPublicSchedules = async () => {
+			// dont display schedules if profile is your own
+			if (auth.user.id === userProfile.id) {
+				return;
+			}
+			await axios
+				.get(`weekly-schedule/profile-view/${auth.user.id}/public`)
+				.then((scheduleResponses) => {
+					console.log(scheduleResponses.data);
+					setUserSchedules(scheduleResponses.data);
+				});
+		};
+		getPublicSchedules();
+	}, []);
+
+	const addSchedule = async (weeklyScheduleData) => {
+		console.log(`in add schedule.`);
+		return;
+
+		// first get all the daily schedules of the weekly schedule
+		await axios
+			.get(`daily-routine/by-weekly-schedule/${weeklyScheduleID}`)
+			.then((routineResponse) => {
+				console.log(routineResponse.data);
+				setRoutinesToAdd(routineResponse);
+			});
+		// insert new weekly schedule
+		await axios
+			.post(`weekly-schedule/insert/private/${weeklyScheduleData.title}/0/${auth.user.id}`)
+			.then((response) => {
+				console.log("Schedule Added.");
+				setScheduleToAdd({id: response.data.insertId});
+			});
+
+		// add daily routines to new weeklyid
+		routinesToAdd.forEach(() => {});
+	};
+
+	const renderSchedules = ({item}) => {
+		const test = new Date(item.created);
+		const myDate = test.toLocaleDateString("en-us", GlobalStyles.date);
+		return (
+			<ProfileSwipingRow addSchedule={addSchedule}>
+				<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
+					<View style={{flex: 1}}>
+						<Text style={styles.postTitleStyle}>{item.title}</Text>
+						<Text style={styles.postCreatedOn}>{`Created: ${myDate}`}</Text>
+						<Text style={styles.postCreatedOn}>
+							{`Upvotes:`}
+							<Badge style={styles.upVoteBadge}>{item.upvotes}</Badge>
+						</Text>
+					</View>
+				</Surface>
+			</ProfileSwipingRow>
+		);
+	};
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -98,7 +205,7 @@ const ProfileView = ({route, navigation}) => {
 	}, [navigation]);
 
 	return (
-		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
+		<SafeAreaView style={{flex: 1, maxHeight: "100%", backgroundColor: "#423F3B"}}>
 			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
 				<Card.Cover style={{top: 0}} source={{uri: userProfile.imagePath}} />
 				<Card.Title
@@ -111,6 +218,19 @@ const ProfileView = ({route, navigation}) => {
 					<Paragraph>{userProfile.profileBio}</Paragraph>
 				</Card.Content>
 			</Card>
+
+			<Text style={styles.profileScheduleHeader}>Schedules</Text>
+			<Divider style={{borderWidth: 1}} />
+
+			<FlatList
+				style={styles.flatListContainer}
+				numColumns={1}
+				showsVerticalScrollIndicator={false}
+				alwaysBounceVertical={true}
+				data={userSchedules}
+				renderItem={renderSchedules}
+				keyExtractor={(item) => item.id}
+			/>
 		</SafeAreaView>
 	);
 };

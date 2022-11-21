@@ -97,6 +97,16 @@ WeeklyScheduleRouter.put(
 WeeklyScheduleRouter.get("/id/:weeklyScheduleID", WeeklyScheduleController.getTitleById, (err) =>
 	console.log(`getTitleById ran into an error: ${err}`)
 );
+WeeklyScheduleRouter.get(
+	"/profile-view/:userID/:accessStatus",
+	WeeklyScheduleController.getPublicSchedulesById,
+	(err) => console.log(`getPublicSchedulesById ran into an error: ${err}`)
+);
+WeeklyScheduleRouter.get(
+	"/profile-view/:userID/:accessStatus",
+	WeeklyScheduleController.getPublicSchedulesById,
+	(err) => console.log(`getPublicSchedulesById ran into an error: ${err}`)
+);
 
 WeeklyScheduleRouter.post(
 	"/insert/:accessStatus/:title/:upvotes/:userID",
@@ -129,6 +139,17 @@ DailyRoutineRouter.get(
 	DailyRoutineController.getDailyRoutines,
 	(err) => console.log(`get-daily-routines ran into an error: ${err}`)
 );
+DailyRoutineRouter.get(
+	"/by-weekly-schedule/:weeklyScheduleID",
+	DailyRoutineController.getDailyRoutineByWeeklyScheduleID,
+	(err) => console.log(`by-weekly-schedule ran into an error: ${err}`)
+);
+DailyRoutineRouter.get(
+	"/by-weekly-schedule/:weeklyScheduleID",
+	DailyRoutineController.getDailyRoutineByWeeklyScheduleID,
+	(err) => console.log(`by-weekly-schedule ran into an error: ${err}`)
+);
+
 DailyRoutineRouter.put(
 	"/update/:sets/:reps/:weight/:dailyRoutineID",
 	DailyRoutineController.updateRoutine,
