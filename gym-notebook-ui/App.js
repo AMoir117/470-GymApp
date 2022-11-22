@@ -6,7 +6,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 
 import Data from "./src/API_interface/API_interface";
-import Search from "./src/Components/Search";
+import SearchBar from "./src/Components/SearchBar";
 import Login from "./src/Components/Login";
 import Signup from "./src/Components/Signup";
 import FrontPage from "./src/Components/FrontPage";
@@ -65,8 +65,8 @@ const App = () => {
 							}}
 						/>
 						<Stack.Screen
-							name="Search"
-							component={Search}
+							name="SearchBar"
+							component={SearchBar}
 							options={{
 								title: "",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},

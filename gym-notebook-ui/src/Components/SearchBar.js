@@ -94,7 +94,7 @@ const EQUIPMENT = [
 	"assisted",
 	"band",
 	"barbell",
-	"body weight",
+	"body45",
 	"bosu ball",
 	"cable",
 	"dumbbell",
@@ -120,82 +120,83 @@ const EQUIPMENT = [
 	"weighted",
 	"wheel roller",
 ];
-const RightDrawer = createDrawerNavigator();
+// const RightDrawer = createDrawerNavigator();
 
-const RightDrawerContent = (props) => {
-	const {workoutToAdd} = props;
-	return (
-		<View
-			style={{
-				flex: 1,
-				backgroundColor: GlobalStyles.hexColor.brown,
-				flexDirection: "column",
-			}}
-		>
-			<Text style={{fontSize: 15, alignSelf: "center", padding: 10}}>
-				{workoutToAdd.workoutName ? workoutToAdd.workoutName.toUpperCase() : ""}
-			</Text>
-			{/* <Image
-				style={{
-					width: 200,
-					height: 200,
-					alignSelf: "center",
-					margin: 20,
-				}}
-				source={{uri: workoutToAdd.gifUrl}}
-			/> */}
-			<View style={{flexDirection: "row"}}>
-				<SelectDropdown
-					data={acceptedSets}
-					defaultButtonText="Sets"
-					buttonStyle={styles.buttonStyles}
-					onSelect={(selectedItem) => setSets(selectedItem)}
-					buttonTextAfterSelection={(selectedItem) => {
-						return selectedItem;
-					}}
-				/>
-				<SelectDropdown
-					data={acceptedReps}
-					defaultButtonText="Reps"
-					buttonStyle={styles.buttonStyles}
-					onSelect={(selectedItem) => setReps(selectedItem)}
-					buttonTextAfterSelection={(selectedItem) => {
-						return selectedItem;
-					}}
-				/>
-				<SelectDropdown
-					data={acceptedWeights}
-					defaultButtonText="Weight"
-					buttonStyle={styles.buttonStyles}
-					onSelect={(selectedItem) => setWeight(selectedItem)}
-					buttonTextAfterSelection={(selectedItem) => {
-						return selectedItem;
-					}}
-				/>
-			</View>
-			<Button mode="outlined">Add Routine</Button>
-		</View>
-	);
-};
+// const RightDrawerContent = (props) => {
+// 	const {workoutToAdd} = props;
+// 	return (
+// 		<View
+// 			style={{
+// 				flex: 1,
+// 				backgroundColor: GlobalStyles.hexColor.brown,
+// 				flexDirection: "column",
+// 			}}
+// 		>
+// 			<Text style={{fontSize: 15, alignSelf: "center", padding: 10}}>
+// 				{workoutToAdd.workoutName ? workoutToAdd.workoutName.toUpperCase() : ""}
+// 			</Text>
+// 			{/* <Image
+// 				style={{
+// 					width: 200,
+// 					height: 200,
+// 					alignSelf: "center",
+// 					margin: 20,
+// 				}}
+// 				source={{uri: workoutToAdd.gifUrl}}
+// 			/> */}
+// 			<View style={{flexDirection: "row"}}>
+// 				<SelectDropdown
+// 					data={acceptedSets}
+// 					defaultButtonText="Sets"
+// 					buttonStyle={styles.buttonStyles}
+// 					onSelect={(selectedItem) => setSets(selectedItem)}
+// 					buttonTextAfterSelection={(selectedItem) => {
+// 						return selectedItem;
+// 					}}
+// 				/>
+// 				<SelectDropdown
+// 					data={acceptedReps}
+// 					defaultButtonText="Reps"
+// 					buttonStyle={styles.buttonStyles}
+// 					onSelect={(selectedItem) => setReps(selectedItem)}
+// 					buttonTextAfterSelection={(selectedItem) => {
+// 						return selectedItem;
+// 					}}
+// 				/>
+// 				<SelectDropdown
+// 					data={acceptedWeights}
+// 					defaultButtonText="Weight"
+// 					buttonStyle={styles.buttonStyles}
+// 					onSelect={(selectedItem) => setWeight(selectedItem)}
+// 					buttonTextAfterSelection={(selectedItem) => {
+// 						return selectedItem;
+// 					}}
+// 				/>
+// 			</View>
+// 			<Button mode="outlined">Add Routine</Button>
+// 		</View>
+// 	);
+// };
 
-const RightDrawerScreen = (props) => {
-	const {workoutToAdd} = props;
-	return (
-		<RightDrawer.Navigator
-			useLegacyImplementation
-			id="RightDrawer"
-			drawerContent={(props) => <RightDrawerContent {...props} />}
-			screenOptions={{
-				drawerPosition: "right",
-				headerShown: false,
-			}}
-		>
-			<RightDrawer.Screen name="HomeDrawer" component={SearchBar} />
-		</RightDrawer.Navigator>
-	);
-};
+// const RightDrawerScreen = (props) => {
+// 	const {workoutToAdd} = props;
+// 	return (
+// 		<RightDrawer.Navigator
+// 			useLegacyImplementation
+// 			id="RightDrawer"
+// 			drawerContent={(props) => <RightDrawerContent {...props} />}
+// 			screenOptions={{
+// 				drawerPosition: "right",
+// 				headerShown: false,
+// 			}}
+// 		>
+// 			<RightDrawer.Screen name="HomeDrawer" component={SearchBar} />
+// 		</RightDrawer.Navigator>
+// 	);
+// };
 
-const SearchBar = ({navigation, back}) => {
+const SearchBar = ({navigation, back, route}) => {
+	const {weekSchedule, day} = route.params;
 	const [search, setSearch] = useState("");
 	const [filteredDataSource, setFilteredDataSource] = useState([]);
 	const [masterDataSource, setMasterDataSource] = useState([]);
@@ -203,9 +204,6 @@ const SearchBar = ({navigation, back}) => {
 	const [modalUri, setModalUri] = useState("");
 	const [addWorkoutShow, setAddWorkoutShow] = useState(false);
 	const [workoutToAdd, setWorkoutToAdd] = useState({});
-	const [reps, setReps] = useState(undefined);
-	const [sets, setSets] = useState(undefined);
-	const [weight, setWeight] = useState(undefined);
 
 	useEffect(() => {
 		const getAllExercises = async () => {
@@ -216,6 +214,32 @@ const SearchBar = ({navigation, back}) => {
 
 		getAllExercises();
 	}, []);
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerLeft: () => {
+				return (
+					<IconButton
+						icon="arrow-left"
+						onPress={() => {
+							navigation.goBack();
+						}}
+					/>
+				);
+			},
+			headerRight: () => {
+				return (
+					<IconButton
+						icon="filter"
+						onPress={() => {
+							//todo::add window to filter equipment, targetMuscle, bodyPart
+							navigation.dispatch(DrawerActions.openDrawer());
+						}}
+					/>
+				);
+			},
+		});
+	}, [navigation]);
 
 	const searchFilterFunction = (text) => {
 		if (text) {
@@ -291,36 +315,10 @@ const SearchBar = ({navigation, back}) => {
 								}}
 								source={{uri: workoutToAdd.gifUrl}}
 							/>
-							<View style={{flexDirection: "row"}}>
-								<SelectDropdown
-									data={acceptedSets}
-									defaultButtonText="Sets"
-									buttonStyle={styles.buttonStyles}
-									onSelect={(selectedItem) => setSets(selectedItem)}
-									buttonTextAfterSelection={(selectedItem) => {
-										return selectedItem;
-									}}
-								/>
-								<SelectDropdown
-									data={acceptedReps}
-									defaultButtonText="Reps"
-									buttonStyle={styles.buttonStyles}
-									onSelect={(selectedItem) => setReps(selectedItem)}
-									buttonTextAfterSelection={(selectedItem) => {
-										return selectedItem;
-									}}
-								/>
-								<SelectDropdown
-									data={acceptedWeights}
-									defaultButtonText="Weight"
-									buttonStyle={styles.buttonStyles}
-									onSelect={(selectedItem) => setWeight(selectedItem)}
-									buttonTextAfterSelection={(selectedItem) => {
-										return selectedItem;
-									}}
-								/>
-							</View>
-							<Button mode="outlined">Add Routine</Button>
+
+							<Button style={{margin: 20}} mode="outlined" onPress={addRoutine}>
+								Add Routine
+							</Button>
 						</View>
 					</Modal>
 				</Portal>
@@ -333,26 +331,13 @@ const SearchBar = ({navigation, back}) => {
 	};
 	const hideAddModal = () => setAddWorkoutShow(false);
 
-	// const ShowGif = (props) => {
-	// 	return (
-	// 		<Provider>
-	// 			<Portal>
-	// 				<Modal
-	// 					visible={gifShow}
-	// 					onDismiss={hideModal}
-	// 					contentContainerStyle={styles.gifModal}
-	// 				>
-	// 					<Image style={{width: 300, height: 300}} source={{uri: modalUri}} />
-	// 				</Modal>
-	// 			</Portal>
-	// 		</Provider>
-	// 	);
-	// };
-	// const showModal = (item) => {
-	// 	setGifShow(true);
-	// 	setModalUri(item.gifUrl);
-	// };
-	// const hideModal = () => setGifShow(false);
+	const addRoutine = async () => {
+		await axios
+			.post(`daily-routine/insert/${workoutToAdd.id}/3/10/45/${day}/${weekSchedule.id}`)
+			.then(() => {
+				navigation.navigate("Schedules", {weekSchedule: weekSchedule});
+			});
+	};
 
 	return (
 		<SafeAreaView style={{flex: 1}}>
@@ -376,41 +361,8 @@ const SearchBar = ({navigation, back}) => {
 			</View>
 			{/* <ShowGif /> */}
 			<AddWorkout />
-			<RightDrawerScreen workoutToAdd={workoutToAdd} />;
 		</SafeAreaView>
 	);
-};
-
-const Search = (props) => {
-	const navigation = useNavigation();
-
-	useEffect(() => {
-		navigation.setOptions({
-			headerLeft: () => {
-				return (
-					<IconButton
-						icon="arrow-left"
-						onPress={() => {
-							navigation.goBack();
-						}}
-					/>
-				);
-			},
-			headerRight: () => {
-				return (
-					<IconButton
-						icon="filter"
-						onPress={() => {
-							//todo::add window to filter equipment, targetMuscle, bodyPart
-							navigation.dispatch(DrawerActions.openDrawer());
-						}}
-					/>
-				);
-			},
-		});
-	}, [navigation]);
-
-	return <RightDrawerScreen />;
 };
 
 export default SearchBar;

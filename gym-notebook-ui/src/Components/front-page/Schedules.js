@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect, useContext, useReducer} from "react";
 import {
 	ScrollView,
 	Text,
@@ -29,6 +29,7 @@ import GlobalStyles from "../GlobalStyles";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import AuthContext from "../../Context/AuthProvider";
 import WorkoutCardEditable from "../Modules/WorkoutCardEditable";
+import {useIsFocused} from "@react-navigation/native";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -117,13 +118,21 @@ const daysOfWeek = [
 	},
 ];
 
-const Schedules = ({navigation, back}) => {
+const Schedules = ({navigation, back, route}) => {
 	const {auth, setAuth} = useContext(AuthContext);
+	const {weekSchedule} = route.params;
 	const [currentDay, setCurrentDay] = useState("Monday");
-	const [scheduleName, setScheduleName] = useState("Path to Mr. Olympia");
+	const [scheduleName, setScheduleName] = useState("");
 	const [dailyWorkoutData, setDailyWorkoutData] = useState([]);
 	const [gifShow, setGifShow] = useState(false);
 	const [modalUri, setModalUri] = useState("");
+	const isFocused = useIsFocused();
+
+	const [update, setUpdate] = useReducer((x) => x + 1, 0);
+	function forceUpdate() {
+		setUpdate();
+		console.log("updating");
+	}
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -158,23 +167,19 @@ const Schedules = ({navigation, back}) => {
 
 		const getDailyRoutine = async () => {
 			await axios
-				.get(
-					`daily-routine/get-daily-routines/${currentDay}/${auth.user.currentWeeklyScheduleID}`
-				)
+				.get(`daily-routine/get-daily-routines/${currentDay}/${weekSchedule.id}`)
 				.then((routineResponse) => {
 					setDailyWorkoutData(routineResponse.data);
 				});
 		};
 		const getScheduleTitle = async () => {
-			await axios
-				.get(`weekly-schedule/id/${auth.user.currentWeeklyScheduleID}`)
-				.then((titleResponse) => {
-					setScheduleName(titleResponse.data[0].title);
-				});
+			await axios.get(`weekly-schedule/id/${weekSchedule.id}`).then((titleResponse) => {
+				setScheduleName(titleResponse.data[0].title);
+			});
 		};
 		getScheduleTitle();
 		getDailyRoutine();
-	}, [currentDay]);
+	}, [currentDay, isFocused, update]);
 
 	const showModal = (item) => {
 		setGifShow(true);
@@ -200,7 +205,9 @@ const Schedules = ({navigation, back}) => {
 	};
 
 	const renderItem = ({item}) => {
-		return <WorkoutCardEditable showModal={showModal} workout={item} />;
+		return (
+			<WorkoutCardEditable forceUpdate={forceUpdate} showModal={showModal} workout={item} />
+		);
 	};
 
 	return (
@@ -258,7 +265,9 @@ const Schedules = ({navigation, back}) => {
 			</TouchableOpacity> */}
 			<TouchableOpacity
 				style={styles.buttonStyle}
-				onPress={() => navigation.navigate("Search")}
+				onPress={() =>
+					navigation.navigate("SearchBar", {weekSchedule: weekSchedule, day: currentDay})
+				}
 			>
 				<Text style={styles.buttonText}>Add</Text>
 			</TouchableOpacity>

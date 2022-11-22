@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 
 const dayAndroid = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-const MainSchedule = () => {
+const MainSchedule = ({update}) => {
 	const {auth, setAuth} = useContext(AuthContext);
 	const [currentDay, setCurrentDay] = useState("Monday");
 	const [scheduleName, setScheduleName] = useState("");
@@ -67,6 +67,7 @@ const MainSchedule = () => {
 	const [dailyWorkoutData, setDailyWorkoutData] = useState([]);
 	const day = new Date();
 	const navigation = useNavigation();
+
 	useEffect(() => {
 		if (!auth.user.currentWeeklyScheduleID) {
 			console.log("user has not weekly schedule");
@@ -109,7 +110,7 @@ const MainSchedule = () => {
 		};
 		getScheduleTitle();
 		getDailyRoutine();
-	}, [navigation, navigation.getState().index, auth]);
+	}, [navigation, update]);
 
 	const showModal = (item) => {
 		setGifShow(true);

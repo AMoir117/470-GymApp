@@ -1,5 +1,5 @@
-import {useState, useEffect} from "react";
-import {StyleSheet, View, Image} from "react-native";
+import {useState, useEffect, useCallback} from "react";
+import {StyleSheet, View, Image, Alert} from "react-native";
 import {
 	Avatar,
 	Button,
@@ -18,6 +18,7 @@ import GlobalStyles from "../GlobalStyles";
 import axios from "axios";
 import SelectDropdown from "react-native-select-dropdown";
 import {StorageAccessFramework} from "expo-file-system";
+import {useIsFocused} from "@react-navigation/native";
 
 const styles = StyleSheet.create({
 	cardContainer: {
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 	cardContent: {
-		alignSelf: "center",
+		flex: 1,
 	},
 	cardButton: {
 		justifyContent: "center",
@@ -56,11 +57,11 @@ const acceptedWeights = [
 ];
 
 const MyComponent = (props) => {
-	const {workout, showModal} = props;
+	const {workout, showModal, forceUpdate} = props;
 	const [workoutName, setWorkoutName] = useState({});
-	const [sets, setSets] = useState("");
-	const [reps, setReps] = useState("");
-	const [weight, setWeight] = useState("");
+	const [sets, setSets] = useState(workout.sets);
+	const [reps, setReps] = useState(workout.reps);
+	const [weight, setWeight] = useState(workout.weight);
 
 	useEffect(() => {
 		const getExerciseName = async () => {
@@ -73,13 +74,44 @@ const MyComponent = (props) => {
 		getExerciseName();
 	}, []);
 
+	useEffect(() => {
+		const updateSRW = async () => {
+			await axios.put(`daily-routine/update/${sets}/${reps}/${weight}/${workout.id}`);
+		};
+		updateSRW();
+	}, [sets, reps, weight]);
+
+	const deleteWorkout = async () => {
+		console.log("deleting");
+		await axios.delete(`daily-routine/delete/${workout.id}`).then(forceUpdate());
+	};
+
 	return (
 		<>
 			<Card style={styles.cardContainer}>
 				<Card.Content>
-					<Button mode="outlined" compact={true}>
+					<View style={{borderWidth: 1, flexDirection: "row"}}>
 						<Paragraph style={styles.cardContent}>{workoutName.workoutName}</Paragraph>
-					</Button>
+						<IconButton
+							icon="delete-forever-outline"
+							onPress={() => {
+								Alert.alert("", "Are you sure you want to delete forever?", [
+									{
+										text: "Accept",
+										onPress: () => {
+											deleteWorkout();
+										},
+									},
+									{
+										text: "Cancel",
+										onPress: () => console.log("canceled"),
+										style: "cancel",
+									},
+								]);
+							}}
+							iconColor={GlobalStyles.hexColor.red}
+						/>
+					</View>
 				</Card.Content>
 				<Card.Actions style={styles.cardButton}>
 					<IconButton
@@ -88,27 +120,6 @@ const MyComponent = (props) => {
 						iconColor={GlobalStyles.hexColor.green}
 						onPress={() => showModal(workoutName)}
 					/>
-					{/* <Button
-						mode="outlined"
-						style={styles.buttonStyles}
-						textColor={GlobalStyles.hexColor.green}
-					>
-						Sets: {workout.sets}
-					</Button>
-					<Button
-						mode="outlined"
-						textColor={GlobalStyles.hexColor.black}
-						style={styles.buttonStyles}
-					>
-						Reps: {workout.reps}
-					</Button>
-					<Button
-						mode="outlined"
-						style={styles.buttonStyles}
-						textColor={GlobalStyles.hexColor.black}
-					>
-						{workout.weight} Lbs
-					</Button> */}
 					<SelectDropdown
 						data={acceptedSets}
 						defaultButtonText={workout.sets}

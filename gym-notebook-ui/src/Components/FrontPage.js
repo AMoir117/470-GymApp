@@ -1,27 +1,12 @@
-import React, {useState, useEffect, createContext} from "react";
+import React, {useState, useEffect, createContext, useReducer} from "react";
 import {BottomNavigation} from "react-native-paper";
 import MainSchedule from "./front-page/MainSchedule";
 import FriendsList from "./front-page/FriendsList";
 import Lobby from "./front-page/Lobby";
 import SchedulesList from "./front-page/SchedulesList";
 
-const FriendsRoute = () => {
-	return <FriendsList />;
-};
-
-const LobbyRoute = () => {
-	return <Lobby />;
-};
-
-const MainRoute = () => {
-	return <MainSchedule />;
-};
-
-const SchedulesRoute = () => {
-	return <SchedulesList />;
-};
-
 const FrontPage = ({navigation}) => {
+	const [update, setUpdate] = useReducer((x) => x + 1, 0);
 	const [index, setIndex] = useState(0);
 	const [routes] = useState([
 		{key: "main", title: "Main", focusedIcon: "star", unfocusedIcon: "star-outline"},
@@ -35,6 +20,25 @@ const FrontPage = ({navigation}) => {
 		},
 	]);
 
+	const FriendsRoute = () => {
+		return <FriendsList />;
+	};
+
+	const LobbyRoute = () => {
+		return <Lobby />;
+	};
+
+	const MainRoute = () => {
+		return <MainSchedule update={update} />;
+	};
+
+	const SchedulesRoute = () => {
+		return <SchedulesList setUpdate={setUpdate} />;
+	};
+
+	function forceUpdate() {
+		setUpdate();
+	}
 	useEffect(() => {
 		navigation.setOptions({title: routes[index].title});
 	}, [index, navigation]);
@@ -48,7 +52,7 @@ const FrontPage = ({navigation}) => {
 
 	return (
 		<BottomNavigation
-			navigationState={{index, routes}}
+			navigationState={{index, routes, update, setUpdate}}
 			onIndexChange={setIndex}
 			renderScene={renderScene}
 		/>

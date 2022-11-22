@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
 import {
 	ScrollView,
-	Text,
 	StyleSheet,
 	View,
 	FlatList,
@@ -12,8 +11,8 @@ import {
 	Animated,
 	Alert,
 } from "react-native";
-import {DataTable, Avatar, Surface, Badge} from "react-native-paper";
-import {useNavigation} from "@react-navigation/native";
+import {DataTable, Avatar, Surface, Badge, Text} from "react-native-paper";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 import SwipingRow from "../Modules/SwipingRow";
 import {RectButton, Swipeable} from "react-native-gesture-handler";
 import GlobalStyles from "../GlobalStyles";
@@ -94,12 +93,13 @@ const styles = StyleSheet.create({
 });
 
 //fixme:: consider using modal, Alert.alert does not work on web or android
-const SchedulesList = () => {
+const SchedulesList = ({setUpdate}) => {
 	const {auth, setAuth} = useContext(AuthContext);
 	const navigation = useNavigation();
 	const [mySchedules, setMySchedules] = useState([]);
 	const refArray = [];
 	const [prevRow, setPrevRow] = useState(null);
+	const isFocused = useIsFocused();
 
 	useEffect(() => {
 		const getAllSchedules = async () => {
@@ -110,7 +110,7 @@ const SchedulesList = () => {
 				});
 		};
 		getAllSchedules();
-	}, []);
+	}, [isFocused]);
 
 	const closeRow = (item) => {
 		if (prevRow === null) {
@@ -130,6 +130,7 @@ const SchedulesList = () => {
 				currentWeeklyScheduleID: item.id,
 			};
 			setAuth(newAuth);
+			setUpdate();
 		});
 	};
 
@@ -151,6 +152,7 @@ const SchedulesList = () => {
 		} else {
 			await axios.delete(`weekly-schedule/delete/${item.id}`).then(async () => {
 				refArray[item.id].close();
+				setPrevRow(null);
 				await axios
 					.get(`weekly-schedule/get-all-schedules/${auth.user.id}`)
 					.then((scheduleResponses) => {
@@ -184,7 +186,8 @@ const SchedulesList = () => {
 
 				case "Edit":
 					progress = 0;
-					navigation.navigate("Schedules");
+					refArray[item.id].close();
+					navigation.navigate("Schedules", {weekSchedule: item});
 					break;
 
 				case "Delete":
@@ -224,6 +227,10 @@ const SchedulesList = () => {
 	};
 
 	const renderSchedules = ({item, index}) => {
+		let textVariant = item.title;
+		if (auth.user.currentWeeklyScheduleID === item.id) {
+			textVariant = textVariant + "*";
+		}
 		const test = new Date(item.created);
 		const myDate = test.toLocaleDateString("en-us", GlobalStyles.date);
 		return (
@@ -238,7 +245,7 @@ const SchedulesList = () => {
 			>
 				<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
 					<View style={{flex: 1}}>
-						<Text style={styles.postTitleStyle}>{item.title}</Text>
+						<Text style={styles.postTitleStyle}>{textVariant}</Text>
 						<Text style={styles.postCreatedOn}>{`Created: ${myDate}`}</Text>
 					</View>
 					<Badge style={styles.upVoteBadge}>{item.upvotes}</Badge>
