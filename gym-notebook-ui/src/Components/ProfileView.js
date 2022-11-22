@@ -10,6 +10,7 @@ import {
 	SafeAreaView,
 	ImageBackground,
 	TouchableOpacity,
+	Animated,
 } from "react-native";
 import {
 	Divider,
@@ -26,7 +27,6 @@ import {
 } from "react-native-paper";
 import axios from "axios";
 
-import ProfileSwipingRow from "./Modules/ProfileSwipingRow";
 import GmailStyleSwipeableRow from "./Modules/AndroidSwipe";
 
 import GlobalStyles from "./GlobalStyles";
@@ -34,6 +34,7 @@ import * as FS from "expo-file-system";
 import SvgImage2 from "./SvgImage2";
 
 import AuthContext from "../Context/AuthProvider";
+import {RectButton, Swipeable} from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -68,10 +69,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "row",
 		backgroundColor: GlobalStyles.hexColor.brown,
-		padding: 10,
-		borderRadius: 25,
-		margin: 5,
-		borderColor: "#000000",
 	},
 	textUploadImage: {
 		fontSize: 15,
@@ -124,6 +121,26 @@ const styles = StyleSheet.create({
 		margin: 20,
 		backgroundColor: GlobalStyles.hexColor.black,
 	},
+	flatListContainer: {
+		flex: 1,
+		marginTop: 20,
+	},
+	leftAction: {
+		width: 120,
+		backgroundColor: "#497AFC",
+		justifyContent: "center",
+	},
+	actionText: {
+		color: "white",
+		fontSize: 16,
+		backgroundColor: "transparent",
+		padding: 10,
+	},
+	rightAction: {
+		alignItems: "center",
+		flex: 1,
+		justifyContent: "center",
+	},
 });
 
 const ProfileView = ({route, navigation}) => {
@@ -132,10 +149,11 @@ const ProfileView = ({route, navigation}) => {
 	const [userSchedules, setUserSchedules] = useState([]);
 	const [routinesToAdd, setRoutinesToAdd] = useState([]);
 	const [scheduleToAdd, setScheduleToAdd] = useState();
+	const refArray = [];
+	const [prevRow, setPrevRow] = useState(null);
 
 	useEffect(() => {
 		const getPublicSchedules = async () => {
-			console.log(userProfile);
 			// dont display schedules if profile is your own
 			if (auth.user.id === userProfile.id) {
 				return;
@@ -143,30 +161,36 @@ const ProfileView = ({route, navigation}) => {
 			await axios
 				.get(`weekly-schedule/profile-view/${userProfile.id}/public`)
 				.then((scheduleResponses) => {
-					console.log(scheduleResponses.data);
 					setUserSchedules(scheduleResponses.data);
 				});
 		};
 		getPublicSchedules();
 	}, []);
 
-	const clickAddSchedule = async (weeklyScheduleData) => {
-		console.log(`in clickAddSchedule.`);
-		// console.log(weeklyScheduleData);
+	const closeRow = (item) => {
+		if (prevRow === null) {
+			setPrevRow(item.id);
+		} else if (prevRow !== item.id) {
+			refArray[prevRow].close();
+		}
+		setPrevRow(item.id);
+	};
+
+	const clickAddSchedule = async (item) => {
+		console.log(item);
 		let routineData = [];
 		let weeklyScheduleID = "";
+		refArray[item.id].close();
 
 		// first get all the daily schedules of the weekly schedule
-		await axios
-			.get(`daily-routine/by-weekly-schedule/${weeklyScheduleData.id}`)
-			.then((routineResponse) => {
-				// console.log(routineResponse.data);
-				setRoutinesToAdd(routineResponse.data);
-				routineData = routineResponse.data;
-			});
+		await axios.get(`daily-routine/by-weekly-schedule/${item.id}`).then((routineResponse) => {
+			// console.log(routineResponse.data);
+			setRoutinesToAdd(routineResponse.data);
+			routineData = routineResponse.data;
+		});
 		// insert new weekly schedule
 		await axios
-			.post(`weekly-schedule/insert/private/${weeklyScheduleData.title}/0/${auth.user.id}`)
+			.post(`weekly-schedule/insert/private/${item.title}/0/${auth.user.id}`)
 			.then((response) => {
 				console.log("Schedule Added.");
 				setScheduleToAdd({id: response.data.insertId});
@@ -186,12 +210,27 @@ const ProfileView = ({route, navigation}) => {
 		});
 	};
 
-	const renderSchedules = ({item}) => {
+	const renderRightAction = (progress, item) => {
+		return (
+			<RectButton style={styles.leftAction} onPress={() => clickAddSchedule(item)}>
+				<Animated.Text style={[styles.actionText]}>Add Schedule</Animated.Text>
+			</RectButton>
+		);
+	};
+
+	const renderSchedules = ({item, index}) => {
 		const test = new Date(item.created);
 		const myDate = test.toLocaleDateString("en-us", GlobalStyles.date);
 
 		return (
-			<ProfileSwipingRow clickAddSchedule={clickAddSchedule} data={item}>
+			<Swipeable
+				ref={(ref) => (refArray[item.id] = ref)}
+				friction={2}
+				leftThreshold={40}
+				rightThreshold={40}
+				renderRightActions={(progress) => renderRightAction(progress, item)}
+				onSwipeableOpen={() => closeRow(item)}
+			>
 				<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
 					<View style={{flex: 1}}>
 						<Text style={styles.postTitleStyle}>{item.title}</Text>
@@ -202,7 +241,7 @@ const ProfileView = ({route, navigation}) => {
 						</Text>
 					</View>
 				</Surface>
-			</ProfileSwipingRow>
+			</Swipeable>
 		);
 	};
 
