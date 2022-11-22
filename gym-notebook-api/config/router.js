@@ -98,6 +98,18 @@ WeeklyScheduleRouter.get("/id/:weeklyScheduleID", WeeklyScheduleController.getTi
 	console.log(`getTitleById ran into an error: ${err}`)
 );
 
+WeeklyScheduleRouter.get(
+	"/profile-view/:userID/:accessStatus",
+	WeeklyScheduleController.getPublicSchedulesById,
+	(err) => console.log(`getPublicSchedulesById ran into an error: ${err}`)
+);
+
+WeeklyScheduleRouter.delete(
+	"/delete/:weeklyScheduleID",
+	WeeklyScheduleController.deleteWeeklySchedule,
+	(err) => console.log(`delete WeeklySchedule ran into an error: ${err}`)
+);
+
 WeeklyScheduleRouter.post(
 	"/insert/:accessStatus/:title/:upvotes/:userID",
 	WeeklyScheduleController.insertNewWeeklySchedule,
