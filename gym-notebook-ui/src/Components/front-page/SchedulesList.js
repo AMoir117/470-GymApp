@@ -122,16 +122,18 @@ const SchedulesList = ({setUpdate}) => {
 	};
 
 	const setCurrentSchedule = async (item) => {
-		await axios.put(`users/use-weekly-schedule/${item.id}/${item.userID}`).then(() => {
-			refArray[item.id].close();
-			const newAuth = auth;
-			newAuth.user = {
-				...newAuth.user,
-				currentWeeklyScheduleID: item.id,
-			};
-			setAuth(newAuth);
-			setUpdate();
-		});
+		console.log(auth);
+		refArray[item.id].close();
+		await axios.put(`users/use-weekly-schedule/${item.id}/${item.userID}`);
+
+		const newAuth = auth;
+		newAuth.user = {
+			...newAuth.user,
+			lastName: "this is a test",
+			currentWeeklyScheduleID: item.id,
+		};
+		setAuth(newAuth);
+		setUpdate();
 	};
 
 	const deleteCurrentSchedule = async (item) => {

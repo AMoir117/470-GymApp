@@ -60,7 +60,7 @@ const dayAndroid = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Fri
 const MainSchedule = ({update}) => {
 	const {auth, setAuth} = useContext(AuthContext);
 	const [currentDay, setCurrentDay] = useState("Monday");
-	const [scheduleName, setScheduleName] = useState("");
+	const [scheduleName, setScheduleName] = useState("Path to Mr. Olympia.");
 	//const [workouts, setWorkouts] = useState(data);
 	const [gifShow, setGifShow] = useState(false);
 	const [modalUri, setModalUri] = useState("");
@@ -70,7 +70,7 @@ const MainSchedule = ({update}) => {
 
 	useEffect(() => {
 		if (!auth.user.currentWeeklyScheduleID) {
-			console.log("user has not weekly schedule");
+			console.log("user has no weekly schedule");
 			//todo::create new weekly schedule
 			return;
 		}
