@@ -14,6 +14,7 @@ import axios from "axios";
 import AuthContext from "../Context/AuthProvider";
 import SvgImage from "./SvgImage";
 import GlobalStyles from "./GlobalStyles";
+import API from "../API_interface/API_interface";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -63,10 +64,12 @@ const styles = StyleSheet.create({
 	},
 });
 const Login = ({navigation}) => {
-	const {setAuth} = useContext(AuthContext);
+	const {auth, setAuth} = useContext(AuthContext);
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [visible, setVisible] = useState(false);
+	const [verifyUser, setVerifyUser] = useState(false);
+	const [authFailed, setAuthFailed] = useState(false);
 
 	useEffect(() => {
 		if (!verifyUser || username.length === 0) return;
