@@ -71,7 +71,7 @@ usersRouter.post("/insert-user", UsersController.insertNewUser, (err) =>
 );
 
 usersRouter.put(
-	"/use-weekly-schedule/:weeklyScheduleID/:userID",
+	"/use-weekly-schedule/:currentWeeklyScheduleID/:userID",
 	UsersController.useWeeklySchedule,
 	(err) => console.log(`increment-upvotes ran into an error: ${err}`)
 );
