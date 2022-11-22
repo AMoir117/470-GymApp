@@ -9,26 +9,11 @@ const getPublicSchedules = async (ctx) => {
 	console.log("getPublicSchedules called.");
 	return new Promise((resolve, reject) => {
 		const query = `
-        SELECT 
-            W.id, 
-            W.title, 
-            W.upvotes, 
-            U.username, 
-            U.imagePath,
-			U.firstName,
-			U.lastName,
-			U.profileBio
-        FROM 
-            WeeklySchedule W LEFT JOIN Users U 
-        ON 
-            W.userID = U.id 
-        WHERE 
-            accessStatus = 'public' 
-        ORDER BY 
-            upvotes DESC;
-
-	
-
+                      SELECT *
+                      FROM
+                          WeeklySchedule
+                      WHERE accessStatus = 'public'
+                      ORDER BY upvotes DESC;
                       `;
 		dbConnection.query(
 			{
@@ -85,6 +70,42 @@ const getAllSchedules = async (ctx) => {
 		);
 	}).catch((err) => {
 		console.log("Database connection error in getAllSchedules.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
+};
+
+const getPublicSchedulesById = async (ctx) => {
+	console.log("getPublicSchedulesById called.");
+	return new Promise((resolve, reject) => {
+		const query = `
+                      SELECT *
+                      FROM
+                          WeeklySchedule
+                      WHERE userID = ? AND accessStatus = ?;
+                      `;
+		dbConnection.query(
+			{
+				sql: query,
+				values: [ctx.params.userID, ctx.params.accessStatus],
+			},
+			(error, tuples) => {
+				if (error) {
+					console.log(
+						"Connection error in WeeklyScheduleController::getPublicSchedulesById",
+						error
+					);
+					return reject(error);
+				}
+				ctx.body = tuples;
+				ctx.status = 200;
+				return resolve();
+			}
+		);
+	}).catch((err) => {
+		console.log("Database connection error in getPublicSchedulesById.", err);
 		// The UI side will have to look for the value of status and
 		// if it is not 200, act appropriately.
 		ctx.body = [];
@@ -162,6 +183,41 @@ const editWeeklyScheduleTitle = async (ctx) => {
 	});
 };
 
+const editWeeklyScheduleStatus = async (ctx) => {
+	console.log("editWeeklyScheduleStatus called.");
+	return new Promise((resolve, reject) => {
+		const query = `
+                      UPDATE WeeklySchedule
+                      SET accessStatus = ?
+                      WHERE id = ?;
+                      `;
+		dbConnection.query(
+			{
+				sql: query,
+				values: [ctx.params.accessStatus, ctx.params.weeklyScheduleID],
+			},
+			(error, tuples) => {
+				if (error) {
+					console.log(
+						"Connection error in WeeklyScheduleController::editWeeklyScheduleStatus",
+						error
+					);
+					return reject(error);
+				}
+				ctx.body = tuples;
+				ctx.status = 200;
+				return resolve();
+			}
+		);
+	}).catch((err) => {
+		console.log("Database connection error in editWeeklyScheduleStatus.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
+};
+
 const deleteWeeklySchedule = async (ctx) => {
 	console.log("deleteWeeklySchedule called.");
 	return new Promise((resolve, reject) => {
@@ -197,10 +253,10 @@ const deleteWeeklySchedule = async (ctx) => {
 };
 
 const getTitleById = async (ctx) => {
-	console.log("getTitleById called.");
+	console.log("getScheduleById called.");
 	return new Promise((resolve, reject) => {
 		const query = `
-                      SELECT title FROM WeeklySchedule WHERE id = ?;
+                      SELECT * FROM WeeklySchedule WHERE id = ?;
                       `;
 		dbConnection.query(
 			{
@@ -210,7 +266,7 @@ const getTitleById = async (ctx) => {
 			(error, tuples) => {
 				if (error) {
 					console.log(
-						"Connection error in WeeklyScheduleController::getTitleById",
+						"Connection error in WeeklyScheduleController::getScheduleById",
 						error
 					);
 					return reject(error);
@@ -221,42 +277,7 @@ const getTitleById = async (ctx) => {
 			}
 		);
 	}).catch((err) => {
-		console.log("Database connection error in getTitleById.", err);
-		// The UI side will have to look for the value of status and
-		// if it is not 200, act appropriately.
-		ctx.body = [];
-		ctx.status = 500;
-	});
-};
-
-const editWeeklyScheduleStatus = async (ctx) => {
-	console.log("editWeeklyScheduleStatus called.");
-	return new Promise((resolve, reject) => {
-		const query = `
-                      UPDATE WeeklySchedule
-                      SET accessStatus = ?
-                      WHERE id = ?;
-                      `;
-		dbConnection.query(
-			{
-				sql: query,
-				values: [ctx.params.accessStatus, ctx.params.weeklyScheduleID],
-			},
-			(error, tuples) => {
-				if (error) {
-					console.log(
-						"Connection error in WeeklyScheduleController::editWeeklyScheduleStatus",
-						error
-					);
-					return reject(error);
-				}
-				ctx.body = tuples;
-				ctx.status = 200;
-				return resolve();
-			}
-		);
-	}).catch((err) => {
-		console.log("Database connection error in editWeeklyScheduleStatus.", err);
+		console.log("Database connection error in getScheduleById.", err);
 		// The UI side will have to look for the value of status and
 		// if it is not 200, act appropriately.
 		ctx.body = [];
@@ -313,4 +334,5 @@ module.exports = {
 	getTitleById,
 	insertNewWeeklySchedule,
 	editWeeklyScheduleStatus,
+	getPublicSchedulesById,
 };
