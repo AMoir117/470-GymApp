@@ -153,28 +153,21 @@ const Signup = ({navigation, back}) => {
 						profileBio: bio,
 					})
 					.then(async () => {
-						const userInfo = {
-							username: username,
-							userPassword: password,
-							firstName: firstName,
-							lastName: lastName,
-							DoB: date.toISOString().split("T")[0],
-							imagePath: imageUrl,
-							email: email,
-							profileBio: bio,
-						};
-						setAuth({user: userInfo});
-						console.log("profile saved");
-
 						await axios
 							.get(`users/username/${username}`)
 							.then(async (response) => {
-								const newUserInfo = auth;
-								newUserInfo.user = {
-									...userInfo.user,
+								const userInfo = {
 									id: response.data[0].id,
+									username: username,
+									userPassword: password,
+									firstName: firstName,
+									lastName: lastName,
+									DoB: date.toISOString().split("T")[0],
+									imagePath: imageUrl,
+									email: email,
+									profileBio: bio,
 								};
-								setAuth(newUserInfo);
+								setAuth({user: userInfo});
 								await axios.post(
 									`weekly-schedule/insert/private/${"My First Workout"}/0/${
 										response.data[0].id
