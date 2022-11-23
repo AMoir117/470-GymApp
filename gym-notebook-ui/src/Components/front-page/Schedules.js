@@ -140,15 +140,7 @@ const Schedules = ({navigation, back, route}) => {
 				<IconButton
 					icon="arrow-left"
 					onPress={() => {
-						//todo::make sure user is sure about going back
-						Alert.alert("", "Any unsaved progress will be discarded, continue?", [
-							{text: "Accept", onPress: () => navigation.goBack()},
-							{
-								text: "Cancel",
-								onPress: () => console.log("canceled"),
-								style: "cancel",
-							},
-						]);
+						navigation.goBack();
 					}}
 					title="Back"
 				/>
@@ -158,7 +150,7 @@ const Schedules = ({navigation, back, route}) => {
 
 	useEffect(() => {
 		if (!auth.user.currentWeeklyScheduleID) {
-			console.log("user has not weekly schedule");
+			console.log("user has no weekly schedule");
 			//todo::create new weekly schedule
 			return;
 		}

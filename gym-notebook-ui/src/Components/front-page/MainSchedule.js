@@ -59,8 +59,8 @@ const dayAndroid = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Fri
 
 const MainSchedule = ({update}) => {
 	const {auth, setAuth} = useContext(AuthContext);
-	const [currentDay, setCurrentDay] = useState("Monday");
-	const [scheduleName, setScheduleName] = useState("Path to Mr. Olympia.");
+	const [currentDay, setCurrentDay] = useState("Current Day");
+	const [scheduleName, setScheduleName] = useState("Start Creating Your New Schedule!");
 	//const [workouts, setWorkouts] = useState(data);
 	const [gifShow, setGifShow] = useState(false);
 	const [modalUri, setModalUri] = useState("");

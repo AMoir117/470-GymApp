@@ -23,6 +23,7 @@ import GlobalStyles from "./GlobalStyles";
 import {getStorage, ref, getDownloadURL, uploadBytes} from "firebase/storage";
 import {initializeApp} from "firebase/app";
 import firebaseConfig from "../../firebaseConfig";
+import {set} from "react-native-reanimated";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -37,9 +38,10 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 	},
 	textInputStyle: {
-		height: 40,
+		height: 60,
 		width: 300,
 		paddingLeft: 10,
+		margin: 10,
 		alignSelf: "center",
 		borderColor: "#000000",
 		backgroundColor: "#ffffff",
@@ -51,7 +53,6 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 		borderColor: "#000000",
 		backgroundColor: "#FFFFFF",
-		textAlignVertical: "top",
 	},
 	textUploadImage: {
 		fontSize: 15,
@@ -101,22 +102,36 @@ const Signup = ({navigation, back}) => {
 	const [date, setDate] = useState(new Date(2001, 1, 1));
 	const [imagePath, setImagePath] = useState(undefined);
 
-	const {setAuth} = useContext(AuthContext);
+	const {auth, setAuth} = useContext(AuthContext);
 
 	const app = initializeApp(firebaseConfig);
 	const storage = getStorage(app);
 
+	const [usernameError, setUsernameError] = useState(false);
+	const [passwordError, setPasswordError] = useState(false);
+
 	useEffect(() => {}, []);
 
 	const saveProfile = async () => {
+		await axios.get(`users/username/${username}`).then((response) => {
+			if (response.data.length > 0) {
+				console.log("username is not available");
+				setUsernameError(true);
+			} else {
+				setUsernameError(false);
+			}
+			return;
+		});
 		if (password !== checkPassword) {
 			console.log("Password is different");
+			setPasswordError(true);
 			return;
 		} else if (username === "" || email === "") {
 			console.log("Username or email is empty!");
 			return;
 		}
 
+		//fixme::default image for users that don't supply profile image
 		const response = await fetch(imagePath);
 		const blob = await response.blob();
 
@@ -126,7 +141,6 @@ const Signup = ({navigation, back}) => {
 			console.log("uploaded blob");
 
 			getDownloadURL(pathRef).then(async (imageUrl) => {
-				console.log(`imageUrl: ${imageUrl}`);
 				await axios
 					.post(`users/insert-user`, {
 						username: username,
@@ -151,11 +165,28 @@ const Signup = ({navigation, back}) => {
 						};
 						setAuth({user: userInfo});
 						console.log("profile saved");
+
+						await axios
+							.get(`users/username/${username}`)
+							.then(async (response) => {
+								const newUserInfo = auth;
+								newUserInfo.user = {
+									...userInfo.user,
+									id: response.data[0].id,
+								};
+								setAuth(newUserInfo);
+								await axios.post(
+									`weekly-schedule/insert/private/${"My First Workout"}/0/${
+										response.data[0].id
+									}`
+								);
+							})
+							.then(() => {
+								navigation.navigate("Front Page");
+							});
 					});
 			});
 		});
-
-		navigation.navigate("Front Page");
 	};
 
 	return (
@@ -179,6 +210,7 @@ const Signup = ({navigation, back}) => {
 					<ImagePick image={imagePath} setImage={setImagePath} />
 					<TextInput
 						style={styles.textInputStyle}
+						error={usernameError}
 						label={"Username"}
 						value={username}
 						textContentType={"username"}
@@ -212,17 +244,9 @@ const Signup = ({navigation, back}) => {
 						editable={false}
 					/>
 					<InsertDate show={show} setShow={setShow} date={date} setDate={setDate} />
-					{/* <WheelPickerExpo
-					height={300}
-					width={150}
-					initialSelectedIndex={3}
-					items={CITIES.map((name) => ({label: name, value: ""}))}
-					onChange={() => {}}
-				/> */}
+
 					<TextInput
 						style={styles.bioInputStyle}
-						error={true}
-						mode="outlined"
 						label={"Bio"}
 						value={bio}
 						multiline={true}
@@ -230,16 +254,16 @@ const Signup = ({navigation, back}) => {
 					/>
 					<TextInput
 						style={styles.textInputStyle}
-						mode="outlined"
+						error={passwordError}
 						secureTextEntry={true}
 						label={"Password"}
 						value={password}
 						textContentType={"password"}
 						onChangeText={setPassword}
 					/>
-					{/*fixme::check if second password is the same as first password*/}
 					<TextInput
 						style={styles.textInputStyle}
+						error={passwordError}
 						secureTextEntry={true}
 						label={"Re-input Password"}
 						value={checkPassword}

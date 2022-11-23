@@ -10,6 +10,7 @@ import {
 	ImageBackground,
 	Animated,
 	Alert,
+	TouchableOpacity,
 } from "react-native";
 import {DataTable, Avatar, Surface, Badge, Text} from "react-native-paper";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
@@ -89,6 +90,17 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		flex: 1,
 		justifyContent: "center",
+	},
+	buttonStyle: {
+		height: 30,
+		width: 70,
+		margin: 2,
+		marginTop: 10,
+		alignSelf: "center",
+		alignItems: "center",
+		textAlign: "center",
+		textAlignVertical: "center",
+		backgroundColor: GlobalStyles.hexColor.brown,
 	},
 });
 
@@ -216,6 +228,14 @@ const SchedulesList = ({setUpdate}) => {
 		);
 	};
 
+	const addNewSchedule = async () => {
+		await axios
+			.post(`weekly-schedule/insert/private/${"My New Workout"}/0/${auth.user.id}`)
+			.then(() => {
+				setUpdate();
+			});
+	};
+
 	const renderRightActions = (progress, item) => {
 		return (
 			<View style={{width: 230, flexDirection: "row"}}>
@@ -273,6 +293,9 @@ const SchedulesList = ({setUpdate}) => {
 				renderItem={renderSchedules}
 				keyExtractor={(item) => item.id}
 			/>
+			<TouchableOpacity style={styles.buttonStyle} onPress={addNewSchedule}>
+				<Text style={styles.buttonText}>Add</Text>
+			</TouchableOpacity>
 		</SafeAreaView>
 	);
 };
