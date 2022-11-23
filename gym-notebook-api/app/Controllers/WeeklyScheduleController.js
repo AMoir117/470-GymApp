@@ -302,8 +302,8 @@ const insertNewWeeklySchedule = async (ctx) => {
 	return new Promise((resolve, reject) => {
 		const query = `
                       INSERT INTO WeeklySchedule
-                      (accessStatus, title, upvotes, userID)
-                      VALUES (?, ?, ?, ?)
+                      (accessStatus, title, created, upvotes, userID)
+                      VALUES (?, ?, curdate(), ?, ?)
                       `;
 		dbConnection.query(
 			{
