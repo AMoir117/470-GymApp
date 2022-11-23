@@ -9,11 +9,23 @@ const getPublicSchedules = async (ctx) => {
 	console.log("getPublicSchedules called.");
 	return new Promise((resolve, reject) => {
 		const query = `
-                      SELECT *
-                      FROM
-                          WeeklySchedule
-                      WHERE accessStatus = 'public'
-                      ORDER BY upvotes DESC;
+        SELECT 
+            W.id, 
+            W.title, 
+            W.upvotes, 
+            U.username, 
+            U.imagePath,
+			U.firstName,
+			U.lastName,
+			U.profileBio
+        FROM 
+            WeeklySchedule W LEFT JOIN Users U 
+        ON 
+            W.userID = U.id 
+        WHERE 
+            accessStatus = 'public' 
+        ORDER BY 
+            upvotes DESC;
                       `;
 		dbConnection.query(
 			{
