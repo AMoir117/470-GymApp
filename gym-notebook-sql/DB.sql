@@ -6,7 +6,6 @@ DROP TABLE IF EXISTS WeeklySchedule;
 DROP TABLE IF EXISTS Exercise;
 DROP TABLE IF EXISTS Users;
 
-
 CREATE TABLE Users
 (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,7 +56,6 @@ CREATE TABLE DailyRoutine
   FOREIGN KEY (weeklyScheduleID) REFERENCES WeeklySchedule(id)
           ON UPDATE CASCADE ON DELETE CASCADE
 );
-
 
 CREATE TABLE Follower
 (

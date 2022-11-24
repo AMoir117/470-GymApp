@@ -169,9 +169,9 @@ const Signup = ({navigation, back}) => {
 								};
 								setAuth({user: userInfo});
 								await axios.post(
-									`weekly-schedule/insert/private/${"My First Workout"}/0/${
-										response.data[0].id
-									}`
+									`weekly-schedule/insert/private/${
+										firstName + "'s First Workout"
+									}/0/${response.data[0].id}`
 								);
 							})
 							.then(() => {

@@ -17,7 +17,8 @@ const getPublicSchedules = async (ctx) => {
             U.imagePath,
 			U.firstName,
 			U.lastName,
-			U.profileBio
+			U.profileBio,
+			U.id as userId
         FROM 
             WeeklySchedule W LEFT JOIN Users U 
         ON 

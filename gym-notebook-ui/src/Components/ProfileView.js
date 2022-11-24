@@ -156,11 +156,11 @@ const ProfileView = ({route, navigation}) => {
 	useEffect(() => {
 		const getPublicSchedules = async () => {
 			// dont display schedules if profile is your own
-			if (auth.user.id === userProfile.id) {
+			if (auth.user.id === userProfile.userId) {
 				return;
 			}
 			await axios
-				.get(`weekly-schedule/profile-view/${userProfile.id}/public`)
+				.get(`weekly-schedule/profile-view/${userProfile.userId}/public`)
 				.then((scheduleResponses) => {
 					setUserSchedules(scheduleResponses.data);
 				});
@@ -178,14 +178,12 @@ const ProfileView = ({route, navigation}) => {
 	};
 
 	const clickAddSchedule = async (item) => {
-		console.log(item);
 		let routineData = [];
 		let weeklyScheduleID = "";
 		refArray[item.id].close();
 
 		// first get all the daily schedules of the weekly schedule
 		await axios.get(`daily-routine/by-weekly-schedule/${item.id}`).then((routineResponse) => {
-			// console.log(routineResponse.data);
 			setRoutinesToAdd(routineResponse.data);
 			routineData = routineResponse.data;
 		});
