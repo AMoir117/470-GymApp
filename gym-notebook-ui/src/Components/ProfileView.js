@@ -275,7 +275,7 @@ const ProfileView = ({route, navigation}) => {
 				</Card.Content>
 				<Card.Content style={{padding: 10}}>
 					
-					<Title style={{alignSelf: 'center', fontSize: 24, color: "#000000", fontWeight: 500}}>Schedules</Title>
+					<Title style={{alignSelf: 'center', fontSize: 24, color: "#000000"}}>Schedules</Title>
 					<Divider style={{borderWidth: 1}} />
 				</Card.Content>
 			</Card>
