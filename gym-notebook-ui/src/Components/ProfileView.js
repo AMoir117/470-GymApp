@@ -273,10 +273,12 @@ const ProfileView = ({route, navigation}) => {
 					<Divider style={{borderWidth: 1}} />
 					<Paragraph>{userProfile.profileBio}</Paragraph>
 				</Card.Content>
+				<Card.Content style={{padding: 10}}>
+					
+					<Title style={{alignSelf: 'center', fontSize: 24, color: "#000000", fontWeight: 500}}>Schedules</Title>
+					<Divider style={{borderWidth: 1}} />
+				</Card.Content>
 			</Card>
-
-			<Text style={styles.profileScheduleHeader}>Schedules</Text>
-			<Divider style={{borderWidth: 1}} />
 
 			<FlatList
 				style={styles.flatListContainer}

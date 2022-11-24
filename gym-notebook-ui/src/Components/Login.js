@@ -103,15 +103,22 @@ const Login = ({navigation}) => {
 	};
 	const login = async () => {
 		//fixme::try catch for wrong inputs
+		console.log("login on press called.");
 		await axios
 			.get(`users/username/${username}`)
 			.then((response) => {
 				const userInfo = response.data[0];
+				console.log(userInfo);
+				console.log(password);
+
 				if (userInfo === undefined) {
 					setVisible(true);
 				} else if (password === userInfo.userPassword) {
+					console.log("trying to setAuth.");		
 					setAuth({user: userInfo});
+					console.log("successfully setAuth.");
 					navigation.navigate("Front Page");
+					
 				}
 			})
 			.catch(function (error) {

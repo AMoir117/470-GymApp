@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
 	menuDialog: {
 		backgroundColor: "#00000000",
 		borderRadius: 5,
+		
 	},
 	menuItemTop: {
 		color: GlobalStyles.hexColor.brown,

@@ -15,7 +15,9 @@ const AxiosConfigured = () => {
 	// desktop
 	// axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
 	// phone
-	axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
+	// axios.defaults.baseURL = `http://192.168.10.102:8443/api/v1`;
+	axios.defaults.baseURL = `http://192.168.10.140:8443/api/v1`;
+
 
 	// Allow the browser to send cookies to the API domain (which include auth_token)
 	axios.defaults.withCredentials = true;
