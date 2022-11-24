@@ -125,7 +125,7 @@ const insertNewUser = (ctx) => {
 			DoB: valuesFromRequest["DoB"],
 			imagePath: valuesFromRequest["imagePath"],
 			email: valuesFromRequest["email"],
-			profileBio: valuesFromRequest["profileBio"],
+			profileBio: valuesFromRequest["profileBio"]
 		},
 	};
 
@@ -239,6 +239,38 @@ const useWeeklySchedule = async (ctx) => {
 	});
 };
 
+const changePicture = async (ctx) => {
+	console.log("changePicture called.");
+	return new Promise((resolve, reject) => {
+		const query = `
+                      UPDATE Users
+                      SET imagePath = ?
+                      WHERE id = ?;
+                      `;
+		dbConnection.query(
+			{
+				sql: query,
+				values: [ctx.params.imagePath, ctx.params.id],
+			},
+			(error, tuples) => {
+				if (error) {
+					console.log("Connection error in userController::changePicture", error);
+					return reject(error);
+				}
+				ctx.body = tuples;
+				ctx.status = 200;
+				return resolve();
+			}
+		);
+	}).catch((err) => {
+		console.log("Database connection error in changePicture.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
+};
+
 module.exports = {
 	allUsers,
 	userByName,
@@ -246,4 +278,5 @@ module.exports = {
 	insertNewUser,
 	getUsersFollowers,
 	useWeeklySchedule,
+	changePicture
 };

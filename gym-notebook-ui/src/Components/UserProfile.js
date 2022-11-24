@@ -7,12 +7,16 @@ import {
 	FlatList,
 	TextInput,
 	Pressable,
-	SafeAreaView,
+	SafeAreaView, ImageBackground,
 } from "react-native";
-import {Divider, Appbar, Button, Avatar, Portal, Card, Title, Paragraph} from "react-native-paper";
-import axios from "axios";
+import {Divider, Appbar, Button, Avatar, Portal, Card, Title, Paragraph, IconButton} from "react-native-paper";
 import AuthContext from "../Context/AuthProvider";
 import GlobalStyles from "./GlobalStyles";
+import {getDownloadURL, ref, uploadBytes, getStorage} from "firebase/storage";
+
+import {initializeApp} from "firebase/app";
+import firebaseConfig from "../../firebaseConfig";
+import ImagePick from "./Modules/ImagePicker";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -71,12 +75,30 @@ const styles = StyleSheet.create({
 	},
 });
 const UserProfile = (props) => {
-	const {auth} = useContext(AuthContext);
-	const uri = auth.user.imagePath;
+	const [image, setImage] = useState(undefined);
 
-	useEffect(() => {
-		console.log(auth.user.imagePath);
-	}, []);
+	const {auth} = useContext(AuthContext);
+
+	const app = initializeApp(firebaseConfig);
+	const storage = getStorage(app);
+
+	const [imgPath, setImgPath] = useState(auth.user.imagePath);
+
+	const changeProfilePicture = async () => {
+		const response = await fetch(image);
+		const blob = await response.blob();
+
+		const pathRef = ref(storage, auth.user.username);
+
+		uploadBytes(pathRef, blob).then((snapshot) => {
+			console.log("uploaded blob");
+
+			getDownloadURL(pathRef).then(async (imageUrl) => {
+				console.log(`imageUrl: ${imageUrl}`);
+				setImgPath(imageUrl);
+			});
+		});
+	};
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
@@ -84,9 +106,10 @@ const UserProfile = (props) => {
 				<Card.Cover
 					style={{top: 0}}
 					source={{
-						uri: auth.user.imagePath,
+						uri: imgPath,
 					}}
 				/>
+
 				<Card.Title
 					title={auth.user.firstName + " " + auth.user.lastName + "."}
 					subtitle={auth.user.username}
@@ -97,6 +120,15 @@ const UserProfile = (props) => {
 					<Paragraph>{auth.user.profileBio}</Paragraph>
 				</Card.Content>
 			</Card>
+			<ImagePick image={image} setImage={setImage} />
+			<IconButton
+				style={styles.buttonStyle}
+				icon="arrow-up-drop-circle"
+				iconColor={'red'}
+				animate={true}
+				selected={true}
+				onPress={changeProfilePicture}
+			/>
 		</SafeAreaView>
 	);
 };

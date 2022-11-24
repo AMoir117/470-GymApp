@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	upVoteButton: {
-		flex: 1,
 		margin: 5,
 	},
 	avatarStyle: {
@@ -77,15 +76,18 @@ const Lobby = () => {
 	//fixme:: lobby profiles not having bios
 	const navigation = useNavigation();
 	const [posts, setPosts] = useState([]);
+	const [upvotes, setUpvotes] = useState();
+
 
 	useEffect(() => {
 		async function getLobby() {
 			await axios.get("weekly-schedule/lobby").then((response) => {
 				setPosts(response.data);
+				setUpvotes(response.data.upvotes);
 			});
 		}
 		getLobby();
-	}, []);
+	}, [upvotes]);
 
 	const renderPosts = ({item}) => {
 		return (
@@ -95,11 +97,7 @@ const Lobby = () => {
 						clickUserProfile(item);
 					}}
 				>
-					<Avatar.Image
-						style={styles.avatarStyle}
-						size={50}
-						source={{uri: item.imagePath}}
-					/>
+					<Avatar.Image style={styles.avatarStyle} size={50} source={item.imagePath} />
 				</TouchableOpacity>
 				<View style={{flex: 1}}>
 					<Text style={styles.postTitle}>{item.title}</Text>
@@ -110,7 +108,12 @@ const Lobby = () => {
 					<IconButton
 						style={styles.upVoteButton}
 						icon="arrow-up-drop-circle"
-						onPress={upVote}
+						iconColor={'red'}
+						animate={true}
+						selected={true}
+						onPress={() => {
+							incrementUpvotes(item);
+						}}
 					/>
 				</View>
 			</Surface>
@@ -118,11 +121,16 @@ const Lobby = () => {
 	};
 
 	const clickUserProfile = (item) => {
+		console.log(item);
 		navigation.navigate("Profile View", {userProfile: item});
 	};
 
-	const upVote = () => {
-		//todo::array of user ids that voted
+	const incrementUpvotes = (item) => {
+		console.log(item);
+		axios.put(`weekly-schedule/increment-upvotes/${item.id}`).then((response) => {
+			const temp = upvotes + 1;
+			setUpvotes(temp);
+		});
 	};
 
 	return (

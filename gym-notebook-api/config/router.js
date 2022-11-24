@@ -76,6 +76,12 @@ usersRouter.put(
 	(err) => console.log(`increment-upvotes ran into an error: ${err}`)
 );
 
+usersRouter.put(
+	"/change-picture/:imagePath/:id",
+	UsersController.changePicture,
+	(err) => console.log(`change-picture ran into an error: ${err}`)
+);
+
 // WeeklySchedule router configuration
 const WeeklyScheduleController = require("../app/Controllers/WeeklyScheduleController.js");
 const WeeklyScheduleRouter = require("koa-router")({
