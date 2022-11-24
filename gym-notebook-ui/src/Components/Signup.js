@@ -17,7 +17,7 @@ import ImagePick from "./Modules/ImagePicker";
 import axios from "axios";
 import AuthContext from "../Context/AuthProvider";
 
-import SvgImage from "./SvgImage";
+import SvgImage from "../SVG_Backgrounds/SvgImage";
 import GlobalStyles from "./GlobalStyles";
 
 import {getStorage, ref, getDownloadURL, uploadBytes} from "firebase/storage";

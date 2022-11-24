@@ -24,6 +24,7 @@ import {
 	Text,
 } from "react-native-paper";
 import AuthContext from "../../Context/AuthProvider";
+import SvgComponent from "../../SVG_Backgrounds/Main-bg";
 import {useFocusEffect, useIsFocused, useNavigation} from "@react-navigation/native";
 import axios from "axios";
 import GlobalStyles from "../GlobalStyles";
@@ -138,28 +139,35 @@ const MainSchedule = ({update}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "200%"}}>
-			<ImageBackground style={styles.backgroundColor}>
-				<Text style={styles.dayText}>{currentDay}</Text>
-				<Text style={styles.scheduleNameText}>{scheduleName}</Text>
-				<Divider
-					style={{
-						borderColor: GlobalStyles.hexColor.red,
-						borderWidth: 1,
-						borderRadius: 5,
-						margin: 10,
-					}}
-					horizontalInset="3"
-				/>
+			<SvgComponent
+				style={{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
+				}}
+			/>
+			<Text style={styles.dayText}>{currentDay}</Text>
+			<Text style={styles.scheduleNameText}>{scheduleName}</Text>
+			<Divider
+				style={{
+					borderColor: GlobalStyles.hexColor.red,
+					borderWidth: 1,
+					borderRadius: 5,
+					margin: 10,
+				}}
+				horizontalInset="3"
+			/>
 
-				<FlatList
-					showsVerticalScrollIndicator={false}
-					alwaysBounceVertical={true}
-					data={dailyWorkoutData}
-					renderItem={renderItem}
-					keyExtractor={(item) => item.id}
-				/>
-				<ShowGif />
-			</ImageBackground>
+			<FlatList
+				showsVerticalScrollIndicator={false}
+				alwaysBounceVertical={true}
+				data={dailyWorkoutData}
+				renderItem={renderItem}
+				keyExtractor={(item) => item.id}
+			/>
+			<ShowGif />
 		</SafeAreaView>
 	);
 };

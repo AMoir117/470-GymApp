@@ -24,7 +24,7 @@ import {
 	Portal,
 } from "react-native-paper";
 import axios from "axios";
-import SvgImage from "../SvgImage";
+import SvgComponent from "../../SVG_Backgrounds/Schedule-edit-bg";
 import GlobalStyles from "../GlobalStyles";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import AuthContext from "../../Context/AuthProvider";
@@ -135,6 +135,11 @@ const Schedules = ({navigation, back, route}) => {
 	}
 
 	useEffect(() => {
+		const day = new Date();
+		setCurrentDay(daysOfWeek[day.getDay() - 1].dayNameLong);
+	}, []);
+
+	useEffect(() => {
 		navigation.setOptions({
 			headerLeft: () => (
 				<IconButton
@@ -145,8 +150,20 @@ const Schedules = ({navigation, back, route}) => {
 					title="Back"
 				/>
 			),
+			headerRight: () => (
+				<IconButton
+					icon="pencil-plus"
+					onPress={() => {
+						navigation.navigate("SearchBar", {
+							weekSchedule: weekSchedule,
+							day: currentDay,
+						});
+					}}
+					title="Back"
+				/>
+			),
 		});
-	}, [navigation]);
+	}, [navigation, currentDay]);
 
 	useEffect(() => {
 		if (!auth.user.currentWeeklyScheduleID) {
@@ -204,7 +221,7 @@ const Schedules = ({navigation, back, route}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<SvgImage
+			<SvgComponent
 				style={{
 					zIndex: -1,
 					position: "absolute",
@@ -243,26 +260,15 @@ const Schedules = ({navigation, back, route}) => {
 				renderItem={renderItem}
 				keyExtractor={(item) => item.id}
 			/>
-			{/* <TouchableOpacity>
-				<Button
-					mode="contained"
-					style={{alignSelf: "center"}}
-					onPress={() => {
-						console.log("add new workout");
-						navigation.navigate("SearchBar");
-					}}
-				>
-					Add
-				</Button>
-			</TouchableOpacity> */}
-			<TouchableOpacity
+
+			{/* <TouchableOpacity
 				style={styles.buttonStyle}
 				onPress={() =>
 					navigation.navigate("SearchBar", {weekSchedule: weekSchedule, day: currentDay})
 				}
 			>
 				<Text style={styles.buttonText}>Add</Text>
-			</TouchableOpacity>
+			</TouchableOpacity> */}
 			<ShowGif />
 		</SafeAreaView>
 	);

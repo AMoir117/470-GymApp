@@ -16,7 +16,7 @@ import GlobalStyles from "../GlobalStyles";
 import ProfileView from "../ProfileView";
 import AuthContext from "../../Context/AuthProvider";
 import {useNavigation} from "@react-navigation/native";
-import SvgImage2 from "../SvgImage2";
+import SvgComponent from "../../SVG_Backgrounds/Friends-bg";
 import axios from "axios";
 
 const styles = StyleSheet.create({
@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	surfaceStyle: {
-		height: 140,
-		width: 140,
+		height: 160,
+		width: 160,
 		borderRadius: 20,
 		margin: 20,
 		alignSelf: "center",
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 	},
 	avatarStyle: {
 		alignSelf: "center",
-		margin: 5,
+		margin: 10,
 		backgroundColor: GlobalStyles.hexColor.white,
 	},
 	addUserButton: {
@@ -107,7 +107,7 @@ const FriendsList = () => {
 	};
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<SvgImage2
+			<SvgComponent
 				style={{
 					position: "absolute",
 					top: 0,

@@ -12,13 +12,13 @@ import {
 	Alert,
 	TouchableOpacity,
 } from "react-native";
-import {DataTable, Avatar, Surface, Badge, Text} from "react-native-paper";
+import {DataTable, Avatar, Surface, Badge, Text, Button} from "react-native-paper";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
 import SwipingRow from "../Modules/SwipingRow";
 import {RectButton, Swipeable} from "react-native-gesture-handler";
 import GlobalStyles from "../GlobalStyles";
 import axios from "axios";
-import SvgImage2 from "../SvgImage2";
+import SvgComponent from "../../SVG_Backgrounds/Schedule-list-bg";
 import AuthContext from "../../Context/AuthProvider";
 import {setStatusBarHidden} from "expo-status-bar";
 
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	surfaceStyle: {
-		height: 80,
 		flex: 1,
 		flexDirection: "row",
 		borderWidth: 1,
@@ -37,7 +36,6 @@ const styles = StyleSheet.create({
 	},
 	flatListContainer: {
 		flex: 1,
-		marginTop: 20,
 	},
 	addButton: {
 		width: 40,
@@ -61,7 +59,7 @@ const styles = StyleSheet.create({
 	},
 	postCreatedOn: {
 		height: 20,
-		marginTop: 10,
+		marginTop: 2,
 		marginLeft: 20,
 	},
 	upVoteBadge: {
@@ -75,9 +73,14 @@ const styles = StyleSheet.create({
 		margin: 5,
 		backgroundColor: GlobalStyles.hexColor.white,
 	},
-	leftAction: {
+	leftActionPost: {
 		width: 120,
 		backgroundColor: "#497AFC",
+		justifyContent: "center",
+	},
+	leftActionUnpost: {
+		width: 120,
+		backgroundColor: GlobalStyles.hexColor.red,
 		justifyContent: "center",
 	},
 	actionText: {
@@ -92,15 +95,16 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	buttonStyle: {
-		height: 30,
-		width: 70,
-		margin: 2,
-		marginTop: 10,
+		flex: 1,
+		flexDirection: "column",
+		borderRadius: 20,
+		margin: 5,
+		padding: 1,
 		alignSelf: "center",
-		alignItems: "center",
-		textAlign: "center",
-		textAlignVertical: "center",
-		backgroundColor: GlobalStyles.hexColor.brown,
+		justifyContent: "center",
+		backgroundColor: GlobalStyles.hexColor.green,
+		position: "absolute",
+		bottom: 0,
 	},
 });
 
@@ -173,13 +177,32 @@ const SchedulesList = ({setUpdate}) => {
 		}
 	};
 
-	const renderLeftActions = () => {
-		return (
-			<RectButton style={styles.leftAction} onPress={() => {}}>
-				<Animated.Text style={[styles.actionText]}>Post Schedule</Animated.Text>
-			</RectButton>
-		);
+	const renderLeftActions = (item) => {
+		if (item.accessStatus === "private") {
+			return (
+				<RectButton style={styles.leftActionPost} onPress={() => postSchedule(item)}>
+					<Animated.Text style={[styles.actionText]}>Post Schedule</Animated.Text>
+				</RectButton>
+			);
+		} else {
+			return (
+				<RectButton style={styles.leftActionUnpost} onPress={() => unpostSchedule(item)}>
+					<Animated.Text style={[styles.actionText]}>Unpost Schedule</Animated.Text>
+				</RectButton>
+			);
+		}
 	};
+
+	const postSchedule = async (item) => {
+		refArray[item.id].close();
+		await axios.put(`weekly-schedule/update-status/public/${item.id}`).then(() => setUpdate());
+	};
+
+	const unpostSchedule = async (item) => {
+		refArray[item.id].close();
+		await axios.put(`weekly-schedule/update-status/private/${item.id}`).then(() => setUpdate());
+	};
+
 	const renderRightAction = (text, color, width, progress, item) => {
 		const pressHandler = () => {
 			switch (text) {
@@ -258,13 +281,14 @@ const SchedulesList = ({setUpdate}) => {
 				friction={2}
 				leftThreshold={40}
 				rightThreshold={40}
-				renderLeftActions={renderLeftActions}
+				renderLeftActions={() => renderLeftActions(item)}
 				renderRightActions={(progress) => renderRightActions(progress, item)}
 				onSwipeableOpen={() => closeRow(item)}
 			>
 				<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
 					<View style={{flex: 1}}>
 						<Text style={styles.postTitleStyle}>{textVariant}</Text>
+						<Text style={styles.postCreatedOn}>{item.accessStatus}</Text>
 						<Text style={styles.postCreatedOn}>{`Created: ${myDate}`}</Text>
 					</View>
 					<Badge style={styles.upVoteBadge}>{item.upvotes}</Badge>
@@ -274,7 +298,7 @@ const SchedulesList = ({setUpdate}) => {
 	};
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<SvgImage2
+			<SvgComponent
 				style={{
 					position: "absolute",
 					top: 0,
@@ -292,9 +316,9 @@ const SchedulesList = ({setUpdate}) => {
 				renderItem={renderSchedules}
 				keyExtractor={(item) => item.id}
 			/>
-			<TouchableOpacity style={styles.buttonStyle} onPress={addNewSchedule}>
-				<Text style={styles.buttonText}>Add</Text>
-			</TouchableOpacity>
+			<Button mode="contained" style={styles.buttonStyle} onPress={addNewSchedule}>
+				New Schedule
+			</Button>
 		</SafeAreaView>
 	);
 };
