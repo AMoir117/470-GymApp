@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
 	},
 	cardContent: {
 		flex: 1,
+		alignSelf: "center",
+		marginLeft: 20,
+		fontSize: 15,
 	},
 	cardButton: {
 		justifyContent: "center",

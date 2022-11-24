@@ -32,7 +32,7 @@ import GmailStyleSwipeableRow from "./Modules/AndroidSwipe";
 
 import GlobalStyles from "./GlobalStyles";
 import * as FS from "expo-file-system";
-import SvgImage2 from "./SvgImage2";
+import SvgImage2 from "../SVG_Backgrounds/Friends-bg";
 
 import AuthContext from "../Context/AuthProvider";
 import {RectButton, Swipeable} from "react-native-gesture-handler";

@@ -15,7 +15,7 @@ import {
 import {DataTable, Avatar, Surface, Badge, IconButton} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
 import GlobalStyles from "../GlobalStyles";
-import SvgImage2 from "../SvgImage2";
+import SvgComponent from "../../SVG_Backgrounds/Lobby-bg";
 
 const styles = StyleSheet.create({
 	backgroundColor: {
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		backgroundColor: GlobalStyles.hexColor.brown,
 		flex: 1,
-		marginTop: 20,
+		marginTop: 5,
 		flexDirection: "row",
 	},
 	flatListContainer: {
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
 	},
 	postTitle: {
 		height: 20,
-
 		flex: 1,
 	},
 	postUsername: {
@@ -127,7 +126,7 @@ const Lobby = () => {
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<SvgImage2
+			<SvgComponent
 				style={{
 					position: "absolute",
 					top: 0,

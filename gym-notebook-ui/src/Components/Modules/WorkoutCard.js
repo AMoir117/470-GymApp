@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 	cardContent: {
+		flex: 1,
 		alignSelf: "center",
 	},
 	cardButton: {

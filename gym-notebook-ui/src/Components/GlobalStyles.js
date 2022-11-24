@@ -7,9 +7,10 @@ const GlobalStyles = StyleSheet.create({
 		blue: "#525266",
 		black: "#423f3b",
 		gold: "#ffe5a9",
-		white: "#ffffff",
 		green: "#729676",
+		white: "#ffffff",
 	},
+
 	date: {
 		month: "numeric",
 		day: "numeric",

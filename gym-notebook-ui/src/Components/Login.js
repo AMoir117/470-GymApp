@@ -12,7 +12,7 @@ import {
 import {Divider, Snackbar} from "react-native-paper";
 import axios from "axios";
 import AuthContext from "../Context/AuthProvider";
-import SvgImage from "./SvgImage";
+import SvgImage from "../SVG_Backgrounds/SvgImage";
 import GlobalStyles from "./GlobalStyles";
 import API from "../API_interface/API_interface";
 
