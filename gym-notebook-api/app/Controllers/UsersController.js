@@ -178,10 +178,20 @@ const getUsersFollowers = async (ctx) => {
 	console.log("getUsersFollowers called.");
 	return new Promise((resolve, reject) => {
 		const query = `
-                      SELECT * FROM Users Users_Table
-                      LEFT JOIN Follower Follower_Table
-                      ON Follower_Table.followerUserID = Users_Table.id
-                      WHERE Follower_Table.followedUserID = ?;
+					SELECT
+						U.username, 
+						U.imagePath,
+						U.firstName,
+						U.lastName,
+						U.profileBio,
+						U.id as userId
+					FROM Users U
+                    LEFT JOIN 
+						Follower F
+                    ON 
+						F.followerUserID = U.id
+                    WHERE 
+						F.followedUserID = ?;
                       `;
 		dbConnection.query(
 			{

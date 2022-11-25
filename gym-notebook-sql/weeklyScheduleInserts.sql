@@ -15,3 +15,12 @@ INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES 
 INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES (13,'public','How to be worthy of Mjölnir','2016-05-16',236,8);
 INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES (14,'public','Jump a building at the end of this workout','2012-03-25',298,9);
 INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES (15,'public','Stronger than Thor','2017-06-14',174,9);
+INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES (16,'public','Gains don\'t cost a thing','2021-07-14',231,10);
+INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES (17,'public','Gains on gains on gains','1999-06-28',174,11);
+INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES (18,'public','Literally Thor','2001-09-03',497,12);
+INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES (19,'public','Better than salsa','2020-11-27',147,10);
+INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES (20,'public','Pick yourself up by the wrist-straps','2003-08-16',384,12);
+INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES (21,'public','Welcome to the hall of gods','2006-12-25',216,11);
+
+
+

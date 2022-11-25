@@ -82,7 +82,6 @@ const FriendsList = () => {
 	}, []);
 
 	const clickUserProfile = (item) => {
-		console.log(item);
 		navigation.navigate("Profile View", {userProfile: item});
 	};
 
@@ -123,7 +122,7 @@ const FriendsList = () => {
 				alwaysBounceVertical={true}
 				data={following}
 				renderItem={RenderProfile}
-				keyExtractor={(item) => item.id}
+				keyExtractor={(item) => item.userId}
 			/>
 			<IconButton
 				icon="plus-circle"
