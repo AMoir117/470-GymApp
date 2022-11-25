@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.hexColor.brown,
 		flex: 1,
 		margin: 2,
-		borderRadius: 10,
+		borderRadius: 0,
 	},
 	cardContent: {
 		alignSelf: "center",

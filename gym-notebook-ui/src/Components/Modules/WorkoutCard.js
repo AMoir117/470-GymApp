@@ -20,24 +20,11 @@ import {StorageAccessFramework} from "expo-file-system";
 const styles = StyleSheet.create({
 	cardContainer: {
 		backgroundColor: GlobalStyles.hexColor.brown,
-		flex: 1,
 		margin: 2,
-		borderRadius: 10,
-	},
-	cardContent: {
-		flex: 1,
-		alignSelf: "center",
+		borderRadius: 0,
 	},
 	cardButton: {
-		justifyContent: "center",
 		alignSelf: "center",
-	},
-	dividerStyle: {
-		color: GlobalStyles.hexColor.black,
-		borderWidth: 0.2,
-	},
-	buttonStyles: {
-		backgroundColor: GlobalStyles.hexColor.red,
 	},
 });
 
@@ -67,29 +54,16 @@ const MyComponent = (props) => {
 				<Card.Actions style={styles.cardButton}>
 					<IconButton
 						icon="file-gif-box"
-						style={styles.buttonStyles}
 						iconColor={GlobalStyles.hexColor.green}
 						onPress={() => showModal(workoutName)}
 					/>
-					<Button
-						mode="outlined"
-						style={styles.buttonStyles}
-						textColor={GlobalStyles.hexColor.green}
-					>
+					<Button mode="outlined" textColor={GlobalStyles.hexColor.black}>
 						Sets: {workout.sets}
 					</Button>
-					<Button
-						mode="outlined"
-						textColor={GlobalStyles.hexColor.black}
-						style={styles.buttonStyles}
-					>
+					<Button mode="outlined" textColor={GlobalStyles.hexColor.black}>
 						Reps: {workout.reps}
 					</Button>
-					<Button
-						mode="outlined"
-						style={styles.buttonStyles}
-						textColor={GlobalStyles.hexColor.black}
-					>
+					<Button mode="outlined" textColor={GlobalStyles.hexColor.black}>
 						{workout.weight} Lbs
 					</Button>
 				</Card.Actions>

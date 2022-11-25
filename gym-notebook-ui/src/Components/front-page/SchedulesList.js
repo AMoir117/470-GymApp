@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		borderWidth: 1,
 		borderColor: GlobalStyles.hexColor.black,
-		backgroundColor: GlobalStyles.hexColor.brown,
+		backgroundColor: "#cbbeb5",
 	},
 	flatListContainer: {
 		flex: 1,
@@ -74,19 +74,20 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.hexColor.white,
 	},
 	leftActionPost: {
-		width: 120,
+		width: 150,
 		backgroundColor: "#497AFC",
 		justifyContent: "center",
+		alignItems: "center",
 	},
 	leftActionUnpost: {
-		width: 120,
+		width: 150,
 		backgroundColor: GlobalStyles.hexColor.red,
 		justifyContent: "center",
+		alignItems: "center",
 	},
 	actionText: {
 		color: "white",
 		fontSize: 16,
-		backgroundColor: "transparent",
 		padding: 10,
 	},
 	rightAction: {
@@ -278,7 +279,7 @@ const SchedulesList = ({setUpdate}) => {
 		return (
 			<Swipeable
 				ref={(ref) => (refArray[item.id] = ref)}
-				friction={2}
+				friction={3}
 				leftThreshold={40}
 				rightThreshold={40}
 				renderLeftActions={() => renderLeftActions(item)}

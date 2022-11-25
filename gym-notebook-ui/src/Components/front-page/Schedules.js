@@ -83,6 +83,14 @@ const styles = StyleSheet.create({
 		textAlignVertical: "center",
 		backgroundColor: GlobalStyles.hexColor.brown,
 	},
+	scheduleTitle: {
+		textAlign: "center",
+		backgroundColor: GlobalStyles.hexColor.white,
+		width: "auto",
+		padding: 4,
+		margin: 4,
+		alignSelf: "center",
+	},
 });
 
 //fixme:: change to reflect database
@@ -279,11 +287,7 @@ const Schedules = ({navigation, back, route}) => {
 				{scheduleName}
 			</Button> */}
 			<TextInput
-				style={{
-					backgroundColor: GlobalStyles.hexColor.white,
-					width: 260,
-					alignSelf: "center",
-				}}
+				style={styles.scheduleTitle}
 				placeholder={scheduleName}
 				value={scheduleName}
 				onSubmitEditing={changeTitle}

@@ -7,7 +7,7 @@ import AuthContext from "../Context/AuthProvider";
 
 const styles = StyleSheet.create({
 	appBarHeader: {
-		backgroundColor: GlobalStyles.hexColor.brown,
+		backgroundColor: "#cbbeb5",
 	},
 	appBarTitle: {
 		fontSize: 25,
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 	},
 	menuItemBot: {
 		color: GlobalStyles.hexColor.black,
-		backgroundColor: GlobalStyles.hexColor.brown,
+		backgroundColor: "#cbbeb5",
 	},
 	homeButton: {
 		fontSize: 30,

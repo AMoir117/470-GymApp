@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.hexColor.brown,
 		flex: 1,
 		margin: 2,
-		borderRadius: 10,
+		borderRadius: 0,
 	},
 	cardContent: {
 		flex: 1,
@@ -37,15 +37,10 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignSelf: "center",
 	},
-	dividerStyle: {
-		color: GlobalStyles.hexColor.black,
-		borderWidth: 0.2,
-	},
 	buttonStyles: {
-		width: 100,
+		width: 80,
 		backgroundColor: GlobalStyles.hexColor.brown,
-		borderColor: "#000000",
-		borderWidth: 1,
+		borderWidth: 0.2,
 	},
 });
 

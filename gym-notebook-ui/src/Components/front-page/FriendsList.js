@@ -63,6 +63,8 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 		margin: 0,
 		padding: 0,
+		position: "absolute",
+		bottom: 0,
 	},
 });
 
@@ -86,7 +88,6 @@ const FriendsList = () => {
 	};
 
 	const RenderProfile = ({item}) => {
-		//fixme::how to require image dynamically
 		return (
 			<Surface style={styles.surfaceStyle} elevation={1}>
 				<TouchableOpacity
@@ -127,7 +128,7 @@ const FriendsList = () => {
 			<IconButton
 				icon="plus-circle"
 				iconColor={GlobalStyles.hexColor.red}
-				size={50}
+				size={45}
 				compact={true}
 				style={styles.addUserButton}
 				onPress={() => navigation.navigate("Front Page")}

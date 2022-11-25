@@ -1,10 +1,15 @@
 use gymappdb;
 
-INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 3);
 INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 2);
+INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 3);
 INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 4);
+INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 5);
+INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 6);
+INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 7);
 INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 8);
+INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 9);
 INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 10);
+INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 11);
 INSERT INTO Follower (followedUserID, followerUserID) VALUES (1, 12);
 
 INSERT INTO Follower (followedUserID, followerUserID) VALUES (2, 12);

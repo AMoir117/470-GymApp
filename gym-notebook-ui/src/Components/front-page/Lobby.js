@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		backgroundColor: GlobalStyles.hexColor.brown,
 		flex: 1,
-		marginTop: 5,
+		marginTop: 10,
 		flexDirection: "row",
 	},
 	flatListContainer: {
@@ -47,22 +47,23 @@ const styles = StyleSheet.create({
 		color: "#ffffff",
 	},
 	postTitle: {
-		height: 20,
 		flex: 1,
+		fontSize: 20,
 	},
 	postUsername: {
-		fontSize: 10,
-		height: 20,
-		marginTop: 10,
+		fontSize: 15,
 		flex: 1,
 	},
 	upVoteBadge: {
-		margin: 5,
+		flex: 1,
+		alignSelf: "center",
 		color: "#93c47d",
+		margin: 5,
 		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	upVoteButton: {
 		flex: 1,
+		alignSelf: "center",
 		margin: 5,
 	},
 	avatarStyle: {
@@ -104,7 +105,7 @@ const Lobby = () => {
 					<Text style={styles.postTitle}>{item.title}</Text>
 					<Text style={styles.postUsername}>{item.username}</Text>
 				</View>
-				<View>
+				<View style={{justifyContent: "center"}}>
 					<Badge style={styles.upVoteBadge}>{item.upvotes}</Badge>
 					<IconButton
 						style={styles.upVoteButton}
