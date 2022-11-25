@@ -5,12 +5,12 @@ import {
 	StyleSheet,
 	View,
 	FlatList,
-	TextInput,
 	Pressable,
 	SafeAreaView,
 	ImageBackground,
 	Alert,
 	Image,
+	TextInput,
 } from "react-native";
 import {
 	Divider,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		alignSelf: "center",
 		fontStyle: "italic",
-		color: GlobalStyles.hexColor.brown,
+		borderRadius: 0,
 	},
 	daysOfWeek: {
 		flexDirection: "row",
@@ -65,6 +65,12 @@ const styles = StyleSheet.create({
 		width: 300,
 		height: 300,
 		alignSelf: "center",
+	},
+	titleModal: {
+		width: 360,
+		alignSelf: "center",
+		position: "absolute",
+		top: 0,
 	},
 	buttonStyle: {
 		height: 30,
@@ -126,6 +132,7 @@ const Schedules = ({navigation, back, route}) => {
 	const [dailyWorkoutData, setDailyWorkoutData] = useState([]);
 	const [gifShow, setGifShow] = useState(false);
 	const [modalUri, setModalUri] = useState("");
+	const [titleModal, setTitleModal] = useState(false);
 	const isFocused = useIsFocused();
 
 	const [update, setUpdate] = useReducer((x) => x + 1, 0);
@@ -219,6 +226,10 @@ const Schedules = ({navigation, back, route}) => {
 		);
 	};
 
+	const changeTitle = async () => {
+		await axios.put(`weekly-schedule/update-title/${scheduleName}/${weekSchedule.id}`);
+	};
+
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<SvgComponent
@@ -251,7 +262,26 @@ const Schedules = ({navigation, back, route}) => {
 
 			<Text style={styles.dayText}>{currentDay}</Text>
 
-			<Text style={styles.scheduleNameText}>{scheduleName}</Text>
+			{/* <Button
+				textColor={GlobalStyles.hexColor.brown}
+				style={styles.scheduleNameText}
+				onPress={changeTitle}
+				mode="outlined"
+				buttonColor={GlobalStyles.hexColor.black}
+			>
+				{scheduleName}
+			</Button> */}
+			<TextInput
+				style={{
+					backgroundColor: GlobalStyles.hexColor.white,
+					width: 260,
+					alignSelf: "center",
+				}}
+				placeholder={scheduleName}
+				value={scheduleName}
+				onSubmitEditing={changeTitle}
+				onChangeText={setScheduleName}
+			/>
 
 			<FlatList
 				showsVerticalScrollIndicator={false}
