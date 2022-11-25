@@ -91,36 +91,43 @@ const daysOfWeek = [
 		dayID: "1",
 		dayNameShort: "Mon",
 		dayNameLong: "Monday",
+		color: GlobalStyles.hexColor.gold,
 	},
 	{
 		dayID: "2",
 		dayNameShort: "Tue",
 		dayNameLong: "Tuesday",
+		color: GlobalStyles.hexColor.grey,
 	},
 	{
 		dayID: "3",
 		dayNameShort: "Wed",
 		dayNameLong: "Wednesday",
+		color: GlobalStyles.hexColor.blue,
 	},
 	{
 		dayID: "4",
 		dayNameShort: "Thu",
 		dayNameLong: "Thursday",
+		color: GlobalStyles.hexColor.red,
 	},
 	{
 		dayID: "5",
 		dayNameShort: "Fri",
 		dayNameLong: "Friday",
+		color: GlobalStyles.hexColor.teal,
 	},
 	{
 		dayID: "6",
 		dayNameShort: "Sat",
 		dayNameLong: "Saturday",
+		color: GlobalStyles.hexColor.orange,
 	},
 	{
 		dayID: "7",
 		dayNameShort: "Sun",
 		dayNameLong: "Sunday",
+		color: GlobalStyles.hexColor.green,
 	},
 ];
 
@@ -250,7 +257,7 @@ const Schedules = ({navigation, back, route}) => {
 							compact={true}
 							mode="elevated"
 							textColor="#000000"
-							buttonColor={GlobalStyles.hexColor.brown}
+							buttonColor={day.color}
 							onPress={() => setCurrentDay(day.dayNameLong)}
 							key={day.dayID}
 						>
