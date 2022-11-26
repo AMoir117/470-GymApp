@@ -1,4 +1,4 @@
-import React, {useState, useEffect, createContext, useReducer} from "react";
+import React, {useState, useEffect, useReducer} from "react";
 import {BottomNavigation} from "react-native-paper";
 import MainSchedule from "./front-page/MainSchedule";
 import FriendsList from "./front-page/FriendsList";

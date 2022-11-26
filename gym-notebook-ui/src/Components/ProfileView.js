@@ -1,37 +1,9 @@
-import React, {useState, useEffect, useContext, createContext} from "react";
-import {
-	ScrollView,
-	Text,
-	StyleSheet,
-	View,
-	FlatList,
-	TextInput,
-	Pressable,
-	SafeAreaView,
-	ImageBackground,
-	TouchableOpacity,
-	Animated,
-} from "react-native";
-import {
-	Divider,
-	Appbar,
-	Button,
-	Avatar,
-	Portal,
-	Card,
-	Title,
-	Paragraph,
-	Surface,
-	Badge,
-	DataTable,
-	IconButton,
-} from "react-native-paper";
+import React, {useState, useEffect, useContext} from "react";
+import {Text, StyleSheet, View, FlatList, SafeAreaView, Animated} from "react-native";
+import {Divider, Card, Title, Paragraph, Surface, Badge, IconButton} from "react-native-paper";
 import axios from "axios";
 
-import GmailStyleSwipeableRow from "./Modules/AndroidSwipe";
-
 import GlobalStyles from "./GlobalStyles";
-import * as FS from "expo-file-system";
 import SvgImage2 from "../SVG_Backgrounds/Friends-bg";
 
 import AuthContext from "../Context/AuthProvider";
@@ -69,7 +41,7 @@ const styles = StyleSheet.create({
 		height: 80,
 		flex: 1,
 		flexDirection: "row",
-		backgroundColor: GlobalStyles.hexColor.brown,
+		backgroundColor: "#cbbeb5",
 	},
 	textUploadImage: {
 		fontSize: 15,

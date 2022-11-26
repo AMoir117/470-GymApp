@@ -1,24 +1,9 @@
-import {useState, useEffect, useCallback} from "react";
-import {StyleSheet, View, Image, Alert} from "react-native";
-import {
-	Avatar,
-	Button,
-	Card,
-	Title,
-	Paragraph,
-	SegmentedButtons,
-	Divider,
-	Provider,
-	Portal,
-	Modal,
-	IconButton,
-	List,
-} from "react-native-paper";
+import {useState, useEffect} from "react";
+import {StyleSheet, View, Alert} from "react-native";
+import {Card, Paragraph, IconButton} from "react-native-paper";
 import GlobalStyles from "../GlobalStyles";
 import axios from "axios";
 import SelectDropdown from "react-native-select-dropdown";
-import {StorageAccessFramework} from "expo-file-system";
-import {useIsFocused} from "@react-navigation/native";
 
 const styles = StyleSheet.create({
 	cardContainer: {

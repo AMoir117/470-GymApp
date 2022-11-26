@@ -1,21 +1,7 @@
 import {useState, useEffect} from "react";
-import {StyleSheet, View, Image, Text} from "react-native";
-import {
-	Avatar,
-	Button,
-	Card,
-	Title,
-	Paragraph,
-	SegmentedButtons,
-	Divider,
-	Provider,
-	Portal,
-	Modal,
-	IconButton,
-} from "react-native-paper";
+import {StyleSheet, View, Text} from "react-native";
+import {Button, Card, Divider, Paragraph} from "react-native-paper";
 import GlobalStyles from "../GlobalStyles";
-import axios from "axios";
-import {StorageAccessFramework} from "expo-file-system";
 
 const styles = StyleSheet.create({
 	cardContainer: {
@@ -25,24 +11,13 @@ const styles = StyleSheet.create({
 		borderRadius: 0,
 	},
 	cardContent: {
+		fontSize: 15,
 		alignSelf: "center",
-	},
-	cardButton: {
-		justifyContent: "center",
-		alignSelf: "center",
-	},
-	dividerStyle: {
-		color: GlobalStyles.hexColor.black,
-		borderWidth: 0.2,
-	},
-	buttonStyles: {
-		backgroundColor: GlobalStyles.hexColor.red,
 	},
 });
 
 const SearchResults = (props) => {
 	const {workout, showModal, addResult} = props;
-	const [workoutName, setWorkoutName] = useState({});
 
 	useEffect(() => {}, []);
 

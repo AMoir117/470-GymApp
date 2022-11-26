@@ -1,8 +1,7 @@
-import {useState, useEffect, useContext} from "react";
-import {StyleSheet, View} from "react-native";
-import {Appbar, Button, Divider, Menu, IconButton} from "react-native-paper";
+import {useState, useContext} from "react";
+import {StyleSheet} from "react-native";
+import {Appbar, Divider, Menu, IconButton} from "react-native-paper";
 import GlobalStyles from "./GlobalStyles";
-import {useNavigation} from "@react-navigation/native";
 import AuthContext from "../Context/AuthProvider";
 
 const styles = StyleSheet.create({

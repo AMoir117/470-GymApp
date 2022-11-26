@@ -1,11 +1,9 @@
-import {React, useEffect, useState, goBack} from "react";
-import {SectionList, StyleSheet, Text, View} from "react-native";
-import {Provider, Drawer, Appbar} from "react-native-paper";
-import {NavigationContainer, StackActions} from "@react-navigation/native";
+import {React} from "react";
+import {Provider} from "react-native-paper";
+import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 
-import Data from "./src/API_interface/API_interface";
 import SearchBar from "./src/Components/SearchBar";
 import Login from "./src/Components/Login";
 import Signup from "./src/Components/Signup";
@@ -14,9 +12,6 @@ import UserProfile from "./src/Components/UserProfile";
 import GlobalStyles from "./src/Components/GlobalStyles";
 import CustomNavigationBar from "./src/Components/CustomNavigationBar";
 import ProfileView from "./src/Components/ProfileView";
-import ScheduleEdit from "./src/Components/ScheduleEdit";
-import SectionListBasics from "./src/Components/SectionListBasics";
-import SchedulesList from "./src/Components/front-page/SchedulesList";
 import Schedules from "./src/Components/front-page/Schedules";
 //import DrawerTest from "./src/Components/DrawerTest";
 

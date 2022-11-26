@@ -1,30 +1,15 @@
 import axios from "axios";
 import React, {useState, useEffect} from "react";
-import {
-	ScrollView,
-	Text,
-	StyleSheet,
-	View,
-	FlatList,
-	TextInput,
-	Pressable,
-	SafeAreaView,
-	ImageBackground,
-	TouchableOpacity,
-} from "react-native";
-import {DataTable, Avatar, Surface, Badge, IconButton} from "react-native-paper";
+import {Text, StyleSheet, View, FlatList, SafeAreaView, TouchableOpacity} from "react-native";
+import {Avatar, Surface, Badge, IconButton} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
 import GlobalStyles from "../GlobalStyles";
 import SvgComponent from "../../SVG_Backgrounds/Lobby-bg";
 
 const styles = StyleSheet.create({
-	backgroundColor: {
-		flex: 1,
-		backgroundColor: GlobalStyles.hexColor.black,
-	},
 	surfaceStyle: {
 		width: 400,
-		borderRadius: 5,
+		borderRadius: 0,
 		backgroundColor: GlobalStyles.hexColor.brown,
 		flex: 1,
 		marginTop: 10,
@@ -33,48 +18,31 @@ const styles = StyleSheet.create({
 	flatListContainer: {
 		alignSelf: "center",
 	},
-	addButton: {
-		width: 40,
-		height: 40,
-		borderRadius: 20,
-		margin: 5,
-		backgroundColor: GlobalStyles.hexColor.red,
-		alignSelf: "center",
-	},
-	addTextStyle: {
-		height: 20,
-		alignSelf: "center",
-		color: "#ffffff",
-	},
 	postTitle: {
-		flex: 1,
 		fontSize: 20,
 	},
 	postUsername: {
 		fontSize: 15,
-		flex: 1,
+		position: "absolute",
+		bottom: 0,
 	},
 	upVoteBadge: {
-		flex: 1,
 		alignSelf: "center",
 		color: "#93c47d",
 		margin: 5,
 		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	upVoteButton: {
-		flex: 1,
 		alignSelf: "center",
 		margin: 5,
 	},
 	avatarStyle: {
 		alignSelf: "center",
-		margin: 5,
-		backgroundColor: GlobalStyles.hexColor.white,
+		margin: 10,
 	},
 });
 
 const Lobby = () => {
-	//fixme:: lobby profiles not having bios
 	const navigation = useNavigation();
 	const [posts, setPosts] = useState([]);
 

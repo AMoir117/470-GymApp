@@ -1,14 +1,5 @@
 import React, {useContext, useState, useEffect} from "react";
-import {
-	SafeAreaView,
-	Text,
-	StyleSheet,
-	View,
-	FlatList,
-	TextInput,
-	TouchableOpacity,
-	ImageBackground,
-} from "react-native";
+import {SafeAreaView, Text, StyleSheet, View, TextInput, TouchableOpacity} from "react-native";
 import {Divider, Snackbar} from "react-native-paper";
 import axios from "axios";
 import AuthContext from "../Context/AuthProvider";
@@ -17,10 +8,6 @@ import GlobalStyles from "./GlobalStyles";
 import API from "../API_interface/API_interface";
 
 const styles = StyleSheet.create({
-	backgroundColor: {
-		flex: 1,
-		backgroundColor: GlobalStyles.hexColor.black,
-	},
 	textTitle: {
 		fontSize: 30,
 		alignSelf: "center",

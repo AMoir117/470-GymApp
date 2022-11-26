@@ -1,51 +1,18 @@
 import React, {useState, useEffect, useContext, useReducer} from "react";
-import {
-	ScrollView,
-	Text,
-	StyleSheet,
-	View,
-	FlatList,
-	Pressable,
-	SafeAreaView,
-	ImageBackground,
-	Alert,
-	Image,
-	TextInput,
-} from "react-native";
-import {
-	Divider,
-	Appbar,
-	Button,
-	Avatar,
-	DataTable,
-	IconButton,
-	Provider,
-	Modal,
-	Portal,
-} from "react-native-paper";
+import {Text, StyleSheet, View, FlatList, SafeAreaView, Image, TextInput} from "react-native";
+import {Button, IconButton, Provider, Modal, Portal} from "react-native-paper";
 import axios from "axios";
 import SvgComponent from "../../SVG_Backgrounds/Schedule-edit-bg";
 import GlobalStyles from "../GlobalStyles";
-import {TouchableOpacity} from "react-native-gesture-handler";
 import AuthContext from "../../Context/AuthProvider";
 import WorkoutCardEditable from "../Modules/WorkoutCardEditable";
 import {useIsFocused} from "@react-navigation/native";
 
 const styles = StyleSheet.create({
-	backgroundImage: {
-		flex: 1,
-		backgroundColor: "#000000",
-	},
 	dayText: {
 		fontSize: 40,
 		alignSelf: "center",
 		color: GlobalStyles.hexColor.brown,
-	},
-	scheduleNameText: {
-		fontSize: 20,
-		alignSelf: "center",
-		fontStyle: "italic",
-		borderRadius: 0,
 	},
 	daysOfWeek: {
 		flexDirection: "row",
@@ -55,33 +22,10 @@ const styles = StyleSheet.create({
 		margin: 7,
 		marginTop: 10,
 	},
-	tableHeader: {
-		backgroundColor: GlobalStyles.hexColor.brown,
-	},
-	tableData: {
-		backgroundColor: GlobalStyles.hexColor.brown,
-	},
 	gifModal: {
 		width: 300,
 		height: 300,
 		alignSelf: "center",
-	},
-	titleModal: {
-		width: 360,
-		alignSelf: "center",
-		position: "absolute",
-		top: 0,
-	},
-	buttonStyle: {
-		height: 30,
-		width: 70,
-		margin: 2,
-		marginTop: 10,
-		alignSelf: "center",
-		alignItems: "center",
-		textAlign: "center",
-		textAlignVertical: "center",
-		backgroundColor: GlobalStyles.hexColor.brown,
 	},
 	scheduleTitle: {
 		textAlign: "center",
@@ -93,7 +37,6 @@ const styles = StyleSheet.create({
 	},
 });
 
-//fixme:: change to reflect database
 const daysOfWeek = [
 	{
 		dayID: "1",
@@ -147,7 +90,6 @@ const Schedules = ({navigation, back, route}) => {
 	const [dailyWorkoutData, setDailyWorkoutData] = useState([]);
 	const [gifShow, setGifShow] = useState(false);
 	const [modalUri, setModalUri] = useState("");
-	const [titleModal, setTitleModal] = useState(false);
 	const isFocused = useIsFocused();
 
 	const [update, setUpdate] = useReducer((x) => x + 1, 0);
@@ -274,18 +216,7 @@ const Schedules = ({navigation, back, route}) => {
 					);
 				})}
 			</View>
-
 			<Text style={styles.dayText}>{currentDay}</Text>
-
-			{/* <Button
-				textColor={GlobalStyles.hexColor.brown}
-				style={styles.scheduleNameText}
-				onPress={changeTitle}
-				mode="outlined"
-				buttonColor={GlobalStyles.hexColor.black}
-			>
-				{scheduleName}
-			</Button> */}
 			<TextInput
 				style={styles.scheduleTitle}
 				placeholder={scheduleName}
@@ -293,7 +224,6 @@ const Schedules = ({navigation, back, route}) => {
 				onSubmitEditing={changeTitle}
 				onChangeText={setScheduleName}
 			/>
-
 			<FlatList
 				showsVerticalScrollIndicator={false}
 				alwaysBounceVertical={true}
@@ -301,15 +231,6 @@ const Schedules = ({navigation, back, route}) => {
 				renderItem={renderItem}
 				keyExtractor={(item) => item.id}
 			/>
-
-			{/* <TouchableOpacity
-				style={styles.buttonStyle}
-				onPress={() =>
-					navigation.navigate("SearchBar", {weekSchedule: weekSchedule, day: currentDay})
-				}
-			>
-				<Text style={styles.buttonText}>Add</Text>
-			</TouchableOpacity> */}
 			<ShowGif />
 		</SafeAreaView>
 	);

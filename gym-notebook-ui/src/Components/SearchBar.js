@@ -1,25 +1,17 @@
 import React, {useState, useEffect} from "react";
-import {
-	SafeAreaView,
-	Text,
-	StyleSheet,
-	View,
-	FlatList,
-	TextInput,
-	Image,
-	ScrollView,
-} from "react-native";
+import {SafeAreaView, Text, StyleSheet, View, FlatList, Image} from "react-native";
 import {createDrawerNavigator, DrawerItemList} from "@react-navigation/drawer";
 import {IconButton, Modal, Portal, Provider, Searchbar, Button} from "react-native-paper";
-import SelectDropdown from "react-native-select-dropdown";
 import axios from "axios";
-import {DrawerActions, useNavigation} from "@react-navigation/native";
+import {DrawerActions} from "@react-navigation/native";
 import SearchResults from "./Modules/SearchResults";
 import GlobalStyles from "./GlobalStyles";
+import SvgComponent from "../SVG_Backgrounds/Workout-search-bg";
 
 const styles = StyleSheet.create({
-	container: {
-		backgroundColor: "white",
+	searchBar: {
+		marginTop: 5,
+		marginBottom: 5,
 	},
 	itemStyle: {
 		padding: 10,
@@ -42,6 +34,11 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.hexColor.brown,
 		borderColor: "#000000",
 		borderWidth: 1,
+	},
+	routineModal: {
+		flex: 1,
+		backgroundColor: "#cbbeb5",
+		flexDirection: "column",
 	},
 });
 
@@ -341,14 +338,6 @@ const SearchBar = ({navigation, back, route}) => {
 	};
 
 	const ItemView = ({item}) => {
-		/*
-		item.bodyPart
-		item.equipment
-		item.gifUrl
-		item.id
-		item.targetMuscle
-		item.workoutName
-		*/
 		return <SearchResults workout={item} addResult={addResult} />;
 	};
 
@@ -372,13 +361,7 @@ const SearchBar = ({navigation, back, route}) => {
 						onDismiss={hideAddModal}
 						contentContainerStyle={styles.gifModal}
 					>
-						<View
-							style={{
-								flex: 1,
-								backgroundColor: GlobalStyles.hexColor.brown,
-								flexDirection: "column",
-							}}
-						>
+						<View style={styles.routineModal}>
 							<Text style={{fontSize: 15, alignSelf: "center", padding: 10}}>
 								{workoutToAdd.workoutName
 									? workoutToAdd.workoutName.toUpperCase()
@@ -394,7 +377,12 @@ const SearchBar = ({navigation, back, route}) => {
 								source={{uri: workoutToAdd.gifUrl}}
 							/>
 
-							<Button style={{margin: 20}} mode="outlined" onPress={addRoutine}>
+							<Button
+								style={{margin: 20}}
+								textColor={GlobalStyles.hexColor.red}
+								mode="outlined"
+								onPress={addRoutine}
+							>
 								Add Routine
 							</Button>
 						</View>
@@ -419,6 +407,15 @@ const SearchBar = ({navigation, back, route}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1}}>
+			<SvgComponent
+				style={{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
+				}}
+			/>
 			<View style={styles.container}>
 				{/* <TextInput
 					style={styles.textInputStyle}
@@ -428,6 +425,7 @@ const SearchBar = ({navigation, back, route}) => {
 					placeholder="Search Here"
 				/> */}
 				<Searchbar
+					style={styles.searchBar}
 					placeholder="Search"
 					onChangeText={(text) => searchFilterFunction(text)}
 				/>

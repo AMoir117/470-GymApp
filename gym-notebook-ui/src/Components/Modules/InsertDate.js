@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {StyleSheet, Platform, View} from "react-native";
-import {TextInput as TextInputDoB, Button} from "react-native-paper";
+import {StyleSheet, Platform} from "react-native";
+import {Button} from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const styles = StyleSheet.create({

@@ -1,29 +1,13 @@
 import React, {useState, useEffect, useContext} from "react";
-import {
-	ScrollView,
-	Text,
-	StyleSheet,
-	View,
-	FlatList,
-	TextInput,
-	Pressable,
-	SafeAreaView,
-	TouchableOpacity,
-	ImageBackground,
-} from "react-native";
-import {DataTable, Avatar, Surface, Portal, IconButton} from "react-native-paper";
+import {Text, StyleSheet, FlatList, SafeAreaView, TouchableOpacity} from "react-native";
+import {Avatar, Surface, IconButton} from "react-native-paper";
 import GlobalStyles from "../GlobalStyles";
-import ProfileView from "../ProfileView";
 import AuthContext from "../../Context/AuthProvider";
 import {useNavigation} from "@react-navigation/native";
 import SvgComponent from "../../SVG_Backgrounds/Friends-bg";
 import axios from "axios";
 
 const styles = StyleSheet.create({
-	backgroundImage: {
-		flex: 1,
-		backgroundColor: GlobalStyles.hexColor.black,
-	},
 	surfaceStyle: {
 		height: 160,
 		width: 160,
@@ -35,24 +19,9 @@ const styles = StyleSheet.create({
 	flatListContainer: {
 		alignSelf: "center",
 	},
-	addButton: {
-		width: 40,
-		height: 40,
-		borderRadius: 20,
-		margin: 5,
-		backgroundColor: GlobalStyles.hexColor.red,
-		alignSelf: "center",
-	},
 	userNameStyle: {
-		height: 20,
-		margin: 5,
+		fontSize: 20,
 		alignSelf: "center",
-	},
-	addTextStyle: {
-		height: 20,
-		margin: 1,
-		alignSelf: "center",
-		color: "#ffffff",
 	},
 	avatarStyle: {
 		alignSelf: "center",

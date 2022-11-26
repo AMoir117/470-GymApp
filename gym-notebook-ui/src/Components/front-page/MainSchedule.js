@@ -1,40 +1,14 @@
-import React, {useState, useEffect, useContext, useCallback} from "react";
-import {
-	ScrollView,
-	StyleSheet,
-	View,
-	FlatList,
-	TextInput,
-	Pressable,
-	SafeAreaView,
-	TouchableOpacity,
-	Image,
-	ImageBackground,
-	Platform,
-} from "react-native";
-import {
-	Divider,
-	Appbar,
-	Button,
-	Avatar,
-	DataTable,
-	Provider,
-	Modal,
-	Portal,
-	Text,
-} from "react-native-paper";
+import React, {useState, useEffect, useContext} from "react";
+import {StyleSheet, FlatList, SafeAreaView, Image, Platform} from "react-native";
+import {Divider, Provider, Modal, Portal, Text} from "react-native-paper";
 import AuthContext from "../../Context/AuthProvider";
 import SvgComponent from "../../SVG_Backgrounds/Main-bg";
-import {useFocusEffect, useIsFocused, useNavigation} from "@react-navigation/native";
+import {useNavigation} from "@react-navigation/native";
 import axios from "axios";
 import GlobalStyles from "../GlobalStyles";
 import WorkoutCard from "../Modules/WorkoutCard";
 
 const styles = StyleSheet.create({
-	backgroundColor: {
-		flex: 1,
-		backgroundColor: GlobalStyles.hexColor.black,
-	},
 	dayText: {
 		fontSize: 40,
 		alignSelf: "center",
@@ -62,7 +36,6 @@ const MainSchedule = ({update}) => {
 	const {auth, setAuth} = useContext(AuthContext);
 	const [currentDay, setCurrentDay] = useState("Current Day");
 	const [scheduleName, setScheduleName] = useState("Start Creating Your New Schedule!");
-	//const [workouts, setWorkouts] = useState(data);
 	const [gifShow, setGifShow] = useState(false);
 	const [modalUri, setModalUri] = useState("");
 	const [dailyWorkoutData, setDailyWorkoutData] = useState([]);
@@ -138,7 +111,7 @@ const MainSchedule = ({update}) => {
 	const renderItem = ({item}) => <WorkoutCard showModal={showModal} workout={item} />;
 
 	return (
-		<SafeAreaView style={{flex: 1, maxHeight: "200%"}}>
+		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
 			<SvgComponent
 				style={{
 					position: "absolute",

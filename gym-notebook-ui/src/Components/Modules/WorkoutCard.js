@@ -1,27 +1,22 @@
 import {useState, useEffect} from "react";
-import {StyleSheet, View, Image} from "react-native";
-import {
-	Avatar,
-	Button,
-	Card,
-	Title,
-	Paragraph,
-	SegmentedButtons,
-	Divider,
-	Provider,
-	Portal,
-	Modal,
-	IconButton,
-} from "react-native-paper";
+import {StyleSheet, Text} from "react-native";
+import {Button, Card, IconButton} from "react-native-paper";
 import GlobalStyles from "../GlobalStyles";
 import axios from "axios";
-import {StorageAccessFramework} from "expo-file-system";
 
 const styles = StyleSheet.create({
 	cardContainer: {
+		width: 400,
+		alignSelf: "center",
 		backgroundColor: GlobalStyles.hexColor.brown,
 		margin: 2,
 		borderRadius: 0,
+	},
+	cardName: {
+		flex: 1,
+	},
+	workoutName: {
+		color: GlobalStyles.hexColor.black,
 	},
 	cardButton: {
 		alignSelf: "center",
@@ -47,8 +42,8 @@ const MyComponent = (props) => {
 		<>
 			<Card style={styles.cardContainer}>
 				<Card.Content>
-					<Button mode="outlined" compact={true}>
-						<Paragraph style={styles.cardContent}>{workoutName.workoutName}</Paragraph>
+					<Button mode="outlined" compact={true} contentStyle={styles.cardName}>
+						<Text style={styles.workoutName}>{workoutName.workoutName}</Text>
 					</Button>
 				</Card.Content>
 				<Card.Actions style={styles.cardButton}>

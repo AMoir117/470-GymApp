@@ -1,32 +1,14 @@
 import React, {useState, useEffect, useContext} from "react";
-import {
-	ScrollView,
-	StyleSheet,
-	View,
-	FlatList,
-	TextInput,
-	Pressable,
-	SafeAreaView,
-	ImageBackground,
-	Animated,
-	Alert,
-	TouchableOpacity,
-} from "react-native";
-import {DataTable, Avatar, Surface, Badge, Text, Button} from "react-native-paper";
+import {StyleSheet, View, FlatList, SafeAreaView, Animated, Alert} from "react-native";
+import {Surface, Badge, Text, Button} from "react-native-paper";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
-import SwipingRow from "../Modules/SwipingRow";
 import {RectButton, Swipeable} from "react-native-gesture-handler";
 import GlobalStyles from "../GlobalStyles";
 import axios from "axios";
 import SvgComponent from "../../SVG_Backgrounds/Schedule-list-bg";
 import AuthContext from "../../Context/AuthProvider";
-import {setStatusBarHidden} from "expo-status-bar";
 
 const styles = StyleSheet.create({
-	backgroundColor: {
-		flex: 1,
-		backgroundColor: GlobalStyles.hexColor.black,
-	},
 	surfaceStyle: {
 		flex: 1,
 		flexDirection: "row",
@@ -36,20 +18,6 @@ const styles = StyleSheet.create({
 	},
 	flatListContainer: {
 		flex: 1,
-	},
-	addButton: {
-		width: 40,
-		height: 40,
-		borderRadius: 20,
-		margin: 5,
-		backgroundColor: GlobalStyles.hexColor.red,
-		alignSelf: "center",
-	},
-	addTextStyle: {
-		height: 20,
-		margin: 1,
-		alignSelf: "center",
-		color: "#ffffff",
 	},
 	postTitleStyle: {
 		fontSize: 20,
@@ -67,11 +35,6 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 		margin: 20,
 		backgroundColor: GlobalStyles.hexColor.black,
-	},
-	avatarStyle: {
-		alignSelf: "center",
-		margin: 5,
-		backgroundColor: GlobalStyles.hexColor.white,
 	},
 	leftActionPost: {
 		width: 150,
@@ -286,7 +249,7 @@ const SchedulesList = ({setUpdate}) => {
 				renderRightActions={(progress) => renderRightActions(progress, item)}
 				onSwipeableOpen={() => closeRow(item)}
 			>
-				<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
+				<Surface style={styles.surfaceStyle}>
 					<View style={{flex: 1}}>
 						<Text style={styles.postTitleStyle}>{textVariant}</Text>
 						<Text style={styles.postCreatedOn}>{item.accessStatus}</Text>
