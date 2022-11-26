@@ -43,6 +43,7 @@ const MainSchedule = ({update}) => {
 	const navigation = useNavigation();
 
 	useEffect(() => {
+		//console.log(auth);
 		if (!auth.user.currentWeeklyScheduleID) {
 			console.log("user has no weekly schedule");
 			//todo::create new weekly schedule
