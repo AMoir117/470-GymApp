@@ -130,18 +130,7 @@ const acceptedWeights = [
 	405,
 ];
 
-const BODY_PART = [
-	"Back",
-	"Cardio",
-	"Lower-arms",
-	"Lower-legs",
-	"Shoulders",
-	"Upper-arms ",
-	"Upper-legs",
-	"Waist",
-	"Neck",
-	"Chest",
-];
+const BODY_PART = ["Back", "Cardio", "Lower-arms", "Lower-legs", "Shoulders", "Upper-arms ", "Upper-legs", "Waist", "Neck", "Chest"];
 
 const TARGET_BODY_PART = [
 	"abductors",
@@ -282,9 +271,10 @@ const SearchBar = ({navigation, back, route}) => {
 
 	useEffect(() => {
 		const getAllExercises = async () => {
-			const response = await axios.get("exercises/all-exercises");
-			setFilteredDataSource(response.data);
-			setMasterDataSource(response.data);
+			await axios.get("exercises/all-exercises").then((response) => {
+				setFilteredDataSource(response.data);
+				setMasterDataSource(response.data);
+			});
 		};
 
 		getAllExercises();
@@ -319,13 +309,24 @@ const SearchBar = ({navigation, back, route}) => {
 	const searchFilterFunction = (text) => {
 		if (text) {
 			// Filter the masterDataSource and update FilteredDataSource
-			const newData = masterDataSource.filter(function (item) {
-				const itemData = item.workoutName
-					? item.workoutName.toUpperCase()
-					: "".toUpperCase();
+			const newData = masterDataSource.filter((item) => {
+				const bodyPart = item.bodyPart;
+				const equipment = item.equipment;
+				const targetMuscle = item.targetMuscle;
+				const workoutName = item.workoutName;
+
+				const bodyPartData = item.bodyPart ? item.bodyPart.toUpperCase() : "".toUpperCase();
+				const equipmentData = item.equipment ? item.equipment.toUpperCase() : "".toUpperCase();
+				const targetMuscleData = item.targetMuscle ? item.targetMuscle.toUpperCase() : "".toUpperCase();
+				const workoutNameData = item.workoutName ? item.workoutName.toUpperCase() : "".toUpperCase();
 
 				const textData = text.toUpperCase();
-				return itemData.indexOf(textData) > -1;
+				return (
+					bodyPartData.indexOf(textData) > -1 ||
+					equipmentData.indexOf(textData) > -1 ||
+					targetMuscleData.indexOf(textData) > -1 ||
+					workoutNameData.indexOf(textData) > -1
+				);
 			});
 			setFilteredDataSource(newData);
 			setSearch(text);
@@ -342,9 +343,9 @@ const SearchBar = ({navigation, back, route}) => {
 	};
 
 	const addResult = async (item) => {
+		console.log(item);
 		setWorkoutToAdd(item);
 		showAddModal();
-		console.log(item);
 		//todo::show modal asking for reps sets and weight
 		// await axios.post(
 		// 	"daily-routine/insert/${item.id}/${set}/${rep}/${weight}/:dayOfWeek/:weeklyScheduleID"
@@ -356,16 +357,10 @@ const SearchBar = ({navigation, back, route}) => {
 		return (
 			<Provider>
 				<Portal>
-					<Modal
-						visible={addWorkoutShow}
-						onDismiss={hideAddModal}
-						contentContainerStyle={styles.gifModal}
-					>
+					<Modal visible={addWorkoutShow} onDismiss={hideAddModal} contentContainerStyle={styles.gifModal}>
 						<View style={styles.routineModal}>
 							<Text style={{fontSize: 15, alignSelf: "center", padding: 10}}>
-								{workoutToAdd.workoutName
-									? workoutToAdd.workoutName.toUpperCase()
-									: ""}
+								{workoutToAdd.workoutName ? workoutToAdd.workoutName.toUpperCase() : ""}
 							</Text>
 							<Image
 								style={{
@@ -377,12 +372,7 @@ const SearchBar = ({navigation, back, route}) => {
 								source={{uri: workoutToAdd.gifUrl}}
 							/>
 
-							<Button
-								style={{margin: 20}}
-								textColor={GlobalStyles.hexColor.red}
-								mode="outlined"
-								onPress={addRoutine}
-							>
+							<Button style={{margin: 20}} textColor={GlobalStyles.hexColor.red} mode="outlined" onPress={addRoutine}>
 								Add Routine
 							</Button>
 						</View>
@@ -398,11 +388,9 @@ const SearchBar = ({navigation, back, route}) => {
 	const hideAddModal = () => setAddWorkoutShow(false);
 
 	const addRoutine = async () => {
-		await axios
-			.post(`daily-routine/insert/${workoutToAdd.id}/3/10/45/${day}/${weekSchedule.id}`)
-			.then(() => {
-				navigation.navigate("Schedules", {weekSchedule: weekSchedule});
-			});
+		await axios.post(`daily-routine/insert/${workoutToAdd.id}/3/10/45/${day}/${weekSchedule.id}`).then(() => {
+			navigation.navigate("Schedules", {weekSchedule: weekSchedule});
+		});
 	};
 
 	return (
@@ -424,16 +412,8 @@ const SearchBar = ({navigation, back, route}) => {
 					underlineColorAndroid="transparent"
 					placeholder="Search Here"
 				/> */}
-				<Searchbar
-					style={styles.searchBar}
-					placeholder="Search"
-					onChangeText={(text) => searchFilterFunction(text)}
-				/>
-				<FlatList
-					data={filteredDataSource}
-					keyExtractor={(item, index) => index.toString()}
-					renderItem={ItemView}
-				/>
+				<Searchbar style={styles.searchBar} placeholder="Search" onChangeText={(text) => searchFilterFunction(text)} />
+				<FlatList data={filteredDataSource} keyExtractor={(item, index) => index.toString()} renderItem={ItemView} />
 			</View>
 			{/* <ShowGif /> */}
 			<AddWorkout />
