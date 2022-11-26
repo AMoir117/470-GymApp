@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from "react";
-import {ScrollView, StyleSheet, SafeAreaView, ImageBackground} from "react-native";
+import {ScrollView, StyleSheet, SafeAreaView} from "react-native";
 import {Button, TextInput} from "react-native-paper";
 import InsertDate from "./Modules/InsertDate";
 import ImagePick from "./Modules/ImagePicker";
@@ -8,6 +8,7 @@ import AuthContext from "../Context/AuthProvider";
 import SvgImage from "../SVG_Backgrounds/SvgImage";
 import GlobalStyles from "./GlobalStyles";
 import {getStorage, ref, getDownloadURL, uploadBytes} from "firebase/storage";
+import {getAuth, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail} from "firebase/auth";
 import {initializeApp} from "firebase/app";
 import firebaseConfig from "../../firebaseConfig";
 
@@ -53,6 +54,7 @@ const Signup = ({navigation, back}) => {
 
 	const app = initializeApp(firebaseConfig);
 	const storage = getStorage(app);
+	const firebaseAuth = getAuth();
 
 	const [usernameError, setUsernameError] = useState(false);
 	const [passwordError, setPasswordError] = useState(false);
@@ -84,47 +86,48 @@ const Signup = ({navigation, back}) => {
 
 		const pathRef = ref(storage, username);
 
-		uploadBytes(pathRef, blob).then((snapshot) => {
-			console.log("uploaded blob");
+		createUserWithEmailAndPassword(firebaseAuth, email, password).then((userCredential) => {
+			sendEmailVerification(firebaseAuth.currentUser);
+			uploadBytes(pathRef, blob).then((snapshot) => {
+				console.log("uploaded blob");
 
-			getDownloadURL(pathRef).then(async (imageUrl) => {
-				await axios
-					.post(`users/insert-user`, {
-						username: username,
-						userPassword: password,
-						firstName: firstName,
-						lastName: lastName,
-						DoB: date.toISOString().split("T")[0],
-						imagePath: imageUrl,
-						email: email,
-						profileBio: bio,
-					})
-					.then(async () => {
-						await axios
-							.get(`users/username/${username}`)
-							.then(async (response) => {
-								const userInfo = {
-									id: response.data[0].id,
-									username: username,
-									userPassword: password,
-									firstName: firstName,
-									lastName: lastName,
-									DoB: date.toISOString().split("T")[0],
-									imagePath: imageUrl,
-									email: email,
-									profileBio: bio,
-								};
-								setAuth({user: userInfo});
-								await axios.post(
-									`weekly-schedule/insert/private/${
-										firstName + "'s First Workout"
-									}/0/${response.data[0].id}`
-								);
-							})
-							.then(() => {
-								navigation.navigate("Front Page");
-							});
-					});
+				getDownloadURL(pathRef).then(async (imageUrl) => {
+					await axios
+						.post(`users/insert-user`, {
+							uid: userCredential.user.uid,
+							username: username,
+							userPassword: password,
+							firstName: firstName,
+							lastName: lastName,
+							DoB: date.toISOString().split("T")[0],
+							imagePath: imageUrl,
+							email: email,
+							profileBio: bio,
+						})
+						.then(async () => {
+							await axios
+								.get(`users/username/${username}`)
+								.then(async (response) => {
+									const userInfo = {
+										id: response.data[0].id,
+										uid: userCredential.user.uid,
+										username: username,
+										userPassword: password,
+										firstName: firstName,
+										lastName: lastName,
+										DoB: date.toISOString().split("T")[0],
+										imagePath: imageUrl,
+										email: email,
+										profileBio: bio,
+									};
+									setAuth({user: userInfo});
+									await axios.post(`weekly-schedule/insert/private/${firstName + "'s First Workout"}/0/${response.data[0].id}`);
+								})
+								.then(() => {
+									navigation.navigate("Front Page");
+								});
+						});
+				});
 			});
 		});
 	};
@@ -169,13 +172,7 @@ const Signup = ({navigation, back}) => {
 					textContentType={"lastName"}
 					onChangeText={setLastName}
 				/>
-				<TextInput
-					style={styles.textInputStyle}
-					label={"Email"}
-					value={email}
-					textContentType={"emailAddress"}
-					onChangeText={setEmail}
-				/>
+				<TextInput style={styles.textInputStyle} label={"Email"} value={email} textContentType={"emailAddress"} onChangeText={setEmail} />
 				<TextInput
 					style={styles.textInputStyle}
 					label={"Date of Birth"}
@@ -184,13 +181,7 @@ const Signup = ({navigation, back}) => {
 				/>
 				<InsertDate show={show} setShow={setShow} date={date} setDate={setDate} />
 
-				<TextInput
-					style={styles.bioInputStyle}
-					label={"Bio"}
-					value={bio}
-					multiline={true}
-					onChangeText={setBio}
-				/>
+				<TextInput style={styles.bioInputStyle} label={"Bio"} value={bio} multiline={true} onChangeText={setBio} />
 				<TextInput
 					style={styles.textInputStyle}
 					error={passwordError}
@@ -209,13 +200,7 @@ const Signup = ({navigation, back}) => {
 					textContentType={"password"}
 					onChangeText={setCheckPassword}
 				/>
-				<Button
-					style={styles.buttonSave}
-					icon="content-save"
-					mode="contained"
-					buttonColor="#ff0000"
-					onPress={saveProfile}
-				/>
+				<Button style={styles.buttonSave} icon="content-save" mode="contained" buttonColor="#ff0000" onPress={saveProfile} />
 			</ScrollView>
 		</SafeAreaView>
 	);

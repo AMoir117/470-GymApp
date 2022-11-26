@@ -100,16 +100,7 @@ const userByID = (ctx) => {
 };
 
 const insertNewUser = (ctx) => {
-	const usersTableAttributes = [
-		"username",
-		"userPassword",
-		"firstName",
-		"lastName",
-		"DoB",
-		"imagePath",
-		"email",
-		"profileBio",
-	];
+	const usersTableAttributes = ["uid", "username", "userPassword", "firstName", "lastName", "DoB", "imagePath", "email", "profileBio"];
 
 	let valuesFromRequest = JSON.parse(JSON.stringify(ctx.request.body)); // make a deep copy of ctx.request.body
 
@@ -118,6 +109,7 @@ const insertNewUser = (ctx) => {
 		...valuesFromRequest,
 		...{
 			// default values
+			uid: valuesFromRequest["uid"],
 			username: valuesFromRequest["username"],
 			userPassword: valuesFromRequest["userPassword"],
 			firstName: valuesFromRequest["firstName"],
@@ -144,11 +136,7 @@ const insertNewUser = (ctx) => {
 
 	return new Promise((resolve, reject) => {
 		console.log(`API server::insertNewUser: ${JSON.stringify(ctx.request.body)}`);
-		console.log(
-			`API server::insertNewUser after having added default values: ${JSON.stringify(
-				valuesToInsert
-			)}`
-		);
+		console.log(`API server::insertNewUser after having added default values: ${JSON.stringify(valuesToInsert)}`);
 
 		const query = `
                        INSERT INTO users (${usersTableAttributes})
