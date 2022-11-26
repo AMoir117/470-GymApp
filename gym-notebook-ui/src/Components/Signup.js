@@ -8,6 +8,7 @@ import AuthContext from "../Context/AuthProvider";
 import SvgImage from "../SVG_Backgrounds/SvgImage";
 import GlobalStyles from "./GlobalStyles";
 import {getStorage, ref, getDownloadURL, uploadBytes} from "firebase/storage";
+import {getAuth, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail} from "firebase/auth";
 import {getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile} from "firebase/auth";
 import {initializeApp} from "firebase/app";
 import firebaseConfig from "../../firebaseConfig";
