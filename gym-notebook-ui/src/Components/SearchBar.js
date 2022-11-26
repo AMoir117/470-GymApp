@@ -264,8 +264,6 @@ const SearchBar = ({navigation, back, route}) => {
 	const [search, setSearch] = useState("");
 	const [filteredDataSource, setFilteredDataSource] = useState([]);
 	const [masterDataSource, setMasterDataSource] = useState([]);
-	const [gifShow, setGifShow] = useState(false);
-	const [modalUri, setModalUri] = useState("");
 	const [addWorkoutShow, setAddWorkoutShow] = useState(false);
 	const [workoutToAdd, setWorkoutToAdd] = useState({});
 
@@ -292,29 +290,23 @@ const SearchBar = ({navigation, back, route}) => {
 					/>
 				);
 			},
-			headerRight: () => {
-				return (
-					<IconButton
-						icon="filter"
-						onPress={() => {
-							//todo::add window to filter equipment, targetMuscle, bodyPart
-							navigation.dispatch(DrawerActions.openDrawer());
-						}}
-					/>
-				);
-			},
+			// headerRight: () => {
+			// 	return (
+			// 		<IconButton
+			// 			icon="filter"
+			// 			onPress={() => {
+			// 				//todo::add window to filter equipment, targetMuscle, bodyPart
+			// 				navigation.dispatch(DrawerActions.openDrawer());
+			// 			}}
+			// 		/>
+			// 	);
+			// },
 		});
 	}, [navigation]);
 
 	const searchFilterFunction = (text) => {
 		if (text) {
-			// Filter the masterDataSource and update FilteredDataSource
 			const newData = masterDataSource.filter((item) => {
-				const bodyPart = item.bodyPart;
-				const equipment = item.equipment;
-				const targetMuscle = item.targetMuscle;
-				const workoutName = item.workoutName;
-
 				const bodyPartData = item.bodyPart ? item.bodyPart.toUpperCase() : "".toUpperCase();
 				const equipmentData = item.equipment ? item.equipment.toUpperCase() : "".toUpperCase();
 				const targetMuscleData = item.targetMuscle ? item.targetMuscle.toUpperCase() : "".toUpperCase();
@@ -331,8 +323,6 @@ const SearchBar = ({navigation, back, route}) => {
 			setFilteredDataSource(newData);
 			setSearch(text);
 		} else {
-			// Inserted text is blank
-			// Update FilteredDataSource with masterDataSource
 			setFilteredDataSource(masterDataSource);
 			setSearch(text);
 		}
@@ -343,14 +333,8 @@ const SearchBar = ({navigation, back, route}) => {
 	};
 
 	const addResult = async (item) => {
-		console.log(item);
 		setWorkoutToAdd(item);
 		showAddModal();
-		//todo::show modal asking for reps sets and weight
-		// await axios.post(
-		// 	"daily-routine/insert/${item.id}/${set}/${rep}/${weight}/:dayOfWeek/:weeklyScheduleID"
-		// );
-		//	"/insert/:exerciseID/:sets/:reps/:weight/:dayOfWeek/:weeklyScheduleID",
 	};
 
 	const AddWorkout = (props) => {
@@ -382,7 +366,7 @@ const SearchBar = ({navigation, back, route}) => {
 		);
 	};
 
-	const showAddModal = (item) => {
+	const showAddModal = () => {
 		setAddWorkoutShow(true);
 	};
 	const hideAddModal = () => setAddWorkoutShow(false);
@@ -405,17 +389,9 @@ const SearchBar = ({navigation, back, route}) => {
 				}}
 			/>
 			<View style={styles.container}>
-				{/* <TextInput
-					style={styles.textInputStyle}
-					onChangeText={(text) => searchFilterFunction(text)}
-					value={search}
-					underlineColorAndroid="transparent"
-					placeholder="Search Here"
-				/> */}
 				<Searchbar style={styles.searchBar} placeholder="Search" onChangeText={(text) => searchFilterFunction(text)} />
 				<FlatList data={filteredDataSource} keyExtractor={(item, index) => index.toString()} renderItem={ItemView} />
 			</View>
-			{/* <ShowGif /> */}
 			<AddWorkout />
 		</SafeAreaView>
 	);
