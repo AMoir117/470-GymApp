@@ -155,6 +155,7 @@ const ScheduleEdit = ({navigation, back}) => {
 	const [scheduleName, setScheduleName] = useState("Path to Mr. Olympia");
 	const [workouts, setWorkouts] = useState(data);
 
+
 	useEffect(() => {}, []);
 
 	const renderItem = ({item}) => {

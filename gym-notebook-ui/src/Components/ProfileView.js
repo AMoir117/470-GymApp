@@ -36,7 +36,7 @@ import SvgImage2 from "../SVG_Backgrounds/Friends-bg";
 
 import AuthContext from "../Context/AuthProvider";
 import {RectButton, Swipeable} from "react-native-gesture-handler";
-import { consumers } from "stream";
+
 
 const styles = StyleSheet.create({
 	backgroundImage: {
