@@ -168,9 +168,16 @@ FollowerRouter.post(
 	FollowerController.addFollower,
 	(err) => console.log(`follower-insert ran into an error: ${err}`)
 );
-FollowerRouter.delete("/delete/:followerUserID/", FollowerController.removeFollower, (err) =>
+FollowerRouter.delete("/delete/:followerUserID/:followedUserID", FollowerController.removeFollower, (err) =>
 	console.log(`follower-delete ran into an error: ${err}`)
 );
+
+FollowerRouter.get("/search/:followerUserID/:followedUserID", FollowerController.searchFollower, (err) =>
+	console.log(`follower-search ran into an error: ${err}`)
+);
+
+
+
 /**
  * Register all of the controllers into the default controller.
  */

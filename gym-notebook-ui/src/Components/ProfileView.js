@@ -36,6 +36,7 @@ import SvgImage2 from "../SVG_Backgrounds/Friends-bg";
 
 import AuthContext from "../Context/AuthProvider";
 import {RectButton, Swipeable} from "react-native-gesture-handler";
+import { consumers } from "stream";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
 		textAlignVertical: "top",
 	},
 	surfaceStyle: {
-		height: 80,
+		height: 100,
 		flex: 1,
 		flexDirection: "row",
 		backgroundColor: GlobalStyles.hexColor.brown,
@@ -103,24 +104,29 @@ const styles = StyleSheet.create({
 		fontSize: 35,
 		margin: 5,
 		color: "#000000",
-		padding: 20,
+		padding: 10,
 	},
 	postTitleStyle: {
 		fontSize: 20,
-		height: 20,
+		
 		marginTop: 10,
 		marginLeft: 10,
 	},
 	postCreatedOn: {
-		height: 20,
+
 		marginTop: 10,
 		marginLeft: 10,
 	},
 	upVoteBadge: {
 		color: "#93c47d",
 		alignSelf: "center",
-		margin: 20,
+		height: 20,
+		width: 20,
 		backgroundColor: GlobalStyles.hexColor.black,
+		borderTopLeftRadius:10,
+		borderTopRightRadius:10,
+		borderBottomLeftRadius:10,
+		borderBottomRightRadius:10
 	},
 	flatListContainer: {
 		flex: 1,
@@ -130,6 +136,15 @@ const styles = StyleSheet.create({
 		width: 120,
 		backgroundColor: "#497AFC",
 		justifyContent: "center",
+	},
+	followButton: {
+		
+		backgroundColor : '#497AFC',
+		justifyContent: "center",
+		textAlign: "center",
+		alignSelf: "left",
+		width: 100,
+		borderRadius: 80
 	},
 	actionText: {
 		color: "white",
@@ -152,6 +167,8 @@ const ProfileView = ({route, navigation}) => {
 	const [scheduleToAdd, setScheduleToAdd] = useState();
 	const refArray = [];
 	const [prevRow, setPrevRow] = useState(null);
+	const [followed, setFollowed] = useState(false);
+	const [followerText, setFollowerText] = useState('Follow');
 
 	useEffect(() => {
 		const getPublicSchedules = async () => {
@@ -165,8 +182,36 @@ const ProfileView = ({route, navigation}) => {
 					setUserSchedules(scheduleResponses.data);
 				});
 		};
+
+		
 		getPublicSchedules();
 	}, []);
+
+	useEffect(() => {
+		// TODO: add follower checker here
+		// TODO: query db to check if auth.user.id & userProfileID already have a follower table
+		const checkFollowStatus = async () => {
+			if (auth.user.id === userProfile.id) {
+				return;
+			}
+
+			await axios.get(`follower/search/${auth.user.id}/${userProfile.id}`).then((response) => {
+				console.log("follower data:")
+				console.log(response.data);
+				if (response.data.length > 0){
+					setFollowed(true);
+					setFollowerText('Following');
+				}
+				else {
+					setFollowed(false);
+					setFollowerText('Follow');
+				}
+
+			})
+
+		}
+		checkFollowStatus();
+	}, ) //[followed]
 
 	const closeRow = (item) => {
 		if (prevRow === null) {
@@ -176,6 +221,53 @@ const ProfileView = ({route, navigation}) => {
 		}
 		setPrevRow(item.id);
 	};
+
+	const clickFollowButton = async (userProfileID) => {
+		if (auth.user.id === userProfileID){
+			return;
+		}
+		if (followed){
+			await axios.delete(`follower/delete/${auth.user.id}/${userProfileID}`).then((response) => {
+				setFollowerText("Follow")
+				setFollowed(false);
+				console.log("follower removed");
+			})
+		}
+		else{
+			await axios.post(`follower/insert/${auth.user.id}/${userProfileID}`).then((response) => {
+				console.log("follower added");
+				setFollowed(true);
+			}).catch((error) => {
+				// will usually be a dup key entry (bug on prod only)
+				if (error.response){
+					console.log(error.message)
+				}
+			})
+		}
+		
+		return;
+	}
+
+	const renderFollowButton = (userProfileID) => {
+
+		// TODO: query db to check if auth.user.id & userProfileID already have a follower table
+		
+		
+		// then based on that set functionality to either follow/unfollow
+		// TODO: add on hover to follow button to show red unfollow text
+
+
+		return (
+			<Card.Content style={{margin: 5, marginLeft:0}}>
+				<RectButton style={styles.followButton} onPress={() => clickFollowButton(userProfileID)}>
+					<Animated.Text style={[styles.actionText]}>{followerText}</Animated.Text>
+				</RectButton>
+			</Card.Content>
+		);
+	}
+				
+
+	
 
 	const clickAddSchedule = async (item) => {
 		console.log(item);
@@ -233,7 +325,7 @@ const ProfileView = ({route, navigation}) => {
 				onSwipeableOpen={() => closeRow(item)}
 			>
 				<Surface style={styles.surfaceStyle} numColumns={2} elevation={1}>
-					<View style={{flex: 1}}>
+					<View style={{flex: 1, overflow: 'hidden'}}>
 						<Text style={styles.postTitleStyle}>{item.title}</Text>
 						<Text style={styles.postCreatedOn}>{`Created: ${myDate}`}</Text>
 						<Text style={styles.postCreatedOn}>
@@ -264,6 +356,14 @@ const ProfileView = ({route, navigation}) => {
 		<SafeAreaView style={{flex: 1, maxHeight: "100%", backgroundColor: "#423F3B"}}>
 			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
 				<Card.Cover style={{top: 0}} source={{uri: userProfile.imagePath}} />
+				
+				
+	
+					
+	
+
+				{renderFollowButton(userProfile.id)}
+
 				<Card.Title
 					title={userProfile.firstName + " " + userProfile.lastName[0] + "."}
 					subtitle={userProfile.username}
@@ -273,9 +373,18 @@ const ProfileView = ({route, navigation}) => {
 					<Divider style={{borderWidth: 1}} />
 					<Paragraph>{userProfile.profileBio}</Paragraph>
 				</Card.Content>
+
+				<Card.Content>
+					<Text style={styles.profileScheduleHeader}>Schedules</Text>
+				</Card.Content>
+
+			
+				
+
+
 			</Card>
 
-			<Text style={styles.profileScheduleHeader}>Schedules</Text>
+			
 			<Divider style={{borderWidth: 1}} />
 
 			<FlatList
