@@ -6,6 +6,9 @@ import AuthContext from "../Context/AuthProvider";
 import SvgImage from "../SVG_Backgrounds/SvgImage";
 import GlobalStyles from "./GlobalStyles";
 import API from "../API_interface/API_interface";
+import {getAuth, sendPasswordResetEmail, signInWithEmailAndPassword} from "firebase/auth";
+import {initializeApp} from "firebase/app";
+import firebaseConfig from "../../firebaseConfig";
 
 const styles = StyleSheet.create({
 	textTitle: {
@@ -52,14 +55,17 @@ const styles = StyleSheet.create({
 });
 const Login = ({navigation}) => {
 	const {auth, setAuth} = useContext(AuthContext);
-	const [username, setUsername] = useState("");
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [visible, setVisible] = useState(false);
 	const [verifyUser, setVerifyUser] = useState(false);
 	const [authFailed, setAuthFailed] = useState(false);
 
+	const app = initializeApp(firebaseConfig);
+	const firebaseAuth = getAuth();
+
 	useEffect(() => {
-		if (!verifyUser || username.length === 0) return;
+		if (!verifyUser || email.length === 0) return;
 
 		const api = new API();
 		async function getUserInfo() {
@@ -78,36 +84,41 @@ const Login = ({navigation}) => {
 	}, [verifyUser, setAuth]);
 
 	const handleUsernameChange = (u) => {
-		setUsername(u);
+		setEmail(u);
 	};
 
 	const handlePasswordChange = (p) => {
 		setPassword(p);
 	};
 
-	const forgetPassword = () => {
+	const forgetPassword = (email) => {
 		//todo::send email to user to reset password
+		sendPasswordResetEmail(firebaseAuth, email);
 	};
 	const login = async () => {
-		//fixme::try catch for wrong inputs
-		await axios
-			.get(`users/username/${username}`)
-			.then((response) => {
-				const userInfo = response.data[0];
-				if (userInfo === undefined) {
-					setVisible(true);
-				} else if (password === userInfo.userPassword) {
-					setAuth({user: userInfo});
-					navigation.navigate("Front Page");
-				}
-			})
-			.catch(function (error) {
-				if (error.response) {
-					console.log(error.response.data);
-					console.log(error.response.status);
-					console.log(error.response.headers);
-				}
-			});
+		signInWithEmailAndPassword(firebaseAuth, email, password).then(async (userCredential) => {
+			console.log(`Signed in`);
+
+			await axios
+				.get(`users/uid/${userCredential.user.uid}`)
+				.then((response) => {
+					const userInfo = response.data[0];
+					if (userInfo === undefined) {
+						setVisible(true);
+					} else if (password === userInfo.userPassword) {
+						setAuth({user: userInfo});
+						navigation.navigate("Front Page");
+					}
+				})
+				.catch(function (error) {
+					if (error.response) {
+						console.log(error.response.data);
+						console.log(error.response.status);
+						console.log(error.response.headers);
+					}
+				});
+			navigation.navigate("Front Page");
+		});
 	};
 	const signup = () => {
 		navigation.navigate("Signup");
@@ -130,16 +141,8 @@ const Login = ({navigation}) => {
 				}}
 			/>
 			<Text style={styles.textTitle}>GYM NOTEBOOK</Text>
-			<Divider
-				style={{borderColor: "#ff6666", borderWidth: 3, borderRadius: 5}}
-				horizontalInset="3"
-			/>
-			<TextInput
-				style={styles.textInputStyle}
-				placeholder={"Username"}
-				value={username}
-				onChangeText={(u) => handleUsernameChange(u)}
-			/>
+			<Divider style={{borderColor: "#ff6666", borderWidth: 3, borderRadius: 5}} horizontalInset="3" />
+			<TextInput style={styles.textInputStyle} placeholder={"email"} value={email} onChangeText={(u) => handleUsernameChange(u)} />
 			<TextInput
 				style={styles.textInputStyle}
 				secureTextEntry={true}
@@ -173,13 +176,7 @@ const Login = ({navigation}) => {
 					<Text style={{alignSelf: "center"}}></Text>
 				</TouchableOpacity>
 			</View>
-			<Snackbar
-				style={styles.snackBar}
-				wrapperStyle={{top: 0}}
-				visible={visible}
-				duration={2000}
-				onDismiss={onDismissSnackBar}
-			>
+			<Snackbar style={styles.snackBar} wrapperStyle={{top: 0}} visible={visible} duration={2000} onDismiss={onDismissSnackBar}>
 				Username or Password Incorrect!!
 			</Snackbar>
 		</SafeAreaView>

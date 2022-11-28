@@ -13,6 +13,7 @@ import GlobalStyles from "./src/Components/GlobalStyles";
 import CustomNavigationBar from "./src/Components/CustomNavigationBar";
 import ProfileView from "./src/Components/ProfileView";
 import Schedules from "./src/Components/front-page/Schedules";
+import ResetPassword from "./src/Components/ResetPassword";
 //import DrawerTest from "./src/Components/DrawerTest";
 
 const App = () => {
@@ -40,16 +41,8 @@ const App = () => {
 								headerBackTitleVisible: false,
 							}}
 						/>
-						<Stack.Screen
-							name="Front Page"
-							component={FrontPage}
-							options={{header: (props) => <CustomNavigationBar {...props} />}}
-						/>
-						<Stack.Screen
-							name="User Profile"
-							component={UserProfile}
-							options={{header: (props) => <CustomNavigationBar {...props} />}}
-						/>
+						<Stack.Screen name="Front Page" component={FrontPage} options={{header: (props) => <CustomNavigationBar {...props} />}} />
+						<Stack.Screen name="User Profile" component={UserProfile} options={{header: (props) => <CustomNavigationBar {...props} />}} />
 						<Stack.Screen
 							name="Schedules"
 							component={Schedules}
@@ -77,14 +70,14 @@ const App = () => {
 								headerBackTitleVisible: false,
 							}}
 						/>
-						{/* <Stack.Screen
+						<Stack.Screen
 							name="WORKING_PAGE"
-							component={}
+							component={ResetPassword}
 							options={{
 								title: "WORKING_PAGE",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
 							}}
-						/> */}
+						/>
 					</Stack.Navigator>
 				</NavigationContainer>
 			</Provider>

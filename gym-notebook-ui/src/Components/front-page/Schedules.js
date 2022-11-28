@@ -39,6 +39,12 @@ const styles = StyleSheet.create({
 
 const daysOfWeek = [
 	{
+		dayID: "0",
+		dayNameShort: "Sun",
+		dayNameLong: "Sunday",
+		color: GlobalStyles.hexColor.green,
+	},
+	{
 		dayID: "1",
 		dayNameShort: "Mon",
 		dayNameLong: "Monday",
@@ -74,12 +80,6 @@ const daysOfWeek = [
 		dayNameLong: "Saturday",
 		color: GlobalStyles.hexColor.orange,
 	},
-	{
-		dayID: "7",
-		dayNameShort: "Sun",
-		dayNameLong: "Sunday",
-		color: GlobalStyles.hexColor.green,
-	},
 ];
 
 const Schedules = ({navigation, back, route}) => {
@@ -100,7 +100,7 @@ const Schedules = ({navigation, back, route}) => {
 
 	useEffect(() => {
 		const day = new Date();
-		setCurrentDay(daysOfWeek[day.getDay() - 1].dayNameLong);
+		setCurrentDay(daysOfWeek[day.getDay()].dayNameLong);
 	}, []);
 
 	useEffect(() => {
@@ -130,20 +130,12 @@ const Schedules = ({navigation, back, route}) => {
 	}, [navigation, currentDay]);
 
 	useEffect(() => {
-		if (!auth.user.currentWeeklyScheduleID) {
-			console.log("user has no weekly schedule");
-			//todo::create new weekly schedule
-			return;
-		}
-
 		//Android has different formats for toLocaleDateString
 
 		const getDailyRoutine = async () => {
-			await axios
-				.get(`daily-routine/get-daily-routines/${currentDay}/${weekSchedule.id}`)
-				.then((routineResponse) => {
-					setDailyWorkoutData(routineResponse.data);
-				});
+			await axios.get(`daily-routine/get-daily-routines/${currentDay}/${weekSchedule.id}`).then((routineResponse) => {
+				setDailyWorkoutData(routineResponse.data);
+			});
 		};
 		const getScheduleTitle = async () => {
 			await axios.get(`weekly-schedule/id/${weekSchedule.id}`).then((titleResponse) => {
@@ -165,11 +157,7 @@ const Schedules = ({navigation, back, route}) => {
 		return (
 			<Provider>
 				<Portal>
-					<Modal
-						visible={gifShow}
-						onDismiss={hideModal}
-						contentContainerStyle={styles.gifModal}
-					>
+					<Modal visible={gifShow} onDismiss={hideModal} contentContainerStyle={styles.gifModal}>
 						<Image style={{width: 300, height: 300}} source={{uri: modalUri}} />
 					</Modal>
 				</Portal>
@@ -178,9 +166,7 @@ const Schedules = ({navigation, back, route}) => {
 	};
 
 	const renderItem = ({item}) => {
-		return (
-			<WorkoutCardEditable forceUpdate={forceUpdate} showModal={showModal} workout={item} />
-		);
+		return <WorkoutCardEditable forceUpdate={forceUpdate} showModal={showModal} workout={item} />;
 	};
 
 	const changeTitle = async () => {

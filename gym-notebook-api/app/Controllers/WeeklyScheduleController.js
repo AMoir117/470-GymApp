@@ -34,10 +34,7 @@ const getPublicSchedules = async (ctx) => {
 			},
 			(error, tuples) => {
 				if (error) {
-					console.log(
-						"Connection error in WeeklyScheduleController::getPublicSchedules",
-						error
-					);
+					console.log("Connection error in WeeklyScheduleController::getPublicSchedules", error);
 					return reject(error);
 				}
 				ctx.body = tuples;
@@ -70,10 +67,7 @@ const getAllSchedules = async (ctx) => {
 			},
 			(error, tuples) => {
 				if (error) {
-					console.log(
-						"Connection error in WeeklyScheduleController::getAllSchedules",
-						error
-					);
+					console.log("Connection error in WeeklyScheduleController::getAllSchedules", error);
 					return reject(error);
 				}
 				ctx.body = tuples;
@@ -106,10 +100,7 @@ const getPublicSchedulesById = async (ctx) => {
 			},
 			(error, tuples) => {
 				if (error) {
-					console.log(
-						"Connection error in WeeklyScheduleController::getPublicSchedulesById",
-						error
-					);
+					console.log("Connection error in WeeklyScheduleController::getPublicSchedulesById", error);
 					return reject(error);
 				}
 				ctx.body = tuples;
@@ -141,10 +132,7 @@ const incrementUpvotes = async (ctx) => {
 			},
 			(error, tuples) => {
 				if (error) {
-					console.log(
-						"Connection error in WeeklyScheduleController::incrementUpvotes",
-						error
-					);
+					console.log("Connection error in WeeklyScheduleController::incrementUpvotes", error);
 					return reject(error);
 				}
 				ctx.body = tuples;
@@ -176,10 +164,7 @@ const editWeeklyScheduleTitle = async (ctx) => {
 			},
 			(error, tuples) => {
 				if (error) {
-					console.log(
-						"Connection error in WeeklyScheduleController::editWeeklyScheduleTitle",
-						error
-					);
+					console.log("Connection error in WeeklyScheduleController::editWeeklyScheduleTitle", error);
 					return reject(error);
 				}
 				ctx.body = tuples;
@@ -211,10 +196,7 @@ const editWeeklyScheduleStatus = async (ctx) => {
 			},
 			(error, tuples) => {
 				if (error) {
-					console.log(
-						"Connection error in WeeklyScheduleController::editWeeklyScheduleStatus",
-						error
-					);
+					console.log("Connection error in WeeklyScheduleController::editWeeklyScheduleStatus", error);
 					return reject(error);
 				}
 				ctx.body = tuples;
@@ -245,10 +227,7 @@ const deleteWeeklySchedule = async (ctx) => {
 			},
 			(error, tuples) => {
 				if (error) {
-					console.log(
-						"Connection error in WeeklyScheduleController::deleteWeeklySchedule",
-						error
-					);
+					console.log("Connection error in WeeklyScheduleController::deleteWeeklySchedule", error);
 					return reject(error);
 				}
 				ctx.body = tuples;
@@ -278,10 +257,7 @@ const getTitleById = async (ctx) => {
 			},
 			(error, tuples) => {
 				if (error) {
-					console.log(
-						"Connection error in WeeklyScheduleController::getScheduleById",
-						error
-					);
+					console.log("Connection error in WeeklyScheduleController::getScheduleById", error);
 					return reject(error);
 				}
 				ctx.body = tuples;
@@ -291,6 +267,35 @@ const getTitleById = async (ctx) => {
 		);
 	}).catch((err) => {
 		console.log("Database connection error in getScheduleById.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
+};
+
+const getLastInsertId = async (ctx) => {
+	console.log("getLastInsertId called.");
+	return new Promise((resolve, reject) => {
+		const query = `
+                      SELECT LAST_INSERT_ID() as lastInsertId
+                      `;
+		dbConnection.query(
+			{
+				sql: query,
+			},
+			(error, tuples) => {
+				if (error) {
+					console.log("Connection error in WeeklyScheduleController::getLastInsertId", error);
+					return reject(error);
+				}
+				ctx.body = tuples;
+				ctx.status = 200;
+				return resolve();
+			}
+		);
+	}).catch((err) => {
+		console.log("Database connection error in getLastInsertId.", err);
 		// The UI side will have to look for the value of status and
 		// if it is not 200, act appropriately.
 		ctx.body = [];
@@ -309,19 +314,11 @@ const insertNewWeeklySchedule = async (ctx) => {
 		dbConnection.query(
 			{
 				sql: query,
-				values: [
-					ctx.params.accessStatus,
-					ctx.params.title,
-					ctx.params.upvotes,
-					ctx.params.userID,
-				],
+				values: [ctx.params.accessStatus, ctx.params.title, ctx.params.upvotes, ctx.params.userID],
 			},
 			(error, tuples) => {
 				if (error) {
-					console.log(
-						"Connection error in WeeklyScheduleController::insertNewWeeklySchedule",
-						error
-					);
+					console.log("Connection error in WeeklyScheduleController::insertNewWeeklySchedule", error);
 					return reject(error);
 				}
 				ctx.body = tuples;
@@ -341,6 +338,7 @@ const insertNewWeeklySchedule = async (ctx) => {
 module.exports = {
 	getPublicSchedules,
 	getAllSchedules,
+	getLastInsertId,
 	incrementUpvotes,
 	editWeeklyScheduleTitle,
 	deleteWeeklySchedule,
