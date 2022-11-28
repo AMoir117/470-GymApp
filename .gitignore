@@ -13,6 +13,8 @@ gym-notebook-ui/src/API_interface/API_interface.js
 gym-notebook-ui/web-build/
 gym-notebook-api/.env
 gym-notebook-ui/firebaseConfig.js
+gym-notebook-ui/AndroidManifest.xml
+
 
 # macOS
 .DS_Store

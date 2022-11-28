@@ -123,10 +123,7 @@ const styles = StyleSheet.create({
 		height: 20,
 		width: 20,
 		backgroundColor: GlobalStyles.hexColor.black,
-		borderTopLeftRadius:10,
-		borderTopRightRadius:10,
-		borderBottomLeftRadius:10,
-		borderBottomRightRadius:10
+	
 	},
 	flatListContainer: {
 		flex: 1,
@@ -138,13 +135,10 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	followButton: {
-		
 		backgroundColor : '#497AFC',
 		justifyContent: "center",
 		textAlign: "center",
-		alignSelf: "left",
 		width: 100,
-		borderRadius: 80
 	},
 	actionText: {
 		color: "white",
@@ -168,7 +162,9 @@ const ProfileView = ({route, navigation}) => {
 	const refArray = [];
 	const [prevRow, setPrevRow] = useState(null);
 	const [followed, setFollowed] = useState(false);
-	const [followerText, setFollowerText] = useState('Follow');
+	const [followerText, setFollowerText] = useState('');
+
+
 
 	useEffect(() => {
 		const getPublicSchedules = async () => {
@@ -183,13 +179,12 @@ const ProfileView = ({route, navigation}) => {
 				});
 		};
 
-		
 		getPublicSchedules();
+
 	}, []);
 
 	useEffect(() => {
-		// TODO: add follower checker here
-		// TODO: query db to check if auth.user.id & userProfileID already have a follower table
+	
 		const checkFollowStatus = async () => {
 			if (auth.user.id === userProfile.id) {
 				return;
@@ -198,20 +193,22 @@ const ProfileView = ({route, navigation}) => {
 			await axios.get(`follower/search/${auth.user.id}/${userProfile.id}`).then((response) => {
 				console.log("follower data:")
 				console.log(response.data);
-				if (response.data.length > 0){
-					setFollowed(true);
-					setFollowerText('Following');
-				}
-				else {
+				if (response.data.length === 0){
 					setFollowed(false);
 					setFollowerText('Follow');
+				}
+				else {
+					setFollowed(true);
+					setFollowerText('Following');
 				}
 
 			})
 
 		}
+
 		checkFollowStatus();
-	}, ) //[followed]
+	}, []);
+
 
 	const closeRow = (item) => {
 		if (prevRow === null) {
@@ -227,16 +224,18 @@ const ProfileView = ({route, navigation}) => {
 			return;
 		}
 		if (followed){
-			await axios.delete(`follower/delete/${auth.user.id}/${userProfileID}`).then((response) => {
+			await axios.delete(`follower/delete/${userProfileID}/${auth.user.id}`).then((response) => {
 				setFollowerText("Follow")
 				setFollowed(false);
 				console.log("follower removed");
+				console.log(response);
 			})
 		}
 		else{
-			await axios.post(`follower/insert/${auth.user.id}/${userProfileID}`).then((response) => {
+			await axios.post(`follower/insert/${userProfileID}/${auth.user.id}`).then((response) => {
 				console.log("follower added");
 				setFollowed(true);
+				setFollowerText("Following")
 			}).catch((error) => {
 				// will usually be a dup key entry (bug on prod only)
 				if (error.response){
@@ -250,9 +249,6 @@ const ProfileView = ({route, navigation}) => {
 
 	const renderFollowButton = (userProfileID) => {
 
-		// TODO: query db to check if auth.user.id & userProfileID already have a follower table
-		
-		
 		// then based on that set functionality to either follow/unfollow
 		// TODO: add on hover to follow button to show red unfollow text
 
@@ -377,10 +373,6 @@ const ProfileView = ({route, navigation}) => {
 				<Card.Content>
 					<Text style={styles.profileScheduleHeader}>Schedules</Text>
 				</Card.Content>
-
-			
-				
-
 
 			</Card>
 

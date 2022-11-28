@@ -168,11 +168,11 @@ FollowerRouter.post(
 	FollowerController.addFollower,
 	(err) => console.log(`follower-insert ran into an error: ${err}`)
 );
-FollowerRouter.delete("/delete/:followerUserID/:followedUserID", FollowerController.removeFollower, (err) =>
+FollowerRouter.delete("/delete/:followedUserID/:followerUserID", FollowerController.removeFollower, (err) =>
 	console.log(`follower-delete ran into an error: ${err}`)
 );
 
-FollowerRouter.get("/search/:followerUserID/:followedUserID", FollowerController.searchFollower, (err) =>
+FollowerRouter.get("/search/:followedUserID/:followerUserID", FollowerController.searchFollower, (err) =>
 	console.log(`follower-search ran into an error: ${err}`)
 );
 
