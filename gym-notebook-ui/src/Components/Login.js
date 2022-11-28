@@ -91,9 +91,8 @@ const Login = ({navigation}) => {
 		setPassword(p);
 	};
 
-	const forgetPassword = (email) => {
-		//todo::send email to user to reset password
-		sendPasswordResetEmail(firebaseAuth, email);
+	const forgetPassword = () => {
+		navigation.navigate("Reset Password");
 	};
 	const login = async () => {
 		signInWithEmailAndPassword(firebaseAuth, email, password).then(async (userCredential) => {
