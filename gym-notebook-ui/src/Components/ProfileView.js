@@ -190,7 +190,7 @@ const ProfileView = ({route, navigation}) => {
 				return;
 			}
 
-			await axios.get(`follower/search/${auth.user.id}/${userProfile.id}`).then((response) => {
+			await axios.get(`follower/search/${userProfile.id}/${auth.user.id}`).then((response) => {
 				console.log("follower data:")
 				console.log(response.data);
 				if (response.data.length === 0){
@@ -353,10 +353,6 @@ const ProfileView = ({route, navigation}) => {
 			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
 				<Card.Cover style={{top: 0}} source={{uri: userProfile.imagePath}} />
 				
-				
-	
-					
-	
 
 				{renderFollowButton(userProfile.id)}
 
