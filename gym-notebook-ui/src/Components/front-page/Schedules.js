@@ -45,12 +45,6 @@ const daysOfWeek = [
 		color: GlobalStyles.hexColor.green,
 	},
 	{
-		dayID: "0",
-		dayNameShort: "Sun",
-		dayNameLong: "Sunday",
-		color: GlobalStyles.hexColor.gold,
-	},
-	{
 		dayID: "1",
 		dayNameShort: "Mon",
 		dayNameLong: "Monday",
@@ -84,7 +78,7 @@ const daysOfWeek = [
 		dayID: "6",
 		dayNameShort: "Sat",
 		dayNameLong: "Saturday",
-		color: GlobalStyles.hexColor.green,
+		color: GlobalStyles.hexColor.orange,
 	},
 ];
 

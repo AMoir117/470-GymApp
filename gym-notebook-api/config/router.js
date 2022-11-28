@@ -51,7 +51,6 @@ usersRouter.get("/uid/:uid", UsersController.userByUid, (err) => console.log(`us
 usersRouter.get("/username/:username", UsersController.userByName, (err) => console.log(`userByName ran into an error: ${err}`));
 usersRouter.get("/id/:id", UsersController.userByID, (err) => console.log(`userByID ran into an error: ${err}`));
 
-
 // get followers of ID (NOTE: this should really be called get-followed-users)
 usersRouter.get("/get-followers/:followerUserID", UsersController.getUsersFollowers, (err) =>
 	console.log(`getUsersFollowers ran into an error: ${err}`)
