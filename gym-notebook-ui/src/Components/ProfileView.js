@@ -160,7 +160,7 @@ const ProfileView = ({route, navigation}) => {
 				return;
 			}
 			console.log(userProfile);
-			await axios.get(`follower/search/${auth.user.id}/${userProfile.userId}`).then((response) => {
+			await axios.get(`follower/search/${userProfile.userId}/${auth.user.id}`).then((response) => {
 				console.log("follower data:");
 				console.log(response.data);
 				if (response.data.length > 0) {
@@ -173,7 +173,7 @@ const ProfileView = ({route, navigation}) => {
 			});
 		};
 		checkFollowStatus();
-	}, []); //[followed]
+	}, []); 
 
 	const closeRow = (item) => {
 		if (prevRow === null) {
@@ -189,15 +189,16 @@ const ProfileView = ({route, navigation}) => {
 			return;
 		}
 		if (followed) {
-			await axios.delete(`follower/delete/${auth.user.id}/${userProfileID}`).then((response) => {
+			await axios.delete(`follower/delete/${userProfileID}/${auth.user.id}`).then((response) => {
 				setFollowerText("Follow");
 				setFollowed(false);
 				console.log("follower removed");
 			});
 		} else {
 			await axios
-				.post(`follower/insert/${auth.user.id}/${userProfileID}`)
+				.post(`follower/insert/${userProfileID}/${auth.user.id}`)
 				.then((response) => {
+					console.log("follower added")
 					setFollowerText("Unfollow");
 					setFollowed(true);
 				})
