@@ -100,16 +100,7 @@ const userByID = (ctx) => {
 };
 
 const insertNewUser = (ctx) => {
-	const usersTableAttributes = [
-		"username",
-		"userPassword",
-		"firstName",
-		"lastName",
-		"DoB",
-		"imagePath",
-		"email",
-		"profileBio",
-	];
+	const usersTableAttributes = ["username", "userPassword", "firstName", "lastName", "DoB", "imagePath", "email", "profileBio"];
 
 	let valuesFromRequest = JSON.parse(JSON.stringify(ctx.request.body)); // make a deep copy of ctx.request.body
 
@@ -144,11 +135,7 @@ const insertNewUser = (ctx) => {
 
 	return new Promise((resolve, reject) => {
 		console.log(`API server::insertNewUser: ${JSON.stringify(ctx.request.body)}`);
-		console.log(
-			`API server::insertNewUser after having added default values: ${JSON.stringify(
-				valuesToInsert
-			)}`
-		);
+		console.log(`API server::insertNewUser after having added default values: ${JSON.stringify(valuesToInsert)}`);
 
 		const query = `
                        INSERT INTO users (${usersTableAttributes})
@@ -217,6 +204,39 @@ const getUsersFollowers = async (ctx) => {
 	});
 };
 
+const editUserProfile = async (ctx) => {
+	console.log("editUserProfile called.");
+	return new Promise((resolve, reject) => {
+		const query = `
+                      UPDATE Users
+                      SET username = ?, firstName = ?, lastName = ?, email = ?, profileBio = ?
+                      WHERE id = ?;
+                      `;
+		dbConnection.query(
+			{
+				sql: query,
+				values: [ctx.params.username, ctx.params.firstName, ctx.params.lastName, ctx.params.email, ctx.params.profileBio, ctx.params.id],
+			},
+			(error, tuples) => {
+				if (error) {
+					console.log("Connection error in userController::editUserProfile", error);
+					return reject(error);
+				}
+				ctx.body = tuples;
+				ctx.status = 200;
+				console.log(ctx.params);
+				return resolve();
+			}
+		);
+	}).catch((err) => {
+		console.log("Database connection error in editUserProfile.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
+};
+
 const useWeeklySchedule = async (ctx) => {
 	console.log("useWeeklySchedule called.");
 	return new Promise((resolve, reject) => {
@@ -249,10 +269,44 @@ const useWeeklySchedule = async (ctx) => {
 	});
 };
 
+const changePicture = async (ctx) => {
+	console.log("changePicture called.");
+	return new Promise((resolve, reject) => {
+		const query = `
+                      UPDATE Users
+                      SET imagePath = ?
+                      WHERE id = ?;
+                      `;
+		dbConnection.query(
+			{
+				sql: query,
+				values: [ctx.params.imagePath, ctx.params.id],
+			},
+			(error, tuples) => {
+				if (error) {
+					console.log("Connection error in userController::changePicture", error);
+					return reject(error);
+				}
+				ctx.body = tuples;
+				ctx.status = 200;
+				return resolve();
+			}
+		);
+	}).catch((err) => {
+		console.log("Database connection error in changePicture.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
+};
+
 module.exports = {
 	allUsers,
 	userByName,
+	editUserProfile,
 	userByID,
+	changePicture,
 	insertNewUser,
 	getUsersFollowers,
 	useWeeklySchedule,

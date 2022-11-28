@@ -45,15 +45,17 @@ const styles = StyleSheet.create({
 const Lobby = () => {
 	const navigation = useNavigation();
 	const [posts, setPosts] = useState([]);
+	const [upvotes, setUpvotes] = useState();
 
 	useEffect(() => {
 		async function getLobby() {
 			await axios.get("weekly-schedule/lobby").then((response) => {
 				setPosts(response.data);
+				setUpvotes(response.data.upvotes);
 			});
 		}
 		getLobby();
-	}, []);
+	}, [upvotes]);
 
 	const renderPosts = ({item}) => {
 		return (
@@ -63,11 +65,7 @@ const Lobby = () => {
 						clickUserProfile(item);
 					}}
 				>
-					<Avatar.Image
-						style={styles.avatarStyle}
-						size={50}
-						source={{uri: item.imagePath}}
-					/>
+					<Avatar.Image style={styles.avatarStyle} size={50} source={{uri: item.imagePath}} />
 				</TouchableOpacity>
 				<View style={{flex: 1}}>
 					<Text style={styles.postTitle}>{item.title}</Text>
@@ -78,7 +76,12 @@ const Lobby = () => {
 					<IconButton
 						style={styles.upVoteButton}
 						icon="arrow-up-drop-circle"
-						onPress={upVote}
+						iconColor={"red"}
+						animate={true}
+						selected={true}
+						onPress={() => {
+							incrementUpvotes(item);
+						}}
 					/>
 				</View>
 			</Surface>
@@ -89,8 +92,11 @@ const Lobby = () => {
 		navigation.navigate("Profile View", {userProfile: item});
 	};
 
-	const upVote = () => {
-		//todo::array of user ids that voted
+	const incrementUpvotes = (item) => {
+		axios.put(`weekly-schedule/increment-upvotes/${item.id}`).then((response) => {
+			const temp = upvotes + 1;
+			setUpvotes(temp);
+		});
 	};
 
 	return (
