@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		borderWidth: 1,
 		borderColor: GlobalStyles.hexColor.black,
-		backgroundColor: "#cbbeb5",
 	},
 	flatListContainer: {
 		flex: 1,
@@ -83,11 +82,9 @@ const SchedulesList = ({setUpdate}) => {
 
 	useEffect(() => {
 		const getAllSchedules = async () => {
-			await axios
-				.get(`weekly-schedule/get-all-schedules/${auth.user.id}`)
-				.then((scheduleResponses) => {
-					setMySchedules(scheduleResponses.data);
-				});
+			await axios.get(`weekly-schedule/get-all-schedules/${auth.user.id}`).then((scheduleResponses) => {
+				setMySchedules(scheduleResponses.data);
+			});
 		};
 		getAllSchedules();
 	}, [isFocused]);
@@ -117,26 +114,20 @@ const SchedulesList = ({setUpdate}) => {
 	const deleteCurrentSchedule = async (item) => {
 		if (auth.user.currentWeeklyScheduleID === item.id) {
 			refArray[item.id].close();
-			Alert.alert(
-				"Unable to delete current schedule!",
-				"Change current schedule and try again.",
-				[
-					{
-						text: "OK",
-						onPress: () => console.log("cancel"),
-						style: "cancel",
-					},
-				]
-			);
+			Alert.alert("Unable to delete current schedule!", "Change current schedule and try again.", [
+				{
+					text: "OK",
+					onPress: () => console.log("cancel"),
+					style: "cancel",
+				},
+			]);
 			return;
 		} else {
 			await axios.delete(`weekly-schedule/delete/${item.id}`).then(async () => {
-				await axios
-					.get(`weekly-schedule/get-all-schedules/${auth.user.id}`)
-					.then((scheduleResponses) => {
-						setPrevRow(null);
-						setMySchedules(scheduleResponses.data);
-					});
+				await axios.get(`weekly-schedule/get-all-schedules/${auth.user.id}`).then((scheduleResponses) => {
+					setPrevRow(null);
+					setMySchedules(scheduleResponses.data);
+				});
 			});
 		}
 	};
@@ -204,10 +195,7 @@ const SchedulesList = ({setUpdate}) => {
 		};
 		return (
 			<Animated.View style={{flex: 1, transform: [{translateX: 0}]}}>
-				<RectButton
-					style={[styles.rightAction, {backgroundColor: color}]}
-					onPress={pressHandler}
-				>
+				<RectButton style={[styles.rightAction, {backgroundColor: color}]} onPress={pressHandler}>
 					<Text style={styles.actionText}>{text}</Text>
 				</RectButton>
 			</Animated.View>
@@ -215,11 +203,9 @@ const SchedulesList = ({setUpdate}) => {
 	};
 
 	const addNewSchedule = async () => {
-		await axios
-			.post(`weekly-schedule/insert/private/${"My New Workout"}/0/${auth.user.id}`)
-			.then(() => {
-				setUpdate();
-			});
+		await axios.post(`weekly-schedule/insert/private/${"My New Workout"}/0/${auth.user.id}`).then(() => {
+			setUpdate();
+		});
 	};
 
 	const renderRightActions = (progress, item) => {
@@ -234,8 +220,9 @@ const SchedulesList = ({setUpdate}) => {
 
 	const renderSchedules = ({item, index}) => {
 		let textVariant = item.title;
+		let backgroundColorVar = "#cbbeb5";
 		if (auth.user.currentWeeklyScheduleID === item.id) {
-			textVariant = textVariant + "*";
+			backgroundColorVar = GlobalStyles.hexColor.green;
 		}
 		const test = new Date(item.created);
 		const myDate = test.toLocaleDateString("en-us", GlobalStyles.date);
@@ -249,7 +236,15 @@ const SchedulesList = ({setUpdate}) => {
 				renderRightActions={(progress) => renderRightActions(progress, item)}
 				onSwipeableOpen={() => closeRow(item)}
 			>
-				<Surface style={styles.surfaceStyle}>
+				<Surface
+					style={{
+						flex: 1,
+						flexDirection: "row",
+						borderWidth: 1,
+						borderColor: GlobalStyles.hexColor.black,
+						backgroundColor: backgroundColorVar,
+					}}
+				>
 					<View style={{flex: 1}}>
 						<Text style={styles.postTitleStyle}>{textVariant}</Text>
 						<Text style={styles.postCreatedOn}>{item.accessStatus}</Text>

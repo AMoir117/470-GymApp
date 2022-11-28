@@ -53,11 +53,7 @@ const MainSchedule = ({update}) => {
 		const getDailyRoutine = async () => {
 			if (Platform.OS === "android") {
 				await axios
-					.get(
-						`daily-routine/get-daily-routines/${dayAndroid[day.getDay()]}/${
-							auth.user.currentWeeklyScheduleID
-						}`
-					)
+					.get(`daily-routine/get-daily-routines/${dayAndroid[day.getDay()]}/${auth.user.currentWeeklyScheduleID}`)
 					.then((routineResponse) => {
 						setDailyWorkoutData(routineResponse.data);
 					});
@@ -76,11 +72,9 @@ const MainSchedule = ({update}) => {
 			}
 		};
 		const getScheduleTitle = async () => {
-			await axios
-				.get(`weekly-schedule/id/${auth.user.currentWeeklyScheduleID}`)
-				.then((titleResponse) => {
-					setScheduleName(titleResponse.data[0].title);
-				});
+			await axios.get(`weekly-schedule/id/${auth.user.currentWeeklyScheduleID}`).then((titleResponse) => {
+				setScheduleName(titleResponse.data[0].title);
+			});
 		};
 		getScheduleTitle();
 		getDailyRoutine();
@@ -96,11 +90,7 @@ const MainSchedule = ({update}) => {
 		return (
 			<Provider>
 				<Portal>
-					<Modal
-						visible={gifShow}
-						onDismiss={hideModal}
-						contentContainerStyle={styles.gifModal}
-					>
+					<Modal visible={gifShow} onDismiss={hideModal} contentContainerStyle={styles.gifModal}>
 						<Image style={{width: 300, height: 300}} source={{uri: modalUri}} />
 					</Modal>
 				</Portal>

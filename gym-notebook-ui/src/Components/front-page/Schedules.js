@@ -39,45 +39,45 @@ const styles = StyleSheet.create({
 
 const daysOfWeek = [
 	{
+		dayID: "0",
+		dayNameShort: "Sun",
+		dayNameLong: "Sunday",
+		color: GlobalStyles.hexColor.gold,
+	},
+	{
 		dayID: "1",
 		dayNameShort: "Mon",
 		dayNameLong: "Monday",
-		color: GlobalStyles.hexColor.gold,
+		color: GlobalStyles.hexColor.grey,
 	},
 	{
 		dayID: "2",
 		dayNameShort: "Tue",
 		dayNameLong: "Tuesday",
-		color: GlobalStyles.hexColor.grey,
+		color: GlobalStyles.hexColor.blue,
 	},
 	{
 		dayID: "3",
 		dayNameShort: "Wed",
 		dayNameLong: "Wednesday",
-		color: GlobalStyles.hexColor.blue,
+		color: GlobalStyles.hexColor.red,
 	},
 	{
 		dayID: "4",
 		dayNameShort: "Thu",
 		dayNameLong: "Thursday",
-		color: GlobalStyles.hexColor.red,
+		color: GlobalStyles.hexColor.teal,
 	},
 	{
 		dayID: "5",
 		dayNameShort: "Fri",
 		dayNameLong: "Friday",
-		color: GlobalStyles.hexColor.teal,
+		color: GlobalStyles.hexColor.orange,
 	},
 	{
 		dayID: "6",
 		dayNameShort: "Sat",
 		dayNameLong: "Saturday",
-		color: GlobalStyles.hexColor.orange,
-	},
-	{
-		dayID: "7",
-		dayNameShort: "Sun",
-		dayNameLong: "Sunday",
 		color: GlobalStyles.hexColor.green,
 	},
 ];
@@ -100,7 +100,7 @@ const Schedules = ({navigation, back, route}) => {
 
 	useEffect(() => {
 		const day = new Date();
-		setCurrentDay(daysOfWeek[day.getDay() - 1].dayNameLong);
+		setCurrentDay(daysOfWeek[day.getDay()].dayNameLong);
 	}, []);
 
 	useEffect(() => {
@@ -139,11 +139,9 @@ const Schedules = ({navigation, back, route}) => {
 		//Android has different formats for toLocaleDateString
 
 		const getDailyRoutine = async () => {
-			await axios
-				.get(`daily-routine/get-daily-routines/${currentDay}/${weekSchedule.id}`)
-				.then((routineResponse) => {
-					setDailyWorkoutData(routineResponse.data);
-				});
+			await axios.get(`daily-routine/get-daily-routines/${currentDay}/${weekSchedule.id}`).then((routineResponse) => {
+				setDailyWorkoutData(routineResponse.data);
+			});
 		};
 		const getScheduleTitle = async () => {
 			await axios.get(`weekly-schedule/id/${weekSchedule.id}`).then((titleResponse) => {
@@ -165,11 +163,7 @@ const Schedules = ({navigation, back, route}) => {
 		return (
 			<Provider>
 				<Portal>
-					<Modal
-						visible={gifShow}
-						onDismiss={hideModal}
-						contentContainerStyle={styles.gifModal}
-					>
+					<Modal visible={gifShow} onDismiss={hideModal} contentContainerStyle={styles.gifModal}>
 						<Image style={{width: 300, height: 300}} source={{uri: modalUri}} />
 					</Modal>
 				</Portal>
@@ -178,9 +172,7 @@ const Schedules = ({navigation, back, route}) => {
 	};
 
 	const renderItem = ({item}) => {
-		return (
-			<WorkoutCardEditable forceUpdate={forceUpdate} showModal={showModal} workout={item} />
-		);
+		return <WorkoutCardEditable forceUpdate={forceUpdate} showModal={showModal} workout={item} />;
 	};
 
 	const changeTitle = async () => {
