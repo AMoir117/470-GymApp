@@ -43,14 +43,14 @@ const MainSchedule = ({update}) => {
 	const navigation = useNavigation();
 
 	useEffect(() => {
-		console.log(auth.user.currentWeeklyScheduleId);
+		console.log(auth.user);
 
 		//Android has different formats for toLocaleDateString
 
 		const getDailyRoutine = async () => {
 			if (Platform.OS === "android") {
 				await axios
-					.get(`daily-routine/get-daily-routines/${dayAndroid[day.getDay()]}/${auth.user.currentWeeklyScheduleId}`)
+					.get(`daily-routine/get-daily-routines/${dayAndroid[day.getDay()]}/${auth.user.currentWeeklyScheduleID}`)
 					.then((routineResponse) => {
 						setDailyWorkoutData(routineResponse.data);
 					});
@@ -60,7 +60,7 @@ const MainSchedule = ({update}) => {
 					.get(
 						`daily-routine/get-daily-routines/${day.toLocaleDateString("en-us", {
 							weekday: "long",
-						})}/${auth.user.currentWeeklyScheduleId}`
+						})}/${auth.user.currentWeeklyScheduleID}`
 					)
 					.then((routineResponse) => {
 						setDailyWorkoutData(routineResponse.data);
@@ -69,7 +69,7 @@ const MainSchedule = ({update}) => {
 			}
 		};
 		const getScheduleTitle = async () => {
-			await axios.get(`weekly-schedule/id/${auth.user.currentWeeklyScheduleId}`).then((titleResponse) => {
+			await axios.get(`weekly-schedule/id/${auth.user.currentWeeklyScheduleID}`).then((titleResponse) => {
 				setScheduleName(titleResponse.data[0].title);
 			});
 		};
