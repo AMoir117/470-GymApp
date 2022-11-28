@@ -5,7 +5,6 @@ function now() {
 	return dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
 }
 
-
 const addFollower = (ctx) => {
 	console.log("follower addFollower called.");
 	return new Promise((resolve, reject) => {
@@ -44,12 +43,12 @@ const removeFollower = (ctx) => {
 	console.log("follower removeFollower called.");
 	return new Promise((resolve, reject) => {
 		const query = `DELETE FROM Follower
-                   WHERE followerUserID = ? AND followedUserID = ?;
+                   WHERE followedUserID = ? AND followerUserID = ?;
                    `;
 		dbConnection.query(
 			{
 				sql: query,
-				values: [ctx.params.followerUserID, ctx.params.followedUserID],
+				values: [ctx.params.followedUserID, ctx.params.followerUserID],
 			},
 			(error, tuples) => {
 				if (error) {
@@ -73,17 +72,16 @@ const removeFollower = (ctx) => {
 	});
 };
 
-
 const searchFollower = (ctx) => {
 	console.log("follower searchFollower called.");
 	return new Promise((resolve, reject) => {
 		const query = `SELECT * FROM Follower
-                   WHERE followerUserID = ? and followedUserID = ?;
+                   WHERE followedUserID = ? and followerUserID = ?;
                    `;
 		dbConnection.query(
 			{
 				sql: query,
-				values: [ctx.params.followerUserID, ctx.params.followedUserID],
+				values: [ctx.params.followedUserID, ctx.params.followerUserID],
 			},
 			(error, tuples) => {
 				if (error) {
@@ -107,9 +105,8 @@ const searchFollower = (ctx) => {
 	});
 };
 
-
 module.exports = {
-  addFollower,
-  removeFollower,
-  searchFollower
+	addFollower,
+	removeFollower,
+	searchFollower,
 };
