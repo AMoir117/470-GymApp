@@ -62,7 +62,7 @@ usersRouter.get("/id/:id", UsersController.userByID, (err) =>
 	console.log(`userByID ran into an error: ${err}`)
 );
 // get followers of ID
-usersRouter.get("/get-followers/:followedUserID", UsersController.getUsersFollowers, (err) =>
+usersRouter.get("/get-followers/:followerUserID", UsersController.getUsersFollowers, (err) =>
 	console.log(`getUsersFollowers ran into an error: ${err}`)
 );
 

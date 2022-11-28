@@ -180,13 +180,13 @@ const getUsersFollowers = async (ctx) => {
 		const query = `
                       SELECT * FROM Users Users_Table
                       LEFT JOIN Follower Follower_Table
-                      ON Follower_Table.followerUserID = Users_Table.id
-                      WHERE Follower_Table.followedUserID = ?;
+                      ON Follower_Table.followedUserID = Users_Table.id
+                      WHERE Follower_Table.followerUserID = ?;
                       `;
 		dbConnection.query(
 			{
 				sql: query,
-				values: [ctx.params.followedUserID],
+				values: [ctx.params.followerUserID],
 			},
 			(error, tuples) => {
 				if (error) {
