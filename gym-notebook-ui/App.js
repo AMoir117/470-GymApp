@@ -80,6 +80,15 @@ const App = () => {
 							}}
 						/>
 						<Stack.Screen
+							name="Reset Password"
+							component={ResetPassword}
+							options={{
+								title: "",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+								headerBackTitleVisible: false,
+							}}
+						/>
+						<Stack.Screen
 							name="Schedule View"
 							component={ScheduleView}
 							options={{
@@ -97,7 +106,7 @@ const App = () => {
 								headerBackTitleVisible: false,
 							}}
 						/>
-						{/* <Stack.Screen
+						<Stack.Screen
 							name="WORKING_PAGE"
 							component={ResetPassword}
 							options={{
