@@ -156,11 +156,11 @@ const ProfileView = ({route, navigation}) => {
 		// TODO: add follower checker here
 		// TODO: query db to check if auth.user.id & userProfileID already have a follower table
 		const checkFollowStatus = async () => {
-			if (auth.user.id === userProfile.id) {
+			if (auth.user.id === userProfile.userId) {
 				return;
 			}
-
-			await axios.get(`follower/search/${auth.user.id}/${userProfile.id}`).then((response) => {
+			console.log(userProfile);
+			await axios.get(`follower/search/${auth.user.id}/${userProfile.userId}`).then((response) => {
 				console.log("follower data:");
 				console.log(response.data);
 				if (response.data.length > 0) {
@@ -309,7 +309,7 @@ const ProfileView = ({route, navigation}) => {
 			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
 				<Card.Cover style={{top: 0}} source={{uri: userProfile.imagePath}} />
 
-				{renderFollowButton(userProfile.id)}
+				{renderFollowButton(userProfile.userId)}
 
 				<Card.Title title={userProfile.firstName + " " + userProfile.lastName[0] + "."} subtitle={userProfile.username} />
 				<Card.Content>
