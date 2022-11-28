@@ -7,7 +7,7 @@ import {
 	FlatList,
 	TextInput,
 	Pressable,
-	SafeAreaView, ImageBackground,
+	SafeAreaView, ImageBackground
 } from "react-native";
 import {Divider, Appbar, Button, Avatar, Portal, Card, Title, Paragraph, IconButton} from "react-native-paper";
 import AuthContext from "../Context/AuthProvider";
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 	},
 });
-const UserProfile = (props) => {
+const UserProfile = ({navigation, back}) => {
 	const [image, setImage] = useState(undefined);
 
 	const {auth} = useContext(AuthContext);
@@ -84,21 +84,25 @@ const UserProfile = (props) => {
 
 	const [imgPath, setImgPath] = useState(auth.user.imagePath);
 
-	const changeProfilePicture = async () => {
-		const response = await fetch(image);
-		const blob = await response.blob();
+	// const changeProfilePicture = async () => {
+	// 	const response = await fetch(image);
+	// 	const blob = await response.blob();
+	//
+	// 	const pathRef = ref(storage, auth.user.username);
+	//
+	// 	uploadBytes(pathRef, blob).then((snapshot) => {
+	// 		console.log("uploaded blob");
+	//
+	// 		getDownloadURL(pathRef).then(async (imageUrl) => {
+	// 			console.log(`imageUrl: ${imageUrl}`);
+	// 			setImgPath(imageUrl);
+	// 		});
+	// 	});
+	// };
 
-		const pathRef = ref(storage, auth.user.username);
-
-		uploadBytes(pathRef, blob).then((snapshot) => {
-			console.log("uploaded blob");
-
-			getDownloadURL(pathRef).then(async (imageUrl) => {
-				console.log(`imageUrl: ${imageUrl}`);
-				setImgPath(imageUrl);
-			});
-		});
-	};
+	const changeToEditable = async () => {
+		navigation.navigate("Editable User Profile")
+	}
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
@@ -120,15 +124,15 @@ const UserProfile = (props) => {
 					<Paragraph>{auth.user.profileBio}</Paragraph>
 				</Card.Content>
 			</Card>
-			<ImagePick image={image} setImage={setImage} />
 			<IconButton
 				style={styles.buttonStyle}
 				icon="arrow-up-drop-circle"
 				iconColor={'red'}
 				animate={true}
 				selected={true}
-				onPress={changeProfilePicture}
+				onPress={changeToEditable}
 			/>
+
 		</SafeAreaView>
 	);
 };

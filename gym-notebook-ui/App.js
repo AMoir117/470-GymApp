@@ -14,6 +14,7 @@ import UserProfile from "./src/Components/UserProfile";
 import GlobalStyles from "./src/Components/GlobalStyles";
 import CustomNavigationBar from "./src/Components/CustomNavigationBar";
 import ProfileView from "./src/Components/ProfileView";
+import EditableUserProfile from "./src/Components/Modules/EditableUserProfile";
 import ScheduleEdit from "./src/Components/ScheduleEdit";
 import SectionListBasics from "./src/Components/SectionListBasics";
 import SchedulesList from "./src/Components/front-page/SchedulesList";
@@ -53,6 +54,11 @@ const App = () => {
 						<Stack.Screen
 							name="User Profile"
 							component={UserProfile}
+							options={{header: (props) => <CustomNavigationBar {...props} />}}
+						/>
+						<Stack.Screen
+							name="Editable User Profile"
+							component={EditableUserProfile}
 							options={{header: (props) => <CustomNavigationBar {...props} />}}
 						/>
 						<Stack.Screen

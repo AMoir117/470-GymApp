@@ -9,13 +9,13 @@ const AxiosConfigured = () => {
 	axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 	// Set the baseURL for all requests to the API domain instead of the current domain
-	axios.defaults.baseURL = `http://localhost:8443/api/v1`;
+	 axios.defaults.baseURL = `http://localhost:8443/api/v1`;
 	//fixme::find out how to put ip address in .env
 
 	// desktop
 	// axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
 	// phone
-	//axios.defaults.baseURL = `http://10.0.0.224:8443/api/v1`;
+	// axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
 
 	// Allow the browser to send cookies to the API domain (which include auth_token)
 	axios.defaults.withCredentials = true;
@@ -97,8 +97,8 @@ export default class APIInterface {
 		return axiosAgent.post(`users/insert-user`, userInfo);
 	}
 
-	async changePicture(imagePath, id) {
-		console.log(`API_Interface::changePicture: imagePath, id contains: ${JSON.stringify(imagePath, id)}`);
-		return axiosAgent.put(`users/change-picture`, imagePath, id);
+	async editUserProfile(userInfo) {
+		console.log(`API_Interface::editUser: userInfo contains: ${userInfo}`);
+		return axiosAgent.put(`users/edit-profile`);
 	}
 }

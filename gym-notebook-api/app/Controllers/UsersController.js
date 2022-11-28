@@ -174,6 +174,39 @@ const insertNewUser = (ctx) => {
 	}).catch((error) => console.log(`insertNewUser failed with error message, ${error}`));
 };
 
+const editUserProfile = async (ctx) => {
+	console.log("editUserProfile called.");
+	return new Promise((resolve, reject) => {
+		const query = `
+                      UPDATE Users
+                      SET username = ?, firstName = ?, lastName = ?, email = ?, profileBio = ?
+                      WHERE id = ?;
+                      `;
+		dbConnection.query(
+			{
+				sql: query,
+				values: [ctx.params.username, ctx.params.firstName, ctx.params.lastName, ctx.params.email, ctx.params.profileBio, ctx.params.id],
+			},
+			(error, tuples) => {
+				if (error) {
+					console.log("Connection error in userController::editUserProfile", error);
+					return reject(error);
+				}
+				ctx.body = tuples;
+				ctx.status = 200;
+				console.log(ctx.params);
+				return resolve();
+			}
+		);
+	}).catch((err) => {
+		console.log("Database connection error in editUserProfile.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
+};
+
 const getUsersFollowers = async (ctx) => {
 	console.log("getUsersFollowers called.");
 	return new Promise((resolve, reject) => {
@@ -276,6 +309,7 @@ module.exports = {
 	userByName,
 	userByID,
 	insertNewUser,
+	editUserProfile,
 	getUsersFollowers,
 	useWeeklySchedule,
 	changePicture
