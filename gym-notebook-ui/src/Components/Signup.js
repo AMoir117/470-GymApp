@@ -62,78 +62,85 @@ const Signup = ({navigation, back}) => {
 	useEffect(() => {}, []);
 
 	const saveProfile = async () => {
-		// await axios.get(`users/username/${username}`).then((response) => {
-		// 	if (response.data.length > 0) {
-		// 		console.log("username is not available");
-		// 		setUsernameError(true);
-		// 	} else {
-		// 		setUsernameError(false);
-		// 	}
-		// 	return;
-		// });
-		if (password !== checkPassword) {
-			console.log("Password is different");
-			setPasswordError(true);
-			return;
-		} else if (username === "" || email === "") {
-			console.log("Username or email is empty!");
-			return;
-		}
+		await axios.get(`users/username/${username}`).then(async (response) => {
+			console.log(response);
+			if (response.data.length > 0) {
+				console.log("username is not available");
+				setUsernameError(true);
+				return;
+			} else {
+				setUsernameError(false);
+				if (password !== checkPassword) {
+					console.log("Password is different");
+					setPasswordError(true);
+					return;
+				} else if (username === "") {
+					console.log("Username is empty!");
+					return;
+				} else if (email === "") {
+					console.log("email is empty!");
+					return;
+				} else if (password === "" || checkPassword === "") {
+					console.log("password is empty!");
+					return;
+				}
 
-		//fixme::default image for users that don't supply profile image
-		const response = await fetch(imagePath);
-		const blob = await response.blob();
+				//fixme::default image for users that don't supply profile image
+				const response = await fetch(imagePath);
+				const blob = await response.blob();
 
-		const pathRef = ref(storage, username);
+				const pathRef = ref(storage, username);
 
-		createUserWithEmailAndPassword(firebaseAuth, email, password).then((userCredential) => {
-			sendEmailVerification(firebaseAuth.currentUser);
+				createUserWithEmailAndPassword(firebaseAuth, email, password).then((userCredential) => {
+					sendEmailVerification(firebaseAuth.currentUser);
 
-			updateProfile(firebaseAuth.currentUser, {displayName: username});
-			uploadBytes(pathRef, blob).then((snapshot) => {
-				console.log("uploaded blob");
+					updateProfile(firebaseAuth.currentUser, {displayName: username});
+					uploadBytes(pathRef, blob).then((snapshot) => {
+						console.log("uploaded blob");
 
-				getDownloadURL(pathRef).then(async (imageUrl) => {
-					await axios
-						.post(`users/insert-user`, {
-							uid: userCredential.user.uid,
-							username: username,
-							userPassword: password,
-							firstName: firstName,
-							lastName: lastName,
-							DoB: date.toISOString().split("T")[0],
-							imagePath: imageUrl,
-							email: email,
-							profileBio: bio,
-						})
-						.then(async () => {
-							await axios.get(`users/uid/${userCredential.user.uid}`).then(async (response) => {
-								const user_id = response.data[0].id;
-								await axios.post(`weekly-schedule/insert/private/${"My First Workout"}/0/${user_id}`).then(async () => {
-									await axios.get("weekly-schedule/last-insert-id").then(async (response) => {
-										const userInfo = {
-											id: user_id,
-											uid: userCredential.user.uid,
-											username: username,
-											userPassword: password,
-											firstName: firstName,
-											lastName: lastName,
-											DoB: date.toISOString().split("T")[0],
-											imagePath: imageUrl,
-											email: email,
-											profileBio: bio,
-											currentWeeklyScheduleId: response.data[0].lastInsertId,
-										};
-										setAuth({user: userInfo});
-										await axios.put(`users/use-weekly-schedule/${response.data[0].lastInsertId}/${user_id}`).then(() => {
-											navigation.navigate("Front Page");
+						getDownloadURL(pathRef).then(async (imageUrl) => {
+							await axios
+								.post(`users/insert-user`, {
+									uid: userCredential.user.uid,
+									username: username,
+									userPassword: password,
+									firstName: firstName,
+									lastName: lastName,
+									DoB: date.toISOString().split("T")[0],
+									imagePath: imageUrl,
+									email: email,
+									profileBio: bio,
+								})
+								.then(async () => {
+									await axios.get(`users/uid/${userCredential.user.uid}`).then(async (response) => {
+										const user_id = response.data[0].id;
+										await axios.post(`weekly-schedule/insert/private/${"My First Workout*"}/0/${user_id}`).then(async () => {
+											await axios.get("weekly-schedule/last-insert-id").then(async (response) => {
+												const userInfo = {
+													id: user_id,
+													uid: userCredential.user.uid,
+													username: username,
+													userPassword: password,
+													firstName: firstName,
+													lastName: lastName,
+													DoB: date.toISOString().split("T")[0],
+													imagePath: imageUrl,
+													email: email,
+													profileBio: bio,
+													currentWeeklyScheduleID: response.data[0].lastInsertId,
+												};
+												setAuth({user: userInfo});
+												await axios.put(`users/use-weekly-schedule/${response.data[0].lastInsertId}/${user_id}`).then(() => {
+													navigation.navigate("Front Page");
+												});
+											});
 										});
 									});
 								});
-							});
 						});
+					});
 				});
-			});
+			}
 		});
 	};
 

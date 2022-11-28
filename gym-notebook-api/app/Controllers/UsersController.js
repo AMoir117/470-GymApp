@@ -37,6 +37,37 @@ const allUsers = async (ctx) => {
 	});
 };
 
+const userByName = (ctx) => {
+	console.log("users user by name called.");
+	return new Promise((resolve, reject) => {
+		const query = `SELECT * FROM Users WHERE username = ?;`;
+		dbConnection.query(
+			{
+				sql: query,
+				values: [ctx.params.username],
+			},
+			(error, tuples) => {
+				if (error) {
+					console.log("Connection error in UsersController::userByName", error);
+					ctx.body = [];
+					ctx.status = 200;
+					return reject(error);
+				}
+				ctx.body = tuples;
+				ctx.status = 200;
+				return resolve();
+			}
+		);
+		console.log(ctx.params);
+	}).catch((err) => {
+		console.log("Database connection error in userByName.", err);
+		// The UI side will have to look for the value of status and
+		// if it is not 200, act appropriately.
+		ctx.body = [];
+		ctx.status = 500;
+	});
+};
+
 const userByUid = (ctx) => {
 	console.log("users user by name called.");
 	return new Promise((resolve, reject) => {
@@ -307,6 +338,7 @@ module.exports = {
 	userByUid,
 	editUserProfile,
 	userByID,
+	userByName,
 	changePicture,
 	insertNewUser,
 	getUsersFollowers,
