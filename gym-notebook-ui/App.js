@@ -13,6 +13,7 @@ import GlobalStyles from "./src/Components/GlobalStyles";
 import CustomNavigationBar from "./src/Components/CustomNavigationBar";
 import ProfileView from "./src/Components/ProfileView";
 import Schedules from "./src/Components/front-page/Schedules";
+import ResetPassword from "./src/Components/ResetPassword";
 import EditableUserProfile from "./src/Components/EditableUserProfile";
 
 import ScheduleView from "./src/Components/front-page/ScheduleView";
@@ -98,12 +99,12 @@ const App = () => {
 						/>
 						{/* <Stack.Screen
 							name="WORKING_PAGE"
-							component={}
+							component={ResetPassword}
 							options={{
 								title: "WORKING_PAGE",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
 							}}
-						/> */}
+						/>
 					</Stack.Navigator>
 				</NavigationContainer>
 			</Provider>

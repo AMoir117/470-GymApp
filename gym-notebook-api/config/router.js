@@ -47,7 +47,7 @@ const usersRouter = require("koa-router")({
 	prefix: "/users",
 });
 usersRouter.get("/all-users", UsersController.allUsers, (err) => console.log(`allUsers ran into an error: ${err}`));
-usersRouter.get("/username/:username", UsersController.userByName, (err) => console.log(`userByName ran into an error: ${err}`));
+usersRouter.get("/uid/:uid", UsersController.userByUid, (err) => console.log(`userByName ran into an error: ${err}`));
 usersRouter.get("/id/:id", UsersController.userByID, (err) => console.log(`userByID ran into an error: ${err}`));
 
 
@@ -101,6 +101,10 @@ WeeklyScheduleRouter.put("/update-status/:accessStatus/:weeklyScheduleID", Weekl
 );
 WeeklyScheduleRouter.put("/update-title/:title/:weeklyScheduleID", WeeklyScheduleController.editWeeklyScheduleTitle, (err) =>
 	console.log(`update-title ran into an error: ${err}`)
+);
+
+WeeklyScheduleRouter.get("/last-insert-id", WeeklyScheduleController.getLastInsertId, (err) =>
+	console.log(`getLastInsertId ran into an error: ${err}`)
 );
 
 const DailyRoutineController = require("../app/Controllers/DailyRoutineController.js");

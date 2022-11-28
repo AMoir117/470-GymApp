@@ -8,7 +8,7 @@ import AuthContext from "../Context/AuthProvider";
 import SvgImage from "../SVG_Backgrounds/SvgImage";
 import GlobalStyles from "./GlobalStyles";
 import {getStorage, ref, getDownloadURL, uploadBytes} from "firebase/storage";
-import {getAuth, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail} from "firebase/auth";
+import {getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile} from "firebase/auth";
 import {initializeApp} from "firebase/app";
 import firebaseConfig from "../../firebaseConfig";
 
@@ -54,7 +54,7 @@ const Signup = ({navigation, back}) => {
 
 	const app = initializeApp(firebaseConfig);
 	const storage = getStorage(app);
-	const firebaseAuth = getAuth();
+	const firebaseAuth = getAuth(app);
 
 	const [usernameError, setUsernameError] = useState(false);
 	const [passwordError, setPasswordError] = useState(false);
@@ -62,15 +62,15 @@ const Signup = ({navigation, back}) => {
 	useEffect(() => {}, []);
 
 	const saveProfile = async () => {
-		await axios.get(`users/username/${username}`).then((response) => {
-			if (response.data.length > 0) {
-				console.log("username is not available");
-				setUsernameError(true);
-			} else {
-				setUsernameError(false);
-			}
-			return;
-		});
+		// await axios.get(`users/username/${username}`).then((response) => {
+		// 	if (response.data.length > 0) {
+		// 		console.log("username is not available");
+		// 		setUsernameError(true);
+		// 	} else {
+		// 		setUsernameError(false);
+		// 	}
+		// 	return;
+		// });
 		if (password !== checkPassword) {
 			console.log("Password is different");
 			setPasswordError(true);
@@ -88,6 +88,8 @@ const Signup = ({navigation, back}) => {
 
 		createUserWithEmailAndPassword(firebaseAuth, email, password).then((userCredential) => {
 			sendEmailVerification(firebaseAuth.currentUser);
+
+			updateProfile(firebaseAuth.currentUser, {displayName: username});
 			uploadBytes(pathRef, blob).then((snapshot) => {
 				console.log("uploaded blob");
 
@@ -105,27 +107,30 @@ const Signup = ({navigation, back}) => {
 							profileBio: bio,
 						})
 						.then(async () => {
-							await axios
-								.get(`users/username/${username}`)
-								.then(async (response) => {
-									const userInfo = {
-										id: response.data[0].id,
-										uid: userCredential.user.uid,
-										username: username,
-										userPassword: password,
-										firstName: firstName,
-										lastName: lastName,
-										DoB: date.toISOString().split("T")[0],
-										imagePath: imageUrl,
-										email: email,
-										profileBio: bio,
-									};
-									setAuth({user: userInfo});
-									await axios.post(`weekly-schedule/insert/private/${firstName + "'s First Workout"}/0/${response.data[0].id}`);
-								})
-								.then(() => {
-									navigation.navigate("Front Page");
+							await axios.get(`users/uid/${userCredential.user.uid}`).then(async (response) => {
+								const user_id = response.data[0].id;
+								await axios.post(`weekly-schedule/insert/private/${"My First Workout"}/0/${user_id}`).then(async () => {
+									await axios.get("weekly-schedule/last-insert-id").then(async (response) => {
+										const userInfo = {
+											id: user_id,
+											uid: userCredential.user.uid,
+											username: username,
+											userPassword: password,
+											firstName: firstName,
+											lastName: lastName,
+											DoB: date.toISOString().split("T")[0],
+											imagePath: imageUrl,
+											email: email,
+											profileBio: bio,
+											currentWeeklyScheduleId: response.data[0].lastInsertId,
+										};
+										setAuth({user: userInfo});
+										await axios.put(`users/use-weekly-schedule/${response.data[0].lastInsertId}/${user_id}`).then(() => {
+											navigation.navigate("Front Page");
+										});
+									});
 								});
+							});
 						});
 				});
 			});

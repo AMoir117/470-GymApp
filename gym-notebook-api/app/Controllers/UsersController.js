@@ -37,18 +37,18 @@ const allUsers = async (ctx) => {
 	});
 };
 
-const userByName = (ctx) => {
+const userByUid = (ctx) => {
 	console.log("users user by name called.");
 	return new Promise((resolve, reject) => {
-		const query = `SELECT * FROM Users WHERE username = ?;`;
+		const query = `SELECT * FROM Users WHERE Uid = ?;`;
 		dbConnection.query(
 			{
 				sql: query,
-				values: [ctx.params.username],
+				values: [ctx.params.uid],
 			},
 			(error, tuples) => {
 				if (error) {
-					console.log("Connection error in UsersController::userByName", error);
+					console.log("Connection error in UsersController::userByUid", error);
 					ctx.body = [];
 					ctx.status = 200;
 					return reject(error);
@@ -60,7 +60,7 @@ const userByName = (ctx) => {
 		);
 		console.log(ctx.params);
 	}).catch((err) => {
-		console.log("Database connection error in userByName.", err);
+		console.log("Database connection error in userByUid.", err);
 		// The UI side will have to look for the value of status and
 		// if it is not 200, act appropriately.
 		ctx.body = [];
@@ -304,7 +304,7 @@ const changePicture = async (ctx) => {
 
 module.exports = {
 	allUsers,
-	userByName,
+	userByUid,
 	editUserProfile,
 	userByID,
 	changePicture,

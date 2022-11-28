@@ -42,6 +42,12 @@ const daysOfWeek = [
 		dayID: "0",
 		dayNameShort: "Sun",
 		dayNameLong: "Sunday",
+		color: GlobalStyles.hexColor.green,
+	},
+	{
+		dayID: "0",
+		dayNameShort: "Sun",
+		dayNameLong: "Sunday",
 		color: GlobalStyles.hexColor.gold,
 	},
 	{
@@ -130,12 +136,6 @@ const Schedules = ({navigation, back, route}) => {
 	}, [navigation, currentDay]);
 
 	useEffect(() => {
-		if (!auth.user.currentWeeklyScheduleID) {
-			console.log("user has no weekly schedule");
-			//todo::create new weekly schedule
-			return;
-		}
-
 		//Android has different formats for toLocaleDateString
 
 		const getDailyRoutine = async () => {
