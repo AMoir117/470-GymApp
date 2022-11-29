@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "row",
 		backgroundColor: "#cbbeb5",
+		marginBottom: 5,
 	},
 	textUploadImage: {
 		fontSize: 15,
@@ -106,6 +107,13 @@ const styles = StyleSheet.create({
 		width: 120,
 		backgroundColor: "#497AFC",
 		justifyContent: "center",
+		marginBottom: 5,
+	},
+	viewScheduleButton: {
+		width: 120,
+		backgroundColor: "#C8C7CD",
+		justifyContent: "center",
+		marginBottom: 5,
 	},
 	followButton: {
 		backgroundColor: "#497AFC",
@@ -214,9 +222,6 @@ const ProfileView = ({route, navigation}) => {
 	};
 
 	const renderFollowButton = (userProfileID) => {
-		// TODO: query db to check if auth.user.id & userProfileID already have a follower table
-
-		// then based on that set functionality to either follow/unfollow
 		// TODO: add on hover to follow button to show red unfollow text
 
 		return (
@@ -256,11 +261,22 @@ const ProfileView = ({route, navigation}) => {
 		});
 	};
 
+	const clickViewSchedule = (item) => {
+		// refArray[item.id].close();
+
+		navigation.navigate("Schedule View", {weekSchedule: item});
+	}
+
 	const renderRightAction = (progress, item) => {
 		return (
-			<RectButton style={styles.leftAction} onPress={() => clickAddSchedule(item)}>
-				<Animated.Text style={[styles.actionText]}>Add Schedule</Animated.Text>
-			</RectButton>
+			<View style={{width: 230, flexDirection: "row"}}>
+				<RectButton style={styles.leftAction} onPress={() => clickAddSchedule(item)}>
+					<Animated.Text style={[styles.actionText]}>Add Schedule</Animated.Text>
+				</RectButton>
+				<RectButton style={styles.viewScheduleButton} onPress={() => clickViewSchedule(item)}>
+					<Animated.Text style={[styles.actionText]}>View Schedule</Animated.Text>
+				</RectButton>
+			</View>
 		);
 	};
 
