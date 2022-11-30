@@ -238,16 +238,17 @@ const getUsersFollowers = async (ctx) => {
 
 const editUserProfile = async (ctx) => {
 	console.log("editUserProfile called.");
+	console.log(ctx.params);
 	return new Promise((resolve, reject) => {
 		const query = `
                       UPDATE Users
-                      SET username = ?, firstName = ?, lastName = ?, email = ?, profileBio = ?
-                      WHERE id = ?;
+                      SET firstName = ?, lastName = ?, profileBio = ?
+                      WHERE id = ?
                       `;
 		dbConnection.query(
 			{
 				sql: query,
-				values: [ctx.params.username, ctx.params.firstName, ctx.params.lastName, ctx.params.email, ctx.params.profileBio, ctx.params.id],
+				values: [ctx.params.firstName, ctx.params.lastName, ctx.params.profileBio, ctx.params.id],
 			},
 			(error, tuples) => {
 				if (error) {

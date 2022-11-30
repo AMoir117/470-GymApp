@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {Text, StyleSheet, View, FlatList, SafeAreaView, TouchableOpacity} from "react-native";
 import {Avatar, Surface, Badge, IconButton} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
 import GlobalStyles from "../GlobalStyles";
 import SvgComponent from "../../SVG_Backgrounds/Lobby-bg";
+import AuthContext from "../../Context/AuthProvider";
 
 const styles = StyleSheet.create({
 	surfaceStyle: {
@@ -46,6 +47,7 @@ const Lobby = () => {
 	const navigation = useNavigation();
 	const [posts, setPosts] = useState([]);
 	const [upvotes, setUpvotes] = useState();
+	const {auth} = useContext(AuthContext);
 
 	useEffect(() => {
 		async function getLobby() {
@@ -89,7 +91,11 @@ const Lobby = () => {
 	};
 
 	const clickUserProfile = (item) => {
-		navigation.navigate("Profile View", {userProfile: item});
+		if (item.userId === auth.user.id) {
+			navigation.navigate("User Profile");
+		} else {
+			navigation.navigate("Profile View", {userProfile: item});
+		}
 	};
 
 	const incrementUpvotes = (item) => {

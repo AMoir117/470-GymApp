@@ -3,7 +3,7 @@ import {Text, StyleSheet, FlatList, SafeAreaView, TouchableOpacity} from "react-
 import {Avatar, Surface, IconButton} from "react-native-paper";
 import GlobalStyles from "../GlobalStyles";
 import AuthContext from "../../Context/AuthProvider";
-import {useNavigation} from "@react-navigation/native";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 import SvgComponent from "../../SVG_Backgrounds/Friends-bg";
 import axios from "axios";
 
@@ -37,11 +37,12 @@ const styles = StyleSheet.create({
 	},
 });
 
-const FriendsList = () => {
+const FriendsList = ({update, setUpdate}) => {
 	//brings navigation from parents
 	const navigation = useNavigation();
 	const {auth} = useContext(AuthContext);
 	const [following, setFollowing] = useState([]);
+	const isFocused = useIsFocused();
 
 	useEffect(() => {
 		const getFollowers = async () => {
@@ -53,7 +54,7 @@ const FriendsList = () => {
 			});
 		};
 		getFollowers();
-	}, []);
+	}, [navigation, isFocused]);
 
 	const clickUserProfile = (item) => {
 		navigation.navigate("Profile View", {userProfile: item});
@@ -67,11 +68,7 @@ const FriendsList = () => {
 						clickUserProfile(item);
 					}}
 				>
-					<Avatar.Image
-						style={styles.avatarStyle}
-						size={100}
-						source={{uri: item.imagePath}}
-					/>
+					<Avatar.Image style={styles.avatarStyle} size={100} source={{uri: item.imagePath}} />
 				</TouchableOpacity>
 				<Text style={styles.userNameStyle}>{item.username}</Text>
 			</Surface>
@@ -98,7 +95,7 @@ const FriendsList = () => {
 				keyExtractor={(item) => item.userId}
 			/>
 			<IconButton
-				icon="plus-circle"
+				icon="circle"
 				iconColor={GlobalStyles.hexColor.red}
 				size={45}
 				compact={true}

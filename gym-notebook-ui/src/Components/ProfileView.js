@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
 import {Text, StyleSheet, View, FlatList, SafeAreaView, Animated} from "react-native";
-import {Divider, Card, Title, Paragraph, Surface, Badge, IconButton} from "react-native-paper";
+import {Divider, Card, Title, Paragraph, Surface, Badge, IconButton, Avatar} from "react-native-paper";
 import axios from "axios";
 
 import GlobalStyles from "./GlobalStyles";
@@ -69,13 +69,14 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 	avatarStyle: {
+		margin: 10,
 		alignSelf: "center",
 	},
 	profileScheduleHeader: {
 		alignSelf: "center",
 		fontSize: 35,
 		margin: 5,
-		color: "#000000",
+		color: "#ffffff",
 		padding: 10,
 	},
 	postTitleStyle: {
@@ -101,19 +102,11 @@ const styles = StyleSheet.create({
 	},
 	flatListContainer: {
 		flex: 1,
-		marginTop: 20,
 	},
 	leftAction: {
 		width: 120,
 		backgroundColor: "#497AFC",
 		justifyContent: "center",
-		marginBottom: 5,
-	},
-	viewScheduleButton: {
-		width: 120,
-		backgroundColor: "#C8C7CD",
-		justifyContent: "center",
-		marginBottom: 5,
 	},
 	followButton: {
 		backgroundColor: "#497AFC",
@@ -141,10 +134,25 @@ const ProfileView = ({route, navigation}) => {
 	const [userSchedules, setUserSchedules] = useState([]);
 	const [routinesToAdd, setRoutinesToAdd] = useState([]);
 	const [scheduleToAdd, setScheduleToAdd] = useState();
+	const [followButtonColor, setFollowButtonColor] = useState("#497AFC");
 	const refArray = [];
 	const [prevRow, setPrevRow] = useState(null);
 	const [followed, setFollowed] = useState(false);
 	const [followerText, setFollowerText] = useState("");
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerLeft: () => (
+				<IconButton
+					icon="arrow-right"
+					onPress={() => {
+						navigation.navigate("Front Page");
+					}}
+					title="Back"
+				/>
+			),
+		});
+	}, [navigation]);
 
 	useEffect(() => {
 		const getPublicSchedules = async () => {
@@ -174,9 +182,11 @@ const ProfileView = ({route, navigation}) => {
 				if (response.data.length > 0) {
 					setFollowed(true);
 					setFollowerText("Unfollow");
+					setFollowButtonColor(GlobalStyles.hexColor.red);
 				} else {
 					setFollowed(false);
 					setFollowerText("Follow");
+					setFollowButtonColor(GlobalStyles.hexColor.green);
 				}
 			});
 		};
@@ -200,6 +210,7 @@ const ProfileView = ({route, navigation}) => {
 			await axios.delete(`follower/delete/${userProfileID}/${auth.user.id}`).then((response) => {
 				setFollowerText("Follow");
 				setFollowed(false);
+				setFollowButtonColor(GlobalStyles.hexColor.green);
 				console.log("follower removed");
 			});
 		} else {
@@ -208,6 +219,7 @@ const ProfileView = ({route, navigation}) => {
 				.then((response) => {
 					console.log("follower added");
 					setFollowerText("Unfollow");
+					setFollowButtonColor(GlobalStyles.hexColor.red);
 					setFollowed(true);
 				})
 				.catch((error) => {
@@ -226,7 +238,16 @@ const ProfileView = ({route, navigation}) => {
 
 		return (
 			<Card.Content style={{margin: 5, marginLeft: 0}}>
-				<RectButton style={styles.followButton} onPress={() => clickFollowButton(userProfileID)}>
+				<RectButton
+					style={{
+						alignSelf: "center",
+						alignItems: "center",
+						backgroundColor: followButtonColor,
+						width: 100,
+						borderRadius: 80,
+					}}
+					onPress={() => clickFollowButton(userProfileID)}
+				>
 					<Animated.Text style={[styles.actionText]}>{followerText}</Animated.Text>
 				</RectButton>
 			</Card.Content>
@@ -324,7 +345,7 @@ const ProfileView = ({route, navigation}) => {
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%", backgroundColor: "#423F3B"}}>
 			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
-				<Card.Cover style={{top: 0}} source={{uri: userProfile.imagePath}} />
+				<Avatar.Image style={styles.avatarStyle} size={200} source={{uri: userProfile.imagePath}} />
 
 				{renderFollowButton(userProfile.userId)}
 
@@ -332,16 +353,12 @@ const ProfileView = ({route, navigation}) => {
 				<Card.Content>
 					<Title>Bio</Title>
 					<Divider style={{borderWidth: 1}} />
-					<Paragraph>{userProfile.profileBio}</Paragraph>
+					<Paragraph style={{fontSize: 20, marginTop: 15}}>{userProfile.profileBio}</Paragraph>
 				</Card.Content>
+				<Text style={styles.profileScheduleHeader}>Schedules</Text>
 
-				<Card.Content>
-					<Text style={styles.profileScheduleHeader}>Schedules</Text>
-				</Card.Content>
+				<Divider style={{borderWidth: 1}} />
 			</Card>
-
-			<Divider style={{borderWidth: 1}} />
-
 			<FlatList
 				style={styles.flatListContainer}
 				numColumns={1}
