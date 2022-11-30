@@ -95,29 +95,34 @@ const Login = ({navigation}) => {
 		navigation.navigate("Reset Password");
 	};
 	const login = async () => {
-		signInWithEmailAndPassword(firebaseAuth, email, password).then(async (userCredential) => {
-			console.log(`Signed in`);
+		signInWithEmailAndPassword(firebaseAuth, email, password)
+			.then(async (userCredential) => {
+				console.log(`Signed in`);
 
-			await axios
-				.get(`users/uid/${userCredential.user.uid}`)
-				.then((response) => {
-					const userInfo = response.data[0];
-					if (userInfo === undefined) {
-						setVisible(true);
-					} else if (password === userInfo.userPassword) {
-						setAuth({user: userInfo});
-						navigation.navigate("Front Page");
-					}
-				})
-				.catch(function (error) {
-					if (error.response) {
-						console.log(error.response.data);
-						console.log(error.response.status);
-						console.log(error.response.headers);
-					}
-				});
-			navigation.navigate("Front Page");
-		});
+				await axios
+					.get(`users/uid/${userCredential.user.uid}`)
+					.then((response) => {
+						const userInfo = response.data[0];
+						if (userInfo === undefined) {
+							setVisible(true);
+						} else if (password === userInfo.userPassword) {
+							setAuth({user: userInfo});
+							navigation.navigate("Front Page");
+						}
+					})
+					.catch(function (error) {
+						if (error.response) {
+							console.log(error.response.data);
+							console.log(error.response.status);
+							console.log(error.response.headers);
+						}
+					});
+				navigation.navigate("Front Page");
+			})
+			.catch((error) => {
+				console.log(error);
+				setVisible(true);
+			});
 	};
 	const signup = () => {
 		navigation.navigate("Signup");
@@ -176,7 +181,7 @@ const Login = ({navigation}) => {
 				</TouchableOpacity>
 			</View>
 			<Snackbar style={styles.snackBar} wrapperStyle={{top: 0}} visible={visible} duration={2000} onDismiss={onDismissSnackBar}>
-				Username or Password Incorrect!!
+				Username or Password Incorrect!
 			</Snackbar>
 		</SafeAreaView>
 	);

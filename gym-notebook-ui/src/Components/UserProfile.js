@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext, createContext} from "react";
+import React, {useState, useEffect, useContext, createContext, useInsertionEffect} from "react";
 import {ScrollView, Text, StyleSheet, View, FlatList, TextInput, Pressable, SafeAreaView, ImageBackground} from "react-native";
 import {Divider, Appbar, Button, Avatar, Portal, Card, Title, Paragraph, IconButton} from "react-native-paper";
 import AuthContext from "../Context/AuthProvider";
@@ -8,6 +8,7 @@ import {getDownloadURL, ref, uploadBytes, getStorage} from "firebase/storage";
 import {initializeApp} from "firebase/app";
 import firebaseConfig from "../../firebaseConfig";
 import ImagePick from "./Modules/ImagePicker";
+import {useIsFocused} from "@react-navigation/native";
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -49,10 +50,12 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 	},
 	buttonStyle: {
+		alignSelf: "center",
 		height: 30,
 		width: 70,
-		margin: 2,
-		marginTop: 10,
+		position: "absolute",
+		bottom: 0,
+		margin: 20,
 		borderColor: "#949494",
 		backgroundColor: "#949494",
 	},
@@ -62,6 +65,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 	avatarStyle: {
+		margin: 10,
 		alignSelf: "center",
 	},
 });
@@ -74,22 +78,9 @@ const UserProfile = ({navigation, back}) => {
 	const storage = getStorage(app);
 
 	const [imgPath, setImgPath] = useState(auth.user.imagePath);
+	const isFocused = useIsFocused();
 
-	// const changeProfilePicture = async () => {
-	// 	const response = await fetch(image);
-	// 	const blob = await response.blob();
-	//
-	// 	const pathRef = ref(storage, auth.user.username);
-	//
-	// 	uploadBytes(pathRef, blob).then((snapshot) => {
-	// 		console.log("uploaded blob");
-	//
-	// 		getDownloadURL(pathRef).then(async (imageUrl) => {
-	// 			console.log(`imageUrl: ${imageUrl}`);
-	// 			setImgPath(imageUrl);
-	// 		});
-	// 	});
-	// };
+	useEffect(() => {}, [navigation, isFocused]);
 
 	const changeToEditable = async () => {
 		navigation.navigate("Editable User Profile");
@@ -97,29 +88,17 @@ const UserProfile = ({navigation, back}) => {
 
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
-				<Card.Cover
-					style={{top: 0}}
-					source={{
-						uri: imgPath,
-					}}
-				/>
+			<Card style={{backgroundColor: GlobalStyles.hexColor.brown, padding: 30}}>
+				<Avatar.Image style={styles.avatarStyle} size={200} source={{uri: imgPath}} />
 
-				<Card.Title title={auth.user.firstName + " " + auth.user.lastName + "."} subtitle={auth.user.username} />
+				<Card.Title title={auth.user.firstName + " " + auth.user.lastName} subtitle={auth.user.username} />
 				<Card.Content>
 					<Title>Bio</Title>
 					<Divider style={{borderWidth: 1}} />
 					<Paragraph>{auth.user.profileBio}</Paragraph>
 				</Card.Content>
 			</Card>
-			<IconButton
-				style={styles.buttonStyle}
-				icon="arrow-up-drop-circle"
-				iconColor={"red"}
-				animate={true}
-				selected={true}
-				onPress={changeToEditable}
-			/>
+			<IconButton style={styles.buttonStyle} icon="file-edit" iconColor={"red"} animate={true} selected={true} onPress={changeToEditable} />
 		</SafeAreaView>
 	);
 };

@@ -21,7 +21,7 @@ const FrontPage = ({navigation}) => {
 	]);
 
 	const FriendsRoute = () => {
-		return <FriendsList />;
+		return <FriendsList update={update} setUpdate={setUpdate} />;
 	};
 
 	const LobbyRoute = () => {
@@ -50,13 +50,7 @@ const FrontPage = ({navigation}) => {
 		schedules: SchedulesRoute,
 	});
 
-	return (
-		<BottomNavigation
-			navigationState={{index, routes, update, setUpdate}}
-			onIndexChange={setIndex}
-			renderScene={renderScene}
-		/>
-	);
+	return <BottomNavigation navigationState={{index, routes, update, setUpdate}} onIndexChange={setIndex} renderScene={renderScene} />;
 };
 
 export default FrontPage;

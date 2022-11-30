@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from "react";
-import {StyleSheet, SafeAreaView} from "react-native";
+import {StyleSheet, SafeAreaView, ScrollView} from "react-native";
 import {Button, TextInput, IconButton, Card} from "react-native-paper";
 import ImagePick from "./Modules/ImagePicker";
 import axios from "axios";
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 	},
 	textInputStyle: {
-		height: 40,
+		height: 60,
 		width: 300,
 		paddingLeft: 10,
 		alignSelf: "center",
@@ -91,7 +91,9 @@ const EditableUserProfile = ({navigation, back}) => {
 	const [profileBio, setProfileBio] = useState(auth.user.profileBio);
 	const [imgPath, setImgPath] = useState(auth.user.imagePath);
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		console.log(auth.user);
+	}, []);
 
 	const saveProfile = async () => {
 		const response = await fetch(imgPath, {mode: "no-cors"});
@@ -102,11 +104,11 @@ const EditableUserProfile = ({navigation, back}) => {
 		uploadBytes(pathRef, blob).then((snapshot) => {
 			console.log("uploaded blob");
 
-			getDownloadURL(pathRef).then(async (imageUrl) => {
-				setImgPath(imageUrl);
+			getDownloadURL(pathRef).then(async (imagePath) => {
 				await axios
-					.put(`users/edit-profile/${username}/${firstName}/${lastName}/${email}/${profileBio}/${id}`)
+					.put(`users/edit-profile/${firstName}/${lastName}/${profileBio}/${id}`)
 					.then(() => {
+						console.log("testing");
 						const userInfo = {
 							id: auth.user.id,
 							username: username,
@@ -119,21 +121,11 @@ const EditableUserProfile = ({navigation, back}) => {
 							profileBio: profileBio,
 							currentWeeklyScheduleID: auth.user.currentWeeklyScheduleID,
 						};
-						/*
-						const userInfo = {
-									id: response.data[0].id,
-									username: username,
-									userPassword: password,
-									firstName: firstName,
-									lastName: lastName,
-									DoB: date.toISOString().split("T")[0],
-									imagePath: imageUrl,
-									email: email,
-									profileBio: bio,
-								};
-						*/
+						setImgPath(imagePath);
 						setAuth({user: userInfo});
-						navigation.navigate("User Profile");
+					})
+					.then(() => {
+						navigation.navigate("Front Page");
 					})
 					.catch((err) => {
 						console.log(err);
@@ -142,17 +134,19 @@ const EditableUserProfile = ({navigation, back}) => {
 		});
 	};
 
-	const changeToUserProfile = async () => {
-		navigation.navigate("User Profile");
-	};
-
 	return (
 		<SafeAreaView style={{flex: 1, maxHeight: "100%"}}>
-			<Card style={{backgroundColor: GlobalStyles.hexColor.brown}}>
+			<ScrollView
+				style={{flex: 1, maxHeight: "100%"}}
+				//stickyHeaderIndices={[0]}
+				showsVerticalScrollIndicator={false}
+				alwaysBounceVertical={false}
+			>
 				<ImagePick image={imgPath} setImage={setImgPath} />
 				<TextInput
 					style={styles.textInputStyle}
 					label={"Username"}
+					disabled={true}
 					value={username}
 					textContentType={"username"}
 					onChangeText={setUsername}
@@ -171,17 +165,17 @@ const EditableUserProfile = ({navigation, back}) => {
 					textContentType={"lastName"}
 					onChangeText={setLastName}
 				/>
-				<TextInput style={styles.textInputStyle} label={"Email"} value={email} textContentType={"emailAddress"} onChangeText={setEmail} />
-				{/* <WheelPickerExpo
-					height={300}
-					width={150}
-					initialSelectedIndex={3}
-					items={CITIES.map((name) => ({label: name, value: ""}))}
-					onChange={() => {}}
-				/> */}
+				<TextInput
+					style={styles.textInputStyle}
+					disabled={true}
+					label={"Email"}
+					value={email}
+					textContentType={"emailAddress"}
+					onChangeText={setEmail}
+				/>
+
 				<TextInput
 					style={styles.bioInputStyle}
-					error={true}
 					mode="outlined"
 					label={"Bio"}
 					value={profileBio}
@@ -189,15 +183,7 @@ const EditableUserProfile = ({navigation, back}) => {
 					onChangeText={setProfileBio}
 				/>
 				<Button style={styles.buttonSave} icon="content-save" mode="contained" buttonColor="#ff0000" onPress={saveProfile} />
-				<IconButton
-					style={styles.buttonStyle}
-					icon="arrow-up-drop-circle"
-					iconColor={"green"}
-					animate={true}
-					selected={true}
-					onPress={changeToUserProfile}
-				/>
-			</Card>
+			</ScrollView>
 		</SafeAreaView>
 	);
 };

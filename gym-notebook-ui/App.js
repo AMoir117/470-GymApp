@@ -44,7 +44,15 @@ const App = () => {
 							}}
 						/>
 						<Stack.Screen name="Front Page" component={FrontPage} options={{header: (props) => <CustomNavigationBar {...props} />}} />
-						<Stack.Screen name="User Profile" component={UserProfile} options={{header: (props) => <CustomNavigationBar {...props} />}} />
+						<Stack.Screen
+							name="User Profile"
+							component={UserProfile}
+							options={{
+								title: "",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+								headerBackTitleVisible: false,
+							}}
+						/>
 						<Stack.Screen
 							name="Schedules"
 							component={Schedules}

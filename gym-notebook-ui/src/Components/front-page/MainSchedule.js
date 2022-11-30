@@ -43,8 +43,6 @@ const MainSchedule = ({update}) => {
 	const navigation = useNavigation();
 
 	useEffect(() => {
-		console.log(auth.user);
-
 		//Android has different formats for toLocaleDateString
 
 		const getDailyRoutine = async () => {

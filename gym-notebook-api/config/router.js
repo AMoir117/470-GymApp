@@ -61,7 +61,7 @@ usersRouter.put("/use-weekly-schedule/:currentWeeklyScheduleID/:userID", UsersCo
 	console.log(`increment-upvotes ran into an error: ${err}`)
 );
 
-usersRouter.put("/edit-profile/:username/:firstName/:lastName/:email/:profileBio/:id", UsersController.editUserProfile, (err) =>
+usersRouter.put("/edit-profile/:firstName/:lastName/:profileBio/:id", UsersController.editUserProfile, (err) =>
 	console.log(`editUser ran into an error: ${err}`)
 );
 
