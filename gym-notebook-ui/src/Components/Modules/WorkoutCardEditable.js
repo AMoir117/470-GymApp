@@ -117,7 +117,7 @@ const acceptedWeights = [
 	405,
 ];
 
-const MyComponent = (props) => {
+const WorkoutCardEditable = (props) => {
 	const {workout, showModal, forceUpdate} = props;
 	const [workoutName, setWorkoutName] = useState({});
 	const [sets, setSets] = useState(workout.sets);
@@ -227,4 +227,4 @@ const MyComponent = (props) => {
 	);
 };
 
-export default MyComponent;
+export default WorkoutCardEditable;

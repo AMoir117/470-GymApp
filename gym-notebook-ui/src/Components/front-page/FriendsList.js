@@ -45,6 +45,9 @@ const FriendsList = () => {
 
 	useEffect(() => {
 		const getFollowers = async () => {
+			console.log("getting followers use effect");
+
+			console.log(auth.user.id);
 			await axios.get(`users/get-followers/${auth.user.id}`).then((followersResponse) => {
 				setFollowing(followersResponse.data);
 			});

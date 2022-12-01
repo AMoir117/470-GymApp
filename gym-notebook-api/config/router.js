@@ -49,8 +49,10 @@ const usersRouter = require("koa-router")({
 usersRouter.get("/all-users", UsersController.allUsers, (err) => console.log(`allUsers ran into an error: ${err}`));
 usersRouter.get("/username/:username", UsersController.userByName, (err) => console.log(`userByName ran into an error: ${err}`));
 usersRouter.get("/id/:id", UsersController.userByID, (err) => console.log(`userByID ran into an error: ${err}`));
-// get followers of ID
-usersRouter.get("/get-followers/:followedUserID", UsersController.getUsersFollowers, (err) =>
+
+
+// get followers of ID (NOTE: this should really be called get-followed-users)
+usersRouter.get("/get-followers/:followerUserID", UsersController.getUsersFollowers, (err) =>
 	console.log(`getUsersFollowers ran into an error: ${err}`)
 );
 

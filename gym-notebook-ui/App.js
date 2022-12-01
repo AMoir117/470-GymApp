@@ -15,6 +15,8 @@ import ProfileView from "./src/Components/ProfileView";
 import Schedules from "./src/Components/front-page/Schedules";
 import EditableUserProfile from "./src/Components/EditableUserProfile";
 
+import ScheduleView from "./src/Components/front-page/ScheduleView";
+import WorkoutView from "./src/Components/front-page/WorkoutView";
 //import DrawerTest from "./src/Components/DrawerTest";
 
 const App = () => {
@@ -70,6 +72,24 @@ const App = () => {
 						<Stack.Screen
 							name="Profile View"
 							component={ProfileView}
+							options={{
+								title: "",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+								headerBackTitleVisible: false,
+							}}
+						/>
+						<Stack.Screen
+							name="Schedule View"
+							component={ScheduleView}
+							options={{
+								title: "",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+								headerBackTitleVisible: false,
+							}}
+						/>
+						<Stack.Screen
+							name="Workout View"
+							component={WorkoutView}
 							options={{
 								title: "",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},

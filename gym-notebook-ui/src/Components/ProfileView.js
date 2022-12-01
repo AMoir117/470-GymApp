@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "row",
 		backgroundColor: "#cbbeb5",
+		marginBottom: 5,
 	},
 	textUploadImage: {
 		fontSize: 15,
@@ -106,6 +107,13 @@ const styles = StyleSheet.create({
 		width: 120,
 		backgroundColor: "#497AFC",
 		justifyContent: "center",
+		marginBottom: 5,
+	},
+	viewScheduleButton: {
+		width: 120,
+		backgroundColor: "#C8C7CD",
+		justifyContent: "center",
+		marginBottom: 5,
 	},
 	followButton: {
 		backgroundColor: "#497AFC",
@@ -160,7 +168,7 @@ const ProfileView = ({route, navigation}) => {
 				return;
 			}
 			console.log(userProfile);
-			await axios.get(`follower/search/${auth.user.id}/${userProfile.userId}`).then((response) => {
+			await axios.get(`follower/search/${userProfile.userId}/${auth.user.id}`).then((response) => {
 				console.log("follower data:");
 				console.log(response.data);
 				if (response.data.length > 0) {
@@ -173,7 +181,7 @@ const ProfileView = ({route, navigation}) => {
 			});
 		};
 		checkFollowStatus();
-	}, []); //[followed]
+	}, []);
 
 	const closeRow = (item) => {
 		if (prevRow === null) {
@@ -189,15 +197,16 @@ const ProfileView = ({route, navigation}) => {
 			return;
 		}
 		if (followed) {
-			await axios.delete(`follower/delete/${auth.user.id}/${userProfileID}`).then((response) => {
+			await axios.delete(`follower/delete/${userProfileID}/${auth.user.id}`).then((response) => {
 				setFollowerText("Follow");
 				setFollowed(false);
 				console.log("follower removed");
 			});
 		} else {
 			await axios
-				.post(`follower/insert/${auth.user.id}/${userProfileID}`)
+				.post(`follower/insert/${userProfileID}/${auth.user.id}`)
 				.then((response) => {
+					console.log("follower added");
 					setFollowerText("Unfollow");
 					setFollowed(true);
 				})
@@ -213,9 +222,6 @@ const ProfileView = ({route, navigation}) => {
 	};
 
 	const renderFollowButton = (userProfileID) => {
-		// TODO: query db to check if auth.user.id & userProfileID already have a follower table
-
-		// then based on that set functionality to either follow/unfollow
 		// TODO: add on hover to follow button to show red unfollow text
 
 		return (
@@ -255,11 +261,22 @@ const ProfileView = ({route, navigation}) => {
 		});
 	};
 
+	const clickViewSchedule = (item) => {
+		// refArray[item.id].close();
+
+		navigation.navigate("Workout View", {weekSchedule: item});
+	};
+
 	const renderRightAction = (progress, item) => {
 		return (
-			<RectButton style={styles.leftAction} onPress={() => clickAddSchedule(item)}>
-				<Animated.Text style={[styles.actionText]}>Add Schedule</Animated.Text>
-			</RectButton>
+			<View style={{width: 230, flexDirection: "row"}}>
+				<RectButton style={styles.leftAction} onPress={() => clickAddSchedule(item)}>
+					<Animated.Text style={[styles.actionText]}>Add Schedule</Animated.Text>
+				</RectButton>
+				<RectButton style={styles.viewScheduleButton} onPress={() => clickViewSchedule(item)}>
+					<Animated.Text style={[styles.actionText]}>View Schedule</Animated.Text>
+				</RectButton>
+			</View>
 		);
 	};
 

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-const MyComponent = (props) => {
+const WorkoutCard = (props) => {
 	const {workout, showModal} = props;
 	const [workoutName, setWorkoutName] = useState({});
 
@@ -67,4 +67,4 @@ const MyComponent = (props) => {
 	);
 };
 
-export default MyComponent;
+export default WorkoutCard;
