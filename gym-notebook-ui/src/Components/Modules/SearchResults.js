@@ -14,6 +14,9 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		alignSelf: "center",
 	},
+	textStyle: {
+		textAlign: "center",
+	},
 });
 
 const SearchResults = (props) => {
@@ -26,14 +29,12 @@ const SearchResults = (props) => {
 			<Card style={styles.cardContainer}>
 				<Card.Content>
 					<Button mode="outlined" compact={true} onPress={() => addResult(workout)}>
-						<Paragraph style={styles.cardContent}>
-							{workout.workoutName.toUpperCase()}
-						</Paragraph>
+						<Paragraph style={styles.cardContent}>{workout.workoutName.toUpperCase()}</Paragraph>
 					</Button>
 					<View>
-						<Text>{workout.bodyPart.toUpperCase()}</Text>
-						<Text>{workout.targetMuscle.toUpperCase()}</Text>
-						<Text>{workout.equipment.toUpperCase()}</Text>
+						<Text style={styles.textStyle}>{workout.bodyPart.toUpperCase()}</Text>
+						<Text style={styles.textStyle}>{workout.targetMuscle.toUpperCase()}</Text>
+						<Text style={styles.textStyle}>{workout.equipment.toUpperCase()}</Text>
 					</View>
 				</Card.Content>
 			</Card>

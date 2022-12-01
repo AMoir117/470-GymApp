@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
 		fontSize: 40,
 		alignSelf: "center",
 		color: GlobalStyles.hexColor.brown,
+		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	daysOfWeek: {
 		flexDirection: "row",

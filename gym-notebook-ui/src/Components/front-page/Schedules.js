@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
 		fontSize: 40,
 		alignSelf: "center",
 		color: GlobalStyles.hexColor.brown,
+		backgroundColor: GlobalStyles.hexColor.black,
 	},
 	daysOfWeek: {
 		flexDirection: "row",
@@ -42,7 +43,7 @@ const daysOfWeek = [
 		dayID: "0",
 		dayNameShort: "Sun",
 		dayNameLong: "Sunday",
-		color: GlobalStyles.hexColor.green,
+		color: GlobalStyles.hexColor.gold,
 	},
 	{
 		dayID: "1",
@@ -78,7 +79,7 @@ const daysOfWeek = [
 		dayID: "6",
 		dayNameShort: "Sat",
 		dayNameLong: "Saturday",
-		color: GlobalStyles.hexColor.orange,
+		color: GlobalStyles.hexColor.green,
 	},
 ];
 

@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#FFFFFF",
 	},
 	textForgetPassword: {
+		margin: 5,
 		fontSize: 10,
 		color: "#0073ff",
 		alignSelf: "center",

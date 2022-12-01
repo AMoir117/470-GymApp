@@ -13,19 +13,19 @@ const styles = StyleSheet.create({
 		borderRadius: 0,
 		backgroundColor: GlobalStyles.hexColor.brown,
 		flex: 1,
-		marginTop: 10,
+		marginTop: 3,
 		flexDirection: "row",
 	},
 	flatListContainer: {
 		alignSelf: "center",
 	},
 	postTitle: {
-		fontSize: 20,
+		fontSize: 24,
+		height: "auto",
 	},
 	postUsername: {
 		fontSize: 15,
-		position: "absolute",
-		bottom: 0,
+		height: 30,
 	},
 	upVoteBadge: {
 		alignSelf: "center",
@@ -78,7 +78,7 @@ const Lobby = () => {
 					<IconButton
 						style={styles.upVoteButton}
 						icon="arrow-up-drop-circle"
-						iconColor={"red"}
+						iconColor={GlobalStyles.hexColor.red}
 						animate={true}
 						selected={true}
 						onPress={() => {
