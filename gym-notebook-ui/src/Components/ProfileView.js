@@ -109,9 +109,9 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	followButton: {
-		backgroundColor: "#497AFC",
-		justifyContent: "center",
-		textAlign: "center",
+		alignSelf: "center",
+		alignItems: "center",
+		backgroundColor: GlobalStyles.hexColor.green,
 		width: 100,
 		borderRadius: 80,
 	},
