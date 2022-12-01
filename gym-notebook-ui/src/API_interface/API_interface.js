@@ -13,9 +13,9 @@ const AxiosConfigured = () => {
 	//fixme::find out how to put ip address in .env
 
 	// desktop
-	// axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
+	axios.defaults.baseURL = `http://192.168.1.242:8443/api/v1`;
 	// phone
-	axios.defaults.baseURL = `http://192.168.1.137:8443/api/v1`;
+	//axios.defaults.baseURL = `http://192.168.1.137:8443/api/v1`;
 
 	// Allow the browser to send cookies to the API domain (which include auth_token)
 	axios.defaults.withCredentials = true;

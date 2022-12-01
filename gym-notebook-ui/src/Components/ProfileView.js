@@ -181,7 +181,7 @@ const ProfileView = ({route, navigation}) => {
 			});
 		};
 		checkFollowStatus();
-	}, []); 
+	}, []);
 
 	const closeRow = (item) => {
 		if (prevRow === null) {
@@ -206,7 +206,7 @@ const ProfileView = ({route, navigation}) => {
 			await axios
 				.post(`follower/insert/${userProfileID}/${auth.user.id}`)
 				.then((response) => {
-					console.log("follower added")
+					console.log("follower added");
 					setFollowerText("Unfollow");
 					setFollowed(true);
 				})
@@ -264,8 +264,8 @@ const ProfileView = ({route, navigation}) => {
 	const clickViewSchedule = (item) => {
 		// refArray[item.id].close();
 
-		navigation.navigate("Schedule View", {weekSchedule: item});
-	}
+		navigation.navigate("Workout View", {weekSchedule: item});
+	};
 
 	const renderRightAction = (progress, item) => {
 		return (

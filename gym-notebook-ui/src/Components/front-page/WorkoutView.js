@@ -28,12 +28,11 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 	},
 	scheduleTitle: {
-		textAlign: "center",
-		backgroundColor: GlobalStyles.hexColor.white,
-		width: "auto",
 		padding: 4,
 		margin: 4,
+		fontSize: 20,
 		alignSelf: "center",
+		color: GlobalStyles.hexColor.brown,
 	},
 });
 
@@ -82,7 +81,7 @@ const daysOfWeek = [
 	},
 ];
 
-const ScheduleView = ({navigation, back, route}) => {
+const WorkoutView = ({navigation, back, route}) => {
 	const {auth, setAuth} = useContext(AuthContext);
 	const {weekSchedule} = route.params;
 	const [currentDay, setCurrentDay] = useState("Monday");
@@ -110,18 +109,6 @@ const ScheduleView = ({navigation, back, route}) => {
 					icon="arrow-left"
 					onPress={() => {
 						navigation.goBack();
-					}}
-					title="Back"
-				/>
-			),
-			headerRight: () => (
-				<IconButton
-					icon="pencil-plus"
-					onPress={() => {
-						navigation.navigate("SearchBar", {
-							weekSchedule: weekSchedule,
-							day: currentDay,
-						});
 					}}
 					title="Back"
 				/>
@@ -207,7 +194,7 @@ const ScheduleView = ({navigation, back, route}) => {
 				})}
 			</View>
 			<Text style={styles.dayText}>{currentDay}</Text>
-			<TextInput style={styles.scheduleTitle} placeholder={scheduleName} value={scheduleName} />
+			<Text style={styles.scheduleTitle}>{scheduleName}</Text>
 			<FlatList
 				showsVerticalScrollIndicator={false}
 				alwaysBounceVertical={true}
@@ -220,4 +207,4 @@ const ScheduleView = ({navigation, back, route}) => {
 	);
 };
 
-export default ScheduleView;
+export default WorkoutView;

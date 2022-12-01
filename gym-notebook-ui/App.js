@@ -13,7 +13,8 @@ import GlobalStyles from "./src/Components/GlobalStyles";
 import CustomNavigationBar from "./src/Components/CustomNavigationBar";
 import ProfileView from "./src/Components/ProfileView";
 import Schedules from "./src/Components/front-page/Schedules";
-import ScheduleView from "./src/Components/front-page/ScheduleView"
+import ScheduleView from "./src/Components/front-page/ScheduleView";
+import WorkoutView from "./src/Components/front-page/WorkoutView";
 //import DrawerTest from "./src/Components/DrawerTest";
 
 const App = () => {
@@ -41,16 +42,8 @@ const App = () => {
 								headerBackTitleVisible: false,
 							}}
 						/>
-						<Stack.Screen
-							name="Front Page"
-							component={FrontPage}
-							options={{header: (props) => <CustomNavigationBar {...props} />}}
-						/>
-						<Stack.Screen
-							name="User Profile"
-							component={UserProfile}
-							options={{header: (props) => <CustomNavigationBar {...props} />}}
-						/>
+						<Stack.Screen name="Front Page" component={FrontPage} options={{header: (props) => <CustomNavigationBar {...props} />}} />
+						<Stack.Screen name="User Profile" component={UserProfile} options={{header: (props) => <CustomNavigationBar {...props} />}} />
 						<Stack.Screen
 							name="Schedules"
 							component={Schedules}
@@ -81,6 +74,15 @@ const App = () => {
 						<Stack.Screen
 							name="Schedule View"
 							component={ScheduleView}
+							options={{
+								title: "",
+								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
+								headerBackTitleVisible: false,
+							}}
+						/>
+						<Stack.Screen
+							name="Workout View"
+							component={WorkoutView}
 							options={{
 								title: "",
 								headerStyle: {backgroundColor: GlobalStyles.hexColor.brown},
