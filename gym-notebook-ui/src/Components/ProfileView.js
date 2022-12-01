@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "row",
 		backgroundColor: "#cbbeb5",
-		marginBottom: 5,
 	},
 	textUploadImage: {
 		fontSize: 15,
@@ -108,6 +107,11 @@ const styles = StyleSheet.create({
 		backgroundColor: "#497AFC",
 		justifyContent: "center",
 	},
+	leftAction2: {
+		width: 120,
+		backgroundColor: "#7e68ab",
+		justifyContent: "center",
+	},
 	followButton: {
 		alignSelf: "center",
 		alignItems: "center",
@@ -121,11 +125,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 		padding: 10,
 	},
-	rightAction: {
-		alignItems: "center",
-		flex: 1,
-		justifyContent: "center",
-	},
+	rightAction: {},
 });
 
 const ProfileView = ({route, navigation}) => {
@@ -294,7 +294,7 @@ const ProfileView = ({route, navigation}) => {
 				<RectButton style={styles.leftAction} onPress={() => clickAddSchedule(item)}>
 					<Animated.Text style={[styles.actionText]}>Add Schedule</Animated.Text>
 				</RectButton>
-				<RectButton style={styles.viewScheduleButton} onPress={() => clickViewSchedule(item)}>
+				<RectButton style={styles.leftAction2} onPress={() => clickViewSchedule(item)}>
 					<Animated.Text style={[styles.actionText]}>View Schedule</Animated.Text>
 				</RectButton>
 			</View>
