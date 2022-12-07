@@ -12,36 +12,38 @@
 
 -   API: https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
 
+-   Firebase: https://console.firebase.google.com/u/0/
+
+-   Git Repository: https://github.com/AMoir117/470-GymApp
+
 # ExerciseDB API
 
-> Route to list body parts: https://exercisedb.p.rapidapi.com/exercises/bodyPartList?rapidapi-key={API-KEY}
+## List of Body Parts :
 
-| List      | of         | body       | parts      |
+|           |            |            |            |
 | --------- | ---------- | ---------- | ---------- |
 | Back      | Cardio     | Lower-arms | Lower-legs |
 | Shoulders | Upper-arms | Upper-legs | Waist      |
 | Neck      | Chest      |
 
-> Route to list target body part: https://exercisedb.p.rapidapi.com/exercises/targetList?rapidapi-key={API-KEY}
+List of Target Muscles :
 
-| List      | of                    | target            | muscles          |
-| --------- | --------------------- | ----------------- | ---------------- |
-| abductors | abs                   | adductors         | biceps           |
-| calves    | cardiovascular system | delts             | forearms         |
-| glutes    | hamstrings            | lats              | levator scapulae |
-| pectorals | quads                 | serratus anterior | spine            |
-| traps     | triceps               | upper back        |
+-   |           |                       |                   |                  |
+    | --------- | --------------------- | ----------------- | ---------------- |
+    | abductors | abs                   | adductors         | biceps           |
+    | calves    | cardiovascular system | delts             | forearms         |
+    | glutes    | hamstrings            | lats              | levator scapulae |
+    | pectorals | quads                 | serratus anterior | spine            |
+    | traps     | triceps               | upper back        |
 
-> Route to get all equipments https://exercisedb.p.rapidapi.com/exercises/equipmentList?rapidapi-key={API-KEY}
+List of Training Equipments :
 
-| List           | of                   | training         | equipments         |
-| -------------- | -------------------- | ---------------- | ------------------ |
-| assisted       | band                 | barbell          | body weight        |
-| bosu ball      | cable                | dumbbell         | elliptical machine |
-| ez barbell     | hammer               | kettlebell       | leverage machine   |
-| medicine ball  | olympic barbell      | resistance band  | roller             |
-| rope           | skierg machine       | sled machine     | smith machine      |
-| stability ball | stationary bike      | stepmill machine | tire               |
-| trap bar       | upper body ergometer | weighted         | wheel roller       |
-
-> Route to get all exercises: https://exercisedb.p.rapidapi.com/exercises?rapidapi-key={API-KEY}
+-   |                |                      |                  |                    |
+    | -------------- | -------------------- | ---------------- | ------------------ |
+    | assisted       | band                 | barbell          | body weight        |
+    | bosu ball      | cable                | dumbbell         | elliptical machine |
+    | ez barbell     | hammer               | kettlebell       | leverage machine   |
+    | medicine ball  | olympic barbell      | resistance band  | roller             |
+    | rope           | skierg machine       | sled machine     | smith machine      |
+    | stability ball | stationary bike      | stepmill machine | tire               |
+    | trap bar       | upper body ergometer | weighted         | wheel roller       |

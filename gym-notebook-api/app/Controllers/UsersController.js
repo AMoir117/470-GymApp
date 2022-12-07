@@ -168,11 +168,12 @@ const insertNewUser = (ctx) => {
 	return new Promise((resolve, reject) => {
 		console.log(`API server::insertNewUser: ${JSON.stringify(ctx.request.body)}`);
 		console.log(`API server::insertNewUser after having added default values: ${JSON.stringify(valuesToInsert)}`);
-
+		console.log(`INSERT INTO users (${usersTableAttributes}) VALUES (${valueMarkers})`);
 		const query = `
                        INSERT INTO users (${usersTableAttributes})
                               VALUES (${valueMarkers})
                         `;
+
 		dbConnection.query(
 			{
 				sql: query,

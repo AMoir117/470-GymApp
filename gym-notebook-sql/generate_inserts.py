@@ -39,12 +39,11 @@ for p in range(1, 8):
             k= k + 1
 '''
 
-'''
+
 # one weeklySchedule worth of daily routines inserts
-k = 1121
-weeklyScheduleId = 21
+k = 1233
+weeklyScheduleId = 24
 for i in range(0, 7):
         for j in range(1, 9):
             print(f"INSERT INTO DailyRoutine(id,exerciseID,sets,reps,weight,dayOfWeek,weeklyScheduleID) VALUES ({k},'{random.choice(exercises)}',{random.choice(sets)},{random.choice(reps)},'{random.choice(weights)}','{days[i]}',{weeklyScheduleId});")
             k= k + 1
-'''

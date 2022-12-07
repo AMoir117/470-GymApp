@@ -47,11 +47,7 @@ const WorkoutCard = (props) => {
 					</Button>
 				</Card.Content>
 				<Card.Actions style={styles.cardButton}>
-					<IconButton
-						icon="file-gif-box"
-						iconColor={GlobalStyles.hexColor.green}
-						onPress={() => showModal(workoutName)}
-					/>
+					<IconButton icon="file-gif-box" iconColor={GlobalStyles.hexColor.green} onPress={() => showModal(workoutName)} />
 					<Button mode="outlined" textColor={GlobalStyles.hexColor.black}>
 						Sets: {workout.sets}
 					</Button>
@@ -59,7 +55,7 @@ const WorkoutCard = (props) => {
 						Reps: {workout.reps}
 					</Button>
 					<Button mode="outlined" textColor={GlobalStyles.hexColor.black}>
-						{workout.weight} Lbs
+						{workout.weight}
 					</Button>
 				</Card.Actions>
 			</Card>

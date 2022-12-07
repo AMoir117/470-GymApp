@@ -21,6 +21,5 @@ INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES 
 INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES (19,'public','Better than salsa','2020-11-27',147,10);
 INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES (20,'public','Pick yourself up by the wrist-straps','2003-08-16',384,12);
 INSERT INTO WeeklySchedule(id,accessStatus,title,created,upvotes,userID) VALUES (21,'public','Welcome to the hall of gods','2006-12-25',216,11);
-
-
-
+INSERT INTO WeeklySchedule(id,accessStatus,title,creaetd,upvotes,userID) VALUES (23,'public', 'Back at it again', '2019-09-21', 276, 14);
+INSERT INTO WeeklySchedule(id,accessStatus,title,creaetd,upvotes,userID) VALUES (24,'public', 'Mt. Everest training', '2016-12-16', 179, 15);
